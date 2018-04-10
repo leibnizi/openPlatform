@@ -54,4 +54,6 @@ module.exports = {
   appTsLint: resolveApp('tslint.json'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  devProxyConfig:resolveApp('config/proxy.config.dev.json'),
+  testProxyConfig:resolveApp('config/proxy.config.test.json')
 };

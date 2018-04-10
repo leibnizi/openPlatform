@@ -1,0 +1,98 @@
+@import '~antd/dist/antd.css';
+
+.app {
+  background-color: #9999994a;
+  // height: 1000px;
+  width: 100%;
+  @media (max-width: 1600px) {
+    width: 1600px;
+  }
+  .header{
+    height: 40px;
+    background-color: black;
+  }
+  .section{
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .logo {
+      img {
+        display: inline-block;
+        width: 131px;
+        margin-left: 40px;
+      }
+      p {
+        display: inline-block;
+        margin-left: 24px;
+        margin-bottom: 0;
+        color: #4a4a4a;
+        font-size: 17px;
+      }
+    }
+    .navigation {
+      display: flex;
+      div {
+        padding: 20px 10px;
+        margin: 0 30px;
+        font-size: 17px;
+        a {
+          color: #4a4a4a;
+        }
+      }
+      .active {
+        a {
+          color: #f03a80;
+        }
+        border-bottom: 1.5px solid #f03a80;
+      }
+    }
+  }
+  .body {
+    div {
+      .aside {
+        float: left;
+        width: 140px;
+        height: 500px;
+        text-align: center;
+        margin-top: 20px;
+        margin-left: 50px;
+        background-color: #fff;
+        p {
+          height: 53px;
+          line-height: 53px;
+          margin-bottom: 0;
+          font-size: 16px;
+          color: #c3c3c3;
+          border-top: 1px solid #eeefef;
+        }
+      }
+      .content {
+        display: inline-block;
+        margin-top: 20px;
+        // margin-left: 280px;
+        float: right;
+        width: calc(100% - 210px);
+        background-color: #fff;
+      }
+      div {
+        a {
+          color: #4a4a4a;
+        }
+      }
+    }
+    .active {
+      height: 49px;
+      line-height: 49px;
+      a {
+        color: #f03a80;
+      }
+      background-color: #fcf6f8;
+      border-left: 2.5px solid #f03a80;
+    }
+    .normal {
+      height: 49px;
+      line-height: 49px;
+    }
+  }
+}

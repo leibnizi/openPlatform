@@ -96,7 +96,7 @@ module.exports = {
       '.jsx',
     ],
     alias: {
-      
+
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
@@ -145,7 +145,7 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-              
+
               compact: true,
             },
           },
@@ -170,7 +170,7 @@ module.exports = {
           // In production, we use a plugin to extract that CSS to a file, but
           // in development "style" loader enables hot editing of CSS.
           {
-            test: /\.css$/,
+            test: /\.css|less$/,
             use: [
               require.resolve('style-loader'),
               {
@@ -198,6 +198,9 @@ module.exports = {
                     }),
                   ],
                 },
+              },
+              {
+                loader: require.resolve('less-loader') // compiles Less to CSS
               },
             ],
           },

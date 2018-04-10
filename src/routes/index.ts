@@ -1,8 +1,8 @@
-import Home from './home'
-import Product from './operation'
-import Business from './business'
-import Fincial from './fincial'
-import HelpMessage from './helpMessage'
+import Home from '../pages/home'
+import Product from '../pages/operation'
+import Business from '../pages/business'
+import Finacial from '../pages/finacial'
+import HelpMessage from '../pages/helpMessage'
 
 export default [
   {
@@ -23,7 +23,7 @@ export default [
   {
     label:'财务管理',
     path:'/fincial/overview',
-    component: Fincial
+    component: Finacial
   },
   {
     label:'帮助&消息',

@@ -4,7 +4,7 @@ import Overview from './overview/overview'
 import Withdraw from './withdraw/withdraw'
 import Detail from './detail/detail'
 
-export default class Fincial extends Component {
+export default class Finacial extends Component {
   constructor(props) {
     super(props)
   }

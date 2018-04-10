@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Row, Col, Card, Table } from 'antd'
 import { onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync } from '../../redux/actions'
-import { fetchUtil } from '../../service/api'
+import { fetchUtil } from '../../services/httpRequest'
 import Page from '../../components/page/Page'
 import NumBlock from './components/NumBlock'
 import './index.less';

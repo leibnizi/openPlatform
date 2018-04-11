@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import reducer from './redux/reducers';
 import routes from './routes';
 import './styles/App.less';
-import { PageLayout } from './Layout'
+// import { PageLayout } from './Layout'
 
 // const sagaMiddleware = createSagaMiddleware({saga})
 

@@ -1,13 +1,10 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
-import { Layout, Menu } from 'antd';
-import BsControl from './BsControl'
+import * as React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom"
+import BsControl from './BsControl';
+import { OldMenuLink } from "../../components/OldMenuLink";
 
-const { Item } = Menu;
-const { Content, Sider } = Layout;
-
-export default class Business extends Component {
-  constructor(props) {
+export default class Business extends React.Component <any, {}> {
+  constructor(props:any) {
     super(props)
   }
 
@@ -26,24 +23,10 @@ export default class Business extends Component {
             <OldMenuLink to="/operation/sale" label="续约管理" />
           </div>
           <div className='content'>
-            <Route exact path="/business/home" component={BsControl} />
+            <Route exact={true} path="/business/home" component={BsControl} />
           </div>
         </div>
       </Router>
     )
   }
 }
-
-const OldMenuLink = ({ label, to, activeOnlyWhenExact }) => (
-  <Route
-    path={to}
-    exact={activeOnlyWhenExact}
-    children={({ match }) => (
-      <div className={match ? "active" : "normal"}>
-        <Link to={to}>{label}</Link>
-      </div>
-    )}
-  />
-)
-
-

@@ -1,13 +1,7 @@
-import React, { Component } from 'react'
-// import { BrowserRouter as Route, Link } from "react-router-dom"
-import { Layout, Menu } from 'antd';
-
-const { Item } = Menu;
-const { Content, Sider } = Layout;
-
-export default class BsControl extends Component {
-  constructor() {
-    super()
+import * as React from "react";
+export default class BsControl extends React.Component <any,{}> {
+  constructor(props:any) {
+    super(props)
   }
 
   render() {

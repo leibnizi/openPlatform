@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import * as React from 'react'
+import { BrowserRouter as Router, Route } from "react-router-dom"
 import Overview from './overview/overview'
 import Withdraw from './withdraw/withdraw'
 import Detail from './detail/detail'
+import { OldMenuLink } from "../../components/OldMenuLink";
 
-export default class Finacial extends Component {
-  constructor(props) {
+export default class Finacial extends React.Component< any, {} > {
+  constructor(props: any) {
     super(props)
   }
 
@@ -30,15 +31,3 @@ export default class Finacial extends Component {
     )
   }
 }
-
-const OldMenuLink = ({ label, to, activeOnlyWhenExact }) => (
-  <Route
-    path={to}
-    exact={activeOnlyWhenExact}
-    children={({ match }) => (
-      <div className={match ? "active" : "normal"}>
-        <Link to={to}>{label}</Link>
-      </div>
-    )}
-  />
-)

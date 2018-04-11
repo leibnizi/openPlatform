@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import * as React from 'react';
+import { NumblockProps } from '../../../types/home';
 // import { Row, Col } from 'antd'
 
-const NumBlock = ({ title, value = 0, children }) => {
+const NumBlock = ({ title, value = 0, children }:NumblockProps) => {
   return (
     <div className="box">
       <div className="title">{title}</div>
@@ -12,12 +12,6 @@ const NumBlock = ({ title, value = 0, children }) => {
   )
 
   // return <i className={classnames('antdadmin', [`icon-${type}`], className)} />
-}
-
-NumBlock.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.number,
-  // className: PropTypes.string,
 }
 
 export default NumBlock

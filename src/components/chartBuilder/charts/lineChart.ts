@@ -3,12 +3,12 @@ import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/legend';
 
-function lineChart(options: ChartOptions) {
+function lineChart(options: ChartOptions | any) {
   const { id, datas, viewport } = options;
 
   let chart = echarts.init(document.getElementById(id) as HTMLDivElement);
   let chartOptions: any = {};
-  chartOptions.series = datas.map(dRow => {
+  chartOptions.series = datas.map((dRow:any) => {
     return {
       name: dRow.name,
       data: dRow.data,
@@ -29,7 +29,7 @@ function lineChart(options: ChartOptions) {
   if (options.legend) {
     chartOptions.legend = {
       show: options.legend,
-      data: datas.map(dRow => {
+      data: datas.map((dRow:any) => {
         return dRow.name
       })
     }

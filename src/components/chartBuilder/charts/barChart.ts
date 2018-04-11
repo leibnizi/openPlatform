@@ -3,13 +3,13 @@ import 'echarts/lib/chart/bar';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/legend'
 
-function barChart(options: ChartOptions) {
+function barChart(options: ChartOptions | any) {
 
   const { id, datas, viewport } = options;
 
   let chart = echarts.init(document.getElementById(id) as HTMLDivElement);
   let chartOptions: any = {};
-  chartOptions.series = datas.map(dRow => {
+  chartOptions.series = datas.map((dRow:any) => {
     return {
       name: dRow.name,
       data: dRow.data,
@@ -29,7 +29,7 @@ function barChart(options: ChartOptions) {
   if (options.legend) {
     chartOptions.legend = {
       show: options.legend,
-      data: datas.map(dRow => {
+      data: datas.map((dRow:any) => {
         return dRow.name
       })
     }

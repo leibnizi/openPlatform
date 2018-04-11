@@ -5,18 +5,22 @@ const httpGet = (url: string): AxiosPromise => {
 }
 
 const httpPost = (url: string, queryString: Array<string>, body: any): AxiosPromise => {
+  // 未完待续
   return axios.post(url);
 }
 
 const httpPut = (url: string) => {
+  // 未完待续
   return null;
 }
 
 const httpPatch = () => {
+  // 未完待续
   return null;
 }
 
 const httpDelete = () => {
+  // 未完待续
   return null;
 }
 

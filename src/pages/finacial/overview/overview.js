@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Spin, Icon } from 'antd';
+import { Spin, Icon, Button } from 'antd';
 import { fetchUtil } from '../../../services/httpRequest'
 import './overview.less'
 
@@ -14,8 +14,12 @@ export default class Overview extends Component {
   }
 
   componentDidMount() {
-    fetchUtil('/api/financial/apply', { balance_available: 100 })
     fetch('/api/financial/financial_view').then(res => res.json()).then(res => this.setState({ overviewdata: res }))
+  }
+
+  applywithdraw = (money) => {
+    fetchUtil('/api/financial/apply', { balance_available: money })
+      .then()
   }
 
   render() {
@@ -25,14 +29,16 @@ export default class Overview extends Component {
     return (
       <div>
         <p>总览</p>
-        {/* {
+        {
           overviewdata ? (
-              Object.keys(overviewdata.data).map((item,index)=>
-                <p key={index}> 可提现金额:{overviewdata.data[item]}</p>
-              )
+            Object.keys(overviewdata.data).map((item, index) =>
+              <p key={index}> 可提现金额:{overviewdata.data[item]}</p>
+            )
           ) : <Spin indicator={antIcon} />
-        } */}
-        <Spin indicator={antIcon} />
+        }
+        <input />
+        <Button onClick={() => this.applywithdraw(money)}>申请提现</Button>
+        {/* <Spin indicator={antIcon} /> */}
       </div>
     )
   }

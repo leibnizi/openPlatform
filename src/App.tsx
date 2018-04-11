@@ -1,19 +1,21 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import { Provider } from 'react-redux';
 import reducer from './redux/reducers';
+import rootSaga from './redux/sagas'
 import routes from './routes';
 import './styles/App.less';
-import { PageLayout } from './Layout'
+// import { PageLayout } from './Layout'
 
-// const sagaMiddleware = createSagaMiddleware({saga})
+const sagaMiddleware = createSagaMiddleware()
 
 export const store = createStore(
   reducer,
-  // applyMiddleware(sagaMiddleware)
+  applyMiddleware(sagaMiddleware)
 )
-// sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga)
 
 const OldMenuLink = ({ label, to, activeOnlyWhenExact }: any) => (
   <Route

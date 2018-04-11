@@ -1,12 +1,25 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import * as React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Product from './productlist/product'
 import Lease from './lease'
 import Sale from './sale'
 import AfterSale from './afterSale'
+import { OldMenuType } from '../../types/oldMenuType'
 
-export default class Operation extends Component {
-  constructor(props) {
+const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuType) => (
+  <Route
+    path={to}
+    exact={activeOnlyWhenExact}
+    children={({ match }) => (
+      <div className={match ? 'active' : 'normal'}>
+        <Link to={to}>{label}</Link>
+      </div>
+    )}
+  />
+)
+
+export default class Operation extends React.Component {
+  constructor(props: any) {
     super(props)
   }
 
@@ -15,8 +28,8 @@ export default class Operation extends Component {
     return (
       <Router>
         <div>
-          <div className='aside'>
-            <p>商品管理</p>
+          <div className="aside">
+            <p> 商品管理 </p>
             <OldMenuLink activeOnlyWhenExact={true} to="/operation/product" label="商品列表" />
             <p>订单管理</p>
             <OldMenuLink to="/operation/lease" label="租赁订单" />
@@ -25,7 +38,7 @@ export default class Operation extends Component {
             <OldMenuLink to="/operation/afterSale" label="售后订单" />
           </div>
           <div className='content'>
-            <Route exact path="/operation/product" component={Product} />
+            <Route path="/operation/product" component={Product} />
             <Route path="/operation/lease" component={Lease} />
             <Route path="/operation/sale" component={Sale} />
             <Route path="/operation/afterSale" component={AfterSale} />
@@ -35,15 +48,3 @@ export default class Operation extends Component {
     )
   }
 }
-
-const OldMenuLink = ({ label, to, activeOnlyWhenExact }) => (
-  <Route
-    path={to}
-    exact={activeOnlyWhenExact}
-    children={({ match }) => (
-      <div className={match ? "active" : "normal"}>
-        <Link to={to}>{label}</Link>
-      </div>
-    )}
-  />
-)

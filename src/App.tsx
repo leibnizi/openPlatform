@@ -29,7 +29,7 @@ const OldMenuLink = ({ label, to, activeOnlyWhenExact }: any) => (
   />
 )
 
-class App extends React.Component {
+class App extends React.Component<any,any> {
   render() {
     return (
       <Provider store={store}>
@@ -86,4 +86,3 @@ class App extends React.Component {
 }
 
 export default App
-// store.subscribe(App)

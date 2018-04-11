@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import userInfo from './userInfo'
 
 function counter(state: any = 0, action: any) {
   switch (action.type) {
@@ -24,7 +25,8 @@ function counter2(state: any = 0, action: any) {
 
 const rootReducer = combineReducers({
   counter,
-  counter2
+  counter2,
+  userInfo
 })
 
 export default rootReducer

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import reducer from './redux/reducers';
 import routes from './routes';
 import './styles/App.less';
+import { PageLayout } from './Layout'
 
 // const sagaMiddleware = createSagaMiddleware({saga})
 
@@ -35,7 +36,7 @@ class App extends React.Component {
             <header className="header" />
             <section className="section">
               <section className="logo">
-                <img src={require('./styles/img/msheader.png')} alt="头部logo"/>
+                <img src={require('./styles/img/msheader.png')} alt="头部logo" />
                 <p>商家后台管理系统</p>
               </section>
               <section className="navigation">

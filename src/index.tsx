@@ -7,53 +7,65 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from "react-router-redux";
 import './styles/App.less';
 import store, { history } from './redux/store/store';
-import { operationRoutes } from '../src/routes/operation'
-import operation from '../src/pages/operation/index';
-import Home from '../src/pages/home/index'
 import './index.css';
-import Lease from './pages/operation/lease';
 import App from './App';
 import { Switch } from 'react-router-dom';
-import afterSale from '../src/pages/operation/afterSale';
+import { routes } from '../src/routes/index'
+import { RouteType, SiderItem } from './types/RouteConfigType';
 
-function createRoutesByConfig(config: any) {
-  if (config.subRoutes && config.subRoutes.length > 0) {
-    return (
-      <Route path={config.path}>
-        {config.subRoutes.map((subItem: any, index: number) => {
-          return subItem.items.map((item: any, iIndex: number) => {
-            return <Route key={iIndex} path={item.path} component={item.component} />
-          })
-        })}
-      </Route>)
-  } else {
-    return (
-      <Route path={config.path} component={config.component} />
-    )
-  }
+function createRoutesByConfig(config: Array<RouteType>): Array<any> {
+  const routes = config.map((route: RouteType, rIndex: number) => {
+    if (route.sider.length !== 0) {
+      // 有子菜单,则通过Route render实现nest
+      let blockItems: SiderItem[] = []
+
+      route.sider.forEach(sItem => {
+        sItem.items.map(item => {
+          blockItems.push(item)
+        })
+      })
+
+      console.log("block", blockItems)
+      return (
+        <Route
+          key={rIndex}
+          exact={route.exact ? route.exact : false}
+          path={route.path}
+          render={(match) => {
+            return (
+              <Switch>
+                {
+                  blockItems.map((bItem: SiderItem, bIndex: number) => {
+                    return (
+                      <Route key={bIndex} path={`${match.match.url}/${bItem.path}`} component={bItem.component} />
+                    )
+                  })
+                }
+              </Switch>
+            )
+          }}
+        />
+      )
+    } else {
+      // 无子菜单，目前有首页
+      return (
+        <Route key={rIndex} exact={route.exact ? route.exact : false} path={route.path} component={route.component} />
+      )
+    }
+  })
+  return routes;
 }
 
-let routes = createRoutesByConfig(operationRoutes);
-console.log("Routes", routes)
+let routesConfig = createRoutesByConfig(routes);
+console.log("Routes", routesConfig)
 
 let app = (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <App>
-        <Route exact={true} path="/" component={Home} />
-        <Route
-          path="/operation"
-          render={(match) => {
-            return (
-              <Switch>
-                <Route path={`${match.match.url}/product`} component={operation}/>
-                <Route path={`${match.match.url}/lease`} component={Lease}/>
-                <Route path={`${match.match.url}/afterSale`} component={afterSale}/>
-              </Switch>
-            )
-          }}
-        />
-
+        {
+          routesConfig
+        }
       </App>
     </ConnectedRouter>
   </Provider>);

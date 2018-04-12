@@ -1,11 +1,10 @@
-import React, {Component} from 'react'
-import {Table,Tabs} from 'antd';
+import * as React from "react";
+import { Table } from 'antd';
 import './product.less';
 import Item from './components/listitem'
-const TabPane = Tabs.TabPane;
 
-export default class Product extends Component {
-  constructor(props) {
+export default class Product extends React.Component<any, any> {
+  constructor(props: any) {
     super(props)
     this.state = {
       productDetail: false,
@@ -18,7 +17,7 @@ export default class Product extends Component {
       {
         title: '商品编号',
         dataIndex: 'name',
-        render: text => <a href="#">{text}</a>
+        render: (text: string) => <a href="#">{text}</a>
       }, {
         title: '商品名称',
         className: 'column-money',
@@ -110,7 +109,7 @@ export default class Product extends Component {
           <header className='productheader'>商品列表</header>
           <section>
             {
-              ['商品编号','商品名称','商品货号','商品状态','商品模式','商品类目','SPU是否启用'].map((item,index)=>
+              ['商品编号', '商品名称', '商品货号', '商品状态', '商品模式', '商品类目', 'SPU是否启用'].map((item, index) =>
                 <Item
                   key={index}
                   itemname={item}
@@ -123,9 +122,9 @@ export default class Product extends Component {
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
-          <hr/>
+          <hr />
           <section>
-            <Table className='producttab' columns={columns} dataSource={data} bordered={true}/>
+            <Table className='producttab' columns={columns} dataSource={data} bordered={true} />
           </section>
         </div>
       )
@@ -135,15 +134,15 @@ export default class Product extends Component {
           <header className='productheader'>商品详情页</header>
           <section className='producttab'>
             <span
-              className={headerActive===0?'tabactive':'tabnormal'}
-              onClick={()=>this.setState({headerActive:0})}
-              >
+              className={headerActive === 0 ? 'tabactive' : 'tabnormal'}
+              onClick={() => this.setState({ headerActive: 0 })}
+            >
               基本信息
             </span>
             <span
-              className={headerActive===1?'tabactive':'tabnormal'}
-              onClick={()=>this.setState({headerActive:1})}
-              >
+              className={headerActive === 1 ? 'tabactive' : 'tabnormal'}
+              onClick={() => this.setState({ headerActive: 1 })}
+            >
               图片
             </span>
           </section>
@@ -152,7 +151,15 @@ export default class Product extends Component {
               <div>
                 <section className='productmid'>
                   {
-                    [['商品编号:', 'DD071A'], ['商品名称:', '简约休闲针织外套'], ['类目:', '女装'], ['品牌:', 'MIRROR FUN'], ['上架状态:', 'DD071A'], ['创建时间：','YYYY-MM-DD hh:mm:ss'], ['上架时间：','YYYY-MM-DD hh:mm:ss']].map((item,index)=>
+                    [
+                      ['商品编号:', 'DD071A'],
+                      ['商品名称:', '简约休闲针织外套'],
+                      ['类目:', '女装'],
+                      ['品牌:', 'MIRROR FUN'],
+                      ['上架状态:', 'DD071A'],
+                      ['创建时间：', 'YYYY-MM-DD hh:mm:ss'],
+                      ['上架时间：', 'YYYY-MM-DD hh:mm:ss']
+                    ].map((item, index) =>
                       <div className='productmiditem' key={index}>
                         <span>{item[0]}</span>
                         <span>{item[1]}</span>
@@ -162,14 +169,14 @@ export default class Product extends Component {
                 </section>
                 <hr />
                 <section>
-                  <Table className='producttable' columns={columns} dataSource={data} bordered={true}/>
+                  <Table className='producttable' columns={columns} dataSource={data} bordered={true} />
                 </section>
               </div>
-            ): (
-              <div>
-
-              </div>
-            )
+            ) : (
+                <div>
+                  Helle
+                </div>
+              )
           }
 
         </div>

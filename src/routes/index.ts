@@ -5,6 +5,7 @@ import { helpMessageRoute } from './helpMessage'
 import { operationRoute } from './operation'
 import { splashRoute } from './splash'
 import { loginRoute } from './login'
+import { registerRoute } from './register'
 
 export default [
   ...homeRoute,
@@ -13,5 +14,6 @@ export default [
   ...helpMessageRoute,
   ...finacialRoute,
   ...splashRoute,
-  ...loginRoute
+  ...loginRoute,
+  ...registerRoute
 ]

@@ -60,7 +60,12 @@ export default class Splash extends React.Component<any, any> {
         >
           登录
         </Link>
-        <p className='register splashchild'>申请加入女神派</p>
+        <Link
+          to='/register'
+          className='register splashchild'
+        >
+          申请加入女神派
+        </Link>
         {/* <Modal
           visible={modalshow}
           title=""

@@ -47,8 +47,7 @@ function createRoutesByConfig(config: Array<RouteType>): Array<any> {
                       <Route key={bIndex} path={`${match.match.url}/${bItem.path}`} component={bItem.component} />
                     )
                   }),
-                  <Redirect key={"default" + route.path} from={route.path} to={`${route.path}/${route.firstPage}`} />,
-                  <Route key={"notFound " + route.path} component={() => NotFound()} />
+                  <Redirect key={"default" + route.path} from={route.path} to={`${route.path}/${route.firstPage}`} />
                   ]
                 }
               </Switch>

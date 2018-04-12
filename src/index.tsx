@@ -25,7 +25,6 @@ function createRoutesByConfig(config: Array<RouteType>): Array<any> {
         })
       })
 
-      console.log("block", blockItems)
       return (
         <Route
           key={rIndex}
@@ -57,12 +56,11 @@ function createRoutesByConfig(config: Array<RouteType>): Array<any> {
 }
 
 let routesConfig = createRoutesByConfig(routes);
-console.log("Routes", routesConfig)
 
 let app = (
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App>
+      <App routes={routes}>
         {
           routesConfig
         }

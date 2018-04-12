@@ -13,9 +13,10 @@ interface SiderItem extends RouteItem{
 
 interface SiderType{
   block:string;
-  items:Array<SiderItem>;
+  items:SiderItem[];
 }
 
 interface RouteType extends RouteItem{
-  sider:Array<SiderType>;
+  sider:SiderType[];
+  firstPage?:string;
 }

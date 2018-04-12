@@ -8,6 +8,7 @@ export const operation: RouteType = {
   path: '/operation',
   title: "运营管理",
   component: null,
+  firstPage:"productList",
   sider: [
     {
       block: "商品管理",
@@ -35,8 +36,8 @@ export const operation: RouteType = {
       ]
     },
     {
-      block:"售后管理",
-      items:[
+      block: "售后管理",
+      items: [
         {
           path: "afterSale",
           title: "售后订单",

@@ -1,7 +1,45 @@
-import Business from '../pages/business';
+import { RouteType } from "../types/RouteConfigType";
 
-export const businessRoute = [{
-  label: '商家中心',
-  path: '/business',
-  component: Business
-}]
+export const bussinessRoute: RouteType = {
+  title: '商家中心',
+  path: '/bussiness',
+  component: null,
+  firstPage:"infos",
+  sider: [
+    {
+      block: "商家信息",
+      items: [
+        {
+          title: "商家信息",
+          path: "infos",
+          component: null
+        },
+        {
+          title: "资质管理",
+          path: "qualitication",
+          component: null
+        }
+      ]
+    },
+    {
+      block: "账户管理",
+      items: [
+        {
+          title: "账务信息",
+          path: "bill",
+          component: null
+        },
+        {
+          title: "账户信息",
+          path: "account",
+          component: null
+        },
+        {
+          title: "续约管理",
+          path: "renewal",
+          component: null
+        }
+      ]
+    }
+  ]
+}

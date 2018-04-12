@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 // import { Button } from 'antd'
 import './splash.less'
 // import { fetchUtil } from '../../services/httpRequest'
@@ -53,12 +54,12 @@ export default class Splash extends React.Component<any, any> {
     return (
       <div className='splash'>
         <p className='name splashchild'>商家后台管理系统</p>
-        <p
+        <Link
+          to='/login'
           className='login splashchild'
-          // onClick={() => this.modalon()}
         >
           登录
-        </p>
+        </Link>
         <p className='register splashchild'>申请加入女神派</p>
         {/* <Modal
           visible={modalshow}

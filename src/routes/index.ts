@@ -4,6 +4,7 @@ import { finacialRoute } from './finacial'
 import { helpMessageRoute } from './helpMessage'
 import { operationRoute } from './operation'
 import { splashRoute } from './splash'
+import { loginRoute } from './login'
 
 export default [
   ...homeRoute,
@@ -11,5 +12,6 @@ export default [
   ...businessRoute,
   ...helpMessageRoute,
   ...finacialRoute,
-  ...splashRoute
+  ...splashRoute,
+  ...loginRoute
 ]

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './splash.less'
+import './index.less'
 import { fetchUtil } from '../../services/httpRequest'
 
 export default class Login extends React.Component<any, any> {
@@ -7,8 +7,8 @@ export default class Login extends React.Component<any, any> {
     super(props)
 
     this.state = {
-      // id: '',
-      // password: '',
+      id: '',
+      password: '',
       // modalshow: false,
       // loading: false
     }
@@ -18,22 +18,46 @@ export default class Login extends React.Component<any, any> {
   //   fetchUtil('api/login', { name: '12', mobile: '1221' }).then(v => console.log('login', v))
   // }
 
-  loginin = () => {
-    fetchUtil('api/login', { name: '12', mobile: '1221' }).then(v => console.log('login', v))
+  loginin = (e: any) => {
+    e.preventDefault()
+    fetchUtil('api/login', { name: '12', mobile: '1221' })
+      .then((v: {status_code: number}) => {
+        if (v.status_code === 0) {
+          console.log('status_code', v.status_code)
+          this.props.history.push('/')
+        }
+      })
+  }
+
+  handleChangeId = (id: string) => {
+    this.setState({ id })
+  }
+
+  handleChangePass = (password: string) => {
+    this.setState({ password })
   }
 
   render() {
     // const { modalshow, loading, id, password } = this.state
     return (
       <div className='splash'>
-        <p className='name splashchild'>账户：</p>
-        <p
-          className='login splashchild'
-          onClick={() => this.loginin()}
-        >
-          密码：
-        </p>
-        <p className='register splashchild'>申请加入女神派</p>
+        <p className='name splashchild'>商家后台管理系统</p>
+        <form onSubmit={(e) => this.loginin(e)}>
+          <label
+            className='id'
+          >
+            账户
+            <input type="text" value={this.state.value} onChange={(e) => this.handleChangeId(e.target.value)} />
+          </label>
+          <label
+            className='password'
+          >
+            密码
+            <input type="text" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
+          </label>
+          <p>忘记密码？</p>
+          <input className='submit' type="submit" value="登录" />
+        </form>
       </div>
     )
   }

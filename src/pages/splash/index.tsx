@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 // import { Button } from 'antd'
-import './splash.less'
+import './index.less'
 // import { fetchUtil } from '../../services/httpRequest'
 
 export default class Splash extends React.Component<any, any> {

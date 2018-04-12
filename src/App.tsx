@@ -28,7 +28,7 @@ class App extends React.Component<AppProps, any> implements AppModel {
       let currentRoute = props.routes.filter(item => {
         return item.path === currentPathBase
       })
-      this._sider = currentRoute.length > 0? currentRoute[0].sider : []
+      this._sider = currentRoute.length > 0? currentRoute[0].sider : null
     } else {
       this._sider = null;
     }

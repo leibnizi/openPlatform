@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 // import App from './App';
-import { Route,Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from "react-router-redux";
@@ -12,6 +12,14 @@ import App from './App';
 import { Switch } from 'react-router-dom';
 import { routes } from '../src/routes/index'
 import { RouteType, SiderItem } from './types/RouteConfigType';
+
+const NotFound = () => {
+  return (
+    <div>
+      Not Found
+    </div>
+  )
+}
 
 function createRoutesByConfig(config: Array<RouteType>): Array<any> {
   const routes = config.map((route: RouteType, rIndex: number) => {
@@ -39,8 +47,9 @@ function createRoutesByConfig(config: Array<RouteType>): Array<any> {
                       <Route key={bIndex} path={`${match.match.url}/${bItem.path}`} component={bItem.component} />
                     )
                   }),
-                  <Redirect key={"default"+route.path} to={`${route.path}/${route.firstPage}`} />
-                ]
+                  <Redirect key={"default" + route.path} from={route.path} to={`${route.path}/${route.firstPage}`} />,
+                  <Route key={"notFound " + route.path} component={() => NotFound()} />
+                  ]
                 }
               </Switch>
             )
@@ -66,6 +75,8 @@ let app = (
         {
           routesConfig
         }
+
+        <Route key='notfound' component={() => NotFound()} />
       </App>
     </ConnectedRouter>
   </Provider>);

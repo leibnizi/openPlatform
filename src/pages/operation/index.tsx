@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Product from './productlist/product'
-import Lease from './lease'
-import Sale from './sale'
+import Lease from './lease/lease'
+import Sale from './sale/sale'
 import AfterSale from './afterSale'
 import { OldMenuType } from '../../types/oldMenuType'
 

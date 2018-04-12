@@ -34,7 +34,10 @@ export default class Detail extends React.Component <any,any> {
     return (
       <div>
         <p>对账明细</p>
-        <p>账单时间：</p>
+        <p>
+          账单时间：
+          {/* <TimePicker defaultValue={moment('12:08:23', 'HH:mm:ss')} /> */}
+        </p>
         <p>账单编号：<input/></p>
         <Button>查询</Button>
         <form onSubmit={this.handleSubmit}>

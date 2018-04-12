@@ -7,7 +7,7 @@ import { RouteType } from "../types/RouteConfigType";
 export const operation: RouteType = {
   path: '/operation',
   title: "运营管理",
-  component: null,
+  component: Products,
   firstPage:"productList",
   sider: [
     {

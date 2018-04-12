@@ -10,9 +10,9 @@ function createNavigations(routes: RouteType[]): JSX.Element[] {
     return (
       <div key={rIndex}>
         <NavLink
-          exact={true}
+          exact={landingPageUrl === '/'}
           key={`${routeItem.path}-${rIndex}`}
-          to={landingPageUrl}
+          to={routeItem.path}
           activeClassName={'active'}
         >
           {routeItem.title}

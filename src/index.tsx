@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 // import App from './App';
-import { Route } from 'react-router-dom';
+import { Route,Redirect } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from "react-router-redux";
@@ -34,11 +34,13 @@ function createRoutesByConfig(config: Array<RouteType>): Array<any> {
             return (
               <Switch>
                 {
-                  blockItems.map((bItem: SiderItem, bIndex: number) => {
+                  [...blockItems.map((bItem: SiderItem, bIndex: number) => {
                     return (
                       <Route key={bIndex} path={`${match.match.url}/${bItem.path}`} component={bItem.component} />
                     )
-                  })
+                  }),
+                  <Redirect key={"default"+route.path} to={`${route.path}/${route.firstPage}`} />
+                ]
                 }
               </Switch>
             )

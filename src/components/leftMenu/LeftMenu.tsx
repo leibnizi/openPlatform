@@ -12,9 +12,9 @@ function createLeftMenu(sider: SiderType[] | null, basePath: string): JSX.Elemen
   if (sider === null) { return []; }
   const leftMenus = sider.map((sItem, sIndex) => {
     return (
-      <div key={sItem.block + sIndex}>
+      <div key={sItem.block + sIndex} >
         <h3>{sItem.block}</h3>
-        <div>
+        <div className="menuItem">
           {sItem.items.map((rItem, rIndex) => {
             return <NavLink key={rIndex + rItem.path} to={`${basePath}/${rItem.path}`}>{rItem.title}</NavLink>
           })
@@ -32,7 +32,7 @@ export const LeftMenu = (props: LeftMenuProp) => {
   const menus = createLeftMenu(props.sider, props.basePath)
 
   return (
-    <section>
+    <section className="menu">
       {
         menus
       }

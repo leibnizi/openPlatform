@@ -47,8 +47,8 @@ export default class Product extends React.Component<any, any> {
       {
         key: '1',
         name: 'John Brown',
-        money: ' ',
-        address: ' '
+        money: '100',
+        address: 'tokyo'
       }, {
         key: '2',
         name: 'Jim Green',

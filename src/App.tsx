@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'remote-redux-devtools';
 import createSagaMiddleware from 'redux-saga';
 import { Provider } from 'react-redux';
 import reducer from './redux/reducers';
@@ -13,7 +14,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 export const store = createStore(
   reducer,
-  applyMiddleware(sagaMiddleware)
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 sagaMiddleware.run(rootSaga)
 
@@ -30,6 +31,7 @@ const OldMenuLink = ({ label, to, activeOnlyWhenExact }: any) => (
 )
 
 class App extends React.Component<any,any> {
+  
   render() {
     return (
       <Provider store={store}>

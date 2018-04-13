@@ -1,8 +1,10 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import './index.less'
+import { setUserInfo } from '../../redux/actions'
 import { fetchUtil } from '../../services/httpRequest'
 
-export default class Login extends React.Component<any, any> {
+class Login extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
 
@@ -23,7 +25,8 @@ export default class Login extends React.Component<any, any> {
     fetchUtil('api/login', { name: '12', mobile: '1221' })
       .then((v: {status_code: number}) => {
         if (v.status_code === 0) {
-          console.log('status_code', v.status_code)
+          console.log('status_code', v)
+          this.props.setUserInfo(v)
           this.props.history.push('/')
         }
       })
@@ -61,4 +64,15 @@ export default class Login extends React.Component<any, any> {
       </div>
     )
   }
-};
+}
+
+const mapStateToProps:any = (state:object) => ({
+  state:state
+})
+
+const mapDispatchToProps:any = (dispatch:any) => ({
+  dispatch,
+  setUserInfo
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

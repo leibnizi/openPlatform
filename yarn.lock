@@ -6493,12 +6493,20 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-devtools-instrument@^1.3.3:
+redux-devtools-instrument@^1.0.1, redux-devtools-instrument@^1.3.3:
   version "1.8.3"
   resolved "http://registry.npm.taobao.org/redux-devtools-instrument/download/redux-devtools-instrument-1.8.3.tgz#c510d67ab4e5e4525acd6e410c25ab46b85aca7c"
   dependencies:
     lodash "^4.2.0"
     symbol-observable "^1.0.2"
+
+redux-devtools@^3.4.1:
+  version "3.4.1"
+  resolved "http://registry.npm.taobao.org/redux-devtools/download/redux-devtools-3.4.1.tgz#09d342ce0ab6087be679e953a1d7c530efa1138e"
+  dependencies:
+    lodash "^4.2.0"
+    prop-types "^15.5.7"
+    redux-devtools-instrument "^1.0.1"
 
 redux-saga@*:
   version "0.16.0"

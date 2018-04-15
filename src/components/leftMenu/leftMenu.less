@@ -1,24 +1,43 @@
 .menu {
   display: flex;
   flex-direction: column;
-  div {
-    margin: 0 30px;
-    a {
-      color: #4a4a4a;
+  flex-grow: 1;
+  align-items:stretch;
+  height: 100%;
+  background-color: #fff;
+  text-align: center;
+  h3{
+    color: #ccc;
+    font-weight: 400;
+    font-size: 16px;
+    margin: 0;
+  }
+  .menu-item-box{
+    border-bottom: 1px solid #f2f2f2;
+    .menuItem{
+      display: flex;
+      flex-direction: column;
+      a{
+        color: #000;
+      }
     }
   }
-  .menuItem{
-    display: flex;
-    flex-direction: column;
+  h3, .menu-item-box > .menuItem > a{
+    padding: 20px 40px;
   }
 
   .active {
-    height: 49px;
-    line-height: 49px;
-    a {
-      color: #f03a80;
+    position: relative;
+    color: #f03a80!important;
+    background-color: #f6f6f6;
+    &:after{
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: " ";
+      height: 100%;
+      border-left: 5px solid #f03a80;
+      // border-right: 5px solid #ccc;
     }
-    background-color: #fcf6f8;
-    border-left: 2.5px solid #f03a80;
   }
 }

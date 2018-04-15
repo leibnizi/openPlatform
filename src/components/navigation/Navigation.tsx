@@ -33,10 +33,10 @@ export const Navigation = (props: NavProps) => {
   const navs = createNavigations(props.routes)
 
   return (
-    <div>
-      <nav className="navigation">
-        {navs}
-      </nav>
-    </div>
+    // <nav className="navigation">
+    <nav className="navigation">
+      {navs}
+    </nav>
+    // </nav>
   )
 }

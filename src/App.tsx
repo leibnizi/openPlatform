@@ -5,6 +5,7 @@ import { Layout } from "antd";
 import { Navigation } from "../src/components/navigation/Navigation";
 import { LeftMenu } from '../src/components/leftMenu/LeftMenu';
 import { RouteType, SiderType } from "../src/types/RouteConfigType.d";
+import './styles/common.less'
 
 const { Header, Sider, Content } = Layout;
 
@@ -53,13 +54,18 @@ class App extends React.Component<AppProps, any> implements AppModel {
 
     return (
       <Layout>
-        <Header className="headerContainer">
-          <div className="header"/ >
-          <div className="section">
-          <div className="logo">
-          <img src={require('../src/styles/img/msheader.png')} alt="Logo"/>
+        {/*  className="headerContainer" */}
+        <Header>
+          <div className="header">
+          222
           </div>
-            <Navigation routes={this.props.routes} />
+          <div className="header-container">
+            <div className="logo">
+              <img src={require('../src/styles/img/msheader.png')} alt="Logo" />
+            </div>
+            <div className="content">
+              <Navigation routes={this.props.routes} />
+            </div>
           </div>
         </Header>
         <Layout className="page">

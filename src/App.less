@@ -1,6 +1,6 @@
 .page{
   height: 100%;
-  padding:5px 5px;
+  padding:28px 85px 85px;
 
   .leftMenu{
     height: 100%;
@@ -17,33 +17,34 @@
   }
 }
 
-.headerContainer{
-  height: 100%;
-  padding:0 ;
-
+.header-container{
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  height: auto;
+  line-height: 110px;
   .header{
     height: 40px;
+    line-height: 40px;
+    color: #fff;
     background-color: black;
   }
-  .section{
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .logo {
-      img {
-        display: inline-block;
-        width: 131px;
-        margin-left: 40px;
-      }
-      p {
-        display: inline-block;
-        margin-left: 24px;
-        margin-bottom: 0;
-        color: #4a4a4a;
-        font-size: 17px;
-      }
+  // .section{
+  //   background-color: #fff;
+  .logo {
+    img {
+      display: inline-block;
+      width: 131px;
+      margin-left: 40px;
     }
   }
+  .content {
+    display: inline-block;
+    margin-left: 24px;
+    margin-bottom: 0;
+    color: #4a4a4a;
+    font-size: 17px;
+  }
+  // }
 }
 

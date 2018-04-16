@@ -4,7 +4,7 @@ import Product from './productlist/product'
 import Lease from './lease/lease'
 import Sale from './sale/sale'
 import AfterSale from './afterSale/afterSale'
-import { OldMenuType } from '../../types/oldMenuType'
+// import { OldMenuType } from '../../types/oldMenuType'
 
 const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuType) => (
   <Route

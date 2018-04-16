@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import Overview from './overview/overview'
 import Withdraw from './withdraw/withdraw'
 import Detail from './detail/detail'
-import { OldMenuType } from '../../types/oldMenuType'
+// import { OldMenuType } from '../../types/oldMenuType'
 
 const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuType) => (
   <Route

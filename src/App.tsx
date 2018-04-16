@@ -9,11 +9,13 @@ import rootSaga from './redux/sagas'
 import routes from './routes';
 import './styles/App.less';
 // import { PageLayout } from './Layout'
+import UserHead from './pages/head/userhead'
 
 const sagaMiddleware = createSagaMiddleware()
 
 export const store = createStore(
   reducer,
+  {userInfo:{token:"59$$c07ce428f2bb259582f488cb4c3c0555"}},
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 sagaMiddleware.run(rootSaga)
@@ -31,13 +33,13 @@ const OldMenuLink = ({ label, to, activeOnlyWhenExact }: any) => (
 )
 
 class App extends React.Component<any,any> {
-  
+
   render() {
     return (
       <Provider store={store}>
         <Router>
           <div className="app">
-            <header className="header" />
+            <UserHead />
             <section className="section">
               <section className="logo">
                 <img src={require('./styles/img/msheader.png')} alt="头部logo" />

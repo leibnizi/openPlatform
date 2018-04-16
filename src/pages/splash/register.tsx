@@ -115,6 +115,17 @@ export default class Register extends React.Component<any, any> {
                       />
                     </label>
                     <label
+                      onClick={
+                        () => {
+                          fetch(`/api/verification_code?mobile=${phone}`)
+                            .then(res=>res.json())
+                            .then(code=>console.log('code',code))
+                        }
+                      }
+                    >
+                      获取验证码
+                    </label>
+                    <label
                       className='password'
                     >
                       密码

@@ -22,7 +22,15 @@ class Login extends React.Component<any, any> {
 
   loginin = (e: any) => {
     e.preventDefault()
-    fetchUtil('api/login', { mobile: '13564779346', password:'123456' })
+    const { id, password } = this.state
+    const body = !!Number(id) ? {
+      mobile: id,
+      password
+    } : {
+      name: id,
+      password
+    }
+    fetchUtil('/api/login', body)
       .then((v: {status_code: number}) => {
         if (v.status_code === 0) {
           console.log('status_code', v)

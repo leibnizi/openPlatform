@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { OldMenuType } from '../../types/oldMenuType'
+// import { OldMenuType } from '../../types/oldMenuType'
 
 const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuType) => (
   <Route

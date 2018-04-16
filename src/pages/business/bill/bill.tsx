@@ -2,10 +2,35 @@ import * as React from "react";
 // import { Tabs, Row, Col, Button } from 'antd';
 // const TabPane = Tabs.TabPane;
 import { Form, Input } from 'antd';
+import { FormComponentProps } from 'antd/lib/form/Form'
 const FormItem = Form.Item;
 
+interface CustomProps {
+  onChange: any
+}
+
+class CustomForm extends React.Component<CustomProps & FormComponentProps> {
+  constructor(props: CustomProps & FormComponentProps) {
+    super(props)
+  }
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Form layout="inline">
+        <FormItem label="Username">
+          {getFieldDecorator('username', {
+            rules: [{ required: true, message: 'Username is required!' }],
+          })(<Input />)}
+        </FormItem>
+      </Form>
+    )
+  }
+
+}
+
 const CustomizedForm = Form.create({
-  onFieldsChange(props :any, changedFields) {
+  onFieldsChange(props: any, changedFields) {
     props.onChange(changedFields);
   },
   mapPropsToFields(props) {
@@ -19,19 +44,7 @@ const CustomizedForm = Form.create({
   onValuesChange(_, values) {
     console.log(values);
   },
-})((props) => {
-  const { getFieldDecorator } = props.form;
-  return (
-    <Form layout="inline">
-      <FormItem label="Username">
-        {getFieldDecorator('username', {
-          rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
-      </FormItem>
-    </Form>
-  );
-});
-
+})(CustomForm)
 
 export default class Bill extends React.Component<any, any> {
   // constructor(props: any) {
@@ -47,7 +60,7 @@ export default class Bill extends React.Component<any, any> {
       },
     },
   };
-  handleFormChange = (changedFields :any) => {
+  handleFormChange = (changedFields: any) => {
     this.setState(({ fields }: any) => ({
       fields: { ...fields, ...changedFields },
     }));
@@ -61,7 +74,7 @@ export default class Bill extends React.Component<any, any> {
     const fields = this.state.fields;
     return (
       <div>
-        <CustomizedForm {...fields} onChange={ this.handleFormChange } />
+        <CustomizedForm {...fields} onChange={this.handleFormChange} />
         <pre className="language-bash">
           {JSON.stringify(fields, null, 2)}
         </pre>

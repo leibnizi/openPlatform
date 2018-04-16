@@ -17,7 +17,6 @@ export default class StatusControl extends React.Component<any, any> {
   }
 
   renderCard() {
-    console.log(this.state.cardList,"yyy")
 
     return this.state.cardList.map((item: any, index: any) => {
       return (

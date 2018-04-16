@@ -11,6 +11,10 @@ export default class AfterSale extends React.Component<any, any> {
     }
   }
 
+  queryData = () => {
+    console.log('查询')
+  }
+
   render() {
     const columns: any[] = [
       {
@@ -115,7 +119,11 @@ export default class AfterSale extends React.Component<any, any> {
           }
         </section>
         <section className='productmid'>
-          <span>查询</span>
+          <span
+            onClick={()=>this.queryData()}
+          >
+            查询
+          </span>
           <img src={require('../../../styles/img/exclamation.png')} />
           <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
         </section>

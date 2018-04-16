@@ -1,15 +1,20 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { Table } from 'antd'
-import './product.less';
+import './product.less'
 import Item from '../../../components/productlist/listitem'
 
-export default class Product extends React.Component<any, any> {
+class Product extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
       productDetail: false,
       headerActive: 0
     }
+  }
+
+  queryData = () => {
+    fetch(`/api/product/list?perPage=${1}&token=${this.props.state.userInfo.token}`)
   }
 
   render() {
@@ -103,7 +108,7 @@ export default class Product extends React.Component<any, any> {
     ];
 
     const { productDetail, headerActive } = this.state
-    if (productDetail) {
+    if (!productDetail) {
       return (
         <div className='operationproduct'>
           <header className='productheader'>商品列表</header>
@@ -118,7 +123,11 @@ export default class Product extends React.Component<any, any> {
             }
           </section>
           <section className='productmid'>
-            <span>查询</span>
+            <span
+              onClick={()=>this.queryData()}
+            >
+              查询
+            </span>
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
@@ -184,3 +193,13 @@ export default class Product extends React.Component<any, any> {
     }
   }
 }
+
+const mapStateToProps:any = (state:object) => ({
+  state:state
+})
+
+const mapDispatchToProps:any = (dispatch:any) => ({
+  dispatch
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product)

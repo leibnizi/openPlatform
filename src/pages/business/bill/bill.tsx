@@ -28,7 +28,7 @@ export default class Bill extends React.Component<any, any> {
     },
     is_edit: false
   };
-  handleFormChange =(changedFields:any) => {
+  handleFormChange = (changedFields: any) => {
     this.setState(({ fields }: any) => ({
       fields: { ...fields, ...changedFields },
     }));
@@ -50,6 +50,7 @@ export default class Bill extends React.Component<any, any> {
     const { fields, is_edit } = this.state
     return (
       <div className="bill-page">
+        <header className="content-title">账务信息</header>
         <Row style={{ display: `${is_edit ? 'block' : 'none'}` }}>
           <Col span={12}>
             <BillForm

@@ -2,17 +2,25 @@
   width: 100%;
   display: flex;
   & > div {
-    // margin: 0px 4%;
-    margin: 0 20px;
     font-size: 16px;
     a {
+      display: block;
+      padding: 0 20px;
       color: #4a4a4a;
     }
   }
   .active {
-    a {
-      color: #f03a80;
+    color: #f03a80;
+    position: relative;
+    &:after{
+      position: absolute;
+      left: 0;
+      display: inline-block;
+      content: " ";
+      width: 100%;
+      border-bottom: 2px solid #f03a80;
+      bottom: 0px;
     }
-    border-bottom: 1.5px solid #f03a80;
+    // border-bottom: 1.5px solid #f03a80;
   }
 }

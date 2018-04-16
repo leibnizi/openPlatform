@@ -1,3 +1,4 @@
+@right_h:120px;
 html {
   .bs-info-box{
     background: #fff;
@@ -13,5 +14,56 @@ html {
   }
   .row-box{
     margin: 44px 0;
+  }
+
+
+  .status-container{
+    display: flex;
+    padding: 30px 20px 20px 50px;
+    height: 100%;
+    flex-direction: column;
+    .status-content{
+      display: flex;
+      flex-grow: 1;
+      align-items: stretch;
+      .tabs-container{
+        width: 100%;
+        .status-card{
+          margin-bottom: 10px;
+        }
+        .tab-content{
+          // height: 450px;
+          width: 100%;
+          display: flex;
+          .tab-content-left{
+            display: flex;
+            flex-direction: column;
+            padding: 0 16px;
+            .btn-box{
+              margin-top: 300px;
+            }
+          }
+          .tab-content-right{
+            display: flex;
+            .img-box{
+              width: 140px;
+              height: 120px;
+              background-color: #ccc;
+            }
+            .amend-box{
+              display: flex;
+              align-items: center;
+              height: @right_h;
+              margin-left: 40px;
+            }
+          }
+        }
+        .content-btn{
+          display: flex;
+          align-items: center;
+          height: 150px;
+        }
+      }
+    }
   }
 }

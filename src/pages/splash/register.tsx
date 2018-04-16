@@ -72,13 +72,27 @@ export default class Register extends React.Component<any, any> {
             <div className='register'>
               <header>
                   <span
-                    className={tabIndex===0?'registerActive':'registernormal'}
+                    className={tabIndex===0?'registerActive headerfont':'registernormal headerfont'}
                   >
+                    {
+                      tabIndex === 0 ? (
+                        <img src={require('../../styles/img/number1.png')} />
+                      ) : (
+                        <img src={require('../../styles/img/unnumber1.png')} />
+                      )
+                    }
                     创建账户
                   </span>
                 <span
                   className={tabIndex===1?'registerActive':'registernormal'}
                 >
+                  {
+                    tabIndex === 1 ? (
+                      <img src={require('../../styles/img/number2.png')} />
+                    )  : (
+                      <img src={require('../../styles/img/unnumber2.png')} />
+                    )
+                  }
                   填写商家信息
                 </span>
               </header>
@@ -138,22 +152,7 @@ export default class Register extends React.Component<any, any> {
                         value={verificationCode}
                         onChange={(e) => this.handleChangCode(e.target.value)}
                       />
-                    </label>
-                    <label
-                      onClick={
-                        () => {
-                          fetch(`/api/verification_code?mobile=${phone}`)
-                            .then(res=>res.json())
-                            .then(code=>console.log('code',code))
-                        }
-                      }
-                    >
-                      <div className='symbol'>
-                        *
-                        <span className='labelName'>
-                          获取验证码:
-                        </span>
-                      </div>
+                      <span className='vCode'>获取验证码</span>
                     </label>
                     <label
                       className='password'
@@ -187,7 +186,7 @@ export default class Register extends React.Component<any, any> {
                         onChange={(e) => this.handleChangConfirm(e.target.value)}
                       />
                     </label>
-                    <input className='submit' type="submit" value="登录" />
+                    <input className='submit' type="submit" value="下一步" />
                   </form>
                 ) : tabIndex === 1 ? (
                   <form onSubmit={(e) => this.gotoStep(e, 2)}>

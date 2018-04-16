@@ -1,12 +1,13 @@
 import * as React from 'react';
-import './App.less';
+import './styles/App.less';
 import { connect } from 'react-redux'
 import { Layout } from "antd";
 import { Navigation } from "../src/components/navigation/Navigation";
 import { LeftMenu } from '../src/components/leftMenu/LeftMenu';
 import { RouteType, SiderType } from "../src/types/RouteConfigType.d";
+import './styles/common.less'
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 interface AppModel {
   _sider: SiderType[] | null;
@@ -52,17 +53,21 @@ class App extends React.Component<AppProps, any> implements AppModel {
       </Sider>)
 
     return (
-      <Layout>
-        <Header className="headerContainer">
-          <div className="header"/ >
-          <div className="section">
-          <div className="logo">
-          <img src={require('../src/styles/img/msheader.png')} alt="Logo"/>
+      <Layout className="page">
+        <header className="header-container">
+          <div className="top">
+            222
           </div>
-            <Navigation routes={this.props.routes} />
+          <div className="header-box">
+            <div className="logo">
+              <img src={require('../src/styles/img/msheader.png')} alt="Logo" />
+            </div>
+            <div className="nav-content">
+              <Navigation routes={this.props.routes} />
+            </div>
           </div>
-        </Header>
-        <Layout className="page">
+        </header>
+        <Layout className="content-container">
           {siderContent}
           <Content className="content">
             {this.props.children}

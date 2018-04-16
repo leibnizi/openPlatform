@@ -12,7 +12,7 @@ function createLeftMenu(sider: SiderType[] | null, basePath: string): JSX.Elemen
   if (sider === null) { return []; }
   const leftMenus = sider.map((sItem, sIndex) => {
     return (
-      <div key={sItem.block + sIndex} >
+      <div className="menu-item-box" key={sItem.block + sIndex} >
         <h3>{sItem.block}</h3>
         <div className="menuItem">
           {sItem.items.map((rItem, rIndex) => {

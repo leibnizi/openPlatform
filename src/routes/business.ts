@@ -1,4 +1,5 @@
 import { RouteType } from "../types/RouteConfigType";
+import Infos from '../pages/business/infos'
 
 export const bussinessRoute: RouteType = {
   title: '商家中心',
@@ -12,7 +13,7 @@ export const bussinessRoute: RouteType = {
         {
           title: "商家信息",
           path: "infos",
-          component: null
+          component: Infos
         },
         {
           title: "资质管理",

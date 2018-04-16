@@ -89,25 +89,50 @@ export default class Register extends React.Component<any, any> {
                     <label
                       className='name'
                     >
-                      用户名
-                      <input type="text" value={name} onChange={(e) => this.handleChangName(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          用户名:
+                        </span>
+                      </div>
+                      <input 
+                        type="text" 
+                        value={name} 
+                        onChange={(e) => this.handleChangName(e.target.value)}
+                        placeholder='（用户名为6-16个字符，不可使用非法字符串）'
+                      />
                     </label>
                     <label
                       className='mail'
                     >
-                      邮箱
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          邮箱:
+                        </span>
+                      </div>
                       <input type="text" value={mail} onChange={(e) => this.handleChangMail(e.target.value)} />
                     </label>
                     <label
                       className='phone'
                     >
-                      手机号
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          手机号:
+                        </span>
+                      </div>
                       <input type="text" value={phone} onChange={(e) => this.handleChangPhone(e.target.value)} />
                     </label>
                     <label
                       className='verificationCode'
                     >
-                      验证码
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          验证码:
+                        </span>
+                      </div>
                       <input
                         type="text"
                         value={verificationCode}
@@ -123,18 +148,39 @@ export default class Register extends React.Component<any, any> {
                         }
                       }
                     >
-                      获取验证码
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          获取验证码:
+                        </span>
+                      </div>
                     </label>
                     <label
                       className='password'
                     >
-                      密码
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          密码:
+                        </span>
+                      </div>
+                      <input 
+                        type="text" 
+                        value={password} 
+                        onChange={(e) => this.handleChangPass(e.target.value)}
+                        placeholder='(密码为6-16个字符，由大小写字母或数字组成)'
+                      />
                     </label>
                     <label
                       className='confirmPassword'
                     >
-                      确认密码
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          确认密码:
+                        </span>
+                      </div>
+                      
                       <input
                         type="text"
                         value={confirmPassword}

@@ -2,49 +2,81 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
 import './product.less'
-import Item from '../../../components/productlist/listitem'
 
 class Product extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
       productDetail: false,
-      headerActive: 0
+      headerActive: 0,
+      listData: null,
+      goodStatus: '',
+      goodMode: '',
+      goodCategory: '',
+      SPU: '',
+      code: '',
+      name: '',
+      purchaser_product_no: ''
     }
   }
 
-  queryData = () => {
+  componentDidMount() {
     fetch(`/api/product/list?perPage=${1}&token=${this.props.state.userInfo.token}`)
+      .then(res => res.json())
+      .then((res) => {
+        const data = res.data.data
+        data.map((item: any, index: number) => {
+          Object.assign(item, { key: index })
+        })
+        this.setState({ listData: data })
+      })
+  }
+
+  queryData = () => {
+    const {
+      goodStatus,
+      goodMode,
+      goodCategory,
+      SPU,
+      code,
+      name,
+      purchaser_product_no
+    } = this.state
+    const { token } = this.props.state.userInfo
+    const url = `/api/product/list?perPage=${1}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
+                &mode_id=${goodMode}&enabled=${goodStatus}&code=${code}&name=${name}
+                &purchaser_product_no=${purchaser_product_no}`
+    fetch(url).then(res=>res.json())
   }
 
   render() {
     const columns: any[] = [
       {
         title: '商品编号',
-        dataIndex: 'name',
+        dataIndex: 'code',
         render: (text: string) => <a href="#">{text}</a>
       }, {
         title: '商品名称',
         className: 'column-money',
-        dataIndex: 'money'
+        dataIndex: 'name'
       }, {
         title: '商品主图',
-        dataIndex: 'address'
+        dataIndex: 'main_image'
       }, {
         title: '品牌',
-        dataIndex: 'pinpai'
+        dataIndex: 'brand_name'
       }, {
         title: '商品模式',
-        dataIndex: 'moshi'
+        dataIndex: 'mode_id'
       }, {
         title: '创建时间',
-        dataIndex: 'chuangjianshijian'
+        dataIndex: 'created_at'
       }, {
         title: '上架时间',
-        dataIndex: 'shangjianshijian'
+        dataIndex: 'enabled_at'
       }, {
         title: '商品状态',
-        dataIndex: 'zhuangtgai'
+        dataIndex: 'enabled'
       }
     ];
 
@@ -52,79 +84,84 @@ class Product extends React.Component<any, any> {
       {
         key: '1',
         name: 'John Brown',
-        money: '100',
-        address: 'tokyo'
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '4',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '5',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '6',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '7',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '8',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '9',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '10',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '11',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
+        brand_name: '100',
+        address: 'tokyo',
       }
-    ];
+    ]
 
-    const { productDetail, headerActive } = this.state
+    const { productDetail, headerActive, listData } = this.state
     if (!productDetail) {
       return (
         <div className='operationproduct'>
           <header className='productheader'>商品列表</header>
           <section>
-            {
-              ['商品编号', '商品名称', '商品货号', '商品状态', '商品模式', '商品类目', 'SPU是否启用'].map((item, index) =>
-                <Item
-                  key={index}
-                  itemname={item}
-                />
-              )
-            }
+            <div className='item'>
+              <p>商品编号</p>
+              <input 
+                onChange={(e)=>this.setState({code: e.target.value})}
+              />
+            </div>
+            <div className='item'>
+              <p>商品名称</p>
+              <input 
+                onChange={(e)=>this.setState({name: e.target.value})}
+              />
+            </div>
+            <div className='item'>
+              <p>商品货号</p>
+              <input 
+                onChange={(e)=>this.setState({purchaser_product_no: e.target.value})}
+              />
+            </div>
+            <div className='item'>
+              <p>商品状态</p>
+              <select
+                onChange={(e) => this.setState({ goodStatus: e.target.value })}
+              >
+                <option value="">全部</option>
+                <option value="0">未上架</option>
+                <option value="1">已上架</option>
+                <option value="2">待上架</option>
+              </select>
+            </div>
+            <div className='item'>
+              <p>商品模式</p>
+              <select
+                onChange={(e) => this.setState({ goodMode: e.target.value })}
+              >
+                <option value="">全部</option>
+                <option value="1">常服包月</option>
+                <option value="2">礼服次用</option>
+                <option value="3">售卖商城</option>
+              </select>
+            </div>
+            <div className='item'>
+              <p>商品类目</p>
+              <select
+                onChange={(e) => this.setState({ goodCategory: e.target.value })}
+              >
+                <option value="">全部</option>
+                <option value="1">日常服</option>
+                <option value="2">礼服</option>
+                <option value="3">环保袋</option>
+                <option value="4">服装</option>
+                <option value="5">童装</option>
+              </select>
+            </div>
+            <div className='item'>
+              <p>SPU是否启用</p>
+              <select
+                onChange={(e) => this.setState({ SPU: e.target.value })}
+              >
+                <option value="0">全部</option>
+                <option value="1">启用</option>
+                <option value="0">不启用</option>
+              </select>
+            </div>
           </section>
           <section className='productmid'>
             <span
-              onClick={()=>this.queryData()}
+              onClick={() => this.queryData()}
             >
               查询
             </span>
@@ -133,7 +170,7 @@ class Product extends React.Component<any, any> {
           </section>
           <hr />
           <section>
-            <Table className='producttab' columns={columns} dataSource={data} bordered={true} />
+            <Table className='producttab' columns={columns} dataSource={listData} bordered={true} />
           </section>
         </div>
       )
@@ -161,12 +198,12 @@ class Product extends React.Component<any, any> {
                 <section className='productmid'>
                   {
                     [
-                      ['商品编号:', 'DD071A'], 
-                      ['商品名称:', '简约休闲针织外套'], 
-                      ['类目:', '女装'], 
-                      ['品牌:', 'MIRROR FUN'], 
-                      ['上架状态:', 'DD071A'], 
-                      ['创建时间：', 'YYYY-MM-DD hh:mm:ss'], 
+                      ['商品编号:', 'DD071A'],
+                      ['商品名称:', '简约休闲针织外套'],
+                      ['类目:', '女装'],
+                      ['品牌:', 'MIRROR FUN'],
+                      ['上架状态:', 'DD071A'],
+                      ['创建时间：', 'YYYY-MM-DD hh:mm:ss'],
                       ['上架时间：', 'YYYY-MM-DD hh:mm:ss']
                     ].map((item, index) =>
                       <div className='productmiditem' key={index}>
@@ -194,11 +231,11 @@ class Product extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps:any = (state:object) => ({
-  state:state
+const mapStateToProps: any = (state: object) => ({
+  state: state
 })
 
-const mapDispatchToProps:any = (dispatch:any) => ({
+const mapDispatchToProps: any = (dispatch: any) => ({
   dispatch
 })
 

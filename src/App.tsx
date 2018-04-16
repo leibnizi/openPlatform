@@ -15,7 +15,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 export const store = createStore(
   reducer,
-  {userInfo:{token:"59$$c07ce428f2bb259582f488cb4c3c0555"}},
+  {userInfo:{token:"19$$b5fbab2e48ad5a0470ef8a351f9b6aa9"}},
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 sagaMiddleware.run(rootSaga)

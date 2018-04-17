@@ -11,8 +11,7 @@ class Login extends React.Component<any, any> {
     this.state = {
       id: '',
       password: '',
-      // modalshow: false,
-      // loading: false
+      loginError: ''
     }
   }
 
@@ -27,14 +26,17 @@ class Login extends React.Component<any, any> {
       mobile: id,
       password
     } : {
-      name: id,
-      password
-    }
+        name: id,
+        password
+      }
     fetchUtil('/api/login', body)
-      .then((v: {status_code: number}) => {
+      .then((v: { status_code: number,msg: string }) => {
         if (v.status_code === 0) {
           console.log('status_code', v)
           this.props.setUserInfo(v)
+          this.props.history.push('/')
+        } else {
+          this.setState({loginError: v.msg})
           this.props.history.push('/')
         }
       })
@@ -49,10 +51,11 @@ class Login extends React.Component<any, any> {
   }
 
   render() {
-    // const { modalshow, loading, id, password } = this.state
+    const { loginError } = this.state
     return (
       <div className='splash'>
         <p className='name splashchild'>商家后台管理系统</p>
+        <p className='loginError'>{loginError?loginError:'   '}</p>
         <form onSubmit={(e) => this.loginin(e)}>
           <label
             className='id'
@@ -74,11 +77,11 @@ class Login extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps:any = (state:object) => ({
-  state:state
+const mapStateToProps: any = (state: object) => ({
+  state: state
 })
 
-const mapDispatchToProps:any = (dispatch:any) => ({
+const mapDispatchToProps: any = (dispatch: any) => ({
   dispatch,
   setUserInfo
 })

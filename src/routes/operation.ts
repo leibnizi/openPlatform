@@ -1,7 +1,7 @@
 import Products from '../pages/operation/productlist/product';
-import Lease from "../pages/operation/lease";
-import Sale from "../pages/operation/sale";
-import AfterSale from '../pages/operation/afterSale';
+import Lease from "../pages/operation/lease/lease";
+import Sale from "../pages/operation/sale/sale";
+import AfterSale from '../pages/operation/afterSale/afterSale';
 import { RouteType } from "../types/RouteConfigType";
 
 export const operation: RouteType = {

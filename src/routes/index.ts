@@ -11,5 +11,10 @@ export const a = [
 ]
 
 export const routes: Array<RouteType> = [
-  homeRoute, operation, bussinessRoute, finacialRoute, helpMessageRoute
+  homeRoute, 
+  operation, 
+  bussinessRoute, 
+  finacialRoute, 
+  helpMessageRoute,
+  // splashRoute,
 ]

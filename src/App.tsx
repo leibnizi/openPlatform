@@ -1,15 +1,21 @@
-import * as React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'remote-redux-devtools';
-import createSagaMiddleware from 'redux-saga';
-import { Provider } from 'react-redux';
-import reducer from './redux/reducers';
-import rootSaga from './redux/sagas'
-import routes from './routes';
-import './styles/App.less';
+import * as React from 'react'
+import { Layout } from "antd"
+import { connect } from 'react-redux'
+import { Navigation } from "../src/components/navigation/Navigation";
+import { LeftMenu } from '../src/components/leftMenu/LeftMenu';
+import { RouteType, SiderType } from "../src/types/RouteConfigType.d"
+// import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+// import { createStore, applyMiddleware } from 'redux';
+// import { composeWithDevTools } from 'remote-redux-devtools';
+// import createSagaMiddleware from 'redux-saga';
+// import { Provider } from 'react-redux';
+// import reducer from './redux/reducers';
+// import rootSaga from './redux/sagas'
+// import routes from './routes';
+import './styles/App.less'
+
 // import { PageLayout } from './Layout'
-import UserHead from './pages/head/userhead'
+// import UserHead from './pages/head/userhead'
 
 const { Sider, Content } = Layout;
 
@@ -80,7 +86,6 @@ class App extends React.Component<AppProps, any> implements AppModel {
     )
   }
 }
-// store.subscribe(App)
 
 const mapStateToProps = (initialState: any) => {
   return initialState;

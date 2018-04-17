@@ -14,7 +14,20 @@ export default class Register extends React.Component<any, any> {
       phone: '',
       verificationCode: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      biz_name: '',
+      website: '',
+      brand: '',
+      category_id: '',
+      biz_type: '',
+      biz_operator: '',
+      mobile: '',
+      email: '',
+      qq: '',
+      faxes: '',
+      biz_address: '',
+      files: '',
+
     }
   }
 
@@ -52,7 +65,11 @@ export default class Register extends React.Component<any, any> {
   }
 
   render() {
-    const { tabIndex, name, mail, phone, verificationCode, password, confirmPassword } = this.state
+    const {
+      tabIndex, name, mail, phone, verificationCode, password, confirmPassword,
+      biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
+      mobile, email, qq, faxes, biz_address, files
+    } = this.state
     return (
       <div className='registerOut'>
         {
@@ -109,9 +126,9 @@ export default class Register extends React.Component<any, any> {
                           用户名:
                         </span>
                       </div>
-                      <input 
-                        type="text" 
-                        value={name} 
+                      <input
+                        type="text"
+                        value={name}
                         onChange={(e) => this.handleChangName(e.target.value)}
                         placeholder='（用户名为6-16个字符，不可使用非法字符串）'
                       />
@@ -163,9 +180,9 @@ export default class Register extends React.Component<any, any> {
                           密码:
                         </span>
                       </div>
-                      <input 
-                        type="text" 
-                        value={password} 
+                      <input
+                        type="text"
+                        value={password}
                         onChange={(e) => this.handleChangPass(e.target.value)}
                         placeholder='(密码为6-16个字符，由大小写字母或数字组成)'
                       />
@@ -179,7 +196,6 @@ export default class Register extends React.Component<any, any> {
                           确认密码:
                         </span>
                       </div>
-                      
                       <input
                         type="text"
                         value={confirmPassword}
@@ -193,94 +209,179 @@ export default class Register extends React.Component<any, any> {
                     <label
                       className='name'
                     >
-                      企业名称
-                      <input type="text" value={name} onChange={(e) => this.handleChangName(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          企业名称：
+                        </span>
+                      </div>
+                      <input type="text" value={biz_name} onChange={(e) => this.setState({biz_name: e.target.value})} />
                     </label>
                     <label
                       className='mail'
                     >
-                      上年度营业额量级
-                      <input type="text" value={mail} onChange={(e) => this.handleChangMail(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          上年度营业额量级：
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        value={profit_level}
+                        onChange={(e) => this.setState({profit_level: e.target.value})}
+                      />
                     </label>
                     <label
                       className='phone'
                     >
-                      主营品牌
-                      <input type="text" value={phone} onChange={(e) => this.handleChangPhone(e.target.value)} />
+                      <div className='symbol'>
+                        <span className='labelName'>
+                          主营品牌：
+                        </span>
+                      </div>
+                      <input type="text" value={brand} onChange={(e) => this.setState({brand: e.target.value})} />
                     </label>
                     <label
                       className='verificationCode'
                     >
-                      官网地址
+                      <div className='symbol'>
+                        <span className='labelName'>
+                          官网地址：
+                        </span>
+                      </div>
                       <input
                         type="text"
-                        value={verificationCode}
-                        onChange={(e) => this.handleChangCode(e.target.value)}
+                        value={website}
+                        onChange={(e) => this.setState({website:e.target.value})}
                       />
                     </label>
                     <label
                       className='password'
                     >
-                      主营类目
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          主营类目：
+                        </span>
+                      </div>
+                      <input 
+                        type="text" 
+                        value={category_id} 
+                        onChange={(e) => this.setState({category_id: e.target.value})} 
+                      />
                     </label>
                     <label
                       className='confirmPassword'
                     >
-                      商家类型
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          商家类型：
+                        </span>
+                      </div>
                       <input
                         type="text"
-                        value={confirmPassword}
-                        onChange={(e) => this.handleChangConfirm(e.target.value)}
+                        value={biz_type}
+                        onChange={(e) => this.setState({biz_type: e.target.value})}
                       />
                     </label>
                     <label
                       className='password'
                     >
-                      运营人员
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          运营人员：
+                        </span>
+                      </div>
+                      <input 
+                        type="text" 
+                        value={biz_operator} 
+                        onChange={(e) => this.setState({biz_operator: e.target.value})} 
+                      />
                     </label>
                     <label
                       className='password'
                     >
-                      联系电话
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          联系电话：
+                        </span>
+                      </div>
+                      <input type="text" value={mobile} onChange={(e) => this.setState({mobile: e.target.value})} />
                     </label>
                     <label
                       className='password'
                     >
-                      邮箱
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        <span className='labelName'>
+                          邮箱：
+                        </span>
+                      </div>
+                      <input type="text" value={email} onChange={(e) => this.setState({email: e.target.value})} />
                     </label>
                     <label
                       className='password'
                     >
-                      QQ
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        <span className='labelName'>
+                          QQ：
+                        </span>
+                      </div>
+                      <input type="text" value={qq} onChange={(e) => this.setState({qq: e.target.value})} />
                     </label>
                     <label
                       className='password'
                     >
-                      传真
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        <span className='labelName'>
+                          传真：
+                        </span>
+                      </div>
+                      <input type="text" value={faxes} onChange={(e) => this.setState({faxes: e.target.value})} />
                     </label>
                     <label
                       className='password'
                     >
-                      公司地址
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          公司地址：
+                        </span>
+                      </div>
+                      <input 
+                        type="text" 
+                        value={biz_address} 
+                        onChange={(e) => this.setState({biz_address: e.target.value})} 
+                      />
                     </label>
                     <label
                       className='password'
                     >
-                      营业执照
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          营业执照：
+                        </span>
+                      </div>
+                      <input 
+                        type="text" 
+                        value={files} 
+                        onChange={(e) => this.setState({files: e.target.value})} 
+                      />
                     </label>
                     <label
                       className='password'
                     >
-                      补充资质
-                      <input type="text" value={password} onChange={(e) => this.handleChangPass(e.target.value)} />
+                      <div className='symbol'>
+                        *
+                        <span className='labelName'>
+                          补充资质：
+                        </span>
+                      </div>
+                      <input type="text" value={files} onChange={(e) => this.setState({files: e.target.value})} />
                     </label>
                     <button className='submit' onClick={(e)=>this.gotoStep(e, 0)}>上一步</button>
                     <input className='submit' type="submit" value="下一步" />

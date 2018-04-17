@@ -1,19 +1,15 @@
 import { homeRoute } from './home'
-import { businessRoute } from './business'
+import { bussinessRoute } from './business'
 import { finacialRoute } from './finacial'
 import { helpMessageRoute } from './helpMessage'
-import { operationRoute } from './operation'
 import { splashRoute } from './splash'
-import { loginRoute } from './login'
-import { registerRoute } from './register'
+import { operation } from './operation'
+import { RouteType } from '../types/RouteConfigType';
 
-export default [
-  ...homeRoute,
-  ...operationRoute,
-  ...businessRoute,
-  ...helpMessageRoute,
-  ...finacialRoute,
-  ...splashRoute,
-  ...loginRoute,
-  ...registerRoute
+export const a = [
+  ...splashRoute
+]
+
+export const routes: Array<RouteType> = [
+  homeRoute, operation, bussinessRoute, finacialRoute, helpMessageRoute
 ]

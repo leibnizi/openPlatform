@@ -1,7 +1,10 @@
-import Home from '../pages/home'
+import Home from '../pages/home';
+import { RouteType } from '../types/RouteConfigType';
 
-export const homeRoute = [{
-  label: '首页',
+export const homeRoute: RouteType = {
   path: '/',
-  component: Home
-}]
+  title: '首页',
+  component: Home,
+  sider: [],
+  exact: true
+}

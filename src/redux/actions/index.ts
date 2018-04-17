@@ -1,4 +1,4 @@
-import { store } from '../../App'
+import store  from '../store/store'
 
 export const onIncrement = () => store.dispatch({ type: 'INCREMENT' })
 export const onDecrement = () => store.dispatch({ type: 'DECREMENT' })

@@ -11,82 +11,79 @@ import './styles/App.less';
 // import { PageLayout } from './Layout'
 import UserHead from './pages/head/userhead'
 
-const sagaMiddleware = createSagaMiddleware()
+const { Sider, Content } = Layout;
 
-export const store = createStore(
-  reducer,
-  {userInfo:{token:"19$$b5fbab2e48ad5a0470ef8a351f9b6aa9"}},
-  composeWithDevTools(applyMiddleware(sagaMiddleware))
-)
-sagaMiddleware.run(rootSaga)
+interface AppModel {
+  _sider: SiderType[] | null;
+  getSideByPath(props: AppProps): any;
+}
 
-const OldMenuLink = ({ label, to, activeOnlyWhenExact }: any) => (
-  <Route
-    path={to}
-    exact={activeOnlyWhenExact}
-    children={({ match }) => (
-      <div className={match ? 'active' : 'normal'}>
-        <Link to={to}>{label}</Link>
-      </div>
-    )}
-  />
-)
+interface AppProps {
+  routes: RouteType[];
+  routing?: any;
+}
 
-class App extends React.Component<any,any> {
+class App extends React.Component<AppProps, any> implements AppModel {
+
+  _sider: SiderType[] | null;
+
+  getSideByPath(props: AppProps) {
+    if (props.routing && (props.routing.location.pathname.length > 1)) {
+      let currentPathBase = `/${props.routing.location.pathname.split('/')[1]}`;
+      let currentRoute = props.routes.filter(item => {
+        return item.path === currentPathBase
+      })
+      this._sider = currentRoute.length > 0? currentRoute[0].sider : null
+    } else {
+      this._sider = null;
+    }
+  }
+
+  constructor(props: AppProps) {
+    super(props)
+    this.getSideByPath(props)
+  }
+
+  componentWillReceiveProps(props: AppProps) {
+    this.getSideByPath(props)
+  }
 
   render() {
+    const basePath = `/${this.props.routing.location.pathname.split('/')[1]}`
+    const siderContent = this._sider === null ? null : (
+      <Sider className="leftMenu" >
+        <LeftMenu sider={this._sider} basePath={basePath} />
+      </Sider>)
+
     return (
-      <Provider store={store}>
-        <Router>
-          <div className="app">
-            <UserHead />
-            <section className="section">
-              <section className="logo">
-                <img src={require('./styles/img/msheader.png')} alt="头部logo" />
-                <p>商家后台管理系统</p>
-              </section>
-              <section className="navigation">
-                {
-                  routes.map((item, index) =>
-                    <OldMenuLink
-                      key={index}
-                      activeOnlyWhenExact={index === 0 ? true : false}
-                      to={item.path}
-                      label={item.label}
-                    />
-                  )
-                }
-              </section>
-            </section>
-            <section className="body">
-              {
-                routes.map((item, index) => {
-                  if (index === 0) {
-                    return (
-                      <Route
-                        key={index}
-                        exact={true}
-                        path={item.path}
-                        component={item.component}
-                      />
-                    )
-                  } else {
-                    return (
-                      <Route
-                        key={index}
-                        path={item.path}
-                        component={item.component}
-                      />
-                    )
-                  }
-                })
-              }
-            </section>
+      <Layout className="page">
+        <header className="header-container">
+          <div className="top">
+            222
           </div>
-        </Router>
-      </Provider>
+          <div className="header-box">
+            <div className="logo">
+              <img src={require('../src/styles/img/msheader.png')} alt="Logo" />
+            </div>
+            <div className="nav-content">
+              <Navigation routes={this.props.routes} />
+            </div>
+          </div>
+        </header>
+        <Layout className="content-container">
+          {siderContent}
+          <Content className="content">
+            {this.props.children}
+          </Content>
+        </Layout>
+      </Layout>
     )
   }
 }
+// store.subscribe(App)
 
-export default App
+const mapStateToProps = (initialState: any) => {
+  return initialState;
+}
+
+export default connect(mapStateToProps)(App)

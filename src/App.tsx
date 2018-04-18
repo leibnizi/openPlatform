@@ -51,7 +51,6 @@ class App extends React.Component<AppProps, any> implements AppModel {
         <LeftMenu sider={this._sider} basePath={basePath} />
       </Sider>
     )
-    console.log(basePath,"GGG")
     return (
       <div>
       {

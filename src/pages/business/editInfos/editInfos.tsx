@@ -1,12 +1,13 @@
 import * as React from "react";
 import { connect } from 'react-redux'
-import { fetchUtil } from '../../services/httpRequest'
-import { Layout, Row, Col, Button } from 'antd';
+import { fetchUtil } from '../../../services/httpRequest'
+import { Layout, Row, Col, Form, Icon, Input, Button, Checkbox } from 'antd';
+import './editInfos.less'
 
-import './index.less'
-// const { Content, Sider } = Layout;
-class Infos extends React.Component<any, {}> {
-  constructor(props:any) {
+const FormItem = Form.Item;
+
+class EditInfos extends React.Component<any, {}> {
+  constructor(props: any) {
     super(props)
   }
   renderContentItems = () => {
@@ -29,11 +30,11 @@ class Infos extends React.Component<any, {}> {
   }
   componentDidMount() {
     const { token } = this.props.state.userInfo;
-    fetchUtil('api/merchant/index', token).then((res:any) => {
-      console.log(res,"ttt")
+    fetchUtil('api/merchant/index', token).then((res: any) => {
+      console.log(res, "ttt")
       // const { status_code, msg, data } = res
       // if (status_code == 0 ) {
-        
+
       // }
     })
   }
@@ -42,9 +43,22 @@ class Infos extends React.Component<any, {}> {
     // console.log("sss")
     this.props.history.push('edit_infos')
   }
+  handleSubmit = () => {
+    console.log(222)
+  }
 
   render() {
-    console.log(this)
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
 
     return (
       <Layout className="bs-info-box">
@@ -92,6 +106,49 @@ class Infos extends React.Component<any, {}> {
           <Row>
             <Button onClick={() => this.editMsg()}>修改商家信息</Button>
           </Row>
+
+          <Form onSubmit={this.handleSubmit} className="edit-form">
+            <Row className="row-box">
+              <Col span={2} className="cotent-title">企业名称：</Col>
+              <Col className="cotent-title-text" offset={1} span={3}>上海千颂</Col>
+              <Col className="describe" span={14}>
+                <FormItem
+                  {...formItemLayout}
+                  label="上季度盈利量级"
+                >
+                  {getFieldDecorator('grade', {
+                    rules: [{ required: true, message: 'Please input your username!' }],
+                  })(
+                    <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                    )}
+                </FormItem>
+              </Col>
+            </Row>
+            <FormItem>
+              {getFieldDecorator('password', {
+                rules: [{ required: true, message: 'Please input your Password!' }],
+              })(
+                <Input 
+                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} 
+                  type="password" 
+                  placeholder="Password" 
+                />
+                )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('remember', {
+                valuePropName: 'checked',
+                initialValue: true,
+              })(
+                <Checkbox>Remember me</Checkbox>
+                )}
+              <a className="login-form-forgot" href="">Forgot password</a>
+              <Button type="primary" htmlType="submit" className="login-form-button">
+                Log in
+          </Button>
+              Or <a href="">register now!</a>
+            </FormItem>
+          </Form>
         </article>
       </Layout>
     )
@@ -105,5 +162,4 @@ const mapStateToProps: any = (state: object) => ({
 const mapDispatchToProps: any = (dispatch: any) => ({
   dispatch
 })
-
-export default connect(mapStateToProps, mapDispatchToProps)(Infos)
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(EditInfos))

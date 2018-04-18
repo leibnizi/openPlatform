@@ -1,128 +1,150 @@
 import * as React from 'react'
-import { Layout } from "antd"
-import { connect } from 'react-redux'
-import { Navigation } from "../src/components/navigation/Navigation";
-import { LeftMenu } from '../src/components/leftMenu/LeftMenu';
-import { registerPage } from '../src/routes/index'
-import { RouteType, SiderType } from "../src/types/RouteConfigType.d"
-import './styles/App.less'
+import { BrowserRouter, Link } from "react-router-dom"
+import { Route, Switch } from 'react-router'
+import { createStore } from 'redux'
+// import createSagaMiddleware from 'redux-saga'
+import { Provider } from 'react-redux'
+// import saga from './redux/sagas'
+// import rootSaga from './redux/sagas'
+import reducer from './redux/reducers'
+import routes from './routes'
+import Splash from './pages/splash'
+import Login from './pages/splash/login'
+import Register from './pages/splash/register'
+import './styles/App.less';
 
-const { Sider, Content } = Layout;
+// const sagaMiddleware = createSagaMiddleware({saga})
+export const store = createStore(
+  reducer
+)
+// sagaMiddleware.run(rootSaga)
 
-interface AppModel {
-  _sider: SiderType[] | null;
-  getSideByPath(props: AppProps): any;
+interface OldMenuLinkType {
+  label: string,
+  to: string,
+  activeOnlyWhenExact: boolean
 }
 
-interface AppProps {
-  routes: RouteType[];
-  routing?: any;
-}
+const OldMenuLink = ({ label, to, activeOnlyWhenExact }:OldMenuLinkType) => (
+  <Route
+    path={to}
+    exact={activeOnlyWhenExact}
+    children={({ match }) => (
+      <div className={match ? "active" : "normal"}>
+        <Link to={to}>{label}</Link>
+      </div>
+    )}
+  />
+)
 
-class App extends React.Component<AppProps, any> implements AppModel {
-
-  _sider: SiderType[] | null;
-
-  getSideByPath(props: AppProps) {
-    if (props.routing && (props.routing.location.pathname.length > 1)) {
-      let currentPathBase = `/${props.routing.location.pathname.split('/')[1]}`;
-      let currentRoute = props.routes.filter(item => {
-        return item.path === currentPathBase
-      })
-      this._sider = currentRoute.length > 0 ? currentRoute[0].sider : null
-    } else {
-      this._sider = null;
-    }
-  }
-
-  constructor(props: AppProps) {
-    super(props)
-    this.getSideByPath(props)
-  }
-
-  componentWillReceiveProps(props: AppProps) {
-    this.getSideByPath(props)
-  }
-
+class Content extends React.Component {
   render() {
-    const basePath = `/${this.props.routing.location.pathname.split('/')[1]}`
-    const siderContent = this._sider === null ? null : this._sider.length === 0 ? null : (
-      <Sider className="leftMenu" >
-        <LeftMenu sider={this._sider} basePath={basePath} />
-      </Sider>
-    )
     return (
-      <div>
-      {
-        ['/splash','/login'].indexOf(basePath) === -1 ? (
-          <Layout className="page">
-            <header className="header-container">
-              <div className="top">
-                222
-              </div>
-              <div className="header-box">
-                <div className="logo">
-                  <img src={require('../src/styles/img/msheader.png')} alt="Logo" />
-                  <span>商家后台管理系统</span>
-                </div>
-                <div className="nav-content">
-                  <Navigation routes={this.props.routes} />
-                </div>
-              </div>
-            </header>
-            <Layout className="content-container">
-              {siderContent}
-              <Content 
-                style={{ background: `${basePath === "/" ? "#f2f2f2" : "#fff"}` }} 
-                className="content"
-              >
-                {this.props.children}
-              </Content>
-            </Layout>
-          </Layout>
-        ) : ['/register'].indexOf(basePath) >= 0 ? (
-          <Layout className="page">
-            <header className="header-container">
-              <div className="top">
-                222
-              </div>
-              <div className="header-box">
-                <div className="logo">
-                  <img src={require('../src/styles/img/msheader.png')} alt="Logo" />
-                  <span>商家后台管理系统</span>
-                </div>
-                <div className="nav-content">
-                  <Navigation routes={registerPage} />
-                </div>
-              </div>
-            </header>
-            <Layout className="content-container">
-              {siderContent}
-              <Content className="content">
-                {this.props.children}
-              </Content>
-            </Layout>
-          </Layout>
-        ) : (
-          <Layout className="login">
-            <Layout className="content-container">
-              {siderContent}
-              <Content 
-                className="content"
-              >
-                {this.props.children}
-              </Content>
-            </Layout>
-          </Layout>
-        )
-      }
+      <div className='app'>
+        <header className='header'>
+          <div className="top">
+            1
+          </div>
+          <div className='header-box'>
+            <div className='logo'>
+              <img
+                src={require('./styles/img/msheader.png')} 
+                alt='头部logo'
+              />
+              <div>商家后台管理系统</div>
+            </div>
+            <div className='navigation'>
+              {
+                routes.map((item,index)=>
+                  <OldMenuLink
+                    key={index}
+                    activeOnlyWhenExact={index===0?true:false}
+                    to={item.path}
+                    label={item.label}
+                  />
+                )
+              }
+            </div>
+          </div>
+        </header>
+        <section className='body'>
+          {
+            routes.map((item,index)=> {
+              return (
+                <Route
+                  key={index}
+                  exact={index === 0?true:false}
+                  path={item.path}
+                  component={item.component}
+                />
+              )
+            })
+          }
+        </section>
       </div>
     )
   }
 }
 
-const mapStateToProps = (initialState: any) => {
-  return initialState;
+class RegisterRoute extends React.Component {
+  render() {
+    return (
+      <div className='app'>
+        <header className='header'>
+          1
+        </header>
+        <section className='section'>
+          <section className='logo'>
+            <img
+              src={require('./styles/img/msheader.png')} 
+              alt='头部logo'
+            />
+            <p>商家后台管理系统</p>
+          </section>
+          <section className='navigation'>
+            <OldMenuLink
+              activeOnlyWhenExact={true}
+              to={'/register'}
+              label='申请加入女神派'
+            />
+          </section>
+        </section>
+        <section className='body'>
+          <Register />
+        </section>
+      </div>
+    )
+  }
 }
 
-export default connect(mapStateToProps)(App)
+class App extends React.Component {
+  render() {
+    console.log('appredner')
+    return (
+      <Provider store={store}>
+          <BrowserRouter>
+            <Switch>    
+              <Route
+                path="/login" 
+                component={Login}
+              />
+              <Route
+                path="/splash" 
+                component={Splash}
+              />
+              <Route
+                path="/register" 
+                component={RegisterRoute}
+              />
+              <Route
+                path="/" 
+                component={Content}
+              />
+            </Switch>
+          </BrowserRouter>
+      </Provider>
+    )
+  }
+}
+
+export default App

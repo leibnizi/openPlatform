@@ -1,4 +1,4 @@
-const userInfo = (state: any = {token: 0}, action: any) => {
+const userInfo = (state: any = { token: '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9'}, action: any) => {
   switch (action.type) {
     case 'SET_USERINFO':
       return {...state, ...action.info.data}

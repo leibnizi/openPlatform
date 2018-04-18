@@ -66,24 +66,14 @@ class App extends React.Component {
             <section className='body'>
               {
                 routes.map((item,index)=> {
-                  if (index === 0) {
-                    return (
-                      <Route
-                        key={index}
-                        exact={true}
-                        path={item.path}
-                        component={item.component}
-                      />
-                    )
-                  } else {
-                    return (
-                      <Route
-                        key={index}
-                        path={item.path}
-                        component={item.component}
-                      />
-                    )
-                  }
+                  return (
+                    <Route
+                      key={index}
+                      exact={index === 0?true:false}
+                      path={item.path}
+                      component={item.component}
+                    />
+                  )
                 })
               }
             </section>

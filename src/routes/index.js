@@ -12,7 +12,7 @@ export default [
   },
   {
     label:'运营管理',
-    path:'/operation/product',
+    path:'/operation',
     component: Product
   },
   {
@@ -22,7 +22,7 @@ export default [
   },
   {
     label:'财务管理',
-    path:'/fincial/overview',
+    path:'/fincial',
     component: Fincial
   },
   // {

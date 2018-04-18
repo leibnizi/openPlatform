@@ -17,7 +17,7 @@ export default class Operation extends Component {
         <div>
           <div className='aside'>
             <p>商品管理</p>
-            <OldMenuLink activeOnlyWhenExact={true} to="/operation/product" label="商品列表" />
+            <OldMenuLink activeOnlyWhenExact={true} to="/operation" label="商品列表" />
             <p>订单管理</p>
             <OldMenuLink to="/operation/lease" label="租赁订单" />
             <OldMenuLink to="/operation/sale" label="销售订单" />
@@ -25,7 +25,7 @@ export default class Operation extends Component {
             <OldMenuLink to="/operation/afterSale" label="售后订单" />
           </div>
           <div className='content'>
-            <Route exact path="/operation/product" component={Product} />
+            <Route exact path="/operation" component={Product} />
             <Route path="/operation/lease" component={Lease} />
             <Route path="/operation/sale" component={Sale} />
             <Route path="/operation/afterSale" component={AfterSale} />

@@ -15,7 +15,7 @@ import './styles/App.less';
 
 // const sagaMiddleware = createSagaMiddleware({saga})
 export const store = createStore(
-  reducer
+  reducer, {}
 )
 // sagaMiddleware.run(rootSaga)
 
@@ -117,7 +117,6 @@ class RegisterRoute extends React.Component {
 
 class App extends React.Component {
   render() {
-    console.log('appredner')
     return (
       <Provider store={store}>
           <BrowserRouter>

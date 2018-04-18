@@ -1,4 +1,7 @@
-import { RouteType } from "../types/RouteConfigType";
+import { RouteType } from "../types/RouteConfigType"
+import Overview from '../pages/finacial/overview/overview'
+import Withdraw from '../pages/finacial/withdraw/withdraw'
+import Detail from '../pages/finacial/detail/detail'
 
 export const finacialRoute: RouteType = {
   title: '财务管理',
@@ -12,12 +15,12 @@ export const finacialRoute: RouteType = {
         {
           title: "财务总览",
           path: "overview",
-          component: null
+          component: Overview
         },
         {
           title: "提现管理",
           path: "withdraw",
-          component: null
+          component: Withdraw
         }
       ]
     },
@@ -27,7 +30,7 @@ export const finacialRoute: RouteType = {
         {
           title: "对账明细",
           path: "detail",
-          component: null
+          component: Detail
         }
       ]
     }

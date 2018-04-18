@@ -1,7 +1,9 @@
-import Splash from '../pages/splash'
+import Splash from '../pages/splash/index'
 
-export const splashRoute = [{
-  label: 'splashRoute',
+export const splashRoute = {
+  title: 'splash',
   path: '/splash',
-  component: Splash
-}]
+  component: Splash,
+  firstPage:"Splash",
+  sider: []
+}

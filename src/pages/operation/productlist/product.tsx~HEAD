@@ -21,15 +21,15 @@ class Product extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    // fetch(`/api/product/list?perPage=${1}&token=${this.props.state.userInfo.token}`)
-    //   .then(res => res.json())
-    //   .then((res) => {
-    //     const data = res.data.data
-    //     data.map((item: any, index: number) => {
-    //       Object.assign(item, { key: index })
-    //     })
-    //     this.setState({ listData: data })
-    //   })
+    fetch(`/api/product/list?perPage=${1}&token=${this.props.state.userInfo.token}`)
+      .then(res => res.json())
+      .then((res) => {
+        const data = res.data.data
+        data.map((item: any, index: number) => {
+          Object.assign(item, { key: index })
+        })
+        this.setState({ listData: data })
+      })
   }
 
   queryData = () => {

@@ -2,14 +2,22 @@ import { homeRoute } from './home'
 import { bussinessRoute } from './business'
 import { finacialRoute } from './finacial'
 import { helpMessageRoute } from './helpMessage'
-import { splashRoute } from './splash'
 import { operation } from './operation'
-import { RouteType } from '../types/RouteConfigType';
-
-export const a = [
-  ...splashRoute
-]
+import { registerRoute } from './register'
+import { loginRoute } from './login'
+import { splashRoute } from './splash'
+import { RouteType } from '../types/RouteConfigType'
 
 export const routes: Array<RouteType> = [
-  homeRoute, operation, bussinessRoute, finacialRoute, helpMessageRoute
+  homeRoute, 
+  operation, 
+  bussinessRoute, 
+  finacialRoute, 
+  helpMessageRoute,
+  loginRoute,
+  splashRoute
+]
+
+export const registerPage: Array<RouteType> = [
+  registerRoute, 
 ]

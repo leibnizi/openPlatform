@@ -10,6 +10,7 @@ import reducer from './redux/reducers'
 import routes from './routes'
 import Splash from './pages/splash'
 import Login from './pages/splash/login'
+import Register from './pages/splash/register'
 import './styles/App.less';
 
 // const sagaMiddleware = createSagaMiddleware({saga})
@@ -83,6 +84,37 @@ class Content extends React.Component {
   }
 }
 
+class RegisterRoute extends React.Component {
+  render() {
+    return (
+      <div className='app'>
+        <header className='header'>
+          1
+        </header>
+        <section className='section'>
+          <section className='logo'>
+            <img
+              src={require('./styles/img/msheader.png')} 
+              alt='头部logo'
+            />
+            <p>商家后台管理系统</p>
+          </section>
+          <section className='navigation'>
+            <OldMenuLink
+              activeOnlyWhenExact={true}
+              to={'/register'}
+              label='申请加入女神派'
+            />
+          </section>
+        </section>
+        <section className='body'>
+          <Register />
+        </section>
+      </div>
+    )
+  }
+}
+
 class App extends React.Component {
   render() {
     console.log('appredner')
@@ -97,6 +129,10 @@ class App extends React.Component {
               <Route
                 path="/splash" 
                 component={Splash}
+              />
+              <Route
+                path="/register" 
+                component={RegisterRoute}
               />
               <Route
                 path="/" 

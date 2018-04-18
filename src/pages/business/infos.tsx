@@ -27,13 +27,16 @@ export default class Infos extends React.Component<any, {}> {
 
   }
 
+  editMsg = () => {
+    console.log("sss")
+  }
+
   render() {
     console.log(this)
 
     return (
       <Layout className="bs-info-box">
         <header>
-
           <Row className="row-box">
             <Col span={2} className="cotent-title">商家信息：</Col>
             <Col className="describe" offset={1} span={21} >BUSINESS INFOMATION</Col>
@@ -75,7 +78,7 @@ export default class Infos extends React.Component<any, {}> {
           <Row className="line" />
           {this.renderContentItems()}
           <Row>
-            <Button onClick={}>修改商家信息</Button>
+            <Button onClick={() => this.editMsg()}>修改商家信息</Button>
           </Row>
         </article>
       </Layout>

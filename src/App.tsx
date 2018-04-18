@@ -51,7 +51,7 @@ class App extends React.Component<AppProps, any> implements AppModel {
         <LeftMenu sider={this._sider} basePath={basePath} />
       </Sider>
     )
-
+    console.log(basePath,"GGG")
     return (
       <div>
       {
@@ -73,7 +73,10 @@ class App extends React.Component<AppProps, any> implements AppModel {
             </header>
             <Layout className="content-container">
               {siderContent}
-              <Content className="content">
+              <Content 
+                style={{ background: `${basePath === "/" ? "#f2f2f2" : "#fff"}` }} 
+                className="content"
+              >
                 {this.props.children}
               </Content>
             </Layout>
@@ -105,7 +108,9 @@ class App extends React.Component<AppProps, any> implements AppModel {
           <Layout className="login">
             <Layout className="content-container">
               {siderContent}
-              <Content className="content">
+              <Content 
+                className="content"
+              >
                 {this.props.children}
               </Content>
             </Layout>

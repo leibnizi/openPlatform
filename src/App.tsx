@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { BrowserRouter, Link } from "react-router-dom"
+import { Route, Switch } from 'react-router'
 import { createStore } from 'redux'
 // import createSagaMiddleware from 'redux-saga'
 import { Provider } from 'react-redux'
@@ -7,6 +8,8 @@ import { Provider } from 'react-redux'
 // import rootSaga from './redux/sagas'
 import reducer from './redux/reducers'
 import routes from './routes'
+import Splash from './pages/splash'
+import Login from './pages/splash/login'
 import './styles/App.less';
 
 // const sagaMiddleware = createSagaMiddleware({saga})
@@ -33,52 +36,74 @@ const OldMenuLink = ({ label, to, activeOnlyWhenExact }:OldMenuLinkType) => (
   />
 )
 
-class App extends React.Component {
+class Content extends React.Component {
   render() {
     return (
-      <Provider store={store}>
-        <Router>
-          <div className='app'>
-            <header className='header'>
-              1
-            </header>
-            <section className='section'>
-              <section className='logo'>
-                <img
-                  src={require('./styles/img/msheader.png')} 
-                  alt='头部logo'
+      <div className='app'>
+        <header className='header'>
+          1
+        </header>
+        <section className='section'>
+          <section className='logo'>
+            <img
+              src={require('./styles/img/msheader.png')} 
+              alt='头部logo'
+            />
+            <p>商家后台管理系统</p>
+          </section>
+          <section className='navigation'>
+            {
+              routes.map((item,index)=>
+                <OldMenuLink
+                  key={index}
+                  activeOnlyWhenExact={index===0?true:false}
+                  to={item.path}
+                  label={item.label}
                 />
-                <p>商家后台管理系统</p>
-              </section>
-              <section className='navigation'>
-                {
-                  routes.map((item,index)=>
-                    <OldMenuLink
-                      key={index}
-                      activeOnlyWhenExact={index===0?true:false}
-                      to={item.path}
-                      label={item.label}
-                    />
-                  )
-                }
-              </section>
-            </section>
-            <section className='body'>
-              {
-                routes.map((item,index)=> {
-                  return (
-                    <Route
-                      key={index}
-                      exact={index === 0?true:false}
-                      path={item.path}
-                      component={item.component}
-                    />
-                  )
-                })
-              }
-            </section>
-          </div>
-        </Router>
+              )
+            }
+          </section>
+        </section>
+        <section className='body'>
+          {
+            routes.map((item,index)=> {
+              return (
+                <Route
+                  key={index}
+                  exact={index === 0?true:false}
+                  path={item.path}
+                  component={item.component}
+                />
+              )
+            })
+          }
+        </section>
+      </div>
+    )
+  }
+}
+
+class App extends React.Component {
+  render() {
+    console.log('appredner')
+    return (
+      <Provider store={store}>
+          <BrowserRouter>
+            <Switch>    
+              <Route
+                path="/login" 
+                component={Login}
+              />
+              <Route
+                path="/splash" 
+                component={Splash}
+              />
+              <Route
+                path="/" 
+                component={Content}
+              />
+            </Switch>
+          </BrowserRouter>
       </Provider>
     )
   }

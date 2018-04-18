@@ -2,6 +2,7 @@ import { RouteType } from "../types/RouteConfigType";
 import Infos from '../pages/business/infos'
 import StatusControl from '../pages/business/statusControl/statusControl'
 import Bill from '../pages/business/bill/bill'
+import Account from '../pages/business/account/account'
 
 export const bussinessRoute: RouteType = {
   title: '商家中心',
@@ -35,7 +36,7 @@ export const bussinessRoute: RouteType = {
         {
           title: "账户信息",
           path: "account",
-          component: null
+          component: Account
         },
         {
           title: "续约管理",

@@ -75,7 +75,7 @@ export default class Infos extends React.Component<any, {}> {
           <Row className="line" />
           {this.renderContentItems()}
           <Row>
-            <Button>修改商家信息</Button>
+            <Button onClick={}>修改商家信息</Button>
           </Row>
         </article>
       </Layout>

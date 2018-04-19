@@ -2,6 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table, TimePicker } from 'antd'
 import './lease.less'
+import { getFormatDate } from '../../../helper/utils'
 
 class Lease extends React.Component<any, any> {
   constructor(props: Object) {
@@ -20,14 +21,14 @@ class Lease extends React.Component<any, any> {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.getPageData(1)
   }
 
-  getPageData = (nextPage:number) => {
+  getPageData = (nextPage: number) => {
     const { token } = this.props.state.userInfo
-    fetch(`/api/product/list?perPage=${10}&token=${token}&page=${nextPage}`)
-      .then(res=>res.json())
+    fetch(`/api/product/list?perPage=${20}&token=${token}&page=${nextPage}`)
+      .then(res => res.json())
       .then((res) => {
         const listData = res.data.data
         listData.map((item: any, index: number) => {
@@ -45,16 +46,21 @@ class Lease extends React.Component<any, any> {
       product_spu,
       m_order_no,
       split_order_no,
-      status
+      status,
+      startTime,
+      endTime
     } = this.state
     const { token } = this.props.state.userInfo
-    const url = `/api/product/list?perPage=${1}&token=${token}&product_spu=${product_spu}&m_order_no=${m_order_no}
-                &split_order_no=${split_order_no}&status=${status}`
-    fetch(url).then(res=>res.json())
+    const url = `/api/product/list?perPage=${20}&token=${token}
+                &product_spu=${product_spu}&m_order_no=${m_order_no}
+                &split_order_no=${split_order_no}&status=${status}
+                &order_time[]=${startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}
+                &order_time[]=${endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
+    fetch(url).then(res => res.json())
   }
 
-  pageChange = (e:any) => {
-    this.setState({currentPage:e.current})
+  pageChange = (e: any) => {
+    this.setState({ currentPage: e.current })
     this.getPageData(e.current)
   }
 
@@ -62,30 +68,30 @@ class Lease extends React.Component<any, any> {
     const columns: any[] = [
       {
         title: '商品编号',
-        dataIndex: 'name',
+        dataIndex: 'code',
         render: (text: string) => <a href="#">{text}</a>
       }, {
         title: '商品名称',
         className: 'column-money',
-        dataIndex: 'money'
+        dataIndex: 'name'
       }, {
         title: '商品主图',
         dataIndex: 'address'
       }, {
         title: '品牌',
-        dataIndex: 'pinpai'
+        dataIndex: 'brand_name'
       }, {
         title: '商品模式',
-        dataIndex: 'moshi'
+        dataIndex: 'mode_id'
       }, {
         title: '创建时间',
-        dataIndex: 'chuangjianshijian'
+        dataIndex: 'created_at'
       }, {
         title: '上架时间',
-        dataIndex: 'shangjianshijian'
+        dataIndex: 'enabled_at'
       }, {
         title: '商品状态',
-        dataIndex: 'zhuangtgai'
+        dataIndex: 'enabled'
       }
     ];
 
@@ -97,20 +103,20 @@ class Lease extends React.Component<any, any> {
           <section>
             <div className='item'>
               <p>商品编号:</p>
-              <input 
-                onChange={(e)=>this.setState({product_spu: e.target.value})}
+              <input
+                onChange={(e) => this.setState({ product_spu: e.target.value })}
               />
             </div>
             <div className='item'>
               <p>订单编号:</p>
-              <input 
-                onChange={(e)=>this.setState({m_order_no: e.target.value})}
+              <input
+                onChange={(e) => this.setState({ m_order_no: e.target.value })}
               />
             </div>
             <div className='item'>
               <p>子订单编号:</p>
-              <input 
-                onChange={(e)=>this.setState({split_order_no: e.target.value})}
+              <input
+                onChange={(e) => this.setState({ split_order_no: e.target.value })}
               />
             </div>
             <div className='item'>
@@ -126,13 +132,13 @@ class Lease extends React.Component<any, any> {
             </div>
             <div className='item'>
               <p>下单时间:</p>
-              <TimePicker 
-                value={startTime} 
-                onChange={(e:any)=>this.setState({startTime: e})} 
+              <TimePicker
+                value={startTime}
+                onChange={(e: any) => this.setState({ startTime: e })}
               />
-              <TimePicker 
-                value={endTime} 
-                onChange={(e:any)=>this.setState({endTime: e})} 
+              <TimePicker
+                value={endTime}
+                onChange={(e: any) => this.setState({ endTime: e })}
               />
             </div>
           </section>
@@ -147,13 +153,17 @@ class Lease extends React.Component<any, any> {
           </section>
           <hr />
           <section>
-            <Table 
-              className='producttab' 
-              columns={columns} 
-              dataSource={listData} 
-              bordered={true} 
-              pagination={{total:pageTotal,defaultCurrent:currentPage}}
-              onChange={(e)=>this.pageChange(e)}
+            <Table
+              className='producttab'
+              columns={columns}
+              dataSource={listData}
+              bordered={true}
+              pagination={{
+                total: pageTotal,
+                defaultCurrent: currentPage,
+                pageSize: 20
+              }}
+              onChange={(e) => this.pageChange(e)}
             />
           </section>
         </div>
@@ -162,34 +172,34 @@ class Lease extends React.Component<any, any> {
       return (
         <div className='productdetail'>
           <header className='productheader'>租赁订单详情页</header>
-            <section className='productmid'>
-              {
-                [
-                  ['商品编号:', 'DD071A'], 
-                  ['商品名称:', '简约休闲针织外套'], 
-                  ['类目:', '女装'], 
-                  ['品牌:', 'MIRROR FUN'], 
-                  ['上架状态:', 'DD071A'], 
-                  ['创建时间：', 'YYYY-MM-DD hh:mm:ss'], 
-                  ['上架时间：', 'YYYY-MM-DD hh:mm:ss']
-                ].map((item, index) =>
-                  <div className='productmiditem' key={index}>
-                    <span>{item[0]}</span>
-                    <span>{item[1]}</span>
-                  </div>
-                )
-              }
-            </section>
-            <hr />
-            <section>
-              <Table 
-                className='producttable' 
-                columns={columns} 
-                dataSource={listData} 
-                bordered={true} 
-                onChange={(e)=>console.log('e',e)}
-              />
-            </section>
+          <section className='productmid'>
+            {
+              [
+                ['商品编号:', 'DD071A'],
+                ['商品名称:', '简约休闲针织外套'],
+                ['类目:', '女装'],
+                ['品牌:', 'MIRROR FUN'],
+                ['上架状态:', 'DD071A'],
+                ['创建时间：', 'YYYY-MM-DD hh:mm:ss'],
+                ['上架时间：', 'YYYY-MM-DD hh:mm:ss']
+              ].map((item, index) =>
+                <div className='productmiditem' key={index}>
+                  <span>{item[0]}</span>
+                  <span>{item[1]}</span>
+                </div>
+              )
+            }
+          </section>
+          <hr />
+          <section>
+            <Table
+              className='producttable'
+              columns={columns}
+              dataSource={listData}
+              bordered={true}
+              onChange={(e) => console.log('e', e)}
+            />
+          </section>
         </div>
       )
     }

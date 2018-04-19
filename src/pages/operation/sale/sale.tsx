@@ -1,14 +1,66 @@
 import * as React from 'react'
-import { Table } from 'antd'
+import { Table, TimePicker } from 'antd'
 import './sale.less';
 import Item from '../../../components/productlist/listitem'
+import { getFormatDate } from '../../../helper/utils'
 
 export default class Sale extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
-      productDetail: false
+      productDetail: false,
+      startTime: '',
+      endTime: '',
+      product_spu: '',
+      m_order_no: '',
+      split_order_no: '',
+      status: '',
+      pageTotal: '',
+      currentPage: '',
+
     }
+  }
+
+  componentDidMount() {
+    this.getTableData(1)
+  }
+
+  getTableData = (nextPage: number) => {
+    const {
+      product_spu,
+      m_order_no,
+      split_order_no,
+      status,
+      startTime,
+      endTime
+    } = this.state
+    const { token } = this.props.state.userInfo
+    const url = `/api/product/list?perPage=${20}&token=${token}
+                &product_spu=${product_spu}&m_order_no=${m_order_no}
+                &split_order_no=${split_order_no}&status=${status}
+                &order_time[]=${startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}
+                &order_time[]=${endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
+    fetch(url)
+      .then(res => res.json())
+      .then((res) => {
+        const listData = res.data.data
+        listData.map((item: any, index: number) => {
+          Object.assign(item, { key: index })
+        })
+        this.setState({
+          listData,
+          pageTotal: res.data.total
+        })
+      })
+  }
+
+  queryData = () => {
+    this.getTableData(1)
+  }
+
+  pageChange = (e: any) => {
+    this.setState({ currentPage: e.current })
+    this.getTableData(e.current)
   }
 
   render() {
@@ -101,7 +153,13 @@ export default class Sale extends React.Component<any, any> {
       }
     ];
 
-    const { productDetail } = this.state
+    const { 
+      productDetail,
+      startTime,
+      endTime,
+      pageTotal,
+      currentPage
+     } = this.state
     if (!productDetail) {
       return (
         <div className='operationproduct'>
@@ -115,6 +173,47 @@ export default class Sale extends React.Component<any, any> {
                 />
               )
             }
+            <div className='item'>
+              <p>商品编号:</p>
+              <input
+                onChange={(e) => this.setState({ product_spu: e.target.value })}
+              />
+            </div>
+            <div className='item'>
+              <p>订单编号:</p>
+              <input
+                onChange={(e) => this.setState({ m_order_no: e.target.value })}
+              />
+            </div>
+            <div className='item'>
+              <p>子订单编号:</p>
+              <input
+                onChange={(e) => this.setState({ split_order_no: e.target.value })}
+              />
+            </div>
+            <div className='item'>
+              <p>订单状态:</p>
+              <input
+                onChange={(e) => this.setState({ status: e.target.value })}
+              />
+            </div>
+            <div className='item'>
+              <p>支付状态:</p>
+              <input
+                onChange={(e) => this.setState({ product_spu: e.target.value })}
+              />
+            </div>
+            <div className='item'>
+              <p>下单时间:</p>
+              <TimePicker
+                value={startTime}
+                onChange={(e: any) => this.setState({ startTime: e })}
+              />
+              <TimePicker
+                value={endTime}
+                onChange={(e: any) => this.setState({ endTime: e })}
+              />
+            </div>
           </section>
           <section className='productmid'>
             <span>查询</span>
@@ -123,7 +222,18 @@ export default class Sale extends React.Component<any, any> {
           </section>
           <hr />
           <section>
-            <Table className='producttab' columns={columns} dataSource={data} bordered={true} />
+            <Table 
+              className='producttab' 
+              columns={columns} 
+              dataSource={data} 
+              bordered={true} 
+              pagination={{
+                total: pageTotal,
+                defaultCurrent: currentPage,
+                pageSize: 20
+              }}
+              onChange={(e) => this.pageChange(e)}
+            />
           </section>
         </div>
       )
@@ -151,7 +261,18 @@ export default class Sale extends React.Component<any, any> {
             </section>
             <hr />
             <section>
-              <Table className='producttable' columns={columns} dataSource={data} bordered={true} />
+              <Table 
+                className='producttable' 
+                columns={columns} 
+                dataSource={data} 
+                bordered={true} 
+                pagination={{
+                  total: pageTotal,
+                  defaultCurrent: currentPage,
+                  pageSize: 20
+                }}
+                onChange={(e) => this.pageChange(e)}
+              />
             </section>
         </div>
       )

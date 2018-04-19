@@ -2,8 +2,9 @@ import * as React from "react";
 import { Tabs, Row, Col, Button } from 'antd';
 const TabPane = Tabs.TabPane;
 import { StatusCard } from '../components/statusCard/StatusCard'
+import { connect } from 'react-redux'
 
-export default class StatusControl extends React.Component<any, any> {
+class StatusControl extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state= {
@@ -12,9 +13,16 @@ export default class StatusControl extends React.Component<any, any> {
   }
   
   changeTabFun() {
-
     console.log(1)
   }
+
+  // componentDidMount() {
+  //   const { token } = this.props.state.userInfo;
+  //   fetch(`/api/qualification/index?token=${token}`).then((res) => {
+  //     // debugger;
+  //     return res.json();
+  //   })
+  // }
 
   renderCard() {
 
@@ -79,3 +87,13 @@ export default class StatusControl extends React.Component<any, any> {
     )
   }
 }
+
+const mapStateToProps: any = (state: object) => ({
+  state: state
+})
+
+const mapDispatchToProps: any = (dispatch: any) => ({
+  dispatch
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusControl)

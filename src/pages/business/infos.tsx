@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from 'react-redux'
 // import { fetchUtil } from '../../services/httpRequest'
 import { Layout, Row, Col, Button } from 'antd';
+import { httpGet } from '../../../src/services/httpRequest'
 
 import './index.less'
 import '../../styles/common.less'
@@ -29,7 +30,37 @@ class Infos extends React.Component<any, {}> {
 
   }
   componentDidMount() {
-    fetch('/api/financial/financial_view').then(res => res.json())
+    httpGet('/api/merchant/index?token=19$$b5fbab2e48ad5a0470ef8a351f9b6aa9').then(res => {
+      console.log(res,"gg")
+    })
+    // fetch('/api/financial/financial_view').then(( res ) => {
+    //   // debugger;
+    //   return res.json();
+    // })
+
+    // fetch('/api/merchant/index').then((res) => {
+    //   debugger;
+    //   return res.json();
+    // })
+    // const a = {
+    //   "status_code": 0,
+    //   "data": {
+    //     "qq": "",
+    //     "category_id": ['日常服', '礼服', '环保袋'],
+    //     "email": "",
+    //     "biz_intro": "1111",
+    //     "merchant_state": "审核通过",
+    //     "brand": "",
+    //     "faxes": "",
+    //     "mobile": "2",
+    //     "address": "2",
+    //     "biz_operator": "2",
+    //     "biz_name": "女神派",
+    //     "website": "",
+    //     "biz_type": "经销商"
+    //   },
+    //   "msg": "请求成功"
+    // }
     
       // .then(res => this.setState({ overviewdata: res }))
       

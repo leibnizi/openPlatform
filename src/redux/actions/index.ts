@@ -1,7 +1,19 @@
-import store  from '../store/store'
 
-export const onIncrement = () => store.dispatch({ type: 'INCREMENT' })
-export const onDecrement = () => store.dispatch({ type: 'DECREMENT' })
-export const onIncrementIfOdd = () => store.dispatch({ type: 'INCREMENT_IF_ODD' })
-export const onIncrementAsync = () => store.dispatch({ type: 'INCREMENT_ASYNC' })
-export const setUserInfo = (info:any) => store.dispatch({ type: 'SET_USERINFO' ,info})
+import store from '../store/store'
+import business from './business'
+// const businessAction = business;
+const onIncrement = () => store.dispatch({ type: 'INCREMENT' })
+const onDecrement = () => store.dispatch({ type: 'DECREMENT' })
+const onIncrementIfOdd = () => store.dispatch({ type: 'INCREMENT_IF_ODD' })
+const onIncrementAsync = () => store.dispatch({ type: 'INCREMENT_ASYNC' })
+const setUserInfo = (info: any) => store.dispatch({ type: 'SET_USERINFO', info })
+
+export {
+  business,
+
+  onIncrement,
+  onDecrement,
+  onIncrementIfOdd,
+  onIncrementAsync,
+  setUserInfo
+}

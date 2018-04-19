@@ -1,14 +1,14 @@
 import * as React from "react";
 import { connect } from 'react-redux'
-// import { fetchUtil } from '../../services/httpRequest'
 import { Layout, Row, Col, Button } from 'antd';
-import { httpGet } from '../../../src/services/httpRequest'
 
-import './index.less'
-import '../../styles/common.less'
-// const { Content, Sider } = Layout;
+import './index.less';
+import '../../styles/common.less';
+import { business as businessAction} from '../../redux/actions/index'
+const { getBusinessInfo } = businessAction
+
 class Infos extends React.Component<any, {}> {
-  constructor(props:any) {
+  constructor(props: any) {
     super(props)
   }
   renderContentItems = () => {
@@ -30,61 +30,16 @@ class Infos extends React.Component<any, {}> {
 
   }
   componentDidMount() {
-    httpGet('/api/merchant/index?token=19$$b5fbab2e48ad5a0470ef8a351f9b6aa9').then(res => {
-      console.log(res,"gg")
-    })
-    // fetch('/api/financial/financial_view').then(( res ) => {
-    //   // debugger;
-    //   return res.json();
-    // })
-
-    // fetch('/api/merchant/index').then((res) => {
-    //   debugger;
-    //   return res.json();
-    // })
-    // const a = {
-    //   "status_code": 0,
-    //   "data": {
-    //     "qq": "",
-    //     "category_id": ['日常服', '礼服', '环保袋'],
-    //     "email": "",
-    //     "biz_intro": "1111",
-    //     "merchant_state": "审核通过",
-    //     "brand": "",
-    //     "faxes": "",
-    //     "mobile": "2",
-    //     "address": "2",
-    //     "biz_operator": "2",
-    //     "biz_name": "女神派",
-    //     "website": "",
-    //     "biz_type": "经销商"
-    //   },
-    //   "msg": "请求成功"
-    // }
-    
-      // .then(res => this.setState({ overviewdata: res }))
-      
-    // const { token } = this.props.state.userInfo;
-    // const token = '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9'
-    // fetchUtil('/api/merchant/index', token).then((res:any) => {
-    //   console.log(res,"ttt")
-    //   // const { status_code, msg, data } = res
-    //   // if (status_code == 0 ) {
-        
-    //   // }
-    // })
-    // fetch(`/api/merchant/index?token=${token}`).then(function(response:any) {
-    //   return response.json();
-    // })
+    const { dispatch } = this.props
+    dispatch(getBusinessInfo())
   }
 
   editMsg = () => {
-    // console.log("sss")
     this.props.history.push('edit_infos')
   }
 
   render() {
-    console.log(this)
+    console.log(this.props.state, "!!!")
 
     return (
       <Layout className="bs-info-box">
@@ -138,7 +93,7 @@ class Infos extends React.Component<any, {}> {
   }
 }
 
-const mapStateToProps: any = (state: object) => ({
+const mapStateToProps: any = (state: any) => ({
   state: state
 })
 

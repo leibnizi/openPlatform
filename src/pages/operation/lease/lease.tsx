@@ -22,26 +22,10 @@ class Lease extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    this.getPageData(1)
+    this.getTableData(1)
   }
 
-  getPageData = (nextPage: number) => {
-    const { token } = this.props.state.userInfo
-    fetch(`/api/product/list?perPage=${20}&token=${token}&page=${nextPage}`)
-      .then(res => res.json())
-      .then((res) => {
-        const listData = res.data.data
-        listData.map((item: any, index: number) => {
-          Object.assign(item, { key: index })
-        })
-        this.setState({
-          listData,
-          pageTotal: res.data.total
-        })
-      })
-  }
-
-  queryData = () => {
+  getTableData = (nextPage: number) => {
     const {
       product_spu,
       m_order_no,
@@ -56,12 +40,27 @@ class Lease extends React.Component<any, any> {
                 &split_order_no=${split_order_no}&status=${status}
                 &order_time[]=${startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}
                 &order_time[]=${endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
-    fetch(url).then(res => res.json())
+    fetch(url)
+      .then(res => res.json())
+      .then((res) => {
+        const listData = res.data.data
+        listData.map((item: any, index: number) => {
+          Object.assign(item, { key: index })
+        })
+        this.setState({
+          listData,
+          pageTotal: res.data.total
+        })
+      })
+  }
+
+  queryData = () => {
+    this.getTableData(1)
   }
 
   pageChange = (e: any) => {
     this.setState({ currentPage: e.current })
-    this.getPageData(e.current)
+    this.getTableData(e.current)
   }
 
   render() {
@@ -197,7 +196,12 @@ class Lease extends React.Component<any, any> {
               columns={columns}
               dataSource={listData}
               bordered={true}
-              onChange={(e) => console.log('e', e)}
+              pagination={{
+                total: pageTotal,
+                defaultCurrent: currentPage,
+                pageSize: 20
+              }}
+              onChange={(e) => this.pageChange(e)}
             />
           </section>
         </div>

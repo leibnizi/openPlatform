@@ -16,24 +16,17 @@ class Product extends React.Component<any, any> {
       SPU: '',
       code: '',
       name: '',
-      purchaser_product_no: ''
+      purchaser_product_no: '',
+      pageTotal: 0,
+      currentPage: 0
     }
   }
 
   componentDidMount() {
-    // fetch(`/api/product/list?perPage=${1}&token=${this.props.state.userInfo.token}`)
-    //   .then(res => res.json())
-    //   .then((res) => {
-    //     const data = res.data.data
-    //     console.log('data',data)
-    //     data.map((item: any, index: number) => {
-    //       Object.assign(item, { key: index })
-    //     })
-    //     this.setState({ listData: data })
-    //   })
+    this.queryData()
   }
 
-  queryData = () => {
+  getTableData = (nextPage: number) => {
     const {
       goodStatus,
       goodMode,
@@ -44,10 +37,30 @@ class Product extends React.Component<any, any> {
       purchaser_product_no
     } = this.state
     const { token } = this.props.state.userInfo
-    const url = `/api/product/list?perPage=${1}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
+    const url = `/api/product/list?perPage=${20}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
                 &mode_id=${goodMode}&enabled=${goodStatus}&code=${code}&name=${name}
-                &purchaser_product_no=${purchaser_product_no}`
-    fetch(url).then(res=>res.json())
+                &purchaser_product_no=${purchaser_product_no}&page=${nextPage}`
+    fetch(url)
+      .then(res => res.json())
+      .then((res) => {
+        const data = res.data.data
+        data.map((item: any, index: number) => {
+          Object.assign(item, { key: index })
+        })
+        this.setState({ 
+          listData: data,
+          pageTotal: res.data.total
+        })
+      })
+  }
+
+  queryData = () => {
+    this.getTableData(1)
+  }
+
+  pageChange = (e: any) => {
+    this.setState({ currentPage: e.current })
+    this.getTableData(e.current)
   }
 
   render() {
@@ -90,7 +103,7 @@ class Product extends React.Component<any, any> {
       }
     ]
 
-    const { productDetail, headerActive, listData } = this.state
+    const { productDetail, headerActive, listData, currentPage, pageTotal } = this.state
     if (!productDetail) {
       return (
         <div className='operationproduct'>
@@ -171,7 +184,18 @@ class Product extends React.Component<any, any> {
           </section>
           <hr />
           <section>
-            <Table className='producttab' columns={columns} dataSource={listData} bordered={true} />
+            <Table 
+              className='producttab' 
+              columns={columns} 
+              dataSource={listData} 
+              bordered={true} 
+              pagination={{
+                total: pageTotal,
+                defaultCurrent: currentPage,
+                pageSize: 20
+              }}
+              onChange={(e) => this.pageChange(e)}
+            />
           </section>
         </div>
       )
@@ -216,7 +240,18 @@ class Product extends React.Component<any, any> {
                 </section>
                 <hr />
                 <section>
-                  <Table className='producttable' columns={columns} dataSource={data} bordered={true} />
+                  <Table 
+                    className='producttable' 
+                    columns={columns} 
+                    dataSource={data} 
+                    bordered={true} 
+                    pagination={{
+                      total: pageTotal,
+                      defaultCurrent: currentPage,
+                      pageSize: 20
+                    }}
+                    onChange={(e) => this.pageChange(e)}
+                  />
                 </section>
               </div>
             ) : (

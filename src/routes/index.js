@@ -25,9 +25,9 @@ export default [
     path:'/fincial',
     component: Fincial
   },
-  // {
-  //   label:'帮助&消息',
-  //   path:'/helpMessage',
-  //   component: HelpMessage
-  // },
+  {
+    label:'帮助&消息',
+    path:'/help',
+    component: HelpMessage
+  },
 ]

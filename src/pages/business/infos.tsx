@@ -1,10 +1,13 @@
 import * as React from "react";
-
+import { connect } from 'react-redux'
+// import { fetchUtil } from '../../services/httpRequest'
 import { Layout, Row, Col, Button } from 'antd';
-import './index.less'
-// const { Content, Sider } = Layout;
+import { httpGet } from '../../../src/services/httpRequest'
 
-export default class Infos extends React.Component<any, {}> {
+import './index.less'
+import '../../styles/common.less'
+// const { Content, Sider } = Layout;
+class Infos extends React.Component<any, {}> {
   constructor(props:any) {
     super(props)
   }
@@ -20,11 +23,64 @@ export default class Infos extends React.Component<any, {}> {
 
     return content.map((item, index) => (
       <Row className="row-box" key={index}>
-        <Col span={2} className="cotent-title">{item.name}：</Col>
-        <Col offset={1} span={21}>{item.value}</Col>
+        <Col span={3} className="content-title-label">{item.name}：</Col>
+        <Col className="content-title-text" span={20}>{item.value}</Col>
       </Row>
     ))
 
+  }
+  componentDidMount() {
+    httpGet('/api/merchant/index?token=19$$b5fbab2e48ad5a0470ef8a351f9b6aa9').then(res => {
+      console.log(res,"gg")
+    })
+    // fetch('/api/financial/financial_view').then(( res ) => {
+    //   // debugger;
+    //   return res.json();
+    // })
+
+    // fetch('/api/merchant/index').then((res) => {
+    //   debugger;
+    //   return res.json();
+    // })
+    // const a = {
+    //   "status_code": 0,
+    //   "data": {
+    //     "qq": "",
+    //     "category_id": ['日常服', '礼服', '环保袋'],
+    //     "email": "",
+    //     "biz_intro": "1111",
+    //     "merchant_state": "审核通过",
+    //     "brand": "",
+    //     "faxes": "",
+    //     "mobile": "2",
+    //     "address": "2",
+    //     "biz_operator": "2",
+    //     "biz_name": "女神派",
+    //     "website": "",
+    //     "biz_type": "经销商"
+    //   },
+    //   "msg": "请求成功"
+    // }
+    
+      // .then(res => this.setState({ overviewdata: res }))
+      
+    // const { token } = this.props.state.userInfo;
+    // const token = '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9'
+    // fetchUtil('/api/merchant/index', token).then((res:any) => {
+    //   console.log(res,"ttt")
+    //   // const { status_code, msg, data } = res
+    //   // if (status_code == 0 ) {
+        
+    //   // }
+    // })
+    // fetch(`/api/merchant/index?token=${token}`).then(function(response:any) {
+    //   return response.json();
+    // })
+  }
+
+  editMsg = () => {
+    // console.log("sss")
+    this.props.history.push('edit_infos')
   }
 
   render() {
@@ -33,52 +89,61 @@ export default class Infos extends React.Component<any, {}> {
     return (
       <Layout className="bs-info-box">
         <header>
-
-          <Row className="row-box">
-            <Col span={2} className="cotent-title">商家信息：</Col>
-            <Col className="describe" offset={1} span={21} >BUSINESS INFOMATION</Col>
+          <Row className="">
+            <Col span={3} className="content-title">商家信息</Col>
+            <Col className="describe" offset={1} span={20} >BUSINESS INFOMATION</Col>
           </Row>
         </header>
 
         <article>
           <Row className="row-box">
-            <Col span={2} className="cotent-title">企业名称：</Col>
-            <Col offset={1} span={3}>上海千颂</Col>
+            <Col span={3} className="content-title-label">企业名称：</Col>
+            <Col className="content-title-text" span={3}>上海千颂</Col>
             <Col className="describe" span={5}>上季度盈利量级：千万元</Col>
           </Row>
           <Row className="row-box">
-            <Col span={2} className="cotent-title">主营品牌：</Col>
-            <Col offset={1} span={21} >CK</Col>
+            <Col span={3} className="content-title-label">主营品牌：</Col>
+            <Col className="content-title-text" span={20} >CK</Col>
           </Row>
           <Row className="row-box">
-            <Col span={2} className="cotent-title">供应商简介：</Col>
-            <Col offset={1} span={21}>很多字</Col>
+            <Col span={3} className="content-title-label">供应商简介：</Col>
+            <Col className="content-title-text" span={20}>很多字</Col>
           </Row>
           <Row className="row-box">
-            <Col span={2} className="cotent-title">官网地址：</Col>
-            <Col offset={1} span={21}>很多字</Col>
+            <Col span={3} className="content-title-label">官网地址：</Col>
+            <Col className="content-title-text" span={20}>很多字</Col>
           </Row>
           <Row type="flex" align="middle" className="row-box">
-            <Col span={2} className="cotent-title">商家状态：</Col>
-            <Col offset={1} span={1}>正常</Col>
-            <Col span={2}><Button>续约</Button></Col>
+            <Col span={3} className="content-title-label">商家状态：</Col>
+            <Col className="content-title-text" span={1}>正常</Col>
+            <Col offset={1} span={2}><Button>续约</Button></Col>
             <Col className="describe" span={15}>有效期至：2019年1月28日</Col>
           </Row>
           <Row className="row-box">
-            <Col span={2} className="cotent-title">类目：</Col>
-            <Col offset={1} span={21}>女装</Col>
+            <Col span={3} className="content-title-label">类目：</Col>
+            <Col className="content-title-text" span={20}>女装</Col>
           </Row>
           <Row className="row-box">
-            <Col span={2} className="cotent-title">商家类型：</Col>
-            <Col offset={1} span={21}>品牌方</Col>
+            <Col span={3} className="content-title-label">商家类型：</Col>
+            <Col className="content-title-text" span={20}>品牌方</Col>
           </Row>
           <Row className="line" />
           {this.renderContentItems()}
-          <Row>
-            <Button>修改商家信息</Button>
+          <Row className="edit-msg">
+            <Button onClick={() => this.editMsg()}>修改商家信息</Button>
           </Row>
         </article>
       </Layout>
     )
   }
 }
+
+const mapStateToProps: any = (state: object) => ({
+  state: state
+})
+
+const mapDispatchToProps: any = (dispatch: any) => ({
+  dispatch
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Infos)

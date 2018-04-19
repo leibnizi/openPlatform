@@ -36,7 +36,7 @@ class Product extends React.Component<any, any> {
       name,
       purchaser_product_no
     } = this.state
-    const token = document.cookie.split('=')[1]
+    const token = this.props.state.userInfo.token
     const url = `/api/product/list?perPage=${20}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
                 &mode_id=${goodMode}&enabled=${goodStatus}&code=${code}&name=${name}
                 &purchaser_product_no=${purchaser_product_no}&page=${nextPage}`

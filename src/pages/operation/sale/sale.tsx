@@ -1,10 +1,11 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { Table, TimePicker } from 'antd'
 import './sale.less';
 import Item from '../../../components/productlist/listitem'
 import { getFormatDate } from '../../../helper/utils'
 
-export default class Sale extends React.Component<any, any> {
+class Sale extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
@@ -34,7 +35,7 @@ export default class Sale extends React.Component<any, any> {
       startTime,
       endTime
     } = this.state
-    const token = document.cookie.split('=')[1]
+    const token = this.props.state.userInfo.token
     const url = `/api/product/list?perPage=${20}&token=${token}
                 &product_spu=${product_spu}&m_order_no=${m_order_no}
                 &split_order_no=${split_order_no}&status=${status}
@@ -279,3 +280,9 @@ export default class Sale extends React.Component<any, any> {
     }
   }
 }
+
+const mapStateToProps: any = (state: object) => ({
+  state: state
+})
+
+export default connect(mapStateToProps)(Sale)

@@ -7,7 +7,7 @@ import rootSaga from '../sagas'
 
 export const history = createBrowserHistory();
 
-const initialState: any = {};
+const initialState: any = { userInfo: { token: '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9' } };
 const enhancers: Array<any> = [];
 
 const sagaMiddleware = createSagaMiddleware()

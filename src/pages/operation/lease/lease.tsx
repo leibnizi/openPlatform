@@ -34,7 +34,7 @@ class Lease extends React.Component<any, any> {
       startTime,
       endTime
     } = this.state
-    const token = document.cookie.split('=')[1]
+    const token = this.props.state.userInfo.token
     const url = `/api/product/list?perPage=${20}&token=${token}
                 &product_spu=${product_spu}&m_order_no=${m_order_no}
                 &split_order_no=${split_order_no}&status=${status}

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Upload, Modal, Icon } from 'antd';
 import './register.less'
 
 // import { fetchUtil } from '../../services/httpRequest'
@@ -27,7 +28,14 @@ export default class Register extends React.Component<any, any> {
       faxes: '',
       biz_address: '',
       files: '',
-
+      previewVisible: false,
+      previewImage: '',
+      fileList: [{
+        uid: -1,
+        name: 'xxx.png',
+        status: 'done',
+        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      }],
     }
   }
 
@@ -40,36 +48,46 @@ export default class Register extends React.Component<any, any> {
     this.setState({tabIndex})
   }
 
-  handleChangName = (name:string) => {
-    this.setState({name})
-  }
+  // handleChange = (info:any) => {
+  //   console.log('info', info)
+  //   if (info.file.status === 'uploading') {
+  //     this.setState({ loading: true })
+  //     return
+  //   }
+  //   if (info.file.status === 'done') {
+  //     // Get this url from response in real world.
+  //     getBase64(info.file.originFileObj, (licenseImage:any) => this.setState({
+  //       licenseImage,
+  //       loading: false,
+  //     }))
+  //   }
+  // }
 
-  handleChangMail = (mail: string) => {
-    this.setState({mail})
-  }
+  handleChange = (fileList:any) => this.setState({ fileList })
 
-  handleChangPhone = (phone: string) => {
-    this.setState({phone})
-  }
+  handleCancel = () => this.setState({ previewVisible: false })
 
-  handleChangCode = (verificationCode:string) => {
-    this.setState({verificationCode})
-  }
-
-  handleChangPass = (password: string) => {
-    this.setState({password})
-  }
-
-  handleChangConfirm = (confirmPassword:string) => {
-    this.setState({confirmPassword})
+  handlePreview = (file:any) => {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true,
+    })
   }
 
   render() {
     const {
       tabIndex, name, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
-      mobile, email, qq, faxes, biz_address, files
+      mobile, email, qq, faxes, biz_address, files, previewVisible, previewImage, fileList
     } = this.state
+    const uploadButton = (
+      // <span className='upload'>上一步</span>
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    )
+
     return (
       <div className='registerOut'>
         {
@@ -129,7 +147,7 @@ export default class Register extends React.Component<any, any> {
                       <input
                         type="text"
                         value={name}
-                        onChange={(e) => this.handleChangName(e.target.value)}
+                        onChange={(e) => this.setState({name:e.target.value})}
                         placeholder='（用户名为6-16个字符，不可使用非法字符串）'
                       />
                     </label>
@@ -142,7 +160,7 @@ export default class Register extends React.Component<any, any> {
                           邮箱:
                         </span>
                       </div>
-                      <input type="text" value={mail} onChange={(e) => this.handleChangMail(e.target.value)} />
+                      <input type="text" value={mail} onChange={(e) => this.setState({mail: e.target.value})} />
                     </label>
                     <label
                       className='phone'
@@ -153,7 +171,7 @@ export default class Register extends React.Component<any, any> {
                           手机号:
                         </span>
                       </div>
-                      <input type="text" value={phone} onChange={(e) => this.handleChangPhone(e.target.value)} />
+                      <input type="text" value={phone} onChange={(e) => this.setState({phone: e.target.value})} />
                     </label>
                     <label
                       className='verificationCode'
@@ -167,7 +185,7 @@ export default class Register extends React.Component<any, any> {
                       <input
                         type="text"
                         value={verificationCode}
-                        onChange={(e) => this.handleChangCode(e.target.value)}
+                        onChange={(e) => this.setState({verificationCode: e.target.value})}
                       />
                       <span className='vCode'>获取验证码</span>
                     </label>
@@ -183,7 +201,7 @@ export default class Register extends React.Component<any, any> {
                       <input
                         type="text"
                         value={password}
-                        onChange={(e) => this.handleChangPass(e.target.value)}
+                        onChange={(e) => this.setState({password: e.target.value})}
                         placeholder='(密码为6-16个字符，由大小写字母或数字组成)'
                       />
                     </label>
@@ -199,7 +217,7 @@ export default class Register extends React.Component<any, any> {
                       <input
                         type="text"
                         value={confirmPassword}
-                        onChange={(e) => this.handleChangConfirm(e.target.value)}
+                        onChange={(e) => this.setState({confirmPassword:e.target.value})}
                       />
                     </label>
                     <input className='submit' type="submit" value="下一步" />
@@ -207,7 +225,7 @@ export default class Register extends React.Component<any, any> {
                 ) : tabIndex === 1 ? (
                   <form onSubmit={(e) => this.gotoStep(e, 2)}>
                     <label
-                      className='name'
+                      className='biz_name'
                     >
                       <div className='symbol'>
                         *
@@ -218,7 +236,7 @@ export default class Register extends React.Component<any, any> {
                       <input type="text" value={biz_name} onChange={(e) => this.setState({biz_name: e.target.value})} />
                     </label>
                     <label
-                      className='mail'
+                      className='profit_level'
                     >
                       <div className='symbol'>
                         *
@@ -233,7 +251,7 @@ export default class Register extends React.Component<any, any> {
                       />
                     </label>
                     <label
-                      className='phone'
+                      className='brand'
                     >
                       <div className='symbol'>
                         <span className='labelName'>
@@ -243,7 +261,7 @@ export default class Register extends React.Component<any, any> {
                       <input type="text" value={brand} onChange={(e) => this.setState({brand: e.target.value})} />
                     </label>
                     <label
-                      className='verificationCode'
+                      className='website'
                     >
                       <div className='symbol'>
                         <span className='labelName'>
@@ -257,7 +275,7 @@ export default class Register extends React.Component<any, any> {
                       />
                     </label>
                     <label
-                      className='password'
+                      className='category_id'
                     >
                       <div className='symbol'>
                         *
@@ -272,7 +290,7 @@ export default class Register extends React.Component<any, any> {
                       />
                     </label>
                     <label
-                      className='confirmPassword'
+                      className='biz_type'
                     >
                       <div className='symbol'>
                         *
@@ -287,7 +305,7 @@ export default class Register extends React.Component<any, any> {
                       />
                     </label>
                     <label
-                      className='password'
+                      className='biz_operator'
                     >
                       <div className='symbol'>
                         *
@@ -302,7 +320,7 @@ export default class Register extends React.Component<any, any> {
                       />
                     </label>
                     <label
-                      className='password'
+                      className='mobile'
                     >
                       <div className='symbol'>
                         *
@@ -313,7 +331,7 @@ export default class Register extends React.Component<any, any> {
                       <input type="text" value={mobile} onChange={(e) => this.setState({mobile: e.target.value})} />
                     </label>
                     <label
-                      className='password'
+                      className='email'
                     >
                       <div className='symbol'>
                         <span className='labelName'>
@@ -323,7 +341,7 @@ export default class Register extends React.Component<any, any> {
                       <input type="text" value={email} onChange={(e) => this.setState({email: e.target.value})} />
                     </label>
                     <label
-                      className='password'
+                      className='qq'
                     >
                       <div className='symbol'>
                         <span className='labelName'>
@@ -333,7 +351,7 @@ export default class Register extends React.Component<any, any> {
                       <input type="text" value={qq} onChange={(e) => this.setState({qq: e.target.value})} />
                     </label>
                     <label
-                      className='password'
+                      className='faxes'
                     >
                       <div className='symbol'>
                         <span className='labelName'>
@@ -343,7 +361,7 @@ export default class Register extends React.Component<any, any> {
                       <input type="text" value={faxes} onChange={(e) => this.setState({faxes: e.target.value})} />
                     </label>
                     <label
-                      className='password'
+                      className='biz_address'
                     >
                       <div className='symbol'>
                         *
@@ -358,7 +376,7 @@ export default class Register extends React.Component<any, any> {
                       />
                     </label>
                     <label
-                      className='password'
+                      className='files'
                     >
                       <div className='symbol'>
                         *
@@ -366,22 +384,39 @@ export default class Register extends React.Component<any, any> {
                           营业执照：
                         </span>
                       </div>
-                      <input 
+                      {/* <input 
                         type="text" 
                         value={files} 
                         onChange={(e) => this.setState({files: e.target.value})} 
-                      />
+                      /> */}
+                      <Upload
+                        action="/common/upload"
+                        listType="picture-card"
+                        fileList={fileList}
+                        onPreview={(e)=>this.handlePreview(e)}
+                        onChange={(e)=>this.handleChange(e)}
+                      >
+                        {fileList.length >= 3 ? null : uploadButton}
+                      </Upload>
+                      <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                      </Modal>
                     </label>
                     <label
-                      className='password'
+                      className='files'
                     >
                       <div className='symbol'>
-                        *
                         <span className='labelName'>
                           补充资质：
                         </span>
                       </div>
-                      <input type="text" value={files} onChange={(e) => this.setState({files: e.target.value})} />
+                      {
+                        !!0 && <input 
+                          type="text" 
+                          value={files} 
+                          onChange={(e) => this.setState({files: e.target.value})} 
+                        />
+                      }
                     </label>
                     <button className='submit' onClick={(e)=>this.gotoStep(e, 0)}>上一步</button>
                     <input className='submit' type="submit" value="下一步" />

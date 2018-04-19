@@ -1,14 +1,61 @@
 import * as React from 'react'
-import { Table } from 'antd'
-import './lease.less';
-import Item from '../../../components/productlist/listitem'
+import { connect } from 'react-redux'
+import { Table, TimePicker } from 'antd'
+import './lease.less'
 
-export default class Lease extends React.Component<any, any> {
+class Lease extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
-      productDetail: false
+      productDetail: false,
+      listData: [],
+      startTime: '',
+      endTime: '',
+      product_spu: '',
+      m_order_no: '',
+      split_order_no: '',
+      status: '',
+      pageTotal: 0,
+      currentPage: 1
     }
+  }
+
+  componentDidMount () {
+    this.getPageData(1)
+  }
+
+  getPageData = (nextPage:number) => {
+    const { token } = this.props.state.userInfo
+    fetch(`/api/product/list?perPage=${10}&token=${token}&page=${nextPage}`)
+      .then(res=>res.json())
+      .then((res) => {
+        const listData = res.data.data
+        listData.map((item: any, index: number) => {
+          Object.assign(item, { key: index })
+        })
+        this.setState({
+          listData,
+          pageTotal: res.data.total
+        })
+      })
+  }
+
+  queryData = () => {
+    const {
+      product_spu,
+      m_order_no,
+      split_order_no,
+      status
+    } = this.state
+    const { token } = this.props.state.userInfo
+    const url = `/api/product/list?perPage=${1}&token=${token}&product_spu=${product_spu}&m_order_no=${m_order_no}
+                &split_order_no=${split_order_no}&status=${status}`
+    fetch(url).then(res=>res.json())
+  }
+
+  pageChange = (e:any) => {
+    this.setState({currentPage:e.current})
+    this.getPageData(e.current)
   }
 
   render() {
@@ -42,88 +89,72 @@ export default class Lease extends React.Component<any, any> {
       }
     ];
 
-    const data: any[] = [
-      {
-        key: '1',
-        name: 'John Brown',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '4',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '5',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '6',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '7',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '8',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '9',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '10',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '11',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }
-    ];
-
-    const { productDetail } = this.state
+    const { productDetail, listData, startTime, endTime, pageTotal, currentPage } = this.state
     if (!productDetail) {
       return (
         <div className='operationproduct'>
           <header className='productheader'>订单列表-租赁订单</header>
           <section>
-            {
-              ['商品编号', '商品名称', '商品货号', '商品状态', '商品模式', '商品类目', 'SPU是否启用'].map((item, index) =>
-                <Item
-                  key={index}
-                  itemname={item}
-                />
-              )
-            }
+            <div className='item'>
+              <p>商品编号:</p>
+              <input 
+                onChange={(e)=>this.setState({product_spu: e.target.value})}
+              />
+            </div>
+            <div className='item'>
+              <p>订单编号:</p>
+              <input 
+                onChange={(e)=>this.setState({m_order_no: e.target.value})}
+              />
+            </div>
+            <div className='item'>
+              <p>子订单编号:</p>
+              <input 
+                onChange={(e)=>this.setState({split_order_no: e.target.value})}
+              />
+            </div>
+            <div className='item'>
+              <p>订单状态:</p>
+              <select
+                onChange={(e) => this.setState({ status: e.target.value })}
+              >
+                <option value="">全部</option>
+                <option value="0">未上架</option>
+                <option value="1">已上架</option>
+                <option value="2">待上架</option>
+              </select>
+            </div>
+            <div className='item'>
+              <p>下单时间:</p>
+              <TimePicker 
+                value={startTime} 
+                onChange={(e:any)=>this.setState({startTime: e})} 
+              />
+              <TimePicker 
+                value={endTime} 
+                onChange={(e:any)=>this.setState({endTime: e})} 
+              />
+            </div>
           </section>
           <section className='productmid'>
-            <span>查询</span>
+            <span
+              onClick={() => this.queryData()}
+            >
+              查询
+            </span>
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
           <hr />
           <section>
-            <Table className='producttab' columns={columns} dataSource={data} bordered={true} />
+            <Table 
+              className='producttab' 
+              columns={columns} 
+              dataSource={listData} 
+              bordered={true} 
+              pagination={{total:pageTotal,defaultCurrent:currentPage}}
+              onChange={(e)=>this.pageChange(e)}
+            />
           </section>
         </div>
       )
@@ -151,10 +182,22 @@ export default class Lease extends React.Component<any, any> {
             </section>
             <hr />
             <section>
-              <Table className='producttable' columns={columns} dataSource={data} bordered={true} />
+              <Table 
+                className='producttable' 
+                columns={columns} 
+                dataSource={listData} 
+                bordered={true} 
+                onChange={(e)=>console.log('e',e)}
+              />
             </section>
         </div>
       )
     }
   }
 }
+
+const mapStateToProps: any = (state: object) => ({
+  state: state
+})
+
+export default connect(mapStateToProps)(Lease)

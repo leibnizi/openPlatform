@@ -25,6 +25,7 @@ class Product extends React.Component<any, any> {
     //   .then(res => res.json())
     //   .then((res) => {
     //     const data = res.data.data
+    //     console.log('data',data)
     //     data.map((item: any, index: number) => {
     //       Object.assign(item, { key: index })
     //     })
@@ -96,25 +97,25 @@ class Product extends React.Component<any, any> {
           <header className='productheader'>商品列表</header>
           <section>
             <div className='item'>
-              <p>商品编号</p>
+              <p>商品编号:</p>
               <input 
                 onChange={(e)=>this.setState({code: e.target.value})}
               />
             </div>
             <div className='item'>
-              <p>商品名称</p>
+              <p>商品名称:</p>
               <input 
                 onChange={(e)=>this.setState({name: e.target.value})}
               />
             </div>
             <div className='item'>
-              <p>商品货号</p>
+              <p>商品货号:</p>
               <input 
                 onChange={(e)=>this.setState({purchaser_product_no: e.target.value})}
               />
             </div>
             <div className='item'>
-              <p>商品状态</p>
+              <p>商品状态:</p>
               <select
                 onChange={(e) => this.setState({ goodStatus: e.target.value })}
               >
@@ -125,7 +126,7 @@ class Product extends React.Component<any, any> {
               </select>
             </div>
             <div className='item'>
-              <p>商品模式</p>
+              <p>商品模式:</p>
               <select
                 onChange={(e) => this.setState({ goodMode: e.target.value })}
               >
@@ -136,7 +137,7 @@ class Product extends React.Component<any, any> {
               </select>
             </div>
             <div className='item'>
-              <p>商品类目</p>
+              <p>商品类目:</p>
               <select
                 onChange={(e) => this.setState({ goodCategory: e.target.value })}
               >
@@ -149,7 +150,7 @@ class Product extends React.Component<any, any> {
               </select>
             </div>
             <div className='item'>
-              <p>SPU是否启用</p>
+              <p>SPU是否启用:</p>
               <select
                 onChange={(e) => this.setState({ SPU: e.target.value })}
               >

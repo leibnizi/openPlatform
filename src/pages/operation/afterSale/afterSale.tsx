@@ -32,7 +32,7 @@ class AfterSale extends React.Component<any, any> {
       begin,
       end
     } = this.state
-    const { token } = this.props.state.userInfo
+    const token = document.cookie.split('=')[1]
     const url = `/api/financial/after_sale_list?perPage=${20}&token=${token}
                 &id=${id}&product_code=${product_code}
                 &supplier_pro_num=${supplier_pro_num}&product_name=${product_name}

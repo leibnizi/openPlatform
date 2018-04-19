@@ -15,18 +15,15 @@ export default function* rootSaga() {
 }
 
 export function* fetchBsInfos() {
+  console.log('eee')
   try {
     const response = yield call(httpGet, '/api/merchant/index?token=19$$b5fbab2e48ad5a0470ef8a351f9b6aa9');
     // 或者
     // const response = yield call( fetch, fetchUrl );
 
     // 将上一步调用fetch得到的结果作为某action的参数dispatch，对应saga的put
-    yield put({ type: 'GET_BUSINESS_SUCCESS', data: response });
+    yield put({ type: 'GET_BUSINESS_SUCCESS', data: response.data.data });
   } catch (error) {
     // yield put(fetchFailure());
   }
 }
-
-// export function* fetchBsInfoSage(params:any) {
-//   yield takeEvery("",fetchBsInfos)
-// }

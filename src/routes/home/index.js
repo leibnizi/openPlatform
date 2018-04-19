@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Row, Col, Card, Table } from 'antd'
 import { onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync } from '../../redux/actions'
 import {fetchUtil} from '../../services/httpRequest'
-import Page from '../../components/page/Page'
+// import Page from '../../components/page/Page'
 import NumBlock from './components/NumBlock'
 import './index.less';
 import '../../styles/common.less';
@@ -105,9 +105,10 @@ class Home extends Component {
   render() {
     const { moduleGap, on_sale_data } = this.state
 
-    return (<Page loading={false}>
+    return (
+    <div className="home-page" loading={false}>
       <Row gutter={moduleGap} type="flex" justify="start"
-      // align="top"
+      align="top"
 
       // order={4}
       >
@@ -217,7 +218,7 @@ class Home extends Component {
         </Col>
       </Row>
 
-    </Page>)
+      </div>)
 
   }
 }

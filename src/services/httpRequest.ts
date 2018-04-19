@@ -34,11 +34,10 @@ const fetchUtil = (url: string, body: any) => {
       },
       credentials: 'include',
       body: JSON.stringify(body)
-    })
-      .then((res) => {
-        resolve(res.json())
+    }).then((res:any) => {
+        resolve(res)
       })
-      .catch(err => {
+      .catch((err:any) => {
         reject(err)
       })
   })

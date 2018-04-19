@@ -32,29 +32,31 @@ class Content extends React.Component {
     return (
       <div className='app'>
         <header className='header'>
-          1
+          <div className="top">
+            1
+          </div>
+          <div className='header-box'>
+            <div className='logo'>
+              <img
+                src={require('./styles/img/msheader.png')} 
+                alt='头部logo'
+              />
+              <div>商家后台管理系统</div>
+            </div>
+            <div className='navigation'>
+              {
+                routes.map((item,index)=>
+                  <OldMenuLink
+                    key={index}
+                    activeOnlyWhenExact={index===0?true:false}
+                    to={item.path}
+                    label={item.label}
+                  />
+                )
+              }
+            </div>
+          </div>
         </header>
-        <section className='section'>
-          <section className='logo'>
-            <img
-              src={require('./styles/img/msheader.png')} 
-              alt='头部logo'
-            />
-            <p>商家后台管理系统</p>
-          </section>
-          <section className='navigation'>
-            {
-              routes.map((item,index)=>
-                <OldMenuLink
-                  key={index}
-                  activeOnlyWhenExact={index===0?true:false}
-                  to={item.path}
-                  label={item.label}
-                />
-              )
-            }
-          </section>
-        </section>
         <section className='body'>
           {
             routes.map((item,index)=> {

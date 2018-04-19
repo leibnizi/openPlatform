@@ -13,22 +13,6 @@ export default class Business extends React.Component <any, {}> {
       <div>
         <Infos/>
       </div>
-      // <Router>
-      //   <div>
-      //     <div className='aside'>
-      //       <p>商家信息</p>
-      //       <OldMenuLink activeOnlyWhenExact={true} to="/business/bsInfo" label="商家信息" />
-      //       <OldMenuLink to="/business/aptitude" label="资质管理" />
-      //       <p>账户管理</p>
-      //       <OldMenuLink to="/operation/finance" label="财务信息" />
-      //       <OldMenuLink to="/operation/sale" label="账户信息" />
-      //       <OldMenuLink to="/operation/sale" label="续约管理" />
-      //     </div>
-      //     <div className='content'>
-      //       <Route exact={true} path="/business/home" component={BsInfo} />
-      //     </div>
-      //   </div>
-      // </Router>
     )
   }
 }

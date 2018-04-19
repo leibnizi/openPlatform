@@ -3,6 +3,7 @@ import Product from './operation'
 import Business from './business'
 import Fincial from './fincial'
 import HelpMessage from './helpMessage'
+import Infos from '../pages/business/infos'
 
 export default [
   {

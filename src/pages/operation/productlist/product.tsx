@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
-// import { GET_POSTS } from '../../../redux/actions/index'
+import { GET_POSTS } from '../../../redux/actions/index'
 import './product.less'
 
 class Product extends React.Component<any, any> {
@@ -27,7 +27,7 @@ class Product extends React.Component<any, any> {
 
   componentDidMount() {
     this.queryData()
-    // this.props.dispatch(GET_POSTS({a:1}))
+    this.props.dispatch(GET_POSTS({a:1}))
   }
 
   productDetail = (id: any) => {

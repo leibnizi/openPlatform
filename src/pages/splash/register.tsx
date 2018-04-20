@@ -63,7 +63,7 @@ export default class Register extends React.Component<any, any> {
   //   }
   // }
 
-  handleChange = (fileList:any) => this.setState({ fileList })
+  handleChange = (fileList:any) => this.setState({ fileList:fileList.fileList })
 
   handleCancel = () => this.setState({ previewVisible: false })
 
@@ -81,7 +81,6 @@ export default class Register extends React.Component<any, any> {
       mobile, email, qq, faxes, biz_address, files, previewVisible, previewImage, fileList
     } = this.state
     const uploadButton = (
-      // <span className='upload'>上一步</span>
       <div>
         <Icon type="plus" />
         <div className="ant-upload-text">Upload</div>
@@ -390,11 +389,12 @@ export default class Register extends React.Component<any, any> {
                         onChange={(e) => this.setState({files: e.target.value})} 
                       /> */}
                       <Upload
-                        action="/common/upload"
+                        action="http://api.v2.msparis.com/common/upload"
                         listType="picture-card"
                         fileList={fileList}
-                        onPreview={(e)=>this.handlePreview(e)}
-                        onChange={(e)=>this.handleChange(e)}
+                        onPreview={this.handlePreview}
+                        onChange={this.handleChange}
+                        multiple={true}
                       >
                         {fileList.length >= 3 ? null : uploadButton}
                       </Upload>

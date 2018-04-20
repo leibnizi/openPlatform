@@ -1,10 +1,12 @@
 import * as React from "react";
 import { Row, Col, Button } from 'antd';
-// const TabPane = Tabs.TabPane;
 import { AccountForm } from '../components/accountForm/accountForm'
 import './account.less'
+import { business as businessAction } from '../../../redux/actions/index'
+const { getAccountInfos } = businessAction
+import { connect } from 'react-redux'
 
-export default class Account extends React.Component<any, any> {
+class Account extends React.Component<any, any> {
   // constructor(props: any) {
   //   super(props)
   //   this.state = {
@@ -28,19 +30,12 @@ export default class Account extends React.Component<any, any> {
     },
     is_edit: false
   };
-  handleFormChange = (changedFields: any) => {
-    this.setState(({ fields }: any) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
-  changeTabFun() {
-
-    console.log(1)
+  handleFormChange = (value: any) => {
+    console.log(value)
   }
 
   toggleEditFun = () => {
     const { is_edit } = this.state;
-    console.log(is_edit, "Ee")
     this.setState({
       is_edit: !is_edit
     })
@@ -49,15 +44,24 @@ export default class Account extends React.Component<any, any> {
     console.log(1)
   }
 
+  componentDidMount() {
+    const { dispatch, userInfo: { token } } = this.props
+    dispatch(getAccountInfos(token))
+  }
+
   render() {
-    const { fields, is_edit } = this.state
+    const { is_edit } = this.state
+    // console.log(this.props,"GG")
+    // debugger
+    const {accountInfos, accountInfos: {address, email, mobile, name}} = this.props
+
     return (
       <div className="bill-page">
         <header className="content-title">账务信息</header>
         <Row style={{ display: `${is_edit ? 'block' : 'none'}` }}>
           <Col span={12}>
             <AccountForm
-              {...fields}
+              {...accountInfos}
               onChange={this.handleFormChange}
             />
           </Col>
@@ -69,7 +73,7 @@ export default class Account extends React.Component<any, any> {
                 用户名：
               </Col>
               <Col span={19}>
-                {fields.username.value}
+                {name}
               </Col>
             </Row>
             <Row className="message-item">
@@ -77,7 +81,7 @@ export default class Account extends React.Component<any, any> {
                 手机号：
               </Col>
               <Col span={19}>
-                {fields.phone.value}
+                {mobile}
               </Col>
             </Row>
             <Row className="message-item">
@@ -85,7 +89,7 @@ export default class Account extends React.Component<any, any> {
                 邮箱：
               </Col>
               <Col span={19}>
-                {fields.e_mail.value}
+                {email}
               </Col>
             </Row>
             <Row className="message-item">
@@ -93,15 +97,15 @@ export default class Account extends React.Component<any, any> {
                 地址：
               </Col>
               <Col span={19}>
-                {fields.address.value}
+                {address}
               </Col>
             </Row>
           </Col>
         </Row>
-        <Row className="edit_btn">
+        <Row style={{ display: is_edit ? 'none' : 'block'}} className="edit_btn">
           <Col span={5}>
             <Button onClick={() => this.toggleEditFun()}>
-              {is_edit ? '保存' : '修改账户信息'}
+              修改账户信息
             </Button>
           </Col>
           <Col span={5}>
@@ -114,3 +118,14 @@ export default class Account extends React.Component<any, any> {
     );
   }
 }
+
+const mapStateToProps: any = ({ accountInfos, userInfo }: any) => ({
+  accountInfos,
+  userInfo
+})
+
+const mapDispatchToProps: any = (dispatch: any) => ({
+  dispatch
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Account)

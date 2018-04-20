@@ -1,17 +1,12 @@
-const businessInfo = (state: any = {}, action: any) => {
-  // debugger
+const businessInfos = (state: any = {}, action: any) => {
   switch (action.type) {
     case 'GET_BUSINESS_SUCCESS':
-    // debugger
-      console.log(action.data.data.data,"SSS")
-      const newState = Object.assign({}, state, {
-        businessInfo: action.data.data.data
-      });
-      console.log("New State",newState);
+      const newState = Object.assign({}, state, action.data);
+      // console.log("New State",newState);
       return newState;
     default:
       return state
   }
 }
 
-export default businessInfo
+export default businessInfos

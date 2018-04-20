@@ -2,11 +2,9 @@ import * as React from "react";
 import { Form, Input, Button } from 'antd';
 const FormItem = Form.Item;
 
-export const BillForm:any = Form.create()((props:any) => {
-  
-  // const { getFieldDecorator } = props.form;
-  const { form: { getFieldDecorator }, bank, account, payee, finance_state, } = props
-  // bank, account, payee, finance_state,
+export const EditStatusForm: any = Form.create()((props: any) => {
+
+  const { form: { getFieldDecorator }, mobile, name, } = props
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -17,11 +15,11 @@ export const BillForm:any = Form.create()((props:any) => {
       sm: { span: 17 },
     },
   };
-  const handleSubmit = (e:any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     props.form.validateFields((err: any, values: any) => {
       if (!err) {
-        
+
         props.onChange(values)
       }
     });
@@ -29,30 +27,30 @@ export const BillForm:any = Form.create()((props:any) => {
 
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
-      <FormItem {...formItemLayout} label="开户行">
-        {getFieldDecorator('openingBank', {
-          initialValue: `${bank}`,
+      <FormItem {...formItemLayout} label="用户名">
+        {getFieldDecorator('name', {
+          initialValue: `${name}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
-      <FormItem {...formItemLayout} label="收款账号">
-        {getFieldDecorator('account', {
-          initialValue: `${account}`,
+      <FormItem {...formItemLayout} label="手机号">
+        {getFieldDecorator('mobile', {
+          initialValue: `${mobile}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
-      <FormItem {...formItemLayout} label="收款人">
-        {getFieldDecorator('receiver', {
-          initialValue: `${payee}`,
+      {/* <FormItem {...formItemLayout} label="邮箱">
+        {getFieldDecorator('email', {
+          initialValue: `${email}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
-      <FormItem {...formItemLayout} label="信息状态">
-        {getFieldDecorator('status', {
-          initialValue: `${finance_state}`,
+      <FormItem {...formItemLayout} label="地址">
+        {getFieldDecorator('address', {
+          initialValue: `${address}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
-      </FormItem>
+      </FormItem> */}
       <Button htmlType="submit">
         保存
       </Button>

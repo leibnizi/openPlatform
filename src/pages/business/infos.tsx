@@ -4,21 +4,22 @@ import { Layout, Row, Col, Button } from 'antd';
 
 import './index.less';
 import '../../styles/common.less';
-import { business as businessAction} from '../../redux/actions/index'
-const { getBusinessInfo } = businessAction
+import { business as businessAction } from '../../redux/actions/index'
+const { getBusinessInfos } = businessAction
 
 class Infos extends React.Component<any, {}> {
   constructor(props: any) {
     super(props)
   }
   renderContentItems = () => {
+    const { businessInfos: { biz_operator, mobile, email, qq, faxes, address } } = this.props
     const content = [
-      { name: '运营人员', value: 'ssss' },
-      { name: '联系电话', value: 'ssss' },
-      { name: '邮箱', value: 'ssss' },
-      { name: 'QQ', value: 'ssss' },
-      { name: '传真', value: 'ssss' },
-      { name: '收货地址', value: 'ssss' },
+      { name: '运营人员', value: biz_operator },
+      { name: '联系电话', value: mobile },
+      { name: '邮箱', value: email },
+      { name: 'QQ', value: qq },
+      { name: '传真', value: faxes },
+      { name: '收货地址', value: address },
     ]
 
     return content.map((item, index) => (
@@ -30,8 +31,8 @@ class Infos extends React.Component<any, {}> {
 
   }
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(getBusinessInfo())
+    const { dispatch, userInfo: { token } } = this.props
+    dispatch(getBusinessInfos(token))
   }
 
   editMsg = () => {
@@ -39,8 +40,11 @@ class Infos extends React.Component<any, {}> {
   }
 
   render() {
-    console.log(this.props.state, "!!!")
-
+    const {
+      businessInfos: {
+        biz_name, brand, website, biz_intro, merchant_state, category_id, biz_type
+      }
+    } = this.props
     return (
       <Layout className="bs-info-box">
         <header>
@@ -53,34 +57,34 @@ class Infos extends React.Component<any, {}> {
         <article>
           <Row className="row-box">
             <Col span={3} className="content-title-label">企业名称：</Col>
-            <Col className="content-title-text" span={3}>上海千颂</Col>
+            <Col className="content-title-text" span={3}>{biz_name}</Col>
             <Col className="describe" span={5}>上季度盈利量级：千万元</Col>
           </Row>
           <Row className="row-box">
             <Col span={3} className="content-title-label">主营品牌：</Col>
-            <Col className="content-title-text" span={20} >CK</Col>
+            <Col className="content-title-text" span={20} >{brand}</Col>
           </Row>
           <Row className="row-box">
             <Col span={3} className="content-title-label">供应商简介：</Col>
-            <Col className="content-title-text" span={20}>很多字</Col>
+            <Col className="content-title-text" span={20}>{biz_intro}</Col>
           </Row>
           <Row className="row-box">
             <Col span={3} className="content-title-label">官网地址：</Col>
-            <Col className="content-title-text" span={20}>很多字</Col>
+            <Col className="content-title-text" span={20}>{website}</Col>
           </Row>
           <Row type="flex" align="middle" className="row-box">
             <Col span={3} className="content-title-label">商家状态：</Col>
-            <Col className="content-title-text" span={1}>正常</Col>
+            <Col className="content-title-text" span={1}>{merchant_state}</Col>
             <Col offset={1} span={2}><Button>续约</Button></Col>
             <Col className="describe" span={15}>有效期至：2019年1月28日</Col>
           </Row>
           <Row className="row-box">
             <Col span={3} className="content-title-label">类目：</Col>
-            <Col className="content-title-text" span={20}>女装</Col>
+            <Col className="content-title-text" span={20}>{category_id}</Col>
           </Row>
           <Row className="row-box">
             <Col span={3} className="content-title-label">商家类型：</Col>
-            <Col className="content-title-text" span={20}>品牌方</Col>
+            <Col className="content-title-text" span={20}>{biz_type}</Col>
           </Row>
           <Row className="line" />
           {this.renderContentItems()}
@@ -93,8 +97,9 @@ class Infos extends React.Component<any, {}> {
   }
 }
 
-const mapStateToProps: any = (state: any) => ({
-  state: state
+const mapStateToProps: any = ({ businessInfos, userInfo }: any) => ({
+  businessInfos,
+  userInfo
 })
 
 const mapDispatchToProps: any = (dispatch: any) => ({

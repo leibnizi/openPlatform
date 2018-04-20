@@ -1,8 +1,12 @@
 import * as React from "react";
 import { connect } from 'react-redux'
-import { fetchUtil } from '../../../services/httpRequest'
-import { Layout, Row, Col, Form, Icon, Input, Button, Checkbox } from 'antd';
+// import { fetchUtil } from '../../../services/httpRequest'
+import { Layout, Row, Col, Form, Input, Button, Checkbox, Select } from 'antd';
 import './editInfos.less'
+import { business as businessAction } from '../../../redux/actions/index'
+const { getBusinessInfos, editBusinessInfos } = businessAction
+const Option = Select.Option;
+// editBusinessInfos
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -30,26 +34,27 @@ class EditInfos extends React.Component<any, {}> {
 
   }
   componentDidMount() {
-    const { token } = this.props.state.userInfo;
-    fetchUtil('api/merchant/index', token).then((res: any) => {
-      console.log(res, "ttt")
-      // const { status_code, msg, data } = res
-      // if (status_code == 0 ) {
-
-      // }
-    })
+    const { dispatch, userInfo: { token } } = this.props
+    dispatch(getBusinessInfos(token))
   }
 
   editMsg = () => {
     // console.log("sss")
     this.props.history.push('edit_infos')
   }
-  handleSubmit = () => {
-    console.log(222)
-  }
-  affirm = () => {
-    console.log("affirm")
-    this.props.history.push('bsInfo')
+
+  handleSubmit = (e:any) => {
+    const { dispatch, userInfo: { token }} = this.props
+    e.preventDefault();
+    this.props.form.validateFields((err:any, values:any) => {
+      if (!err) {
+        // console.log('Received values of form: ', {token,...values},"kkkkk");
+        dispatch(editBusinessInfos({
+          token,
+          ...values
+        }))
+      }
+    });
   }
 
   render() {
@@ -71,16 +76,22 @@ class EditInfos extends React.Component<any, {}> {
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 14 },
+        sm: { span: 16 },
       },
     };
-
+    const {
+      businessInfos: {
+        biz_name, profit_level, brand, website, biz_intro, merchant_state, biz_type,
+        biz_operator, mobile, email, qq, faxes, address
+      }
+    } = this.props
+    // category_id
     return (
       <Layout className="bs-info-box">
         <header>
           <Row className="row-box">
-            <Col span={2} className="cotent-title">商家信息：</Col>
-            <Col className="describe" offset={1} span={21} >BUSINESS INFOMATION</Col>
+            <Col span={3} className="cotent-title">商家信息：</Col>
+            <Col className="describe" offset={1} span={20} >BUSINESS INFOMATION</Col>
           </Row>
         </header>
 
@@ -88,17 +99,27 @@ class EditInfos extends React.Component<any, {}> {
           <Form onSubmit={this.handleSubmit} className="edit-form">
             <Row className="">
               <Col span={3} className="cotent-title">企业名称：</Col>
-              <Col className="cotent-title-text" offset={1} span={3}>上海千颂</Col>
-              <Col className="describe" span={10}>
+              <Col className="cotent-title-text" span={3}>{biz_name}</Col>
+              <Col className="describe" span={13}>
                 <FormItem
                   {...formItemLayout}
                   label="上季度盈利量级"
                 >
-                  {getFieldDecorator('grade', {
+                  {getFieldDecorator('profit_level', {
+                    initialValue: `${profit_level}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
-                    <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
-                    )}
+                    <Select style={{ width: 120 }}>
+                      <Option value={1}>万元以下</Option>
+                      <Option value={2}>万元</Option>
+                      <Option value={3}>10万元</Option>
+                      <Option value={4}>百万元</Option>
+                      <Option value={5}>千万</Option>
+                      <Option value={6}>亿元以上</Option>
+                      {/* <Option value="disabled" disabled>Disabled</Option>
+                      <Option value="Yiminghe">yiminghe</Option> */}
+                    </Select>
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -109,6 +130,7 @@ class EditInfos extends React.Component<any, {}> {
                   label="主营品牌"
                 >
                   {getFieldDecorator('brand', {
+                    initialValue: `${brand}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Input placeholder="主营品牌" />
@@ -122,7 +144,8 @@ class EditInfos extends React.Component<any, {}> {
                   {...formItemLayout2}
                   label="供应商简介"
                 >
-                  {getFieldDecorator('supplier', {
+                  {getFieldDecorator('biz_intro', {
+                    initialValue: `${biz_intro}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <TextArea rows={4} placeholder="供应商简介" />
@@ -137,6 +160,7 @@ class EditInfos extends React.Component<any, {}> {
                   label="官网地址"
                 >
                   {getFieldDecorator('website', {
+                    initialValue: `${website}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Input placeholder="请输入官网地址" />
@@ -146,7 +170,7 @@ class EditInfos extends React.Component<any, {}> {
             </Row>
             <Row type="flex" align="middle" className="row-box">
               <Col span={3} className="cotent-title">商家状态：</Col>
-              <Col span={1}>正常</Col>
+              <Col span={2}>{merchant_state}</Col>
               <Col span={2}><Button>续约</Button></Col>
               <Col className="describe" span={14}>有效期至：2019年1月28日</Col>
             </Row>
@@ -156,7 +180,8 @@ class EditInfos extends React.Component<any, {}> {
                   {...formItemLayout2}
                   label="类目"
                 >
-                  {getFieldDecorator('type', {
+                  {getFieldDecorator('category_id', {
+                    // initialValue:`${}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Checkbox.Group style={{ width: '100%', marginTop: '10px' }}>
@@ -177,10 +202,16 @@ class EditInfos extends React.Component<any, {}> {
                   {...formItemLayout2}
                   label="运营人员"
                 >
-                  {getFieldDecorator('bs_type', {
+                  {getFieldDecorator('biz_operator', {
+                    initialValue: `${biz_operator}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
-                    <Input placeholder="请输入运营人员" />
+                    <Select style={{ width: 120 }}>
+                      <Option value="jack">品牌方</Option>
+                      <Option value="lucy">经销商</Option>
+                      {/* <Option value="disabled" disabled>Disabled</Option>
+                      <Option value="Yiminghe">yiminghe</Option> */}
+                    </Select>
                     )}
                 </FormItem>
               </Col>
@@ -190,9 +221,32 @@ class EditInfos extends React.Component<any, {}> {
               <Col>
                 <FormItem
                   {...formItemLayout2}
+                  label="商家类型"
+                >
+                  {getFieldDecorator('biz_type', {
+                    initialValue:`${biz_type}`,
+                    rules: [{ required: true, message: 'Please input your username!' }],
+                  })(
+                    <Select style={{ width: 120 }}>
+                      <Option value={1}>品牌方</Option>
+                      <Option value={2}>经销商</Option>
+                      <Option value={3}>大牌工厂</Option>
+                      <Option value={4}>独立设计师</Option>
+                      <Option value={5}>其他类型</Option>
+                    </Select>
+                    )}
+                </FormItem>
+              </Col>
+            </Row>
+            
+            <Row className="form-row">
+              <Col>
+                <FormItem
+                  {...formItemLayout2}
                   label="联系电话"
                 >
-                  {getFieldDecorator('phone', {
+                  {getFieldDecorator('biz_mobile', {
+                    initialValue: `${mobile}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Input placeholder="请输入联系电话" />
@@ -206,7 +260,8 @@ class EditInfos extends React.Component<any, {}> {
                   {...formItemLayout2}
                   label="邮箱"
                 >
-                  {getFieldDecorator('e_mail', {
+                  {getFieldDecorator('biz_email', {
+                    initialValue: `${email}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Input placeholder="请输入邮箱" />
@@ -221,6 +276,7 @@ class EditInfos extends React.Component<any, {}> {
                   label="QQ"
                 >
                   {getFieldDecorator('qq', {
+                    initialValue: `${qq}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Input placeholder="请输入QQ" />
@@ -234,7 +290,8 @@ class EditInfos extends React.Component<any, {}> {
                   {...formItemLayout2}
                   label="传真"
                 >
-                  {getFieldDecorator('fax', {
+                  {getFieldDecorator('faxes', {
+                    initialValue: `${faxes}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Input placeholder="请输入传真" />
@@ -248,7 +305,8 @@ class EditInfos extends React.Component<any, {}> {
                   {...formItemLayout2}
                   label="收获地址"
                 >
-                  {getFieldDecorator('address', {
+                  {getFieldDecorator('biz_address', {
+                    initialValue: `${address}`,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Input placeholder="请输入收货地址" />
@@ -258,7 +316,8 @@ class EditInfos extends React.Component<any, {}> {
             </Row>
             <Row className="btn-box">
               <Col span={3} className="text-right">
-                <Button onClick={() => this.affirm()}>确认修改</Button>
+                {/* <Button onClick={() => this.affirm()}>确认修改</Button> */}
+                <Button type="primary" htmlType="submit">确认修改</Button>
               </Col>
             </Row>
           </Form>
@@ -268,8 +327,9 @@ class EditInfos extends React.Component<any, {}> {
   }
 }
 
-const mapStateToProps: any = (state: object) => ({
-  state: state
+const mapStateToProps: any = ({ businessInfos, userInfo }: any) => ({
+  businessInfos,
+  userInfo
 })
 
 const mapDispatchToProps: any = (dispatch: any) => ({

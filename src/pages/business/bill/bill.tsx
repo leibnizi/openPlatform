@@ -1,16 +1,12 @@
 import * as React from "react";
-import { Row, Col, Button } from 'antd';
-// const TabPane = Tabs.TabPane;
+import { Row, Col } from 'antd';
+import { connect } from 'react-redux'
 import { BillForm } from '../components/billForm/billForm'
 import './bill.less'
+import { business as businessAction } from '../../../redux/actions/index'
+const { getBillInfos } = businessAction
 
-export default class Bill extends React.Component<any, any> {
-  // constructor(props: any) {
-  //   super(props)
-  //   this.state = {
-  //     // cardList: [1, 2, 3, 4]
-  //   }
-  // }
+class Bill extends React.Component<any, any> {
   state = {
     fields: {
       openingBank: {
@@ -28,14 +24,24 @@ export default class Bill extends React.Component<any, any> {
     },
     is_edit: false
   };
-  handleFormChange = (changedFields: any) => {
-    this.setState(({ fields }: any) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
-  changeTabFun() {
 
-    console.log(1)
+  componentDidMount() {
+    const { dispatch, userInfo: { token } } = this.props
+    dispatch(getBillInfos(token))
+  }
+
+  componentWillReceiveProps(nextProps:any) {
+    const {billInfos} = nextProps
+    if (!billInfos.bank ) {
+      this.setState({
+        is_edit: true
+      });
+    }
+  }
+
+  handleFormChange = (value: any) => {
+    console.log(value,"FFF")
+    // api / finance / index
   }
 
   toggleEditFun = () =>  {
@@ -47,14 +53,15 @@ export default class Bill extends React.Component<any, any> {
   }
 
   render() {
-    const { fields, is_edit } = this.state
+    const { billInfos } = this.props
+    const { is_edit } = this.state
     return (
       <div className="bill-page">
         <header className="content-title">账务信息</header>
         <Row style={{ display: `${is_edit ? 'block' : 'none'}` }}>
           <Col span={12}>
             <BillForm
-              {...fields}
+              {...billInfos}
               onChange={this.handleFormChange}
             />
           </Col>
@@ -66,7 +73,7 @@ export default class Bill extends React.Component<any, any> {
                 开户行：
               </Col>
                 <Col span={19}>
-                  {fields.openingBank.value}
+                {billInfos.bank}
                 </Col>
               </Row>
               <Row className="message-item">
@@ -74,7 +81,7 @@ export default class Bill extends React.Component<any, any> {
                   收款账号：
               </Col>
                 <Col span={19}>
-                  {fields.account.value}
+                {billInfos.account}
                 </Col>
               </Row>
               <Row className="message-item">
@@ -82,7 +89,7 @@ export default class Bill extends React.Component<any, any> {
                   收款人：
               </Col>
                 <Col span={19}>
-                  {fields.receiver.value}
+                {billInfos.payee}
                 </Col>
               </Row>
               <Row className="message-item">
@@ -90,19 +97,30 @@ export default class Bill extends React.Component<any, any> {
                   信息状态：
               </Col>
                 <Col span={19}>
-                  {fields.status.value}
+                {billInfos.finance_state}
                 </Col>
               </Row>
           </Col>
         </Row>
-        <Row className="edit_btn">
+        {/* <Row className="edit_btn">
           <Col >
             <Button onClick={()=>this.toggleEditFun()}>
-              {is_edit ? '保存' : '编辑财务信息'}
+              {is_edit ? '保2存' : '编辑财务信息'}
             </Button>
           </Col>
-        </Row>
+        </Row> */}
       </div>
     );
   }
 }
+
+const mapStateToProps: any = ({ billInfos, userInfo }: any) => ({
+  billInfos,
+  userInfo
+})
+
+const mapDispatchToProps: any = (dispatch: any) => ({
+  dispatch
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Bill)

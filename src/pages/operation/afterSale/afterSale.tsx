@@ -1,18 +1,65 @@
 import * as React from 'react'
+import { connect } from 'react-redux';
 import { Table } from 'antd'
-import './afterSale.less';
-import Item from '../../../components/productlist/listitem'
+import './afterSale.less'
+import { getFormatDate } from '../../../helper/utils'
 
-export default class AfterSale extends React.Component<any, any> {
+class AfterSale extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
-
+      id: '',
+      product_code: '',
+      supplier_pro_num: '',
+      product_name: '',
+      type: '',
+      begin: '',
+      end: ''
     }
   }
 
+  componentDidMount() {
+    this.getTableData(1)
+  }
+
+  getTableData = (nextPage: number) => {
+    const {
+      id,
+      product_code,
+      supplier_pro_num,
+      product_name,
+      type,
+      begin,
+      end
+    } = this.state
+    const token = this.props.state.userInfo.token
+    const url = `/api/financial/after_sale_list?perPage=${20}&token=${token}
+                &id=${id}&product_code=${product_code}
+                &supplier_pro_num=${supplier_pro_num}&product_name=${product_name}
+                &type=${type}
+                &begin=${begin ? getFormatDate(begin._d, 'yyyy-MM-dd hh:mm:ss') : ''}
+                &end=${end ? getFormatDate(end._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
+    fetch(url)
+      .then(res => res.json())
+      .then((res) => {
+        const listData = res.data.data
+        listData.map((item: any, index: number) => {
+          Object.assign(item, { key: index })
+        })
+        this.setState({
+          listData,
+          pageTotal: res.data.total
+        })
+      })
+  }
+
   queryData = () => {
-    console.log('查询')
+    this.getTableData(1)
+  }
+
+  pageChange = (e: any) => {
+    this.setState({ currentPage: e.current })
+    this.getTableData(e.current)
   }
 
   render() {
@@ -109,14 +156,48 @@ export default class AfterSale extends React.Component<any, any> {
       <div className='operationproduct'>
         <header className='productheader'>售后管理</header>
         <section>
-          {
-            ['商品编号', '商品名称', '商品货号', '商品状态', '商品模式', '商品类目', 'SPU是否启用'].map((item, index) =>
-              <Item
-                key={index}
-                itemname={item}
-              />
-            )
-          }
+          <div className='item'>
+            <p>售后订单编号:</p>
+            <input
+              onChange={(e) => this.setState({ id: e.target.value })}
+            />
+          </div>
+          <div className='item'>
+            <p>商品编号:</p>
+            <input
+              onChange={(e) => this.setState({ product_code: e.target.value })}
+            />
+          </div>
+          <div className='item'>
+            <p>供应商货号:</p>
+            <input
+              onChange={(e) => this.setState({ supplier_pro_num: e.target.value })}
+            />
+          </div>
+          <div className='item'>
+            <p>商品名称:</p>
+            <input
+              onChange={(e) => this.setState({ product_name: e.target.value })}
+            />
+          </div>
+          <div className='item'>
+            <p>售后单类型:</p>
+            <input
+              onChange={(e) => this.setState({ type: e.target.value })}
+            />
+          </div>
+          <div className='item'>
+            <p>开始时间:</p>
+            <input
+              onChange={(e) => this.setState({ begin: e.target.value })}
+            />
+          </div>
+          <div className='item'>
+            <p>结束时间:</p>
+            <input
+              onChange={(e) => this.setState({ end: e.target.value })}
+            />
+          </div>
         </section>
         <section className='productmid'>
           <span
@@ -129,9 +210,20 @@ export default class AfterSale extends React.Component<any, any> {
         </section>
         <hr />
         <section>
-          <Table className='producttab' columns={columns} dataSource={data} bordered={true} />
+          <Table 
+            className='producttab' 
+            columns={columns} 
+            dataSource={data} 
+            bordered={true} 
+          />
         </section>
       </div>
     )
   }
 }
+
+const mapStateToProps: any = (state: object) => ({
+  state: state
+})
+
+export default connect(mapStateToProps)(AfterSale)

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-export default class Customerservice extends React.Component {
+export default class Announcement extends React.Component {
   render() {
     return (
       <div>
-        Customerservice
+        Announcement
       </div>
     )
   }

@@ -1,20 +1,13 @@
 import * as React from 'react'
 import { BrowserRouter, Link } from "react-router-dom"
 import { Route, Switch } from 'react-router'
-// import { createStore } from 'redux'
-// import createSagaMiddleware from 'redux-saga'
 import { Provider } from 'react-redux'
-// import saga from './redux/sagas'
-// import rootSaga from './redux/sagas'
-// import reducer from './redux/reducers'
 import routes from './routes'
 import Splash from './pages/splash'
 import Login from './pages/splash/login'
 import Register from './pages/splash/register'
+import store from './redux/store/store';
 import './styles/App.less';
-import store from './redux/store/store'
-
-// sagaMiddleware.run(rootSaga)
 
 interface OldMenuLinkType {
   label: string,

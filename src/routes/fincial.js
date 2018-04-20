@@ -21,7 +21,7 @@ export default class Fincial extends Component {
             <OldMenuLink to="/fincial/detail" label="对账明细" />
           </div>
           <div className='content'>
-            <Route path="/fincial" component={Overview} />
+            <Route exact path="/fincial" component={Overview} />
             <Route path="/fincial/withdraw" component={Withdraw} />
             <Route path="/fincial/detail" component={Detail} />
           </div>

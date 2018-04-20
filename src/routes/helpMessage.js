@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
-import Overview from '../pages/finacial/overview/overview'
-import Withdraw from '../pages/finacial/withdraw/withdraw'
-import Detail from '../pages/finacial/detail/detail'
+import Customerservice from '../pages/helpMessage'
+import Message from '../pages/helpMessage/message/message'
+import Announcement from '../pages/helpMessage/announcement/announcement'
 
 export default class HelpMessage extends Component {
   constructor(props) {
@@ -14,16 +14,16 @@ export default class HelpMessage extends Component {
       <Router>
         <div>
           <div className='aside'>
-            <p>财务管理</p>
-            <OldMenuLink activeOnlyWhenExact={true} to="/fincial/overview" label="财务总览" />
-            <OldMenuLink to="/fincial/withdraw" label="提现明细" />
-            <p>对账管理</p>
-            <OldMenuLink to="/fincial/detail" label="对账明细" />
+            <p>帮助中心</p>
+            <OldMenuLink activeOnlyWhenExact={true} to="/help" label="帮助&客服" />
+            <p>信息中心</p>
+            <OldMenuLink to="/help/message" label="系统信息" />
+            <OldMenuLink to="/help/announcement" label="商家公告" />
           </div>
           <div className='content'>
-            <Route path="/fincial/overview" component={Overview} />
-            <Route path="/fincial/withdraw" component={Withdraw} />
-            <Route path="/fincial/detail" component={Detail} />
+            <Route exact path="/help" component={Customerservice} />
+            <Route path="/help/message" component={Message} />
+            <Route path="/help/announcement" component={Announcement} />
           </div>
         </div>
       </Router>

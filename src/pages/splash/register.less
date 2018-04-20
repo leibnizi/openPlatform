@@ -5,6 +5,7 @@
     background-color: #fff;
     margin: 15px 50px 0 50px;
     overflow: overlay;
+    margin-bottom: 50px;
     header {
       display: flex;
       justify-content: center;
@@ -38,12 +39,35 @@
       margin: 80px auto;
       width: 700px;
       background-color: #fff;
+      .files {
+        height: 220px;
+      }
       label {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         height: 70px;
         line-height: 70px;
+        .ant-upload.ant-upload-select-picture-card {
+          // border: none;
+          background-color: transparent;
+          margin-top: -55px;
+          margin-left: 20px;
+          img {
+            height: 130px;
+            margin-top: 170px;
+          }
+          .upload {
+            margin: 0 auto;
+            display: block;
+            background-color: #f03a80;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 15px;
+            margin-top: 60px;
+          }
+        }
         input {
           height: 30px;
           width: 350px;

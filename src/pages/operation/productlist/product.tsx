@@ -16,23 +16,33 @@ class Product extends React.Component<any, any> {
       SPU: '',
       code: '',
       name: '',
-      purchaser_product_no: ''
+      purchaser_product_no: '',
+      pageTotal: 0,
+      currentPage: 0,
+      productDetailData: null
     }
   }
 
   componentDidMount() {
-    // fetch(`/api/product/list?perPage=${1}&token=${this.props.state.userInfo.token}`)
-    //   .then(res => res.json())
-    //   .then((res) => {
-    //     const data = res.data.data
-    //     data.map((item: any, index: number) => {
-    //       Object.assign(item, { key: index })
-    //     })
-    //     this.setState({ listData: data })
-    //   })
+    this.queryData()
+    // this.props.dispatch(() => {return({type:'AXIOS'})})
   }
 
-  queryData = () => {
+  productDetail = (id:any) => {
+    const token = this.props.state.userInfo.token
+    fetch(`api/product/detail/${id}?token=${token}`)
+      .then(res=>res.json())
+      .then(res=> {
+        if (res.status_code===0) {
+          this.setState({
+            productDetail: true,
+
+          })
+        }
+      })
+  }
+
+  getTableData = (nextPage: number) => {
     const {
       goodStatus,
       goodMode,
@@ -42,11 +52,31 @@ class Product extends React.Component<any, any> {
       name,
       purchaser_product_no
     } = this.state
-    const { token } = this.props.state.userInfo
-    const url = `/api/product/list?perPage=${1}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
+    const token = this.props.state.userInfo.token
+    const url = `/api/product/list?perPage=${20}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
                 &mode_id=${goodMode}&enabled=${goodStatus}&code=${code}&name=${name}
-                &purchaser_product_no=${purchaser_product_no}`
-    fetch(url).then(res=>res.json())
+                &purchaser_product_no=${purchaser_product_no}&page=${nextPage}`
+    fetch(url)
+      .then(res => res.json())
+      .then((res) => {
+        const data = res.data.data
+        data.map((item: any, index: number) => {
+          Object.assign(item, { key: index })
+        })
+        this.setState({ 
+          listData: data,
+          pageTotal: res.data.total
+        })
+      })
+  }
+
+  queryData = () => {
+    this.getTableData(1)
+  }
+
+  pageChange = (e: any) => {
+    this.setState({ currentPage: e.current })
+    this.getTableData(e.current)
   }
 
   render() {
@@ -54,14 +84,13 @@ class Product extends React.Component<any, any> {
       {
         title: '商品编号',
         dataIndex: 'code',
-        render: (text: string) => <a href="#">{text}</a>
       }, {
         title: '商品名称',
         className: 'column-money',
         dataIndex: 'name'
       }, {
         title: '商品主图',
-        dataIndex: 'main_image'
+        dataIndex: ''
       }, {
         title: '品牌',
         dataIndex: 'brand_name'
@@ -73,48 +102,93 @@ class Product extends React.Component<any, any> {
         dataIndex: 'created_at'
       }, {
         title: '上架时间',
-        dataIndex: 'enabled_at'
+        dataIndex: 'enabled_at',
+        sorter: (a:any) => console.log(a)
       }, {
         title: '商品状态',
         dataIndex: 'enabled'
-      }
-    ];
-
-    const data: any[] = [
-      {
-        key: '1',
-        name: 'John Brown',
-        brand_name: '100',
-        address: 'tokyo',
+      }, {
+        title: '租赁订单量',
+        dataIndex: 'rental_order_count'
+      }, {
+        title: '销售订单量',
+        dataIndex: 'sale_order_count'
+      }, {
+        title: '有效缓存',
+        dataIndex: 'stock'
+      }, {
+        title: '操作',
+        dataIndex: 'id',
+        render: (e:any) => {
+          return (
+            <span
+              onClick={()=>this.productDetail(e)}
+            >
+              {'查看详情'}
+            </span>
+          )
+        }
       }
     ]
 
-    const { productDetail, headerActive, listData } = this.state
+    const detailColumn: any[] = [
+      {
+        title: '规格',
+        dataIndex: 'code',
+      }, {
+        title: '规格项',
+        className: 'column-money',
+        dataIndex: 'name'
+      }, {
+        title: '商品货号',
+        dataIndex: ''
+      }, {
+        title: '有效库存',
+        dataIndex: 'brand_name'
+      }, {
+        title: '市场价',
+        dataIndex: 'brand_name'
+      }, {
+        title: '租赁价(天)',
+        dataIndex: 'brand_name'
+      }, {
+        title: '续租价',
+        dataIndex: 'brand_name'
+      }, {
+        title: '留购价',
+        dataIndex: 'brand_name'
+      }, {
+        title: '售卖价',
+        dataIndex: 'brand_name'
+      }, 
+    ]
+
+    const { productDetail, headerActive, listData, currentPage, pageTotal, productDetailData } = this.state
     if (!productDetail) {
       return (
         <div className='operationproduct'>
           <header className='productheader'>商品列表</header>
           <section>
             <div className='item'>
-              <p>商品编号</p>
+              <p>商品编号:</p>
               <input 
                 onChange={(e)=>this.setState({code: e.target.value})}
               />
             </div>
             <div className='item'>
-              <p>商品名称</p>
+              <p>商品名称:</p>
               <input 
                 onChange={(e)=>this.setState({name: e.target.value})}
               />
             </div>
             <div className='item'>
-              <p>商品货号</p>
+              <p>商品货号:</p>
               <input 
                 onChange={(e)=>this.setState({purchaser_product_no: e.target.value})}
               />
             </div>
             <div className='item'>
-              <p>商品状态</p>
+              <p>商品状态:</p>
               <select
                 onChange={(e) => this.setState({ goodStatus: e.target.value })}
               >
@@ -125,7 +199,7 @@ class Product extends React.Component<any, any> {
               </select>
             </div>
             <div className='item'>
-              <p>商品模式</p>
+              <p>商品模式:</p>
               <select
                 onChange={(e) => this.setState({ goodMode: e.target.value })}
               >
@@ -136,7 +210,7 @@ class Product extends React.Component<any, any> {
               </select>
             </div>
             <div className='item'>
-              <p>商品类目</p>
+              <p>商品类目:</p>
               <select
                 onChange={(e) => this.setState({ goodCategory: e.target.value })}
               >
@@ -149,7 +223,7 @@ class Product extends React.Component<any, any> {
               </select>
             </div>
             <div className='item'>
-              <p>SPU是否启用</p>
+              <p>SPU是否启用:</p>
               <select
                 onChange={(e) => this.setState({ SPU: e.target.value })}
               >
@@ -170,7 +244,18 @@ class Product extends React.Component<any, any> {
           </section>
           <hr />
           <section>
-            <Table className='producttab' columns={columns} dataSource={listData} bordered={true} />
+            <Table 
+              className='producttab' 
+              columns={columns} 
+              dataSource={listData} 
+              bordered={true} 
+              pagination={{
+                total: pageTotal,
+                defaultCurrent: currentPage,
+                pageSize: 20
+              }}
+              onChange={(e) => this.pageChange(e)}
+            />
           </section>
         </div>
       )
@@ -215,7 +300,12 @@ class Product extends React.Component<any, any> {
                 </section>
                 <hr />
                 <section>
-                  <Table className='producttable' columns={columns} dataSource={data} bordered={true} />
+                  <Table 
+                    className='producttable' 
+                    columns={detailColumn} 
+                    dataSource={productDetailData} 
+                    bordered={true} 
+                  />
                 </section>
               </div>
             ) : (

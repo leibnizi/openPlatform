@@ -4,7 +4,7 @@ const httpGet = (url: string): AxiosPromise => {
   return axios.get(url);
 }
 
-const httpPost = (url: string, queryString: Array<string>, body: any): AxiosPromise => {
+const httpPost = (url: string, queryString: any, body: any): any => {
   // 未完待续
   return axios.post(url);
 }

@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import userInfo from './userInfo'
 import businessInfos from './business/infos'
+import statusInfos from './business/statusControl'
+import billInfos from './business/bill'
 
 function counter (state: any = 0, action: any) {
   switch (action.type) {
@@ -30,7 +32,9 @@ const rootReducer = combineReducers({
   counter2,
   routing:routerReducer,
   userInfo,
-  businessInfos
+  businessInfos,
+  statusInfos,
+  billInfos
 })
 
 export default rootReducer

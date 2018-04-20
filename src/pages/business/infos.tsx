@@ -5,7 +5,7 @@ import { Layout, Row, Col, Button } from 'antd';
 import './index.less';
 import '../../styles/common.less';
 import { business as businessAction } from '../../redux/actions/index'
-const { getbusinessInfos } = businessAction
+const { getBusinessInfos } = businessAction
 
 class Infos extends React.Component<any, {}> {
   constructor(props: any) {
@@ -31,8 +31,8 @@ class Infos extends React.Component<any, {}> {
 
   }
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(getbusinessInfos())
+    const { dispatch, userInfo: { token } } = this.props
+    dispatch(getBusinessInfos(token))
   }
 
   editMsg = () => {
@@ -97,8 +97,9 @@ class Infos extends React.Component<any, {}> {
   }
 }
 
-const mapStateToProps: any = ({ businessInfos }: any) => ({
-  businessInfos
+const mapStateToProps: any = ({ businessInfos, userInfo }: any) => ({
+  businessInfos,
+  userInfo
 })
 
 const mapDispatchToProps: any = (dispatch: any) => ({

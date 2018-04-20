@@ -3,6 +3,8 @@ import { Tabs, Row, Col, Button } from 'antd';
 const TabPane = Tabs.TabPane;
 import { StatusCard } from '../components/statusCard/StatusCard'
 import { connect } from 'react-redux'
+import { business as businessAction } from '../../../redux/actions/index'
+const { getStatusInfos } = businessAction
 
 class StatusControl extends React.Component<any, any> {
   constructor(props: any) {
@@ -16,13 +18,10 @@ class StatusControl extends React.Component<any, any> {
     console.log(1)
   }
 
-  // componentDidMount() {
-  //   const { token } = this.props.state.userInfo;
-  //   fetch(`/api/qualification/index?token=${token}`).then((res) => {
-  //     // debugger;
-  //     return res.json();
-  //   })
-  // }
+  componentDidMount() {
+    const { dispatch, userInfo: { token } } = this.props
+    dispatch(getStatusInfos(token))
+  }
 
   renderCard() {
 
@@ -88,8 +87,9 @@ class StatusControl extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps: any = (state: object) => ({
-  state: state
+const mapStateToProps: any = ({ statusInfos, userInfo }: any) => ({
+  statusInfos,
+  userInfo
 })
 
 const mapDispatchToProps: any = (dispatch: any) => ({

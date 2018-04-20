@@ -2,37 +2,11 @@ import * as React from "react";
 import { Form, Input } from 'antd';
 const FormItem = Form.Item;
 
-export const BillForm:any = Form.create({
-  onFieldsChange(props: any, changedFields: any) {
-    props.onChange(changedFields);
-  },
-  mapPropsToFields(props: any) {
-    return {
-      openingBank: Form.createFormField({
-        ...props.openingBank,
-        value: props.openingBank.value,
-      }),
-      account: Form.createFormField({
-        ...props.account,
-        value: props.account.value,
-      }),
-      receiver: Form.createFormField({
-        ...props.receiver,
-        value: props.receiver.value,
-      }),
-      status: Form.createFormField({
-        ...props.status,
-        value: props.status.value,
-      })
-    };
-  },
-  onValuesChange(values: any) {
-    console.log(values);
-  },
+export const BillForm:any = Form.create()((props:any) => {
   
-})((props) => {
-  console.log(props, "ttt")
-  const { getFieldDecorator } = props.form;
+  // const { getFieldDecorator } = props.form;
+  const { form: { getFieldDecorator } } = props
+  // bank, account, payee, finance_state,
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -47,11 +21,13 @@ export const BillForm:any = Form.create({
     <Form layout="vertical">
       <FormItem {...formItemLayout} label="开户行">
         {getFieldDecorator('openingBank', {
+          // initialValue: `${bank}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
       <FormItem {...formItemLayout} label="收款账号">
         {getFieldDecorator('account', {
+          // initialValue: `${account}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>

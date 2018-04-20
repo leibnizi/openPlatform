@@ -10,8 +10,8 @@ class Lease extends React.Component<any, any> {
     this.state = {
       productDetail: false,
       listData: [],
-      startTime: '',
-      endTime: '',
+      startTime: null,
+      endTime: null,
       product_spu: '',
       m_order_no: '',
       split_order_no: '',
@@ -68,29 +68,36 @@ class Lease extends React.Component<any, any> {
       {
         title: '订单编号',
         dataIndex: 'order_no',
+        key: 'order_no',
         render: (text: string) => <a href="#">{text}</a>
       }, {
         title: '子订单编号',
-        className: 'column-money',
-        dataIndex: 'split_order_no'
+        dataIndex: 'split_order_no',
+        key: 'split_order_no',
       }, {
         title: '商品编号',
-        dataIndex: 'code'
+        dataIndex: 'code',
+        key: 'code',
       }, {
         title: '商品主图',
-        dataIndex: 'brand_name'
+        dataIndex: 'brand_name',
+        key: 'brand_name',
       }, {
         title: '订单状态',
-        dataIndex: 'enabled'
+        dataIndex: 'enabled',
+        key: 'enabled',
       }, {
         title: '下单时间',
-        dataIndex: 'created_at'
+        dataIndex: 'created_at',
+        key: 'created_at',
       }, {
         title: '租赁周期',
-        dataIndex: 'rental_cycle'
+        dataIndex: 'rental_cycle',
+        key: 'rental_cycle',
       }, {
         title: '操作',
-        dataIndex: 'enabled'
+        dataIndex: 'enabled',
+        key: 'chakanxiangqing',
       }
     ];
 

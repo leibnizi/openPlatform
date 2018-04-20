@@ -35,7 +35,7 @@ class Lease extends React.Component<any, any> {
       endTime
     } = this.state
     const token = this.props.state.userInfo.token
-    const url = `/api/product/list?perPage=${20}&token=${token}
+    const url = `/api/order/list/1?perPage=${20}&token=${token}
                 &product_spu=${product_spu}&m_order_no=${m_order_no}
                 &split_order_no=${split_order_no}&status=${status}
                 &order_time[]=${startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}
@@ -66,30 +66,30 @@ class Lease extends React.Component<any, any> {
   render() {
     const columns: any[] = [
       {
-        title: '商品编号',
-        dataIndex: 'code',
+        title: '订单编号',
+        dataIndex: 'order_no',
         render: (text: string) => <a href="#">{text}</a>
       }, {
-        title: '商品名称',
+        title: '子订单编号',
         className: 'column-money',
-        dataIndex: 'name'
+        dataIndex: 'split_order_no'
+      }, {
+        title: '商品编号',
+        dataIndex: 'code'
       }, {
         title: '商品主图',
-        dataIndex: 'address'
-      }, {
-        title: '品牌',
         dataIndex: 'brand_name'
       }, {
-        title: '商品模式',
-        dataIndex: 'mode_id'
+        title: '订单状态',
+        dataIndex: 'enabled'
       }, {
-        title: '创建时间',
+        title: '下单时间',
         dataIndex: 'created_at'
       }, {
-        title: '上架时间',
-        dataIndex: 'enabled_at'
+        title: '租赁周期',
+        dataIndex: 'rental_cycle'
       }, {
-        title: '商品状态',
+        title: '操作',
         dataIndex: 'enabled'
       }
     ];

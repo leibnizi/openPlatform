@@ -18,12 +18,28 @@ class Product extends React.Component<any, any> {
       name: '',
       purchaser_product_no: '',
       pageTotal: 0,
-      currentPage: 0
+      currentPage: 0,
+      productDetailData: null
     }
   }
 
   componentDidMount() {
     this.queryData()
+    // this.props.dispatch(() => {return({type:'AXIOS'})})
+  }
+
+  productDetail = (id:any) => {
+    const token = this.props.state.userInfo.token
+    fetch(`api/product/detail/${id}?token=${token}`)
+      .then(res=>res.json())
+      .then(res=> {
+        if (res.status_code===0) {
+          this.setState({
+            productDetail: true,
+
+          })
+        }
+      })
   }
 
   getTableData = (nextPage: number) => {
@@ -68,14 +84,13 @@ class Product extends React.Component<any, any> {
       {
         title: '商品编号',
         dataIndex: 'code',
-        render: (text: string) => <a href="#">{text}</a>
       }, {
         title: '商品名称',
         className: 'column-money',
         dataIndex: 'name'
       }, {
         title: '商品主图',
-        dataIndex: 'main_image'
+        dataIndex: ''
       }, {
         title: '品牌',
         dataIndex: 'brand_name'
@@ -87,23 +102,68 @@ class Product extends React.Component<any, any> {
         dataIndex: 'created_at'
       }, {
         title: '上架时间',
-        dataIndex: 'enabled_at'
+        dataIndex: 'enabled_at',
+        sorter: (a:any) => console.log(a)
       }, {
         title: '商品状态',
         dataIndex: 'enabled'
-      }
-    ];
-
-    const data: any[] = [
-      {
-        key: '1',
-        name: 'John Brown',
-        brand_name: '100',
-        address: 'tokyo',
+      }, {
+        title: '租赁订单量',
+        dataIndex: 'rental_order_count'
+      }, {
+        title: '销售订单量',
+        dataIndex: 'sale_order_count'
+      }, {
+        title: '有效缓存',
+        dataIndex: 'stock'
+      }, {
+        title: '操作',
+        dataIndex: 'id',
+        render: (e:any) => {
+          return (
+            <span
+              onClick={()=>this.productDetail(e)}
+            >
+              {'查看详情'}
+            </span>
+          )
+        }
       }
     ]
 
-    const { productDetail, headerActive, listData, currentPage, pageTotal } = this.state
+    const detailColumn: any[] = [
+      {
+        title: '规格',
+        dataIndex: 'code',
+      }, {
+        title: '规格项',
+        className: 'column-money',
+        dataIndex: 'name'
+      }, {
+        title: '商品货号',
+        dataIndex: ''
+      }, {
+        title: '有效库存',
+        dataIndex: 'brand_name'
+      }, {
+        title: '市场价',
+        dataIndex: 'brand_name'
+      }, {
+        title: '租赁价(天)',
+        dataIndex: 'brand_name'
+      }, {
+        title: '续租价',
+        dataIndex: 'brand_name'
+      }, {
+        title: '留购价',
+        dataIndex: 'brand_name'
+      }, {
+        title: '售卖价',
+        dataIndex: 'brand_name'
+      }, 
+    ]
+
+    const { productDetail, headerActive, listData, currentPage, pageTotal, productDetailData } = this.state
     if (!productDetail) {
       return (
         <div className='operationproduct'>
@@ -242,15 +302,9 @@ class Product extends React.Component<any, any> {
                 <section>
                   <Table 
                     className='producttable' 
-                    columns={columns} 
-                    dataSource={data} 
+                    columns={detailColumn} 
+                    dataSource={productDetailData} 
                     bordered={true} 
-                    pagination={{
-                      total: pageTotal,
-                      defaultCurrent: currentPage,
-                      pageSize: 20
-                    }}
-                    onChange={(e) => this.pageChange(e)}
                   />
                 </section>
               </div>

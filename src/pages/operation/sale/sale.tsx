@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table, TimePicker } from 'antd'
-import './sale.less';
-import Item from '../../../components/productlist/listitem'
+import './sale.less'
 import { getFormatDate } from '../../../helper/utils'
 
 class Sale extends React.Component<any, any> {
@@ -18,7 +17,7 @@ class Sale extends React.Component<any, any> {
       status: '',
       pageTotal: '',
       currentPage: '',
-
+      listData: []
     }
   }
 
@@ -67,113 +66,47 @@ class Sale extends React.Component<any, any> {
   render() {
     const columns: any[] = [
       {
-        title: '商品编号',
-        dataIndex: 'name',
+        title: '订单编号',
+        dataIndex: 'product_spu',
         render: (text: string) => <a href="#">{text}</a>
       }, {
-        title: '商品名称',
+        title: '子订单编号',
         className: 'column-money',
         dataIndex: 'money'
       }, {
-        title: '商品主图',
-        dataIndex: 'address'
+        title: '商品编号',
+        dataIndex: 'code'
       }, {
-        title: '品牌',
+        title: '商品主图',
         dataIndex: 'pinpai'
       }, {
-        title: '商品模式',
-        dataIndex: 'moshi'
+        title: '订单状态',
+        dataIndex: 'enabled'
       }, {
-        title: '创建时间',
+        title: '支付状态',
         dataIndex: 'chuangjianshijian'
       }, {
-        title: '上架时间',
+        title: '下单时间',
         dataIndex: 'shangjianshijian'
       }, {
-        title: '商品状态',
+        title: '操作',
         dataIndex: 'zhuangtgai'
       }
     ];
 
-    const data: any[] = [
-      {
-        key: '1',
-        name: 'John Brown',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '4',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '5',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '6',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '7',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '8',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '9',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '10',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '11',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }
-    ];
-
-    const { 
+    const {
       productDetail,
       startTime,
       endTime,
       pageTotal,
-      currentPage
+      currentPage,
+      listData
      } = this.state
     if (!productDetail) {
       return (
         <div className='operationproduct'>
           <header className='productheader'>订单列表-销售订单</header>
           <section>
-            {
-              ['商品编号', '商品名称', '商品货号', '商品状态', '商品模式', '商品类目', 'SPU是否启用'].map((item, index) =>
-                <Item
-                  key={index}
-                  itemname={item}
-                />
-              )
-            }
             <div className='item'>
               <p>商品编号:</p>
               <input
@@ -226,7 +159,7 @@ class Sale extends React.Component<any, any> {
             <Table 
               className='producttab' 
               columns={columns} 
-              dataSource={data} 
+              dataSource={listData} 
               bordered={true} 
               pagination={{
                 total: pageTotal,
@@ -265,7 +198,7 @@ class Sale extends React.Component<any, any> {
               <Table 
                 className='producttable' 
                 columns={columns} 
-                dataSource={data} 
+                dataSource={listData} 
                 bordered={true} 
                 pagination={{
                   total: pageTotal,

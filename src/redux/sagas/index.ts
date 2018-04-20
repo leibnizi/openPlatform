@@ -1,7 +1,7 @@
-import { takeEvery, delay } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { delay, takeEvery } from 'redux-saga'
+import { call, put } from 'redux-saga/effects'
+import axios from 'axios'
 import { httpGet } from '../../../src/services/httpRequest'
-
 // const delay = (ms: any) => new Promise(resolve => setTimeout(resolve, ms))
 
 export function* incrementAsync() {
@@ -10,8 +10,7 @@ export function* incrementAsync() {
 }
 
 export default function* rootSaga() {
-  yield takeEvery('INCREMENT_ASYNC', incrementAsync)
-  yield takeEvery("GET_BUSINESS_INFO", fetchBsInfos)
+  yield takeEvery('SAGA_POSTS', sagaPost)
 }
 
 export function* fetchBsInfos() {
@@ -27,6 +26,17 @@ export function* fetchBsInfos() {
   }
 }
 
-// export function* fetchBsInfoSage(params:any) {
-//   yield takeEvery("",fetchBsInfos)
-// }
+interface SagaPostType {
+  posts: Object
+  type: string
+}
+
+function* sagaPost(body: SagaPostType) {
+  try {
+    const response = yield call(axios.post, '/api/financial/apply', body.posts)
+    console.log('response', response)
+    // yield put(GET_POSTS(response.data))
+  } catch (error) {
+    console.log('error', error)
+  }
+}

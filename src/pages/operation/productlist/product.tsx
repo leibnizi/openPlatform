@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
+import { GET_POSTS } from '../../../redux/actions/index'
 import './product.less'
 
 class Product extends React.Component<any, any> {
@@ -24,8 +25,8 @@ class Product extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    this.queryData()
-    // this.props.dispatch(() => {return({type:'AXIOS'})})
+    // this.queryData()
+    this.props.dispatch(GET_POSTS({a:1}))
   }
 
   productDetail = (id:any) => {
@@ -326,7 +327,7 @@ const mapStateToProps: any = (state: object) => ({
 })
 
 const mapDispatchToProps: any = (dispatch: any) => ({
-  dispatch
+  dispatch,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product)

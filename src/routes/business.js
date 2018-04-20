@@ -29,7 +29,7 @@ export default class Business extends Component {
             <p>账户管理</p>
             <OldMenuLink to="/business/bill" label="财务信息" />
             <OldMenuLink to="/business/account" label="账户信息" />
-            <OldMenuLink to="/business/renewal" label="续约管理" />
+            {/* <OldMenuLink to="/business/renewal" label="续约管理" /> */}
           </div>
           <div className='content'>
             <Route exact path="/business" component={Infos} />

@@ -1,12 +1,21 @@
-const statusInfos = (state: any = {}, action: any) => {
+const statusInfos = (state: any = [], action: any) => {
   switch (action.type) {
     case 'GET_STATUS_SUCCESS':
-      const newState = Object.assign({}, state, action.data);
-      // console.log("New State",newState);
-      return newState;
+      return [...state, ...action.data]
     default:
       return state
   }
 }
 
-export default statusInfos
+const deleteStatus = (state: any = {}, action: any) => {
+  switch (action.type) {
+    case 'DEIETE_STATUS_SUCCESS':
+    default:
+      return state
+  }
+}
+
+export default {
+  statusInfos,
+  deleteStatus
+}

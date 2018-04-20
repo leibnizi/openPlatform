@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Row, Col, Button } from 'antd';
+import { Row, Col } from 'antd';
 import { connect } from 'react-redux'
 import { BillForm } from '../components/billForm/billForm'
 import './bill.less'
@@ -7,12 +7,6 @@ import { business as businessAction } from '../../../redux/actions/index'
 const { getBillInfos } = businessAction
 
 class Bill extends React.Component<any, any> {
-  // constructor(props: any) {
-  //   super(props)
-  //   this.state = {
-  //     // cardList: [1, 2, 3, 4]
-  //   }
-  // }
   state = {
     fields: {
       openingBank: {
@@ -36,14 +30,18 @@ class Bill extends React.Component<any, any> {
     dispatch(getBillInfos(token))
   }
 
-  handleFormChange = (changedFields: any) => {
-    this.setState(({ fields }: any) => ({
-      fields: { ...fields, ...changedFields },
-    }));
+  componentWillReceiveProps(nextProps:any) {
+    const {billInfos} = nextProps
+    if (!billInfos.bank ) {
+      this.setState({
+        is_edit: true
+      });
+    }
   }
-  changeTabFun() {
 
-    console.log(1)
+  handleFormChange = (value: any) => {
+    console.log(value,"FFF")
+    // api / finance / index
   }
 
   toggleEditFun = () =>  {
@@ -104,13 +102,13 @@ class Bill extends React.Component<any, any> {
               </Row>
           </Col>
         </Row>
-        <Row className="edit_btn">
+        {/* <Row className="edit_btn">
           <Col >
             <Button onClick={()=>this.toggleEditFun()}>
-              {is_edit ? '保存' : '编辑财务信息'}
+              {is_edit ? '保2存' : '编辑财务信息'}
             </Button>
           </Col>
-        </Row>
+        </Row> */}
       </div>
     );
   }

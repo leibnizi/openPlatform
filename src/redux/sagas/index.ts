@@ -13,7 +13,10 @@ export default function* rootSaga() {
   yield takeEvery("GET_BUSINESS_INFO", getBsInfos)
   yield takeEvery("GET_STATUS_INFO", getStatusInfos)
   yield takeEvery("GET_BILL_INFO", getBillInfos)
+  yield takeEvery("GET_ACCOUNT_INFO", getAccountInfos)
   yield takeEvery("POST_BUSINESS_INFO", postBsInfos)
+  yield takeEvery("DEIETE_STATUS", deleteStatus)
+  
 }
 
 export function* getBsInfos(action:any) {
@@ -31,8 +34,17 @@ export function* getBsInfos(action:any) {
 
 export function* getStatusInfos(action: any) {
   try {
-    const response = yield call(httpGet, `/api/sss/index?token=${action.data}`);
+    const response = yield call(httpGet, `/api/qualification/index?token=${action.data}`);
     yield put({ type: 'GET_STATUS_SUCCESS', data: response.data.data });
+  } catch (error) {
+    // yield put(fetchFailure());
+  }
+}
+
+export function* deleteStatus(action: any) {
+  try {
+    const response = yield call(httpGet, `/api/qualification/delete/index${action.id}?token=${action.data.token}`);
+    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.msg });
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -42,6 +54,15 @@ export function* getBillInfos(action: any) {
   try {
     const response = yield call(httpGet, `/api/finance/index?token=${action.data}`);
     yield put({ type: 'GET_BILL_SUCCESS', data: response.data.data });
+  } catch (error) {
+    // yield put(fetchFailure());
+  }
+}
+
+export function* getAccountInfos(action: any) {
+  try {
+    const response = yield call(httpGet, `/api/account/index?token=${action.data}`);
+    yield put({ type: 'GET_ACCOUNT_SUCCESS', data: response.data.data });
   } catch (error) {
     // yield put(fetchFailure());
   }

@@ -1,69 +1,59 @@
 import * as React from "react";
-import { Form, Input } from 'antd';
+import { Form, Input, Button } from 'antd';
 const FormItem = Form.Item;
 
-export const AccountForm: any = Form.create({
-  onFieldsChange(props: any, changedFields: any) {
-    props.onChange(changedFields);
-  },
-  mapPropsToFields(props: any) {
-    return {
-      username: Form.createFormField({
-        ...props.username,
-        value: props.username.value,
-      }),
-      phone: Form.createFormField({
-        ...props.phone,
-        value: props.phone.value,
-      }),
-      e_mail: Form.createFormField({
-        ...props.e_mail,
-        value: props.e_mail.value,
-      }),
-      address: Form.createFormField({
-        ...props.address,
-        value: props.address.value,
-      })
-    };
-  },
-  onValuesChange(values: any) {
-    console.log(values);
-  },
+export const AccountForm: any = Form.create()((props: any) => {
 
-})((props) => {
-  const { getFieldDecorator } = props.form;
+  const { form: { getFieldDecorator }, mobile, email, name, address, } = props
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 4 },
+      sm: { span: 5 },
     },
     wrapperCol: {
       xs: { span: 24 },
-      sm: { span: 14 },
+      sm: { span: 17 },
     },
   };
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    props.form.validateFields((err: any, values: any) => {
+      if (!err) {
+
+        props.onChange(values)
+      }
+    });
+  }
+
   return (
-    <Form layout="vertical">
-      <FormItem {...formItemLayout} label="开户行">
-        {getFieldDecorator('username', {
+    <Form layout="vertical" onSubmit={handleSubmit}>
+      <FormItem {...formItemLayout} label="用户名">
+        {getFieldDecorator('name', {
+          initialValue: `${name}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
-      <FormItem {...formItemLayout} label="收款账号">
-        {getFieldDecorator('phone', {
+      <FormItem {...formItemLayout} label="手机号">
+        {getFieldDecorator('mobile', {
+          initialValue: `${mobile}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
-      <FormItem {...formItemLayout} label="收款人">
-        {getFieldDecorator('e_mail', {
+      <FormItem {...formItemLayout} label="邮箱">
+        {getFieldDecorator('email', {
+          initialValue: `${email}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
-      <FormItem {...formItemLayout} label="信息状态">
+      <FormItem {...formItemLayout} label="地址">
         {getFieldDecorator('address', {
+          initialValue: `${address}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
+      <Button htmlType="submit">
+        保存
+      </Button>
     </Form>
   );
 });

@@ -1,7 +1,13 @@
-import { takeEvery, delay } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { delay, takeEvery } from 'redux-saga'
+import { call, put } from 'redux-saga/effects'
+import axios from 'axios'
 import { httpGet } from '../../../src/services/httpRequest'
-import request from 'axios';
+// import request from 'axios';
+// const delay = (ms: any) => new Promise(resolve => setTimeout(resolve, ms))
+interface SagaPostType {
+  posts: Object
+  type: string
+}
 
 export function* incrementAsync() {
   yield delay(1000)
@@ -17,6 +23,7 @@ export default function* rootSaga() {
   yield takeEvery("POST_BUSINESS_INFO", postBsInfos)
   yield takeEvery("DEIETE_STATUS", deleteStatus)
   
+  yield takeEvery('SAGA_POSTS', sagaPost)
 }
 
 export function* getBsInfos(action:any) {
@@ -71,13 +78,19 @@ export function* getAccountInfos(action: any) {
 export function* postBsInfos(action: any) {
   try {
     // const response = yield call(login({a:1}));
-    const response = yield call(request.post, '/api/merchant/edit', action.data)
-    // 或者
-    // const response = yield call( fetch, fetchUrl );
-
-    // 将上一步调用fetch得到的结果作为某action的参数dispatch，对应saga的put
+    console.log(JSON.stringify(action.data), "Www")
+    const response = yield call(axios.post, '/api/merchant/edit', JSON.stringify(action.data))  
     yield put({ type: 'GET_BUSINESS_SUCCESS', data: response.data.data });
   } catch (error) {
     // yield put(fetchFailure());
+  }
+}
+export function* sagaPost(body: SagaPostType) {
+  try {
+    const response = yield call(axios.post, '/api/financial/apply', body.posts)
+    console.log('response', response)
+    // yield put(GET_POSTS(response.data))
+  } catch (error) {
+    console.log('error', error)
   }
 }

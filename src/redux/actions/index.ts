@@ -8,6 +8,10 @@ const onIncrementIfOdd = () => store.dispatch({ type: 'INCREMENT_IF_ODD' })
 const onIncrementAsync = () => store.dispatch({ type: 'INCREMENT_ASYNC' })
 const setUserInfo = (info: any) => store.dispatch({ type: 'SET_USERINFO', info })
 
+const GET_POSTS = (posts: Object) => {
+  return { type: 'SAGA_POSTS', posts }
+}
+
 export {
   business,
 
@@ -15,5 +19,6 @@ export {
   onDecrement,
   onIncrementIfOdd,
   onIncrementAsync,
-  setUserInfo
+  setUserInfo,
+  GET_POSTS,
 }

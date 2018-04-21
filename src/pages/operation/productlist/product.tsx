@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
-import { Layout, Row, Col } from 'antd';
-// Row, Col, Button
 // import { GET_POSTS } from '../../../redux/actions/index'
 import './product.less'
 
@@ -215,12 +213,6 @@ class Product extends React.Component<any, any> {
         key: 'sale_discount_price'
       },
     ]
-    
-    const itemLayout = {
-      xs: { span: 24 },
-      sm: { span: 8 },
-      md: { span: 6 },
-    };
 
     const { 
       productDetail, headerActive, listData, currentPage, pageTotal, productDetailData,
@@ -228,17 +220,15 @@ class Product extends React.Component<any, any> {
     } = this.state
     if (!productDetail) {
       return (
-        <Layout className=''>
-          <header>
-            <div className="content-title">商家信息</div>
-          </header>
-          <Row>
-            <Col {...itemLayout} className='item'>
+        <div className='operationproduct'>
+          <header className='productheader'>商品列表</header>
+          <section>
+            <div className='item'>
               <p>商品编号:</p>
               <input
                 onChange={(e) => this.setState({ code: e.target.value })}
               />
-            </Col>
+            </div>
             <div className='item'>
               <p>商品名称:</p>
               <input
@@ -296,7 +286,7 @@ class Product extends React.Component<any, any> {
                 <option value="0">不启用</option>
               </select>
             </div>
-          </Row>
+          </section>
           <section className='productmid'>
             <span
               onClick={() => this.queryData()}
@@ -321,7 +311,7 @@ class Product extends React.Component<any, any> {
               onChange={(e) => this.pageChange(e)}
             />
           </section>
-        </Layout>
+        </div>
       )
     } else {
       return (

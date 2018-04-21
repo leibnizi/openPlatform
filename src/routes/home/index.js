@@ -106,7 +106,7 @@ class Home extends Component {
     const { moduleGap, on_sale_data } = this.state
 
     return (
-    <div className="home-page" loading={false}>
+    <div className="home-page">
       <Row gutter={moduleGap} type="flex" justify="start"
       align="top"
 

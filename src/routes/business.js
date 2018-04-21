@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom"
 import { Layout, Menu } from 'antd';
 // import BsControl from './BsControl'
 import Infos from '../pages/business/infos'
@@ -32,7 +32,7 @@ export default class Business extends Component {
             {/* <OldMenuLink to="/business/renewal" label="续约管理" /> */}
           </div>
           <div className='content'>
-            <Route exact path="/business" component={Infos} />
+            <Route exact path="/business" render={() => <Redirect to="/business/bsInfo" />} />
             <Route exact path="/business/bsInfo" component={Infos} />
             <Route exact path="/business/edit_infos" component={EditInfos} />
             <Route path="/business/statusControl" component={StatusControl} />

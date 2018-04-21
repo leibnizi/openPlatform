@@ -50,7 +50,7 @@ export function* getStatusInfos(action: any) {
 
 export function* deleteStatus(action: any) {
   try {
-    const response = yield call(httpGet, `/api/qualification/delete/index${action.id}?token=${action.data.token}`);
+    const response = yield call(httpGet, `/api/qualification/delete/${action.data.id}?token=${action.data.token}`);
     yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.msg });
   } catch (error) {
     // yield put(fetchFailure());
@@ -78,7 +78,7 @@ export function* getAccountInfos(action: any) {
 export function* postBsInfos(action: any) {
   try {
     // const response = yield call(login({a:1}));
-    console.log(JSON.stringify(action.data), "Www")
+    // console.log(JSON.stringify(action.data), "Www")
     const response = yield call(axios.post, '/api/merchant/edit', JSON.stringify(action.data))  
     yield put({ type: 'GET_BUSINESS_SUCCESS', data: response.data.data });
   } catch (error) {

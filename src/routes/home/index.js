@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Row, Col, Card, Table } from 'antd'
-import { onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync } from '../../redux/actions'
-import {fetchUtil} from '../../services/httpRequest'
+import { indexChartsAct, getOnlineProduct, getUserInfos, getMerchantMessage } from '../../redux/actions'
+// onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync, 
 // import Page from '../../components/page/Page'
 import NumBlock from './components/NumBlock'
 import './index.less';
 import '../../styles/common.less';
 import { height } from 'window-size';
 import { barChart,lineChart } from '../../components/chartBuilder/index'
+import { get } from 'http';
 
 
 const { Meta } = Card;
@@ -93,6 +94,11 @@ class Home extends Component {
   componentDidMount() {
     barChart(this._options)
     lineChart(this._lineOp)
+    const { dispatch, userInfo: { token } } = this.props
+    dispatch(getUserInfos(token))
+    dispatch(indexChartsAct(token))
+    dispatch(getOnlineProduct(token))
+    dispatch(getMerchantMessage(token))
   }
 
   rapTest(){
@@ -104,17 +110,19 @@ class Home extends Component {
 
   render() {
     const { moduleGap, on_sale_data } = this.state
+    const { userInfo: { name, created_at, updated_at }, merchantMessage: { article } } = this.props
 
     return (
     <div className="home-page">
-      <Row gutter={moduleGap} type="flex" justify="start"
-      align="top"
-
-      // order={4}
+      <Row 
+        gutter={moduleGap} 
+        type="flex" 
+        justify="start"
+        align="top"
       >
         <Col span={8}>
           <Card className="card-row" bordered={false}>
-            <Meta title="欢迎您，用户名用户名！" description="This is the description" />
+            <Meta title={`欢迎您：${name}`} />
             <p>上次登录：YYYY年MM月DD日 hh:mm:ss</p>
             <p>到期登录：YYYY年MM月DD日 hh:mm:ss</p>
             <Row type="flex" justify="space-between">
@@ -133,12 +141,10 @@ class Home extends Component {
             <Row className="card-content-margin" gutter={10} type="flex" justify="space-between">
               <Col span={12}>
                 <NumBlock title="累计收益" value={10}>
-                  21123
                 </NumBlock>
               </Col>
               <Col span={12}>
                 <NumBlock title="可以提现现金">
-                  21123
                 </NumBlock>
               </Col>
             </Row>
@@ -148,14 +154,13 @@ class Home extends Component {
           <Card className="card-row" bordered={false}>
             <Meta title="公告" />
             <Row className="notice card-content-margin" gutter={10} type="flex" justify="space-between">
-              <div className="ellipsis">公告标题公告标题公告标题啦啦啦啦啦啦啦</div>
-              <div className="ellipsis">公告标题公告标题公告标题啦啦啦啦啦啦啦</div>
-              <div className="ellipsis">公告标题公告标题公告标题啦啦啦啦啦啦啦</div>
+              <div className="ellipsis notice-item-title">{article[0].title}</div>
+              <div className="ellipsis notice-item-title">{article[1].title}</div>
+              <div className="ellipsis notice-item-title">{article[2].title}</div>
             </Row>
-            {/* <Row>
-                查看更多公告
-              </Row> */
-            }
+            <Row className="more-notice">
+              查看更多公告
+            </Row>
           </Card>
         </Col>
       </Row>
@@ -166,12 +171,10 @@ class Home extends Component {
             <Row className="card-content-margin" gutter={10}>
               <Col span={12}>
                 <NumBlock title="租赁商品数据" value={10}>
-                  昨日: {0}
                 </NumBlock>
               </Col>
               <Col span={12}>
                 <NumBlock title="销售商品数" value={10}>
-                  昨日: {0}
                 </NumBlock>
               </Col>
             </Row>
@@ -223,8 +226,14 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { value: state }
-}
+const mapStateToProps = ({ businessInfos, userInfo, merchantMessage}) => ({
+  businessInfos,
+  userInfo,
+  merchantMessage
+})
 
-export default connect(mapStateToProps, { onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync })(Home)
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

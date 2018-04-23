@@ -114,6 +114,9 @@ class RegisterRoute extends React.Component {
 }
 
 class App extends React.Component {
+  // componentDidMount(){
+  //   console.log("SSSSS")
+  // }
   render() {
     var formData = new FormData();
     console.log(this.props, "FFF", formData)

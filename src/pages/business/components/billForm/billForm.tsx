@@ -5,7 +5,7 @@ const FormItem = Form.Item;
 export const BillForm:any = Form.create()((props:any) => {
   
   // const { getFieldDecorator } = props.form;
-  const { form: { getFieldDecorator }, bank, account, payee, finance_state, } = props
+  const { form: { getFieldDecorator }, bank, account, payee } = props
   // bank, account, payee, finance_state,
   const formItemLayout = {
     labelCol: {
@@ -30,7 +30,7 @@ export const BillForm:any = Form.create()((props:any) => {
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
       <FormItem {...formItemLayout} label="开户行">
-        {getFieldDecorator('openingBank', {
+        {getFieldDecorator('bank', {
           initialValue: `${bank}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
@@ -42,17 +42,19 @@ export const BillForm:any = Form.create()((props:any) => {
         })(<Input />)}
       </FormItem>
       <FormItem {...formItemLayout} label="收款人">
-        {getFieldDecorator('receiver', {
+        {getFieldDecorator('payee', {
           initialValue: `${payee}`,
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
-      <FormItem {...formItemLayout} label="信息状态">
+      {/* <div>{finance_state}</div> */}
+      {/* <FormItem {...formItemLayout} label="信息状态">
         {getFieldDecorator('status', {
           initialValue: `${finance_state}`,
           rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
-      </FormItem>
+        })(<div></div>)}
+      </FormItem> */}
+      
       <Button htmlType="submit">
         保存
       </Button>

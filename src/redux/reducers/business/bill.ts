@@ -22,4 +22,16 @@ const billInfos = (state: BillInfoState = initBillState, action: any) => {
   }
 }
 
-export default billInfos
+const postbillInfos = (state:any = {}, action: any) => {
+  switch (action.type) {
+    case 'POST_BILL_INFO_SUCCESS':
+      const newState = Object.assign({}, state, action.data);
+      return newState;
+    default:
+      return state
+  }
+}
+
+export default { 
+  billInfos, postbillInfos 
+}

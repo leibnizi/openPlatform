@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { BillForm } from '../components/billForm/billForm'
 import './bill.less'
 import { business as businessAction } from '../../../redux/actions/index'
-const { getBillInfos } = businessAction
+const { getBillInfos, postBillInfos } = businessAction
 
 class Bill extends React.Component<any, any> {
   state = {
@@ -41,6 +41,11 @@ class Bill extends React.Component<any, any> {
 
   handleFormChange = (value: any) => {
     console.log(value,"FFF")
+    const { dispatch, userInfo: { token } } = this.props
+    dispatch(postBillInfos({
+      token,
+      value
+    }))
     // api / finance / index
   }
 

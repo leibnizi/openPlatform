@@ -19,7 +19,6 @@ export const AccountForm: any = Form.create()((props: any) => {
     e.preventDefault();
     props.form.validateFields((err: any, values: any) => {
       if (!err) {
-
         props.onChange(values)
       }
     });
@@ -37,7 +36,7 @@ export const AccountForm: any = Form.create()((props: any) => {
         {getFieldDecorator('mobile', {
           initialValue: `${mobile}`,
           rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
+        })(<Input disabled={true}/>)}
       </FormItem>
       <FormItem {...formItemLayout} label="邮箱">
         {getFieldDecorator('email', {

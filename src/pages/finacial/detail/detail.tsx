@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { TimePicker, Table } from 'antd'
+import { TimePicker, Table, Button } from 'antd'
 import './detail.less'
 
 class Detail extends React.Component<any, any> {
@@ -80,18 +80,36 @@ class Detail extends React.Component<any, any> {
     return (
       <div className='detail'>
         <p className='detailHead'>对账明细</p>
-        <p>
-          下单时间：
-          <TimePicker onChange={(e) => this.startTime(e)} />
-          -
-          <TimePicker onChange={(e) => this.endTime(e)} />
-        </p>
+        
         <form onSubmit={(e) => this.handleSubmit(e)}>
-          <label>
-            账单编号:
-            <input type="text" value={formNum} onChange={(e) => this.handleChange(e.target.value)} />
+          <label className='formTime'>
+            <span className='timeFont'>下单时间：</span>
+            <TimePicker 
+              className='timePick'
+              onChange={(e) => this.startTime(e)} 
+            />
+            <span className='timeSymbol'>-</span>
+            <TimePicker 
+              className='timePick'
+              onChange={(e) => this.endTime(e)} 
+            />
           </label>
-          <input type="submit" value="查询" />
+          <label className='formsecond'>
+            <span>账单编号:</span>
+            <input 
+              type="text" 
+              value={formNum} 
+              onChange={(e) => this.handleChange(e.target.value)} 
+            />
+          </label>
+          {/* <input className='querySubmit' type="submit" value="查询" /> */}
+          <Button 
+            className='querySubmit' 
+            type="primary"
+            htmlType="submit"
+          >
+            查询
+          </Button>
           <p>如对账单有疑问，请联系对接人</p>
         </form>
         <Table

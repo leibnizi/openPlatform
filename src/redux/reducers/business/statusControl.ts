@@ -1,7 +1,7 @@
 const statusInfos = (state: any = [], action: any) => {
   switch (action.type) {
     case 'GET_STATUS_SUCCESS':
-      return [...state, ...action.data]
+      return action.data
     default:
       return state
   }

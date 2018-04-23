@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Tabs, Row, Col, Button, Modal, Upload, Icon } from 'antd';
-const TabPane = Tabs.TabPane;
 import { StatusCard } from '../components/statusCard/StatusCard'
 import { connect } from 'react-redux'
 import { EditStatusForm } from './components/EditStatusForm'
 
 import { business as businessAction } from '../../../redux/actions/index'
 const { getStatusInfos, deleteStatus } = businessAction
+const Dragger = Upload.Dragger;
+const TabPane = Tabs.TabPane;
 
 class StatusControl extends React.Component<any, any> {
   constructor(props: any) {
@@ -37,7 +38,6 @@ class StatusControl extends React.Component<any, any> {
 
   renderCard(cardList:any) {
     return cardList.map((item: any, index: any) => {
-      // console.log(item, "!!!")
       return (
         <Col className="status-card" span={8} key={index}>
           <StatusCard 
@@ -53,6 +53,8 @@ class StatusControl extends React.Component<any, any> {
 
   editStatusCard = (file:any, id:any) => {
     console.log(file, id,"WW")
+    // const { dispatch, userInfo: { token } } = this.props
+    // dispatch(getBusinessInfos(token))
   }
 
   deleteStatusCard = (id:any) => {
@@ -98,7 +100,7 @@ class StatusControl extends React.Component<any, any> {
             className="tabs-container"
           >
             <TabPane className="tab-content" tab="基本资质" key="1">
-              <Row>
+              <Row className="tab-content-box">
                 <Col className="tab-content-left" span={3}>
                   <div>
                     营业执照：
@@ -110,21 +112,12 @@ class StatusControl extends React.Component<any, any> {
                   </div>
                 </Col>
                 <Col span={21}>
-                  {/* <div className="img-box">
-                    <img width="100%" src="" alt=""/>
-                    {this.renderCard(this.state.cardList)}
-                  </div>
-                  <div className="amend-box">
-                    <Button>
-                      修改
-                    </Button>
-                  </div> */}
                   <Row>
                     {this.renderCard(statusInfos)}
                     <Col span={8} className="content-btn">
-                      <Button style={{margin:"auto"}}>
+                      <Dragger style={{width: '200px'}}>
                         添加
-                      </Button>
+                      </Dragger>
                     </Col>
                     <div className="clearfix">
                       <Upload
@@ -145,12 +138,12 @@ class StatusControl extends React.Component<any, any> {
               </Row>
             </TabPane>
             <TabPane tab="补充资源" key="2">
-              <Row>
+              <Row className="tab-content-box">
                 {this.renderCard(statusInfos)}
                 <Col span={8} className="content-btn">
-                  <Button>
+                  <Dragger style={{ width: '200px' }}>
                     添加
-                  </Button>
+                  </Dragger>
                 </Col>
               </Row>
             </TabPane>

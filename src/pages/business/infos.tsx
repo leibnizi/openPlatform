@@ -23,9 +23,9 @@ class Infos extends React.Component<any, {}> {
     ]
 
     return content.map((item, index) => (
-      <Row className="row-box" key={index}>
+      <Row type="flex" className="row-box" key={index}>
         <Col span={3} className="content-title-label">{item.name}：</Col>
-        <Col className="content-title-text" span={20}>{item.value}</Col>
+        <Col className="content-title-text">{item.value}</Col>
       </Row>
     ))
 
@@ -50,41 +50,41 @@ class Infos extends React.Component<any, {}> {
         <header>
           <Row className="">
             <Col span={3} className="content-title">商家信息</Col>
-            <Col className="describe" offset={1} span={20} >BUSINESS INFOMATION</Col>
+            <Col className="describe" offset={1} >BUSINESS INFOMATION</Col>
           </Row>
         </header>
 
         <article>
-          <Row className="row-box">
+          <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">企业名称：</Col>
-            <Col className="content-title-text" span={3}>{biz_name}</Col>
-            <Col className="describe" span={5}>上季度盈利量级：千万元</Col>
+            <Col className="content-title-text">{biz_name}</Col>
+            <Col className="describe flex-grow-1">上季度盈利量级：千万元</Col>
           </Row>
-          <Row className="row-box">
+          <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">主营品牌：</Col>
-            <Col className="content-title-text" span={20} >{brand}</Col>
+            <Col className="content-title-text" >{brand}</Col>
           </Row>
-          <Row className="row-box">
+          <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">供应商简介：</Col>
-            <Col className="content-title-text" span={20}>{biz_intro}</Col>
+            <Col className="content-title-text">{biz_intro}</Col>
           </Row>
-          <Row className="row-box">
+          <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">官网地址：</Col>
-            <Col className="content-title-text" span={20}>{website}</Col>
+            <Col className="content-title-text">{website}</Col>
           </Row>
           <Row type="flex" align="middle" className="row-box">
             <Col span={3} className="content-title-label">商家状态：</Col>
-            <Col className="content-title-text" span={1}>{merchant_state}</Col>
-            <Col offset={1} span={2}><Button>续约</Button></Col>
-            <Col className="describe" span={15}>有效期至：2019年1月28日</Col>
+            <Col className="content-title-text">{merchant_state}</Col>
+            <Col offset={1}><Button>续约</Button></Col>
+            <Col className="describe">有效期至：2019年1月28日</Col>
           </Row>
-          <Row className="row-box">
+          <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">类目：</Col>
-            <Col className="content-title-text" span={20}>{category_id}</Col>
+            <Col className="content-title-text">{category_id}</Col>
           </Row>
-          <Row className="row-box">
+          <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">商家类型：</Col>
-            <Col className="content-title-text" span={20}>{biz_type}</Col>
+            <Col className="content-title-text">{biz_type}</Col>
           </Row>
           <Row className="line" />
           {this.renderContentItems()}

@@ -6,7 +6,6 @@ import './editInfos.less'
 import { business as businessAction } from '../../../redux/actions/index'
 const { getBusinessInfos, editBusinessInfos } = businessAction
 const Option = Select.Option;
-// editBusinessInfos
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -45,13 +44,13 @@ class EditInfos extends React.Component<any, {}> {
 
   handleSubmit = (e:any) => {
     const { dispatch, userInfo: { token }} = this.props
+    
     e.preventDefault();
-    this.props.form.validateFields((err:any, values:any) => {
+    this.props.form.validateFields((err:any, value:any) => {
       if (!err) {
-        // console.log('Received values of form: ', {token,...values},"kkkkk");
         dispatch(editBusinessInfos({
           token,
-          ...values
+          value
         }))
       }
     });
@@ -81,11 +80,10 @@ class EditInfos extends React.Component<any, {}> {
     };
     const {
       businessInfos: {
-        biz_name, profit_level, brand, website, biz_intro, merchant_state, biz_type,
-        biz_operator, mobile, email, qq, faxes, address
+        biz_name, profit_level, brand, website, biz_intro, merchant_state,
+        biz_operator, mobile, email, qq, faxes, address, biz_type, category_id
       }
     } = this.props
-    // category_id
     return (
       <Layout className="bs-info-box">
         <header>
@@ -106,7 +104,7 @@ class EditInfos extends React.Component<any, {}> {
                   label="上季度盈利量级"
                 >
                   {getFieldDecorator('profit_level', {
-                    initialValue: `${profit_level}`,
+                    initialValue: profit_level,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Select style={{ width: 120 }}>
@@ -181,17 +179,17 @@ class EditInfos extends React.Component<any, {}> {
                   label="类目"
                 >
                   {getFieldDecorator('category_id', {
-                    // initialValue:`${}`,
+                    initialValue: category_id,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Checkbox.Group style={{ width: '100%', marginTop: '10px' }}>
                       <Row>
-                        <Col span={3}><Checkbox value="A">女装</Checkbox></Col>
-                        <Col span={3}><Checkbox value="B">箱包</Checkbox></Col>
-                        <Col span={3}><Checkbox value="C">配饰</Checkbox></Col>
-                        <Col span={3}><Checkbox value="D">其他</Checkbox></Col>
+                        <Col span={3}><Checkbox value={1}>女装</Checkbox></Col>
+                        <Col span={3}><Checkbox value={2}>箱包</Checkbox></Col>
+                        <Col span={3}><Checkbox value={3}>配饰</Checkbox></Col>
+                        <Col span={3}><Checkbox value={4}>其他</Checkbox></Col>
                       </Row>
-                    </Checkbox.Group>,
+                    </Checkbox.Group>
                     )}
                 </FormItem>
               </Col>
@@ -203,15 +201,16 @@ class EditInfos extends React.Component<any, {}> {
                   label="运营人员"
                 >
                   {getFieldDecorator('biz_operator', {
-                    initialValue: `${biz_operator}`,
+                    initialValue: biz_operator,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
-                    <Select style={{ width: 120 }}>
-                      <Option value="jack">品牌方</Option>
-                      <Option value="lucy">经销商</Option>
-                      {/* <Option value="disabled" disabled>Disabled</Option>
-                      <Option value="Yiminghe">yiminghe</Option> */}
-                    </Select>
+                    // <Select style={{ width: 120 }}>
+                    //   <Option value={1}>品牌方</Option>
+                    //   <Option value={2}>经销商</Option>
+                    //   {/* <Option value="disabled" disabled>Disabled</Option>
+                    //   <Option value="Yiminghe">yiminghe</Option> */}
+                    // </Select>
+                      <Input />
                     )}
                 </FormItem>
               </Col>
@@ -224,7 +223,7 @@ class EditInfos extends React.Component<any, {}> {
                   label="商家类型"
                 >
                   {getFieldDecorator('biz_type', {
-                    initialValue:`${biz_type}`,
+                    initialValue: biz_type,
                     rules: [{ required: true, message: 'Please input your username!' }],
                   })(
                     <Select style={{ width: 120 }}>

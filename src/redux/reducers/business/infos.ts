@@ -4,6 +4,8 @@ const businessInfos = (state: any = {}, action: any) => {
       const newState = Object.assign({}, state, action.data);
       // console.log("New State",newState);
       return newState;
+    case 'POST_BUSINESS_SUCCESS':
+      return Object.assign({}, state, action.data);
     default:
       return state
   }

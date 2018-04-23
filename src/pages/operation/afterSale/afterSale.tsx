@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux';
-import { Table } from 'antd'
+import { Table, TimePicker } from 'antd'
 import './afterSale.less'
 import { getFormatDate } from '../../../helper/utils'
 
@@ -14,7 +14,7 @@ class AfterSale extends React.Component<any, any> {
       product_name: '',
       type: '',
       begin: '',
-      end: ''
+      end: '',
     }
   }
 
@@ -65,7 +65,7 @@ class AfterSale extends React.Component<any, any> {
   render() {
     const columns: any[] = [
       {
-        title: '售后订单编号',
+        title: '售后单编号',
         dataIndex: 'id',
         render: (text: string) => <a href="#">{text}</a>
       }, {
@@ -101,7 +101,7 @@ class AfterSale extends React.Component<any, any> {
       }, 
     ];
 
-    const { listData } = this.state
+    const { listData, end, begin } = this.state
 
     return (
       <div className='operationproduct'>
@@ -133,20 +133,27 @@ class AfterSale extends React.Component<any, any> {
           </div>
           <div className='item'>
             <p>售后单类型:</p>
-            <input
+            <select
               onChange={(e) => this.setState({ type: e.target.value })}
-            />
+            >
+              <option value="">全部</option>
+              <option value="0">未上架</option>
+              <option value="1">已上架</option>
+              <option value="2">待上架</option>
+            </select>
           </div>
           <div className='item'>
             <p>开始时间:</p>
-            <input
-              onChange={(e) => this.setState({ begin: e.target.value })}
+            <TimePicker
+              value={begin}
+              onChange={(e: any) => this.setState({ startTime: e })}
             />
           </div>
           <div className='item'>
             <p>结束时间:</p>
-            <input
-              onChange={(e) => this.setState({ end: e.target.value })}
+            <TimePicker
+              value={end}
+              onChange={(e: any) => this.setState({ endTime: e })}
             />
           </div>
         </section>

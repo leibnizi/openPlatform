@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Tabs, Row, Col, Button, Modal } from 'antd';
+import { Tabs, Row, Col, Button, Modal, Upload, Icon } from 'antd';
 const TabPane = Tabs.TabPane;
 import { StatusCard } from '../components/statusCard/StatusCard'
 import { connect } from 'react-redux'
@@ -14,7 +14,15 @@ class StatusControl extends React.Component<any, any> {
     this.state= {
       cardList: [1,2,3,4],
       editStatusloading: false,
-      editStatusVisible: false
+      editStatusVisible: false,
+      previewVisible: false,
+      previewImage: '',
+      fileList: [{
+        uid: -1,
+        name: 'xxx.png',
+        status: 'done',
+        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      }],
     }
   }
   
@@ -55,13 +63,29 @@ class StatusControl extends React.Component<any, any> {
   handleOk = () => {
     console.log("OK")
   }
-  handleCancel = () => {
-    console.log("handleCancel")
+  // handleCancel = () => {
+  //   console.log("handleCancel")
+  // }
+  handleCancel = () => this.setState({ previewVisible: false })
+
+  handlePreview = (file:any) => {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true,
+    });
   }
 
+  handleChange = ({ fileList }:any) => this.setState({ fileList })
+
   render() {
-    const { editStatusVisible, editStatusloading } = this.state
+    const { editStatusVisible, editStatusloading, fileList, previewVisible,previewImage } = this.state
     const { statusInfos } = this.props
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     return (
       <div className="status-container">
         {/* content-title 这个样式是公用的 在common里 */}
@@ -102,6 +126,20 @@ class StatusControl extends React.Component<any, any> {
                         添加
                       </Button>
                     </Col>
+                    <div className="clearfix">
+                      <Upload
+                        action="http://api.v2.msparis.com/common/upload"
+                        listType="picture-card"
+                        fileList={fileList}
+                        onPreview={this.handlePreview}
+                        onChange={this.handleChange}
+                      >
+                        {fileList.length >= 3 ? null : uploadButton}
+                      </Upload>
+                      <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                      </Modal>
+                    </div>
                   </Row>
                 </Col>
               </Row>

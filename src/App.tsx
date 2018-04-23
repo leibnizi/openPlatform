@@ -81,24 +81,27 @@ class RegisterRoute extends React.Component {
     return (
       <div className='app'>
         <header className='header'>
-          1
+          <div className="top">
+            1
+          </div>
+          <div className='header-box'>
+            <div className='logo'>
+              <img
+                src={require('./styles/img/msheader.png')} 
+                alt='头部logo'
+              />
+              <div>商家后台管理系统</div>
+            </div>
+            <section className='navigation'>
+              <OldMenuLink
+                activeOnlyWhenExact={true}
+                to={'/register'}
+                label='申请加入女神派'
+              />
+            </section>
+            
+          </div>
         </header>
-        <section className='section'>
-          <section className='logo'>
-            <img
-              src={require('./styles/img/msheader.png')} 
-              alt='头部logo'
-            />
-            <p>商家后台管理系统</p>
-          </section>
-          <section className='navigation'>
-            <OldMenuLink
-              activeOnlyWhenExact={true}
-              to={'/register'}
-              label='申请加入女神派'
-            />
-          </section>
-        </section>
         <section className='body'>
           <Register />
         </section>

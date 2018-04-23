@@ -39,8 +39,40 @@
       margin: 80px auto;
       width: 700px;
       background-color: #fff;
-      .files {
+      .uploadFile {
         height: 220px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100%;
+        line-height: 120px;
+        margin: 50px 0;
+        .symbol {
+          color: #f03a80;
+          height: 40px;
+          line-height: 40px;
+          font-size: 19px;
+          padding: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          width: 200px;
+          .labelName {
+            font-size: 19px;
+            text-align: end;
+            color: #4a4a4a;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 5px;
+          }
+        }
+        .uploadImg {
+          height: 100%;
+          width: 450px;
+          .ant-upload.ant-upload-select-picture-card {
+            display: inline-block;
+          }
+        }
       }
       label {
         display: flex;
@@ -118,6 +150,11 @@
           line-height: 30px;
         }
       }
+      hr {
+        border: none;
+        border-bottom: 1px solid #e5ebf2;
+        margin: 47px 0;
+      }
       .submit {
         margin: 0 auto;
         display: block;
@@ -127,6 +164,13 @@
         border-radius: 3px;
         padding: 5px 15px;
         margin-top: 60px;
+      }
+      .infoBottom {
+        display: flex;
+        justify-content: center;
+        .submit {
+          margin: 0 60px;
+        }
       }
     }
     .registerSuccess {

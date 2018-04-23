@@ -60,20 +60,25 @@ class Detail extends React.Component<any, any> {
       {
         title: '账单编号',
         dataIndex: 'supplier_id',
+        key: 'supplier_id',
         render: (text: string) => <a href="#">{text}</a>
       }, {
         title: '账单时间',
         className: 'column-money',
-        dataIndex: 'year'
+        dataIndex: 'year',
+        key: 'year'
       }, {
         title: '可提现金额',
-        dataIndex: 'amount'
+        dataIndex: 'amount',
+        key: 'amount'
       }, {
         title: '账单状态',
-        dataIndex: 'month'
+        dataIndex: 'month',
+        key: 'month',
       }, {
         title: '操作',
-        dataIndex: 'moshi'
+        dataIndex: 'moshi',
+        key: 'moshi',
       }
     ]
 

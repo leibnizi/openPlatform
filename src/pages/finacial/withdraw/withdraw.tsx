@@ -18,7 +18,13 @@ class Withdraw extends React.Component<any, any> {
     fetch(`/api/financial/get_list?token=${token}`)
       .then(res => res.json())
       .then(res => {
-        this.setState({ listData: res.data })
+        const listData = res.data
+        listData.map((item: any, index: number) => {
+          Object.assign(item, { key: index })
+        })
+        this.setState({ 
+          listData
+        })
       })
   }
 

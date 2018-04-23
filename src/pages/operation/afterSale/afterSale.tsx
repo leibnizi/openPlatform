@@ -42,7 +42,7 @@ class AfterSale extends React.Component<any, any> {
     fetch(url)
       .then(res => res.json())
       .then((res) => {
-        const listData = res.data.data
+        const listData = res.data.list
         listData.map((item: any, index: number) => {
           Object.assign(item, { key: index })
         })
@@ -65,99 +65,50 @@ class AfterSale extends React.Component<any, any> {
   render() {
     const columns: any[] = [
       {
-        title: '商品编号',
-        dataIndex: 'name',
+        title: '售后订单编号',
+        dataIndex: 'id',
         render: (text: string) => <a href="#">{text}</a>
       }, {
         title: '商品名称',
-        className: 'column-money',
-        dataIndex: 'money'
+        dataIndex: 'product_name'
       }, {
-        title: '商品主图',
-        dataIndex: 'address'
-      }, {
-        title: '品牌',
-        dataIndex: 'pinpai'
+        title: '商品编号',
+        dataIndex: 'product_code'
       }, {
         title: '商品模式',
-        dataIndex: 'moshi'
+        dataIndex: 'order_type'
+      }, {
+        title: '商品尺码',
+        dataIndex: 'specification'
+      }, {
+        title: '供应商货号',
+        dataIndex: 'supplier_pro_num'
+      }, {
+        title: '数量',
+        dataIndex: 'num'
+      }, {
+        title: '售后金额',
+        dataIndex: 'prices'
+      }, {
+        title: '售后单总金额',
+        dataIndex: 'after_sale_prices'
+      }, {
+        title: '售后单类型',
+        dataIndex: 'type'
       }, {
         title: '创建时间',
-        dataIndex: 'chuangjianshijian'
-      }, {
-        title: '上架时间',
-        dataIndex: 'shangjianshijian'
-      }, {
-        title: '商品状态',
-        dataIndex: 'zhuangtgai'
-      }
+        dataIndex: 'updated_at'
+      }, 
     ];
 
-    const data: any[] = [
-      {
-        key: '1',
-        name: 'John Brown',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '4',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '5',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '6',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '7',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '8',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '9',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '10',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '11',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }
-    ];
+    const { listData } = this.state
 
     return (
       <div className='operationproduct'>
         <header className='productheader'>售后管理</header>
         <section>
           <div className='item'>
-            <p>售后订单编号:</p>
+            <p>售后单编号:</p>
             <input
               onChange={(e) => this.setState({ id: e.target.value })}
             />
@@ -213,7 +164,7 @@ class AfterSale extends React.Component<any, any> {
           <Table 
             className='producttab' 
             columns={columns} 
-            dataSource={data} 
+            dataSource={listData} 
             bordered={true} 
           />
         </section>

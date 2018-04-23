@@ -59,7 +59,7 @@ class Lease extends React.Component<any, any> {
   }
 
   pageChange = (e: any) => {
-    this.setState({ currentPage: e.current })
+    this.setState({ currentPage: Number(e.current) })
     this.getTableData(e.current)
   }
 

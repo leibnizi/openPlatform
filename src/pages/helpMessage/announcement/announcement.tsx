@@ -9,23 +9,36 @@ class Announcement extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-
+      listData: null
     }
   }
 
   componentDidMount() {
-    // fetch('/api/financial/info_list').then(Detail=>console.log('Detail',Detail))
     const token = this.props.state.userInfo.token
-    httpGet(`/api/financial/info_list?token=${token}`)
-      .then(res=>console.log(res))
+    httpGet(`/api/message/all?token=${token}`)
+      .then(res=>this.setState({listData: res.data.data}))
   }
 
   render() {
-
+    const { listData } = this.state
     return (
       <div className='announcement'>
         <p className='helpHead'>商家公告</p>
-
+        {
+          listData ? (
+            listData.article.map((item:any,index:number)=> {
+              return (
+                <div className='announceContent' key={index}>
+                  <div className='announceTitle'>
+                    <p>{item.title}</p>
+                    <p>{item.created_at}</p>
+                  </div>
+                  <hr/>
+                </div>
+              )
+            })
+          ) : null
+        }
       </div>
     )
   }

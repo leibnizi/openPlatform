@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Spin, Icon } from 'antd'
+// import { Icon } from 'antd'
 import { fetchUtil } from '../../../services/httpRequest'
 import './overview.less'
 
@@ -29,8 +29,7 @@ class Overview extends React.Component<any, {}> {
 
   render() {
     const { overviewdata }: any = this.state
-    const antIcon = <Icon className='loading' type="loading" style={{ fontSize: 60 }} spin={true} />;
-    console.log('voverviewdata', overviewdata)
+    // const antIcon = <Icon className='loading' type="loading" style={{ fontSize: 60 }} spin={true} />;
     return (
       <div className='overview'>
         <p className='overtop'>财务总览</p>
@@ -39,10 +38,21 @@ class Overview extends React.Component<any, {}> {
             {
               overviewdata ? (
                 Object.keys(overviewdata.data).map((item, index) =>
-                  <p className='overviewitem' key={index}> 可提现金额:<span>￥{overviewdata.data[item]}</span></p>
+                  <p className='overviewitem' key={index}> 
+                    可提现金额:
+                    <span>￥{overviewdata.data[item]}</span>
+                  </p>
                 )
-              ) : <Spin indicator={antIcon} />
+              ) : (
+                Array.from({length:3}).map((item, index) =>
+                  <p className='overviewitem' key={index}> 
+                    可提现金额:
+                    <span>￥</span>
+                  </p>
+                )
+              )
             }
+            
           </div>
 
           <button onClick={() => this.applywithdraw("money")}>申请提现</button>

@@ -17,6 +17,9 @@ class Withdraw extends React.Component<any, any> {
     const token = this.props.state.userInfo.token
     fetch(`/api/financial/get_list?token=${token}`)
       .then(res => res.json())
+      .then(res => {
+        this.setState({ listData: res.data })
+      })
   }
 
   render() {
@@ -26,31 +29,37 @@ class Withdraw extends React.Component<any, any> {
         className: 'tableItem',
         dataIndex: 'financial_id',
         key: 'code',
+        align: 'center'
       }, {
         title: '提现金额',
         className: 'tableItem',
         dataIndex: 'apply',
         key: 'apply',
+        align: 'center'
       }, {
         title: '提现时间',
         className: 'tableItem',
         dataIndex: 'apply_date',
-        key: 'apply_date'
+        key: 'apply_date',
+        align: 'center'
       }, {
         title: '提现账号',
         className: 'tableItem',
         dataIndex: 'receive_account',
-        key: 'receive_account'
+        key: 'receive_account',
+        align: 'center'
       }, {
         title: '账户余额',
         className: 'tableItem',
         dataIndex: 'amount',
-        key: 'amount'
+        key: 'amount',
+        align: 'center'
       }, {
         title: '提现进度',
         className: 'tableItem',
         dataIndex: 'progress',
-        key: 'progress'
+        key: 'progress',
+        align: 'center'
       }
     ]
 

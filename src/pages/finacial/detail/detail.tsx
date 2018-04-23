@@ -102,15 +102,16 @@ class Detail extends React.Component<any, any> {
               onChange={(e) => this.handleChange(e.target.value)} 
             />
           </label>
-          {/* <input className='querySubmit' type="submit" value="查询" /> */}
-          <Button 
-            className='querySubmit' 
-            type="primary"
-            htmlType="submit"
-          >
-            查询
-          </Button>
-          <p>如对账单有疑问，请联系对接人</p>
+          <div className='querySubmit'>
+            <Button 
+              className='querySubmitButton'
+              type="primary"
+              htmlType="submit"
+            >
+              查询
+            </Button>
+            <span>如对账单有疑问，请联系对接人</span>
+          </div>
         </form>
         <Table
           className='producttable'

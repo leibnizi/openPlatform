@@ -26,14 +26,17 @@ class Product extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
-      this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
-    }
+    // if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
+    //   this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
+    // }
   }
 
   componentDidMount() {
     this.queryData()
     // this.props.dispatch(GET_POSTS({a:1}))
+    if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
+      this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
+    }
   }
 
   productDetail = (id: any) => {
@@ -186,7 +189,7 @@ class Product extends React.Component<any, any> {
               className='checkDetail'
               onClick={() => {
                 this.props.history.push(`/operation/${e}`)
-                console.log('e',e)
+                console.log('e', e)
               }}
             >
               {'查看详情'}
@@ -391,8 +394,15 @@ class Product extends React.Component<any, any> {
                 </section>
               </div>
             ) : (
-                <div>
-                  null
+                <div className='productImg'>
+                  
+                  {
+                    productDetailDataHead&&productDetailDataHead.images.map((item:any, index:number) => {
+                      return (
+                        <img key={index} src={item.key} alt={item.key} />
+                      )
+                    })
+                  }
                 </div>
               )
           }

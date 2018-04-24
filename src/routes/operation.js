@@ -26,6 +26,7 @@ export default class Operation extends Component {
           </div>
           <div className='content'>
             <Route exact path="/operation" component={Product} />
+            <Route path="/operation/:id" component={Product} />
             <Route path="/operation/lease" component={Lease} />
             <Route path="/operation/sale" component={Sale} />
             <Route path="/operation/afterSale" component={AfterSale} />

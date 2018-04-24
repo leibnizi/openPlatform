@@ -53,6 +53,7 @@ class Product extends React.Component<any, any> {
             item.rental_price = res.data.rental_price
             item.sale_discount_price = res.data.sale_discount_price
             item.key = index
+            item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
           })
           this.setState({
             productDetail: true,
@@ -83,6 +84,7 @@ class Product extends React.Component<any, any> {
         const data = res.data.data
         data.map((item: any, index: number) => {
           Object.assign(item, { key: index })
+          item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'          
         })
         this.setState({
           listData: data,
@@ -156,8 +158,8 @@ class Product extends React.Component<any, any> {
       }, {
         title: '商品状态',
         className: 'tableItem',
-        dataIndex: 'enabled',
-        key: 'enabled',
+        dataIndex: 'shelfStatus',
+        key: 'shelfStatus',
         align: 'center',
       }, {
         title: '租赁订单量',
@@ -188,8 +190,7 @@ class Product extends React.Component<any, any> {
             <span
               className='checkDetail'
               onClick={() => {
-                this.props.history.push(`/operation/${e}`)
-                console.log('e', e)
+                this.props.history.push(`/operation/list/${e}`)
               }}
             >
               {'查看详情'}
@@ -395,9 +396,9 @@ class Product extends React.Component<any, any> {
               </div>
             ) : (
                 <div className='productImg'>
-                  
+
                   {
-                    productDetailDataHead&&productDetailDataHead.images.map((item:any, index:number) => {
+                    productDetailDataHead && productDetailDataHead.images.map((item: any, index: number) => {
                       return (
                         <img key={index} src={item.key} alt={item.key} />
                       )

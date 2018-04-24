@@ -69,35 +69,51 @@ class Lease extends React.Component<any, any> {
         title: '订单编号',
         dataIndex: 'order_no',
         key: 'order_no',
-        render: (text: string) => <a href="#">{text}</a>
+        align: 'center',
       }, {
         title: '子订单编号',
         dataIndex: 'split_order_no',
         key: 'split_order_no',
+        align: 'center',
       }, {
         title: '商品编号',
         dataIndex: 'code',
         key: 'code',
+        align: 'center',
       }, {
         title: '商品主图',
-        dataIndex: 'brand_name',
-        key: 'brand_name',
+        dataIndex: 'image_url',
+        key: 'image_url',
+        className: 'tableItem',
+        align: 'center',
+        render: (img: any) => {
+          return (
+            <img
+              src={`${img}`}
+              alt="mainImage"
+            />
+          )
+        }
       }, {
         title: '订单状态',
         dataIndex: 'enabled',
         key: 'enabled',
+        align: 'center',
       }, {
         title: '下单时间',
         dataIndex: 'created_at',
         key: 'created_at',
+        align: 'center',
       }, {
         title: '租赁周期',
         dataIndex: 'rental_cycle',
         key: 'rental_cycle',
+        align: 'center',
       }, {
         title: '操作',
         dataIndex: 'enabled',
         key: 'chakanxiangqing',
+        align: 'center',
       }
     ];
 

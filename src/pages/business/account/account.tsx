@@ -27,6 +27,8 @@ class Account extends React.Component<any, any> {
     is_edit: false,
     confirmLoading: false
   };
+
+  // 提交表单
   handleFormChange = (value: any) => {
     const { dispatch, userInfo: { token } } = this.props
     dispatch(postAccountInfos({
@@ -62,11 +64,9 @@ class Account extends React.Component<any, any> {
   }
 
   changePassWord = () => {
-    console.log(1)
   }
   handleConfirmPassword = (rule: any, value: any, callback: any) => {
     const form = this.props.form;
-    console.log(form.getFieldValue('password_confirmation'), 'RRRRR', value)
     if (value && value !== form.getFieldValue('password')) {
       callback('两次输入的密码不一致!');
     } else {
@@ -74,6 +74,7 @@ class Account extends React.Component<any, any> {
     }
   }
 
+  //提交修改密码  
   saveAcccountFun = (e:any) => {
     e.preventDefault();
     this.props.form.validateFields((err:any, value:any) => {
@@ -93,6 +94,18 @@ class Account extends React.Component<any, any> {
     dispatch(getAccountInfos(token))
   }
 
+  componentWillReceiveProps(nextProps:any) {
+    // debugger
+    // this.setState({
+    //   showModal: nextProps.showModal
+    // })
+  }
+  cancelEdit = () => {
+    this.setState({
+      is_edit: false
+    })
+  }
+
   render() {
     const { is_edit, confirmLoading } = this.state
     const { accountInfos, showModal, accountInfos: { address, email, mobile, name}} = this.props
@@ -107,6 +120,7 @@ class Account extends React.Component<any, any> {
             <AccountForm
               {...accountInfos}
               onChange={this.handleFormChange}
+              cancelEdit={this.cancelEdit}
             />
           </Col>
         </Row>

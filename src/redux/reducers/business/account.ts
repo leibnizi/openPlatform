@@ -19,6 +19,8 @@ const accountInfos = (state: BillInfoState = initBillState, action: any) => {
     case 'GET_ACCOUNT_SUCCESS':
       const newState = Object.assign({}, state, action.data);
       return newState;
+    case 'POST_ACCOUNT_SUCCESS':
+      return Object.assign({edited:true}, state, action.data);
     // case 'TOGGLE_MODAL'
 
     // // case 'SAVE_ACCOUNT_PASSWORD_SUCCESS':

@@ -9,14 +9,14 @@ class Sale extends React.Component<any, any> {
     super(props)
     this.state = {
       productDetail: false,
-      startTime: '',
-      endTime: '',
+      startTime: null,
+      endTime: null,
       product_spu: '',
       m_order_no: '',
       split_order_no: '',
       status: '',
       pageTotal: '',
-      currentPage: '',
+      currentPage: 1,
       listData: []
     }
   }

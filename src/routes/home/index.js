@@ -110,8 +110,18 @@ class Home extends Component {
 
   render() {
     const { moduleGap, on_sale_data } = this.state
-    const { userInfo: { name, created_at, updated_at }, merchantMessage: { article } } = this.props
-
+    console.log(this.props.userInfo,"ggg")
+    const { 
+        userInfo: { name, created_at, updated_at }, 
+        merchantMessage: { article },
+        getOnlineProduct: { 
+          rent_total, 
+          sale_total, 
+          yesterday_rent_total, 
+          yesterday_sale_total, 
+          category
+        }
+      } = this.props
     return (
     <div className="home-page">
       <Row 
@@ -121,8 +131,7 @@ class Home extends Component {
         align="top"
       >
         <Col span={8}>
-          <Card className="card-row" bordered={false}>
-            <Meta title={`欢迎您：${name}`} />
+          <Card title={`欢迎您：${name}`}  className="card-row" bordered={false}>
             <p>上次登录：YYYY年MM月DD日 hh:mm:ss</p>
             <p>到期登录：YYYY年MM月DD日 hh:mm:ss</p>
             <Row type="flex" justify="space-between">
@@ -136,23 +145,27 @@ class Home extends Component {
           </Card>
         </Col>
         <Col span={8}>
-          <Card className="card-row" bordered={false}>
-            <Meta title="汇总" description="(至在昨天24点数据)" />
-            <Row className="card-content-margin" gutter={10} type="flex" justify="space-between">
+          <Card title="在架商品数据" className="card-row" bordered={false}>
+            <Row className="card-content-margin" gutter={30} type="flex" justify="space-between">
               <Col span={12}>
-                <NumBlock title="累计收益" value={10}>
+                <NumBlock title="租赁商品数" value={rent_total}>
+                  <div className="yesterday-message">
+                    昨日：{yesterday_rent_total}
+                  </div>
                 </NumBlock>
               </Col>
               <Col span={12}>
-                <NumBlock title="可以提现现金">
+                <NumBlock title="销售商品数" value={sale_total}>
+                  <div className="yesterday-message">
+                    昨日：{yesterday_sale_total}
+                  </div>
                 </NumBlock>
               </Col>
             </Row>
           </Card>
         </Col>
         <Col span={8}>
-          <Card className="card-row" bordered={false}>
-            <Meta title="公告" />
+          <Card title="在架商品数据"  className="card-row" bordered={false}>
             <Row className="notice card-content-margin" gutter={10} type="flex" justify="space-between">
               <div className="ellipsis notice-item-title">{article[0].title}</div>
               <div className="ellipsis notice-item-title">{article[1].title}</div>
@@ -166,8 +179,7 @@ class Home extends Component {
       </Row>
       <Row className="row-gutter" gutter={moduleGap} type="flex" justify="start">
         <Col span={10}>
-          <Card className="card-column" bordered={false}>
-            <Meta title="在架商品数据" />
+          <Card title="在架商品数据" className="card-column" bordered={false}>
             <Row className="card-content-margin" gutter={10}>
               <Col span={12}>
                 <NumBlock title="租赁商品数据" value={10}>
@@ -178,14 +190,14 @@ class Home extends Component {
                 </NumBlock>
               </Col>
             </Row>
-            <Row className="module-gutter">
+            {/* <Row className="module-gutter">
               <Table dataSource={on_sale_data} columns={on_sale_columns} />
-            </Row>
+            </Row> */}
+            <Col>暂无数据</Col>
           </Card>
         </Col>
         <Col span={7}>
-          <Card className="card-column" bordered={false}>
-            <Meta title="租赁数据" description="至昨天24点数据" />
+          <Card title="租赁数据" className="card-column" bordered={false}>
             <div className="module-gutter">
               <NumBlock title="近30天订单数" value={10}></NumBlock>
             </div>
@@ -198,8 +210,7 @@ class Home extends Component {
           </Card>
         </Col>
         <Col span={7}>
-          <Card className="card-column" bordered={false}>
-            <Meta title="销售数据" description="至昨天24点数据" />
+          <Card title="销售数据" className="card-column" bordered={false}>
             <div className="module-gutter">
               <NumBlock title="近30天订单数" value={10}></NumBlock>
             </div>
@@ -213,11 +224,11 @@ class Home extends Component {
         </Col>
       </Row>
       <Row gutter={moduleGap} className="row-gutter">
-        <Col span={12}>
-          <div id='chart' style={{ height: '50vh' }}></div>
+        <Col span={12} className="charts-box">
+          <div id='chart' className="charts-item" style={{ height: '50vh' }}></div>
         </Col>
-        <Col span={12}>
-        <div id='line' style={{ height: '50vh' }}></div>
+        <Col span={12} className="charts-box">
+          <div id='line' className="charts-item" style={{ height: '50vh' }}></div>
         </Col>
       </Row>
 
@@ -226,9 +237,10 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = ({ businessInfos, userInfo, merchantMessage}) => ({
+const mapStateToProps = ({ businessInfos, userInfo, merchantMessage, getOnlineProduct}) => ({
   businessInfos,
   userInfo,
+  getOnlineProduct,
   merchantMessage
 })
 

@@ -35,6 +35,16 @@ const getMerchantMessage = (token: any) => ({
   data: token
 })
 
+const uploadImage = (formData: any, token: any, id: any, type: any) => ({
+  type: 'UPLOAD_IMAGE',
+  data: {
+    formData,
+    token,
+    id,
+    type
+  }
+})
+
 export {
   business,
   // onIncrement,
@@ -46,5 +56,6 @@ export {
   indexChartsAct,
   GET_POSTS,
   getOnlineProduct,
-  getMerchantMessage
+  getMerchantMessage,
+  uploadImage
 }

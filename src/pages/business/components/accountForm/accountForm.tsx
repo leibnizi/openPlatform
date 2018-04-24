@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Form, Input, Button } from 'antd';
 const FormItem = Form.Item;
+import './accountForm.less'
 
 export const AccountForm: any = Form.create()((props: any) => {
 
@@ -24,6 +25,9 @@ export const AccountForm: any = Form.create()((props: any) => {
     });
   }
 
+  const cancelEdit = () => {
+    props.cancelEdit()
+  }
   return (
     <Form layout="vertical" onSubmit={handleSubmit}>
       <FormItem {...formItemLayout} label="用户名">
@@ -50,9 +54,14 @@ export const AccountForm: any = Form.create()((props: any) => {
           rules: [{ required: true, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
-      <Button htmlType="submit">
-        保存
-      </Button>
+      <div className="btn-box">
+        <Button onClick={cancelEdit}>
+          取消
+        </Button>
+        <Button style={{margin: "0 40px 0 40px"}} htmlType="submit">
+          保存
+        </Button>
+      </div>
     </Form>
   );
 });

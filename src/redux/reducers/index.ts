@@ -8,23 +8,33 @@ import accountInfos from './business/account'
 import { message } from 'antd';
 
 
+function uploadImageBack(state: any = [], action: any) {
+  switch (action.type) {
+    case 'UPLOAD_IMAGE_SUCCESS':
+      // const newState = Object.assign({}, state, action.data);
+      console.log(action.data,"ggg")
+      return action.data;
+    default:
+      return state
+  }
+}
 
 function merchantMessage(state: any = { article: [{ title: "" }, { title: "" }, { title: "" }] }, action: any) {
   switch (action.type) {
     case 'GET_MERCHANT_MESSAGE_SUCCESS':
       const newState = Object.assign({}, state, action.data);
-      // debugger
       return newState;
     default:
       return state
   }
 }
 
-function getOnlineProduct(state: any = 0, action: any) {
+function getOnlineProduct(state: any = {}, action: any) {
   switch (action.type) {
     case 'GET_ONLINE_PRODUCT_SUCCESS':
-      const newState = Object.assign({}, state, action.data);
-      return newState;
+      console.log(action.data,"jjjj")
+      // const newState = Object.assign({}, state, action.data);
+      return action.data;
     default:
       return state
   }
@@ -40,11 +50,11 @@ function getIndexCharts (state: any = 0, action: any) {
   }
 }
 
-function showGlobleMessage(state: any = 0, action: any) {
+function showGlobleMessage(state: any ={}, action: any) {
   switch (action.type) {
     case 'SHOW_GLOBLE_ERR':
       message.error(action.data);
-      break
+      return false
     case 'SHOW_GLOBLE_SUCCESS':
       message.success(action.data);
     default:
@@ -68,6 +78,7 @@ function showModal(state: any = false, action: any) {
 const rootReducer = combineReducers({
   routing:routerReducer,
   showModal,
+  uploadImageBack,
   showGlobleMessage,
   getIndexCharts,
   merchantMessage,

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux';
-import { Table } from 'antd'
+import { Table, TimePicker } from 'antd'
 import './afterSale.less'
 import { getFormatDate } from '../../../helper/utils'
 
@@ -14,7 +14,7 @@ class AfterSale extends React.Component<any, any> {
       product_name: '',
       type: '',
       begin: '',
-      end: ''
+      end: '',
     }
   }
 
@@ -42,7 +42,7 @@ class AfterSale extends React.Component<any, any> {
     fetch(url)
       .then(res => res.json())
       .then((res) => {
-        const listData = res.data.data
+        const listData = res.data.list
         listData.map((item: any, index: number) => {
           Object.assign(item, { key: index })
         })
@@ -65,99 +65,50 @@ class AfterSale extends React.Component<any, any> {
   render() {
     const columns: any[] = [
       {
-        title: '商品编号',
-        dataIndex: 'name',
+        title: '售后单编号',
+        dataIndex: 'id',
         render: (text: string) => <a href="#">{text}</a>
       }, {
         title: '商品名称',
-        className: 'column-money',
-        dataIndex: 'money'
+        dataIndex: 'product_name'
       }, {
-        title: '商品主图',
-        dataIndex: 'address'
-      }, {
-        title: '品牌',
-        dataIndex: 'pinpai'
+        title: '商品编号',
+        dataIndex: 'product_code'
       }, {
         title: '商品模式',
-        dataIndex: 'moshi'
+        dataIndex: 'order_type'
+      }, {
+        title: '商品尺码',
+        dataIndex: 'specification'
+      }, {
+        title: '供应商货号',
+        dataIndex: 'supplier_pro_num'
+      }, {
+        title: '数量',
+        dataIndex: 'num'
+      }, {
+        title: '售后金额',
+        dataIndex: 'prices'
+      }, {
+        title: '售后单总金额',
+        dataIndex: 'after_sale_prices'
+      }, {
+        title: '售后单类型',
+        dataIndex: 'type'
       }, {
         title: '创建时间',
-        dataIndex: 'chuangjianshijian'
-      }, {
-        title: '上架时间',
-        dataIndex: 'shangjianshijian'
-      }, {
-        title: '商品状态',
-        dataIndex: 'zhuangtgai'
-      }
+        dataIndex: 'updated_at'
+      }, 
     ];
 
-    const data: any[] = [
-      {
-        key: '1',
-        name: 'John Brown',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '2',
-        name: 'Jim Green',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '3',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '4',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '5',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '6',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '7',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '8',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '9',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '10',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }, {
-        key: '11',
-        name: 'Joe Black',
-        money: ' ',
-        address: ' '
-      }
-    ];
+    const { listData, end, begin } = this.state
 
     return (
       <div className='operationproduct'>
         <header className='productheader'>售后管理</header>
         <section>
           <div className='item'>
-            <p>售后订单编号:</p>
+            <p>售后单编号:</p>
             <input
               onChange={(e) => this.setState({ id: e.target.value })}
             />
@@ -182,20 +133,27 @@ class AfterSale extends React.Component<any, any> {
           </div>
           <div className='item'>
             <p>售后单类型:</p>
-            <input
+            <select
               onChange={(e) => this.setState({ type: e.target.value })}
-            />
+            >
+              <option value="">全部</option>
+              <option value="0">未上架</option>
+              <option value="1">已上架</option>
+              <option value="2">待上架</option>
+            </select>
           </div>
           <div className='item'>
             <p>开始时间:</p>
-            <input
-              onChange={(e) => this.setState({ begin: e.target.value })}
+            <TimePicker
+              value={begin}
+              onChange={(e: any) => this.setState({ startTime: e })}
             />
           </div>
           <div className='item'>
             <p>结束时间:</p>
-            <input
-              onChange={(e) => this.setState({ end: e.target.value })}
+            <TimePicker
+              value={end}
+              onChange={(e: any) => this.setState({ endTime: e })}
             />
           </div>
         </section>
@@ -213,7 +171,7 @@ class AfterSale extends React.Component<any, any> {
           <Table 
             className='producttab' 
             columns={columns} 
-            dataSource={data} 
+            dataSource={listData} 
             bordered={true} 
           />
         </section>

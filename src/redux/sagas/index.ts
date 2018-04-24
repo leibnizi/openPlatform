@@ -3,10 +3,10 @@ import { call, put } from 'redux-saga/effects'
 import { httpGet } from '../../../src/services/httpRequest'
 import axios from 'axios';
 // const delay = (ms: any) => new Promise(resolve => setTimeout(resolve, ms))
-interface SagaPostType {
-  posts: Object
-  type: string
-}
+// interface SagaPostType {
+//   posts: Object
+//   type: string
+// }
 
 export function* incrementAsync() {
   yield delay(1000)
@@ -26,12 +26,37 @@ export default function* rootSaga() {
   yield takeEvery("GET_ONLINE_PRODUCT", getOnlineProduct)
   yield takeEvery("GET_MERCHANT_MESSAGE", getMerchantMessage)
 
-  yield takeEvery('SAGA_POSTS', sagaPost)
+  // yield takeEvery('SAGA_POSTS', sagaPost)
+  yield takeEvery("UPLOAD_IMAGE", uploadImage) 
   yield takeEvery("POST_BUSINESS_INFO", postBsInfos) 
   yield takeEvery("POST_ACCOUNT_INFO", postAccountInfos)
   yield takeEvery("SAVE_ACCOUNT_PASSWPRD", saveAccountPassword)
   yield takeEvery("POST_BILL_INFO", postBillInfo)
 
+}
+
+export function* uploadImage(action: any = {}) {
+  const { formData, token, id, type } = action.data
+  try {
+    const response = yield call(axios.post, "http://api.v2.msparis.com/common/upload", formData)
+    if (response.data.status != "ok") {
+      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
+      return false
+    }
+    yield put({ type: 'UPLOAD_IMAGE_SUCCESS', data: response.data.data });
+
+    const response1 = yield call(axios.post, `/api/qualification/edit/${id}?token=${token}`, {
+      file: response.data.data[0].url,
+      type_id: type
+    })
+    if (response1.data.status_code != 0) {
+      yield put({ type: 'SHOW_GLOBLE_ERR', data: response1.msg || "有异常" });
+      return false
+    }
+    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
+  } catch (error) {
+    // yield put(fetchFailure());
+  }
 }
 
 export function* getMerchantMessage(action: any = {}) {
@@ -53,7 +78,7 @@ export function* getMerchantMessage(action: any = {}) {
 export function* getOnlineProduct(action: any) {
   try {
     const response = yield call(httpGet, `/api/statistics/online_product?token=${action.data}`);
-    yield put({ type: 'GET_INDEX_CHARTS_SUCCESS', data: response.data.data });
+    yield put({ type: 'GET_ONLINE_PRODUCT_SUCCESS', data: response.data.data });
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -93,7 +118,22 @@ export function* getBsInfos(action:any) {
 export function* getStatusInfos(action: any) {
   try {
     const response = yield call(httpGet, `/api/qualification/index?token=${action.data}`);
-    yield put({ type: 'GET_STATUS_SUCCESS', data: response.data.data });
+
+    const newData = response.data.data.map((item:any, index:any) => {
+      const { id, file, state, type_id, user_id } = item
+      return {
+        id,
+        uid:-id,
+        url: file,
+        name: 'xxx.png',
+        status: 'done',
+        state,
+        type_id,
+        user_id
+      }
+    })
+
+    yield put({ type: 'GET_STATUS_SUCCESS', data: newData });
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -129,14 +169,14 @@ export function* getAccountInfos(action: any) {
 // export function* postBsInfos(action: any) {
 //   try {
 //     // const response = yield call(login({a:1}));
-//     // console.log(JSON.stringify(action.data), "Www")
+
 //     let param = ''
 //     const { data } = action
 //     for (let x in data) {
 //       param = param + `${x}=${data[x]}%26`
-//       console.log(data.x,"@@@@@")
+
 //     }
-//     // console.log(param,"@##@@")
+
 //     const response = yield call(axios.post, '/api/merchant/edit', JSON.stringify({ sss: "ddd" }), {})  
 //     yield put({ type: 'GET_BUSINESS_SUCCESS', data: response.data.data });
 //   } catch (error) {
@@ -149,12 +189,12 @@ export function* postBsInfos(action: any = {}) {
   
   try {
     const response = yield call(axios.post, `/api/merchant/edit?token=${token}`, value)
-    if (response.data.status_code != 0) {
-      console.log(11)
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
+    const { data: { data, msg, status_code } } = response
+    if (data instanceof Array  && data.length === 0 && status_code != 0) {
+      yield put({ type: 'SHOW_GLOBLE_ERR', data: msg || '有异常' });
       return false
     }
-    yield put({ type: 'POST_BUSINESS_SUCCESS', data: response.data.data });
+    yield put({ type: 'POST_BUSINESS_SUCCESS', data: data });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
   } catch (error) {
     // yield put(fetchFailure());
@@ -171,6 +211,7 @@ export function* postAccountInfos(action: any = {}) {
     }
     yield put({ type: 'POST_ACCOUNT_SUCCESS', data: response.data.data });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
+    
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -187,6 +228,7 @@ export function* saveAccountPassword(action: any = {}) {
     }
     yield put({ type: 'SAVE_ACCOUNT_PASSWORD_SUCCESS', data: response.data.data });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
+    yield put({ type: 'HIDE_ACCOUNT_MOBLE' });
 
   } catch (error) {
     yield put({ type: 'SHOW_GLOBLE_ERR', data: "出现未知异常" });
@@ -210,12 +252,12 @@ export function* postBillInfo(action: any = {}) {
   }
 }
 
-export function* sagaPost(body: SagaPostType) {
-  try {
-    const response = yield call(axios.post, '/api/financial/apply', body.posts)
-    console.log('response', response)
-    // yield put(GET_POSTS(response.data))
-  } catch (error) {
-    console.log('error', error)
-  }
-}
+// export function* sagaPost(body: SagaPostType) {
+//   try {
+//     // const response = yield call(axios.post, '/api/financial/apply', body.posts)
+
+//     // yield put(GET_POSTS(response.data))
+//   } catch (error) {
+
+//   }
+// }

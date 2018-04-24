@@ -42,7 +42,7 @@ class Infos extends React.Component<any, {}> {
   render() {
     const {
       businessInfos: {
-        biz_name, brand, website, biz_intro, merchant_state, category_id, biz_type
+        biz_name, brand, website, biz_intro, merchant_state, category_id, biz_type, audited_at, profit_level_original
       }
     } = this.props
     return (
@@ -58,7 +58,7 @@ class Infos extends React.Component<any, {}> {
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">企业名称：</Col>
             <Col className="content-title-text">{biz_name}</Col>
-            <Col className="describe flex-grow-1">上季度盈利量级：千万元</Col>
+            <Col offset={1} className="describe flex-grow-1">上季度盈利量级：{profit_level_original}</Col>
           </Row>
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">主营品牌：</Col>
@@ -75,8 +75,7 @@ class Infos extends React.Component<any, {}> {
           <Row type="flex" align="middle" className="row-box">
             <Col span={3} className="content-title-label">商家状态：</Col>
             <Col className="content-title-text">{merchant_state}</Col>
-            <Col offset={1}><Button>续约</Button></Col>
-            <Col className="describe">有效期至：2019年1月28日</Col>
+            <Col offset={1} className="describe">有效期至：{audited_at}</Col>
           </Row>
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">类目：</Col>

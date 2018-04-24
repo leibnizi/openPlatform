@@ -190,7 +190,7 @@ class Product extends React.Component<any, any> {
             <span
               className='checkDetail'
               onClick={() => {
-                this.props.history.push(`/operation/list/${e}`)
+                this.props.history.push(`/operation/detail/${e}`)
               }}
             >
               {'查看详情'}

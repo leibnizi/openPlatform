@@ -39,14 +39,11 @@ class Sale extends React.Component<any, any> {
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
-            // item.purchaser_product_no = res.data.purchaser_product_no
-            // item.value = res.data.specification_option_inner[index].specification_size.value
             item.supply_price = res.data.product_master.supply_price
             item.name = res.data.product_master.name
             item.code = res.data.product_master.code
             item.image_url = res.data.image_url
             item.key = index
-            // item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
           })
           this.setState({
             productDetailData,

@@ -66,7 +66,7 @@ class Sale extends React.Component<any, any> {
       endTime
     } = this.state
     const token = this.props.state.userInfo.token
-    const url = `/api/product/list?perPage=${20}&token=${token}
+    const url = `/api/order/list/2?perPage=${20}&token=${token}
                 &product_spu=${product_spu}&m_order_no=${m_order_no}
                 &split_order_no=${split_order_no}&status=${status}
                 &order_time[]=${startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}

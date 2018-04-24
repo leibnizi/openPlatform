@@ -2,6 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
 // import { GET_POSTS } from '../../../redux/actions/index'
+import { httpGet } from '../../../services/httpRequest'
 import './product.less'
 
 class Product extends React.Component<any, any> {
@@ -78,8 +79,7 @@ class Product extends React.Component<any, any> {
     const url = `/api/product/list?perPage=${20}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
                 &mode_id=${goodMode}&enabled=${goodStatus}&code=${code}&name=${name}
                 &purchaser_product_no=${purchaser_product_no}&page=${nextPage}`
-    fetch(url)
-      .then(res => res.json())
+    httpGet(url)
       .then((res) => {
         const data = res.data.data
         data.map((item: any, index: number) => {
@@ -91,6 +91,7 @@ class Product extends React.Component<any, any> {
           pageTotal: res.data.total
         })
       })
+      .catch(err=>console.log('err',err))
   }
 
   queryData = () => {

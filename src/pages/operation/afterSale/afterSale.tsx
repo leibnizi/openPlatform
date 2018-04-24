@@ -13,8 +13,8 @@ class AfterSale extends React.Component<any, any> {
       supplier_pro_num: '',
       product_name: '',
       type: '',
-      begin: '',
-      end: '',
+      begin: null,
+      end: null,
     }
   }
 

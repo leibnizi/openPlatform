@@ -81,7 +81,7 @@ class Product extends React.Component<any, any> {
                 &purchaser_product_no=${purchaser_product_no}&page=${nextPage}`
     httpGet(url)
       .then((res) => {
-        const data = res.data.data
+        const data = res.data.data.data
         data.map((item: any, index: number) => {
           Object.assign(item, { key: index })
           item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'          

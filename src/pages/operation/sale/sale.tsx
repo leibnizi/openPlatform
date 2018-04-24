@@ -8,7 +8,6 @@ class Sale extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
-      productDetail: false,
       startTime: null,
       endTime: null,
       product_spu: '',
@@ -17,12 +16,44 @@ class Sale extends React.Component<any, any> {
       status: '',
       pageTotal: '',
       currentPage: 1,
-      listData: []
+      listData: [],
+      productDetailData: null,
+      productDetailDataHead: null
     }
   }
 
   componentDidMount() {
-    this.getTableData(1)
+    if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
+      this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
+    } else {
+      this.getTableData(1)
+    }
+  }
+
+  productDetail = (id: any) => {
+    const token = this.props.state.userInfo.token
+    fetch(`/api/order/detail/${id}?token=${token}`)
+      .then(res => res.json())
+      .then(res => {
+        console.log('res',res)
+        if (res.status_code === 0) {
+          const productDetailData = res.data.specification_option_inner
+          productDetailData.map((item: any, index: number) => {
+            // item.purchaser_product_no = res.data.purchaser_product_no
+            // item.value = res.data.specification_option_inner[index].specification_size.value
+            // item.split_order_no = res.data.split_order_no
+            // item.m_order_no = res.data.order_split.m_order_no
+            // item.sale_discount_price = res.data.sale_discount_price
+            item.image_url = res.data.image_url
+            item.key = index
+            // item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
+          })
+          this.setState({
+            productDetailData,
+            productDetailDataHead: res.data
+          })
+        }
+      })
   }
 
   getTableData = (nextPage: number) => {
@@ -68,41 +99,106 @@ class Sale extends React.Component<any, any> {
       {
         title: '订单编号',
         dataIndex: 'product_spu',
-        render: (text: string) => <a href="#">{text}</a>
+        key: 'product_spu',
+        align: 'center',
       }, {
         title: '子订单编号',
         className: 'column-money',
-        dataIndex: 'money'
+        dataIndex: 'money',
+        key: 'money',
+        align: 'center',
       }, {
         title: '商品编号',
-        dataIndex: 'code'
+        dataIndex: 'code',
+        key: 'code',
+        align: 'center',
       }, {
         title: '商品主图',
-        dataIndex: 'pinpai'
+        dataIndex: 'pinpai',
+        key: 'pinpai',
+        align: 'center',
+        className: 'tableItem',
+        render: (e: any) => {
+          return (
+            <img
+              src={`${e}`}
+              alt="mainImage"
+            />
+          )
+        }
       }, {
         title: '订单状态',
-        dataIndex: 'enabled'
+        dataIndex: 'enabled',
+        key: 'enabled',
+        align: 'center',
       }, {
         title: '支付状态',
-        dataIndex: 'chuangjianshijian'
+        dataIndex: 'chuangjianshijian',
+        key: 'chuangjianshijian',
+        align: 'center',
       }, {
         title: '下单时间',
-        dataIndex: 'shangjianshijian'
+        dataIndex: 'shangjianshijian',
+        key: 'shangjianshijian',
+        align: 'center',
       }, {
         title: '操作',
-        dataIndex: 'zhuangtgai'
+        dataIndex: 'id',
+        key: 'id',
+        align: 'center',
+        render: (id: any) => {
+          return (
+            <span
+              className='checkDetail'
+              onClick={() => {
+                this.props.history.push(`/operation/sale/detail/${id}`)
+              }}
+            >
+              {'查看详情'}
+            </span>
+          )
+        }
       }
-    ];
+    ]
+
+    const detailColumns: any[] = [
+      {
+        title: '商品编号',
+        dataIndex: 'product_spu',
+        key: 'product_spu',
+        align: 'center',
+      }, {
+        title: '商品名称',
+        dataIndex: 'product_spu',
+        key: 'product_spu',
+        align: 'center',
+      }, {
+        title: '商品主图',
+        dataIndex: 'product_spu',
+        key: 'product_spu',
+        align: 'center',
+      }, {
+        title: '商品规格',
+        dataIndex: 'product_spu',
+        key: 'product_spu',
+        align: 'center',
+      }, {
+        title: '商品结算价格',
+        dataIndex: 'product_spu',
+        key: 'product_spu',
+        align: 'center',
+      },
+    ]
 
     const {
-      productDetail,
       startTime,
       endTime,
       pageTotal,
       currentPage,
-      listData
+      listData,
+      productDetailData
      } = this.state
-    if (!productDetail) {
+    if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
           <header className='productheader'>订单列表-销售订单</header>
@@ -197,8 +293,8 @@ class Sale extends React.Component<any, any> {
             <section>
               <Table 
                 className='producttable' 
-                columns={columns} 
-                dataSource={listData} 
+                columns={detailColumns} 
+                dataSource={productDetailData} 
                 bordered={true} 
                 pagination={{
                   total: pageTotal,

@@ -23,9 +23,10 @@ class Lease extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    this.getTableData(1)
     if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
+    } else {
+      this.getTableData(1)
     }
   }
 

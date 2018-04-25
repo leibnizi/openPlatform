@@ -1,7 +1,7 @@
 import { delay, takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
-import { httpGet } from '../../../src/services/httpRequest'
-import axios from 'axios';
+import { request } from '../../../src/services/httpRequest'
+//import axios from 'axios';
 // const delay = (ms: any) => new Promise(resolve => setTimeout(resolve, ms))
 // interface SagaPostType {
 //   posts: Object
@@ -48,7 +48,7 @@ export default function* rootSaga() {
 export function* uploadImageBase(action: any = {}) {
   const { statusUrl, token, id } = action.data
   try {
-    const response = yield call(axios.post, `/api/qualification/edit/${id}?token=${token}`, {
+    const response = yield call(request.post, `/api/qualification/edit/${id}?token=${token}`, {
       file: statusUrl
     })
     // debugger
@@ -67,7 +67,7 @@ export function* uploadImageBase(action: any = {}) {
 export function* uploadImageOthers(action: any = {}) {
   const { statusMsg, token } = action.data
   try {
-    const response = yield call(axios.post, `/api/qualification/add?token=${token}`, {
+    const response = yield call(request.post, `/api/qualification/add?token=${token}`, {
       files: [statusMsg]
     })
     // debugger
@@ -86,7 +86,7 @@ export function* getMerchantMessage(action: any = {}) {
   const token = action.data
 
   try {
-    const response = yield call(axios.get, `/api/message/merchant?token=${token}`)
+    const response = yield call(request.get, `/api/message/merchant?token=${token}`)
     if (response.data.status_code !== 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
       return false
@@ -100,7 +100,7 @@ export function* getMerchantMessage(action: any = {}) {
 
 export function* getOnlineProduct(action: any) {
   try {
-    const response = yield call(httpGet, `/api/statistics/online_product?token=${action.data}`);
+    const response = yield call(request, `/api/statistics/online_product?token=${action.data}`);
     yield put({ type: 'GET_ONLINE_PRODUCT_SUCCESS', data: response.data.data });
   } catch (error) {
     // yield put(fetchFailure());
@@ -108,7 +108,7 @@ export function* getOnlineProduct(action: any) {
 }
 export function* getUserInfos(action: any) {
   try {
-    const response = yield call(httpGet, `/api/auth/user?token=${action.data}`);
+    const response = yield call(request, `/api/auth/user?token=${action.data}`);
     yield put({ type: 'GET_USER_INFOS_SUCCESS', data: response.data.data });
 
   } catch (error) {
@@ -118,7 +118,7 @@ export function* getUserInfos(action: any) {
 
 export function* getThirtyMessage(action: any) {
   try {
-    const response = yield call(httpGet, `/api/home/rental-and-sale-aggregate?token=${action.data}`);
+    const response = yield call(request, `/api/home/rental-and-sale-aggregate?token=${action.data}`);
     yield put({ type: 'GET_THIRTY_MESSAGE_SUCCESS', data: response.data.data });
   } catch (error) {
 
@@ -127,7 +127,7 @@ export function* getThirtyMessage(action: any) {
 
 export function* getIndexCharts(action: any) {
   try {
-    const response = yield call(httpGet, `/api/home/rental-and-sale-detail?token=${action.data}`);
+    const response = yield call(request, `/api/home/rental-and-sale-detail?token=${action.data}`);
     yield put({ type: 'GET_INDEX_CHARTS_SUCCESS', data: response.data.data });
   } catch (error) {
     // yield put(fetchFailure());
@@ -136,7 +136,7 @@ export function* getIndexCharts(action: any) {
 
 export function* getBsInfos(action:any) {
   try {
-    const response = yield call(httpGet, `/api/merchant/index?token=${action.data}`);
+    const response = yield call(request, `/api/merchant/index?token=${action.data}`);
     // 或者
     // const response = yield call( fetch, fetchUrl );
 
@@ -149,7 +149,7 @@ export function* getBsInfos(action:any) {
 
 export function* getStatusInfos(action: any) {
   try {
-    const response = yield call(httpGet, `/api/qualification/index?token=${action.data}`);
+    const response = yield call(request, `/api/qualification/index?token=${action.data}`);
 
     const newData = response.data.data.map((item:any, index:any) => {
       const { id, file, state, type_id, user_id } = item
@@ -173,8 +173,8 @@ export function* getStatusInfos(action: any) {
 
 export function* deleteStatus(action: any) {
   try {
-    const response = yield call(httpGet, `/api/qualification/delete/${action.data.id}?token=${action.data.token}`);
-    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data.data.msg });
+    const response = yield call(request, `/api/qualification/delete/${action.data.id}?token=${action.data.token}`);
+    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.msg });
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -182,7 +182,7 @@ export function* deleteStatus(action: any) {
 
 export function* getBillInfos(action: any) {
   try {
-    const response = yield call(httpGet, `/api/finance/index?token=${action.data}`);
+    const response = yield call(request, `/api/finance/index?token=${action.data}`);
     yield put({ type: 'GET_BILL_SUCCESS', data: response.data.data });
   } catch (error) {
     // yield put(fetchFailure());
@@ -191,7 +191,7 @@ export function* getBillInfos(action: any) {
 
 export function* getAccountInfos(action: any) {
   try {
-    const response = yield call(httpGet, `/api/account/index?token=${action.data}`);
+    const response = yield call(request, `/api/account/index?token=${action.data}`);
     yield put({ type: 'GET_ACCOUNT_SUCCESS', data: response.data.data });
   } catch (error) {
     // yield put(fetchFailure());
@@ -220,7 +220,7 @@ export function* postBsInfos(action: any = {}) {
   const { token, value } = action.data
   
   try {
-    const response = yield call(axios.post, `/api/merchant/edit?token=${token}`, value)
+    const response = yield call(request.post, `/api/merchant/edit?token=${token}`, value)
     const { data: { data, msg, status_code } } = response
     if (data instanceof Array  && data.length === 0 && status_code != 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: msg || '有异常' });
@@ -236,7 +236,7 @@ export function* postBsInfos(action: any = {}) {
 export function* postAccountInfos(action: any = {}) {
   const { token, value } = action.data
   try {
-    const response = yield call(axios.post, `/api/account/edit?token=${token}`, value)
+    const response = yield call(request.post, `/api/account/edit?token=${token}`, value)
     if (response.data.status_code !== 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
@@ -253,7 +253,7 @@ export function* saveAccountPassword(action: any = {}) {
   const { token, value } = action.data
 
   try {
-    const response = yield call(axios.post, `/api/reset?token=${token}`, value)
+    const response = yield call(request.post, `/api/reset?token=${token}`, value)
     if (response.data.status_code !== 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
@@ -271,7 +271,7 @@ export function* saveAccountPassword(action: any = {}) {
 export function* postBillInfo(action: any = {}) {
   const { token, value } = action.data
   try {
-    const response = yield call(axios.post, `/api/finance/add?token=${token}`, value)
+    const response = yield call(request.post, `/api/finance/add?token=${token}`, value)
     if (response.data.status_code !== 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false

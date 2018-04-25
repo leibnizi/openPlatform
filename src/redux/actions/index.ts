@@ -33,6 +33,18 @@ const getMerchantMessage = (token: any) => ({
   data: token
 })
 
+const handleUploadBase = (prarms:any) => ({
+  type: 'UPLOAD_IMAGE_BASE',
+  data: {...prarms}
+  // statusUrl,
+  // type_id: 1,
+  // token
+})
+const handleUploadOthers = (prarms:any) => ({
+  type: 'UPLOAD_IMAGE_OTHERS',
+  data: {...prarms}
+})
+
 export {
   business,
   // onIncrement,
@@ -44,5 +56,7 @@ export {
   indexChartsAct,
   GET_POSTS,
   getOnlineProduct,
-  getMerchantMessage
+  getMerchantMessage,
+  handleUploadBase,
+  handleUploadOthers
 }

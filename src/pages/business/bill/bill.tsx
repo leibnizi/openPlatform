@@ -40,7 +40,6 @@ class Bill extends React.Component<any, any> {
   }
 
   handleFormChange = (value: any) => {
-    console.log(value,"FFF")
     const { dispatch, userInfo: { token } } = this.props
     dispatch(postBillInfos({
       token,

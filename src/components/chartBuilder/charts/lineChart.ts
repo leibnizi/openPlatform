@@ -4,7 +4,7 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/legend';
 
 function lineChart(options: ChartOptions | any) {
-  const { id, datas, viewport } = options;
+  const { id, datas, viewport, title  } = options;
 
   let chart = echarts.init(document.getElementById(id) as HTMLDivElement);
   let chartOptions: any = {};
@@ -32,6 +32,11 @@ function lineChart(options: ChartOptions | any) {
       data: datas.map((dRow:any) => {
         return dRow.name
       })
+    }
+  }
+  if(chartOptions.title){
+    chartOptions.title = {
+      text: title
     }
   }
 

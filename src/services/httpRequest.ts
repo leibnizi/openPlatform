@@ -34,7 +34,8 @@ const fetchUtil = (url: string, body: any) => {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Method': 'POST'
       },
       credentials: 'include',
       body: JSON.stringify(body)

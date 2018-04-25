@@ -69,7 +69,11 @@ class Login extends React.Component<any, any> {
             密码
             <input type="text" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
           </label>
-          <p>忘记密码？</p>
+          <p
+            onClick={()=>this.props.history.push('/forgetpassword')}
+          >
+            忘记密码？
+          </p>
           <input className='submit' type="submit" value="登录" />
         </form>
       </div>

@@ -39,14 +39,11 @@ class Sale extends React.Component<any, any> {
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
-            // item.purchaser_product_no = res.data.purchaser_product_no
-            // item.value = res.data.specification_option_inner[index].specification_size.value
-            // item.split_order_no = res.data.split_order_no
-            // item.m_order_no = res.data.order_split.m_order_no
-            // item.sale_discount_price = res.data.sale_discount_price
+            item.supply_price = res.data.product_master.supply_price
+            item.name = res.data.product_master.name
+            item.code = res.data.product_master.code
             item.image_url = res.data.image_url
             item.key = index
-            // item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
           })
           this.setState({
             productDetailData,
@@ -104,8 +101,8 @@ class Sale extends React.Component<any, any> {
       }, {
         title: '子订单编号',
         className: 'column-money',
-        dataIndex: 'money',
-        key: 'money',
+        dataIndex: 'split_order_no',
+        key: 'split_order_no',
         align: 'center',
       }, {
         title: '商品编号',
@@ -114,8 +111,8 @@ class Sale extends React.Component<any, any> {
         align: 'center',
       }, {
         title: '商品主图',
-        dataIndex: 'pinpai',
-        key: 'pinpai',
+        dataIndex: 'image_url',
+        key: 'image_url',
         align: 'center',
         className: 'tableItem',
         render: (e: any) => {
@@ -128,18 +125,18 @@ class Sale extends React.Component<any, any> {
         }
       }, {
         title: '订单状态',
-        dataIndex: 'enabled',
-        key: 'enabled',
+        dataIndex: 'status',
+        key: 'status',
         align: 'center',
       }, {
         title: '支付状态',
-        dataIndex: 'chuangjianshijian',
-        key: 'chuangjianshijian',
+        dataIndex: 'is_pay',
+        key: 'is_pay',
         align: 'center',
       }, {
         title: '下单时间',
-        dataIndex: 'shangjianshijian',
-        key: 'shangjianshijian',
+        dataIndex: 'delivery_date',
+        key: 'delivery_date',
         align: 'center',
       }, {
         title: '操作',
@@ -164,28 +161,37 @@ class Sale extends React.Component<any, any> {
     const detailColumns: any[] = [
       {
         title: '商品编号',
-        dataIndex: 'product_spu',
-        key: 'product_spu',
+        dataIndex: 'code',
+        key: 'code',
         align: 'center',
       }, {
         title: '商品名称',
-        dataIndex: 'product_spu',
-        key: 'product_spu',
+        dataIndex: 'name',
+        key: 'name',
         align: 'center',
       }, {
         title: '商品主图',
-        dataIndex: 'product_spu',
-        key: 'product_spu',
+        dataIndex: 'image_url',
+        key: 'image_url',
         align: 'center',
+        className: 'tableItem',
+        render: (e: any) => {
+          return (
+            <img
+              src={`${e}`}
+              alt="mainImage"
+            />
+          )
+        }
       }, {
         title: '商品规格',
-        dataIndex: 'product_spu',
-        key: 'product_spu',
+        dataIndex: 'specification_name',
+        key: 'specification_name',
         align: 'center',
       }, {
         title: '商品结算价格',
-        dataIndex: 'product_spu',
-        key: 'product_spu',
+        dataIndex: 'supply_price',
+        key: 'supply_price',
         align: 'center',
       },
     ]
@@ -236,10 +242,13 @@ class Sale extends React.Component<any, any> {
             <div className='item'>
               <p>下单时间:</p>
               <TimePicker
+                className='itemTime'
                 value={startTime}
                 onChange={(e: any) => this.setState({ startTime: e })}
               />
+              -
               <TimePicker
+                className='itemTime'
                 value={endTime}
                 onChange={(e: any) => this.setState({ endTime: e })}
               />

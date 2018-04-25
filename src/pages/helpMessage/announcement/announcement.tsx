@@ -15,8 +15,8 @@ class Announcement extends React.Component<any, any> {
 
   componentDidMount() {
     const token = this.props.state.userInfo.token
-    httpGet(`/api/message/all?token=${token}`)
-      .then(res=>this.setState({listData: res.data.data}))
+    httpGet(`/api/message/merchant?token=${token}`)
+      .then(res => this.setState({ listData: res.data.data }))
   }
 
   render() {
@@ -26,14 +26,14 @@ class Announcement extends React.Component<any, any> {
         <p className='helpHead'>商家公告</p>
         {
           listData ? (
-            listData.article.map((item:any,index:number)=> {
+            listData.article.map((item: any, index: number) => {
               return (
                 <div className='announceContent' key={index}>
                   <div className='announceTitle'>
-                    <p>{item.title}</p>
+                    <p onClick={() => this.props.history.push(`/help/detail/${item.id}`)}>{item.title}</p>
                     <p>{item.created_at}</p>
                   </div>
-                  <hr/>
+                  <hr />
                 </div>
               )
             })

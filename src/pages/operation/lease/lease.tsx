@@ -35,16 +35,18 @@ class Lease extends React.Component<any, any> {
     fetch(`/api/order/detail/${id}?token=${token}`)
       .then(res => res.json())
       .then(res => {
-        console.log('res', res)
+        console.log('res',res)
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
-            item.rental_price = res.data.product_master.rental_price
-            item.name = res.data.product_master.name
-            item.code = res.data.product_master.code
-            item.rental_cycle = res.data.rental_cycle
+            // item.purchaser_product_no = res.data.purchaser_product_no
+            // item.value = res.data.specification_option_inner[index].specification_size.value
+            item.split_order_no = res.data.split_order_no
+            item.m_order_no = res.data.order_split.m_order_no
+            // item.sale_discount_price = res.data.sale_discount_price
             item.image_url = res.data.image_url
             item.key = index
+            // item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
           })
           this.setState({
             productDetailData,
@@ -125,8 +127,8 @@ class Lease extends React.Component<any, any> {
         }
       }, {
         title: '订单状态',
-        dataIndex: 'status',
-        key: 'status',
+        dataIndex: 'enabled',
+        key: 'enabled',
         align: 'center',
       }, {
         title: '下单时间',
@@ -192,23 +194,23 @@ class Lease extends React.Component<any, any> {
 
       }, {
         title: '租赁价(天)',
-        dataIndex: 'rental_price',
-        key: 'rental_price',
+        dataIndex: 'enabled',
+        key: 'enabled',
         align: 'center',
       }, {
         title: '租赁周期',
-        dataIndex: 'rental_cycle',
-        key: 'rental_cycle',
+        dataIndex: 'created_at',
+        key: 'created_at',
         align: 'center',
       }
     ]
 
-    const {
-      listData,
-      startTime,
-      endTime, pageTotal, currentPage,
+    const { 
+      listData, 
+      startTime, 
+      endTime, pageTotal, currentPage, 
       productDetailData, productDetailDataHead
-    } = this.state
+     } = this.state
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
@@ -246,10 +248,13 @@ class Lease extends React.Component<any, any> {
             <div className='item'>
               <p>下单时间:</p>
               <TimePicker
+                className='itemTime'
                 value={startTime}
                 onChange={(e: any) => this.setState({ startTime: e })}
               />
+              -
               <TimePicker
+                className='itemTime'
                 value={endTime}
                 onChange={(e: any) => this.setState({ endTime: e })}
               />
@@ -287,11 +292,11 @@ class Lease extends React.Component<any, any> {
           <header className='productheader'>租赁订单详情页</header>
           <section className='productmid'>
             {
-              productDetailDataHead && [
+              productDetailDataHead&&[
                 ['订单编号:', productDetailDataHead.m_order_no],
                 ['子订单编号:', productDetailDataHead.split_order_no],
                 ['下单时间:', productDetailDataHead.return_date],
-                ['租赁周期:', productDetailDataHead.rental_cycle],
+                ['租赁周期:',  productDetailDataHead.rental_cycle],
                 ['订单状态:', productDetailDataHead.status]
               ].map((item, index) =>
                 <div className='productmiditem' key={index}>

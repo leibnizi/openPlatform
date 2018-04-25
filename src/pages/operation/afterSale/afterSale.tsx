@@ -155,6 +155,7 @@ class AfterSale extends React.Component<any, any> {
           <div className='item'>
             <p>开始时间:</p>
             <TimePicker
+              className='itemTime'
               value={begin}
               onChange={(e: any) => this.setState({ startTime: e })}
             />
@@ -162,6 +163,7 @@ class AfterSale extends React.Component<any, any> {
           <div className='item'>
             <p>结束时间:</p>
             <TimePicker
+              className='itemTime'
               value={end}
               onChange={(e: any) => this.setState({ endTime: e })}
             />

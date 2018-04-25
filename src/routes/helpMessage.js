@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import Customerservice from '../pages/helpMessage'
 import Message from '../pages/helpMessage/message/message'
 import Announcement from '../pages/helpMessage/announcement/announcement'
+import HelpDetail from '../pages/helpMessage/detail'
 
 export default class HelpMessage extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ export default class HelpMessage extends Component {
             <Route exact path="/help" component={Customerservice} />
             <Route path="/help/message" component={Message} />
             <Route path="/help/announcement" component={Announcement} />
+            <Route path="/help/detail" component={HelpDetail} />
           </div>
         </div>
       </Router>

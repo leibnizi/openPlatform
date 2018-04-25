@@ -1,16 +1,17 @@
 import axios, { AxiosPromise } from 'axios';
 
-var urlFix = "http://open-erp.test.msparis.com";
+const urlFix = "http://open-erp.test.msparis.com";
 
 const httpGet = (url: string): AxiosPromise => {
-  var url = urlFix + url;
-  return axios.get(url);
+    var url = urlFix + url;
+    return axios.get(url);
 }
 
 const httpPost = (url: string, queryString: any, body: any): any => {
-  var url = urlFix + url;
-  return axios.post(url);
+    var url = urlFix + url;
+    return axios.post(url);
 }
+
 
 const httpPut = (url: string) => {
   // 未完待续
@@ -34,8 +35,7 @@ const fetchUtil = (url: string, body: any) => {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Request-Method': 'POST'
+        'Content-Type': 'application/json'
       },
       credentials: 'include',
       body: JSON.stringify(body)

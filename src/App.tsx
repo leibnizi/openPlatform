@@ -10,13 +10,15 @@ import Forgetpassword from './pages/splash/forgetpassword'
 import store from './redux/store/store';
 import './styles/App.less';
 
+const EventEmitter = require('events');
+export const myEmitter = new EventEmitter()
 interface OldMenuLinkType {
   label: string,
   to: string,
   activeOnlyWhenExact: boolean
 }
 
-const OldMenuLink = ({ label, to, activeOnlyWhenExact }:OldMenuLinkType) => (
+const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuLinkType) => (
   <Route
     path={to}
     exact={activeOnlyWhenExact}
@@ -39,17 +41,17 @@ class Content extends React.Component {
           <div className='header-box'>
             <div className='logo'>
               <img
-                src={require('./styles/img/msheader.png')} 
+                src={require('./styles/img/msheader.png')}
                 alt='头部logo'
               />
               <div>商家后台管理系统</div>
             </div>
             <div className='navigation'>
               {
-                routes.map((item,index)=>
+                routes.map((item, index) =>
                   <OldMenuLink
                     key={index}
-                    activeOnlyWhenExact={index===0?true:false}
+                    activeOnlyWhenExact={index === 0 ? true : false}
                     to={item.path}
                     label={item.label}
                   />
@@ -60,11 +62,11 @@ class Content extends React.Component {
         </header>
         <section className='body'>
           {
-            routes.map((item,index)=> {
+            routes.map((item, index) => {
               return (
                 <Route
                   key={index}
-                  exact={index === 0?true:false}
+                  exact={index === 0 ? true : false}
                   path={item.path}
                   component={item.component}
                 />
@@ -88,7 +90,7 @@ class RegisterRoute extends React.Component {
           <div className='header-box'>
             <div className='logo'>
               <img
-                src={require('./styles/img/msheader.png')} 
+                src={require('./styles/img/msheader.png')}
                 alt='头部logo'
               />
               <div>商家后台管理系统</div>
@@ -100,7 +102,7 @@ class RegisterRoute extends React.Component {
                 label='申请加入女神派'
               />
             </section>
-            
+
           </div>
         </header>
         <section className='body'>
@@ -122,7 +124,7 @@ class PassWordRoute extends React.Component {
           <div className='header-box'>
             <div className='logo'>
               <img
-                src={require('./styles/img/msheader.png')} 
+                src={require('./styles/img/msheader.png')}
                 alt='头部logo'
               />
               <div>商家后台管理系统</div>
@@ -134,7 +136,7 @@ class PassWordRoute extends React.Component {
                 label='找回密码'
               />
             </section>
-            
+
           </div>
         </header>
         <section className='body'>
@@ -146,36 +148,41 @@ class PassWordRoute extends React.Component {
 }
 
 class App extends React.Component {
-  
+  componentDidMount() {
+    
+    myEmitter.on('event', () => {
+      console.log('A!!!!!!!');
+    });
+  }
   render() {
     var formData = new FormData();
     console.log(this.props, "FFF", formData)
     return (
       <Provider store={store}>
-          <BrowserRouter>
-            <Switch>    
-              <Route
-                path="/login" 
-                component={Login}
-              />
-              <Route
-                path="/forgetpassword" 
-                component={PassWordRoute}
-              />
-              <Route
-                path="/splash" 
-                component={Splash}
-              />
-              <Route
-                path="/register" 
-                component={RegisterRoute}
-              />
-              <Route
-                path="/" 
-                component={Content}
-              />
-            </Switch>
-          </BrowserRouter>
+        <BrowserRouter>
+          <Switch>
+            <Route
+              path="/login"
+              component={Login}
+            />
+            <Route
+              path="/forgetpassword"
+              component={PassWordRoute}
+            />
+            <Route
+              path="/splash"
+              component={Splash}
+            />
+            <Route
+              path="/register"
+              component={RegisterRoute}
+            />
+            <Route
+              path="/"
+              component={Content}
+            />
+          </Switch>
+        </BrowserRouter>
       </Provider>
     )
   }

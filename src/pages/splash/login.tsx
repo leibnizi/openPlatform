@@ -3,7 +3,22 @@ import { connect } from 'react-redux'
 import './index.less'
 import { setUserInfo } from '../../redux/actions'
 import { fetchUtil } from '../../services/httpRequest'
+import { myEmitter } from './../../App'
 
+export const themes = {
+  light: {
+    foreground: '#ffffff',
+    background: '#222222',
+  },
+  dark: {
+    foreground: '#000000',
+    background: '#eeeeee',
+  },
+};
+
+// export const ThemeContext = React.createContext(
+//   themes.dark // 默认值
+// );
 class Login extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
@@ -29,15 +44,16 @@ class Login extends React.Component<any, any> {
         name: id,
         password
       }
+    myEmitter.emit('event');
     fetchUtil('/api/login', body)
-      .then((v: { status_code: number,msg: string }) => {
+      .then((v: { status_code: number, msg: string }) => {
         if (v.status_code === 0) {
-          console.log('status_code', v)
+
           this.props.setUserInfo(v)
           this.props.history.push('/')
         } else {
-          this.setState({loginError: v.msg})
-          this.props.history.push('/')
+          // this.setState({ loginError: v.msg })
+          // this.props.history.push('/')
         }
       })
   }
@@ -55,7 +71,7 @@ class Login extends React.Component<any, any> {
     return (
       <div className='splash'>
         <p className='name splashchild'>商家后台管理系统</p>
-        <p className='loginError'>{loginError?loginError:'   '}</p>
+        <p className='loginError'>{loginError ? loginError : '   '}</p>
         <form onSubmit={(e) => this.loginin(e)}>
           <label
             className='id'
@@ -70,7 +86,7 @@ class Login extends React.Component<any, any> {
             <input type="text" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
           </label>
           <p
-            onClick={()=>this.props.history.push('/forgetpassword')}
+            onClick={() => this.props.history.push('/forgetpassword')}
           >
             忘记密码？
           </p>

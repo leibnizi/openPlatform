@@ -34,7 +34,7 @@ const fetchUtil = (url: string, body: any) => {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
         'Access-Control-Request-Method': 'POST',
         'Access-Control-Allow-Origin': '*'
       },

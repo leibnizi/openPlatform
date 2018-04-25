@@ -242,10 +242,13 @@ class Sale extends React.Component<any, any> {
             <div className='item'>
               <p>下单时间:</p>
               <TimePicker
+                className='itemTime'
                 value={startTime}
                 onChange={(e: any) => this.setState({ startTime: e })}
               />
+              -
               <TimePicker
+                className='itemTime'
                 value={endTime}
                 onChange={(e: any) => this.setState({ endTime: e })}
               />

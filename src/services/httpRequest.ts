@@ -36,7 +36,6 @@ const fetchUtil = (url: string, body: any) => {
         'Accept': 'application/json',
         'Content-Type': 'text/plain',
         'Access-Control-Request-Method': 'POST',
-        'Access-Control-Allow-Origin': '*'
       },
       mode: 'cors',
       // credentials: 'include',

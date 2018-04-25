@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Tabs, Row, Col, Button, Modal, Upload, Icon } from 'antd';
+import { Tabs, Row, Col, Button, Modal, Upload } from 'antd';
 import { StatusCard } from '../components/statusCard/StatusCard'
 import { connect } from 'react-redux'
 import { EditStatusForm } from './components/EditStatusForm'
+import './statusControl.less'
+import { handleUploadBase, handleUploadOthers, business as businessAction } from '../../../redux/actions/index'
 
-import { business as businessAction } from '../../../redux/actions/index'
 const { getStatusInfos, deleteStatus } = businessAction
-const Dragger = Upload.Dragger;
 const TabPane = Tabs.TabPane;
 
 class StatusControl extends React.Component<any, any> {
@@ -18,22 +18,53 @@ class StatusControl extends React.Component<any, any> {
       editStatusVisible: false,
       previewVisible: false,
       previewImage: '',
-      fileList: [{
-        uid: -1,
-        name: 'xxx.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      }],
+      uploading: false,
+      baseStatus:[],
+      othersStatus: [],
+      baseFile:[],
+      isEdit:false,
+      changeBaseStatusMsg:{
+        statusUrl:"",
+        id:""
+      },
+      addOthersStatusMsg: {
+        addOthersStatusUrl: "",
+        id: ""
+      },
+      hasChange: false//是否替换了图片
     }
   }
-  
+  baseStatusId:''
   changeTabFun() {
-    console.log(1)
+    
   }
 
   componentDidMount() {
     const { dispatch, userInfo: { token } } = this.props
     dispatch(getStatusInfos(token))
+  }
+  componentWillReceiveProps(nextProps:any){
+    const { statusInfos } = nextProps
+    let baseStatus = []
+    let othersStatus = []
+    for (let i = 0; i < statusInfos.length; i++) {
+      // const element = array[index];
+      if (statusInfos[i].type_id === "基础资质") {
+        baseStatus.push(statusInfos[i])
+
+      }
+      else if (statusInfos[i].type_id === "补充资质"){
+        othersStatus.push(statusInfos[i])
+      }
+    }
+    this.setState({
+      baseStatus,
+      othersStatus
+    })
+    this.baseStatusId = baseStatus[0].id;
+    // const baseStatus = statusInfos.map((item:any) => {
+    //   return 
+    // })
   }
 
   renderCard(cardList:any) {
@@ -52,7 +83,6 @@ class StatusControl extends React.Component<any, any> {
   }
 
   editStatusCard = (file:any, id:any) => {
-    console.log(file, id,"WW")
     // const { dispatch, userInfo: { token } } = this.props
     // dispatch(getBusinessInfos(token))
   }
@@ -63,11 +93,7 @@ class StatusControl extends React.Component<any, any> {
   }
 
   handleOk = () => {
-    console.log("OK")
   }
-  // handleCancel = () => {
-  //   console.log("handleCancel")
-  // }
   handleCancel = () => this.setState({ previewVisible: false })
 
   handlePreview = (file:any) => {
@@ -77,17 +103,94 @@ class StatusControl extends React.Component<any, any> {
     });
   }
 
-  handleChange = ({ fileList }:any) => this.setState({ fileList })
+  handleChangeOthers = (file:any) => {
+    
+  };
+
+  // type = 1 是基础资质 2是补充资质
+  handleUploadBase = (type: any) => {
+    const { dispatch, userInfo: { token } } = this.props
+    const { changeBaseStatusMsg } = this.state
+    dispatch(handleUploadBase({
+      ...changeBaseStatusMsg,
+      type_id: 1,
+      token
+    }))
+    this.setState({
+      isEdit: false,
+      hasChange: false
+    })
+  }
+
+  closeEditFun = () => {
+    this.setState({
+      isEdit: false,
+      hasChange: false
+    })
+  }
+
+  showEditStatus = () => {
+    this.setState({
+      isEdit: true
+    })
+  }
 
   render() {
-    const { editStatusVisible, editStatusloading, fileList, previewVisible,previewImage } = this.state
-    const { statusInfos } = this.props
-    const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
+    const { editStatusVisible, editStatusloading, previewVisible, previewImage, uploading, isEdit, hasChange } = this.state
+    const props1 = {
+      name: 'file',
+      action: 'http://api.v2.msparis.com/common/upload',
+      fileList: this.state.baseStatus,
+      onChange: ({ file, fileList, file: { status, response } }:any) => {
+        if (status === 'done') {
+          // message.success("图片上传成功");
+          this.setState({
+            changeBaseStatusMsg:{
+              statusUrl: response.data[0].url,
+              id: this.baseStatusId
+            }
+          });
+        }
+
+        this.setState({ 
+          baseStatus: [file],
+          hasChange: true
+        });
+        return false
+      },
+    };
+
+    const props2 = {
+      name: 'file',
+      action: 'http://api.v2.msparis.com/common/upload',
+      fileList: this.state.othersStatus,
+      onChange: ({ file, fileList, file: { status, response } }: any) => {
+        if (status === 'done') {
+          const { dispatch, userInfo: { token } } = this.props
+
+          dispatch(handleUploadOthers({
+            statusMsg:{
+              file: response.data[0].url,
+              type_id: 2,
+            },
+            token
+          }))
+          // this.setState({
+          //   addOthersStatusMsg: {
+          //     addOthersStatusUrl: response.data[0].url,bsInfo
+          //     // id: this.addOthersStatusId
+          //   }
+          // });
+        }
+
+        this.setState({
+          othersStatus: fileList,
+          // hasChange: true
+        });
+        // return false
+      },
+    };
+    
     return (
       <div className="status-container">
         {/* content-title 这个样式是公用的 在common里 */}
@@ -99,52 +202,82 @@ class StatusControl extends React.Component<any, any> {
             type="card"
             className="tabs-container"
           >
-            <TabPane className="tab-content" tab="基本资质" key="1">
+            <TabPane className="tab-content tab1" tab="基本资质" key="1">
               <Row className="tab-content-box">
                 <Col className="tab-content-left" span={3}>
                   <div>
                     营业执照：
                   </div>
                   <div className="btn-box">
-                    <Button>
+                    <Button
+                      style={{ display: `${isEdit && hasChange ? "block" : "none"}` }}
+                      className="upload-demo-start"
+                      type="primary"
+                      onClick={() => { this.handleUploadBase(1) }}
+                      // disabled={this.state.fileList.length === 0}
+                      // loading={uploading}
+                      // ant-upload-select-picture-card
+                    >
                       提交
+                    </Button>
+                    <Button
+                      style={{ display: `${!isEdit && !hasChange ? "block" : "none"}` }}
+                      className="upload-demo-start"
+                      type="primary"
+                      onClick={this.showEditStatus}
+                      // disabled={this.state.fileList.length === 0}
+                      loading={uploading}
+                    >
+                      修改基本资质
+                    </Button>
+                    <Button
+                      style={{ display: `${isEdit && !hasChange ? "block" : "none"}` }}
+                      className="upload-demo-start"
+                      type="primary"
+                      onClick={this.closeEditFun}
+                      // disabled={this.state.fileList.length === 0}
+                      loading={uploading}
+                    >
+                      返回
                     </Button>
                   </div>
                 </Col>
                 <Col span={21}>
                   <Row>
-                    {this.renderCard(statusInfos)}
-                    <Col span={8} className="content-btn">
-                      <Dragger style={{width: '200px'}}>
-                        添加
-                      </Dragger>
-                    </Col>
-                    <div className="clearfix">
+                    <Col>
                       <Upload
-                        action="http://api.v2.msparis.com/common/upload"
                         listType="picture-card"
-                        fileList={fileList}
-                        onPreview={this.handlePreview}
-                        onChange={this.handleChange}
+                        {...props1}
                       >
-                        {fileList.length >= 3 ? null : uploadButton}
+                        {isEdit ? <div>修改基本资质</div> : null }
                       </Upload>
                       <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                         <img alt="example" style={{ width: '100%' }} src={previewImage} />
                       </Modal>
-                    </div>
+                    </Col>
                   </Row>
                 </Col>
               </Row>
             </TabPane>
-            <TabPane tab="补充资源" key="2">
+            <TabPane className="tab-content tab2"  tab="补充资源" key="2">
               <Row className="tab-content-box">
-                {this.renderCard(statusInfos)}
-                <Col span={8} className="content-btn">
-                  <Dragger style={{ width: '200px' }}>
-                    添加
-                  </Dragger>
+                <Col className="tab-content-left" span={3}>
+                  <div>
+                    补充资质：
+                  </div>
+                  <div className="btn-box">
+                  </div>
                 </Col>
+                <Upload
+                  // action="http://api.v2.msparis.com/common/upload"
+                  listType="picture-card"
+                  // fileList={othersStatus} 
+                  // onPreview={this.handlePreview}
+                  // onChange={this.handleChangeOthers}
+                  {...props2}
+                >
+                  <Button>修改补充资质</Button>
+                </Upload>
               </Row>
             </TabPane>
           </Tabs>
@@ -183,10 +316,12 @@ class StatusControl extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps: any = ({ statusInfos, userInfo }: any) => ({
+const mapStateToProps: any = ({ statusInfos, userInfo }: any) => {
+  return ({
   statusInfos,
-  userInfo
+  userInfo,
 })
+}
 
 const mapDispatchToProps: any = (dispatch: any) => ({
   dispatch

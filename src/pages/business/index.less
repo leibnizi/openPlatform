@@ -45,12 +45,21 @@ html {
           .tab-content-box{
             width: 100%;
             .tab-content-left{
-              // display: flex;
-              // flex-direction: column;
+              display: flex;
+              flex-direction: column;
+              align-items: stretch;
+              // flex
               // padding: 0 16px;
               height: 100%;
               .btn-box{
-                margin-top: 55vh;
+                // margin-top: 55vh;
+                flex-grow: 1;
+                display: flex;
+                justify-content: flex-end;
+                flex-direction: column;
+                .ant-btn{
+                  max-width: 150px;
+                }
               }
             }
           }

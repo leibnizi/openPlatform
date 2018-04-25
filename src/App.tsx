@@ -9,6 +9,7 @@ import Register from './pages/splash/register'
 import Forgetpassword from './pages/splash/forgetpassword'
 import store from './redux/store/store';
 import './styles/App.less';
+// import axios from 'axios';
 
 const EventEmitter = require('events');
 export const myEmitter = new EventEmitter()
@@ -149,14 +150,11 @@ class PassWordRoute extends React.Component {
 
 class App extends React.Component {
   componentDidMount() {
-    
     myEmitter.on('event', () => {
       console.log('A!!!!!!!');
     });
   }
   render() {
-    var formData = new FormData();
-    console.log(this.props, "FFF", formData)
     return (
       <Provider store={store}>
         <BrowserRouter>

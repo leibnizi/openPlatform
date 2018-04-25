@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // import { Row, Col } from 'antd'
+import './numBlock.less'
 
 const NumBlock = ({ title, value = 0, children }) => {
   return (
     <div className="box">
       <div className="title">{title}</div>
-      <div className="vauel">{value}</div>
+      <div className="value">{value}</div>
       <div>{children}</div>
     </div>
   )

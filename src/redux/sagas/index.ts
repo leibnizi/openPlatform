@@ -108,7 +108,7 @@ export function* getOnlineProduct(action: any) {
 export function* getUserInfos(action: any) {
   try {
     const response = yield call(httpGet, `/api/auth/user?token=${action.data}`);
-    yield put({ type: 'GET_USER_INFOS_SUCCESS', data: response.data });
+    yield put({ type: 'GET_USER_INFOS_SUCCESS', data: response.data.data });
 
   } catch (error) {
     // yield put(fetchFailure());

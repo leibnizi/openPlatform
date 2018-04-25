@@ -42,7 +42,7 @@ function getOnlineProduct(state: any = {}, action: any) {
 
 function getIndexCharts (state: any = 0, action: any) {
   switch (action.type) {
-    case 'INCREMENT':
+    case 'GET_INDEX_CHARTS_SUCCESS':
       const newState = Object.assign({}, state, action.data);
       return newState;
     default:

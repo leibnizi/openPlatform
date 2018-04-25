@@ -9,8 +9,7 @@ import Register from './pages/splash/register'
 import Forgetpassword from './pages/splash/forgetpassword'
 import store from './redux/store/store';
 import './styles/App.less';
-import { Button } from 'antd';
-import './App.css';
+// import axios from 'axios';
 
 interface OldMenuLinkType {
   label: string,
@@ -36,7 +35,7 @@ class Content extends React.Component {
       <div className='app'>
         <header className='header'>
           <div className="top">
-            1<Button type="primary">Button</Button>
+            1
           </div>
           <div className='header-box'>
             <div className='logo'>
@@ -148,10 +147,7 @@ class PassWordRoute extends React.Component {
 }
 
 class App extends React.Component {
-  
   render() {
-    var formData = new FormData();
-    console.log(this.props, "FFF", formData)
     return (
       <Provider store={store}>
           <BrowserRouter>

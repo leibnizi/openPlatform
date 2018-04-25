@@ -23,8 +23,10 @@ export default function* rootSaga() {
   yield takeEvery("GET_ACCOUNT_INFO", getAccountInfos)
   yield takeEvery("DEIETE_STATUS", deleteStatus)
   yield takeEvery("GET_CHARTS", getIndexCharts)
+  yield takeEvery("GET_THIRTY_MESSAGE", getThirtyMessage)
   yield takeEvery("GET_ONLINE_PRODUCT", getOnlineProduct)
   yield takeEvery("GET_MERCHANT_MESSAGE", getMerchantMessage)
+  // 
 
   // yield takeEvery('SAGA_POSTS', sagaPost)
   //资质管理
@@ -115,6 +117,15 @@ export function* getUserInfos(action: any) {
   }
 }
 
+export function* getThirtyMessage(action: any) {
+  try {
+    const response = yield call(httpGet, `/api/home/rental-and-sale-aggregate?token=${action.data}`);
+    yield put({ type: 'GET_THIRTY_MESSAGE_SUCCESS', data: response.data.data });
+  } catch (error) {
+
+  }
+}
+
 export function* getIndexCharts(action: any) {
   try {
     const response = yield call(httpGet, `/api/home/rental-and-sale-detail?token=${action.data}`);
@@ -164,7 +175,7 @@ export function* getStatusInfos(action: any) {
 export function* deleteStatus(action: any) {
   try {
     const response = yield call(httpGet, `/api/qualification/delete/${action.data.id}?token=${action.data.token}`);
-    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.msg });
+    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data.data.msg });
   } catch (error) {
     // yield put(fetchFailure());
   }

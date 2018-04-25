@@ -9,7 +9,7 @@ export default {
     data: token
   }),
 
-  deleteStatus: (token: string, id: string) => ({
+  deleteStatus: (id: string, token: string) => ({
     type: 'DEIETE_STATUS',
     data: {
       token,

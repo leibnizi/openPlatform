@@ -15,10 +15,10 @@ const NumBlock = ({ title, value = 0, children }) => {
   // return <i className={classnames('antdadmin', [`icon-${type}`], className)} />
 }
 
-NumBlock.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.number,
-  // className: PropTypes.string,
-}
+// NumBlock.propTypes = {
+//   title: PropTypes.string.isRequired,
+//   value: PropTypes.number,
+//   // className: PropTypes.string,
+// }
 
 export default NumBlock

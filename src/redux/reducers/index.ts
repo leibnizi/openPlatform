@@ -32,9 +32,18 @@ function merchantMessage(state: any = { article: [{ title: "" }, { title: "" }, 
 function getOnlineProduct(state: any = {}, action: any) {
   switch (action.type) {
     case 'GET_ONLINE_PRODUCT_SUCCESS':
-      console.log(action.data,"jjjj")
-      // const newState = Object.assign({}, state, action.data);
-      return action.data;
+      const newState = Object.assign({}, state, action.data);
+      return newState
+    default:
+      return state
+  }
+}
+
+function getThirtyMessage(state: any = {}, action: any) {
+  switch (action.type) {
+    case 'GET_THIRTY_MESSAGE_SUCCESS':
+      const newState = Object.assign({}, state, action.data);
+      return newState
     default:
       return state
   }
@@ -83,6 +92,7 @@ const rootReducer = combineReducers({
   merchantMessage,
   getOnlineProduct,
   userInfo,
+  getThirtyMessage,
   businessInfos,
   ...business,
   ...billInfos,

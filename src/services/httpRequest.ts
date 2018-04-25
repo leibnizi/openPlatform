@@ -71,6 +71,9 @@ const fetchUtil = (url: string, body: any) => {
 
 const request = axios.create({
     baseURL: "http://open-erp.test.msparis.com",
+    headers:{
+        withCredentials: false
+    },
     timeout: 50000
 });
 

@@ -60,13 +60,10 @@ class Home extends Component {
       datas: [{
         data: [120, 200, 150, 80, 70, 110, 130],
         name: 'test'
-      },
-      {
-        name: 'hola',
-        data: [90, 220, 30, 50, 90, 290, 110]
       }],
-      legend: true,
-      tooltip:true
+      legend: false,
+      tooltip:true,
+      color: ['#006699']
     };
 
     this._lineOp = {
@@ -75,12 +72,8 @@ class Home extends Component {
       datas: [{
         data: [120, 200, 150, 80, 70, 110, 130],
         name: 'test'
-      },
-      {
-        name: 'hola',
-        data: [90, 220, 30, 50, 90, 290, 110]
       }],
-      legend: true,
+      legend: false,
       tooltip:true,
       smooth:true
     };
@@ -88,7 +81,7 @@ class Home extends Component {
 
   componentDidMount() {
     barChart(this._options)
-    lineChart(this._lineOp)
+    barChart(this._lineOp)
     const { dispatch, userInfo: { token } } = this.props
     dispatch(getUserInfos(token))
     dispatch(indexChartsAct(token))

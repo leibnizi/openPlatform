@@ -82,7 +82,6 @@ export function* uploadImageOthers(action: any = {}) {
   }
 }
 
-
 export function* getMerchantMessage(action: any = {}) {
   const token = action.data
 

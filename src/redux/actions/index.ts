@@ -9,8 +9,6 @@ import business from './business'
 const setUserInfo = (info: any) => store.dispatch({ type: 'SET_USERINFO', info })
 // const getOnlineProduct = (info: any) => store.dispatch({ type: 'GET_ONLINE_PRODUCT', info })
 
-
-
 const GET_POSTS = (posts: Object) => {
   return { type: 'SAGA_POSTS', posts }
 }
@@ -35,14 +33,16 @@ const getMerchantMessage = (token: any) => ({
   data: token
 })
 
-const uploadImage = (formData: any, token: any, id: any, type: any) => ({
-  type: 'UPLOAD_IMAGE',
-  data: {
-    formData,
-    token,
-    id,
-    type
-  }
+const handleUploadBase = (prarms:any) => ({
+  type: 'UPLOAD_IMAGE_BASE',
+  data: {...prarms}
+  // statusUrl,
+  // type_id: 1,
+  // token
+})
+const handleUploadOthers = (prarms:any) => ({
+  type: 'UPLOAD_IMAGE_OTHERS',
+  data: {...prarms}
 })
 
 export {
@@ -57,5 +57,6 @@ export {
   GET_POSTS,
   getOnlineProduct,
   getMerchantMessage,
-  uploadImage
+  handleUploadBase,
+  handleUploadOthers
 }

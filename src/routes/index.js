@@ -18,7 +18,13 @@ export default [
   {
     label:'商家中心',
     path:'/business',
-    component: Business
+    component: Business,
+    routes: [
+      {
+        path: '/business/bsInfo',
+        component: Business
+      }
+    ]
   },
   {
     label:'财务管理',

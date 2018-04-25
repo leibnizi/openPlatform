@@ -9,26 +9,28 @@ import { connect } from 'react-redux'
 const FormItem = Form.Item;
 
 class Account extends React.Component<any, any> {
-  state = {
-    fields: {
-      username: {
-        value: '',
+  constructor(props:any) {
+    super(props)
+    this.state = {
+      fields: {
+        username: {
+          value: '',
+        },
+        phone: {
+          value: '',
+        },
+        e_mail: {
+          value: '',
+        },
+        address: {
+          value: '',
+        },
       },
-      phone: {
-        value: '',
-      },
-      e_mail: {
-        value: '',
-      },
-      address: {
-        value: '',
-      },
-    },
-    is_edit: false,
-    confirmLoading: false
-  };
-
-  // 提交表单
+      is_edit: false,
+      confirmLoading: false
+    };
+  }
+  
   handleFormChange = (value: any) => {
     const { dispatch, userInfo: { token } } = this.props
     dispatch(postAccountInfos({
@@ -51,11 +53,11 @@ class Account extends React.Component<any, any> {
     const { dispatch } = this.props
     // dispatch())
     dispatch({
-      type:'SHOW_ACCOUNT_MOBLE',
+      type: 'SHOW_ACCOUNT_MOBLE',
     })
     // showModal
   }
-  
+
   handleCancel = () => {
     const { dispatch } = this.props
     dispatch({
@@ -74,10 +76,9 @@ class Account extends React.Component<any, any> {
     }
   }
 
-  //提交修改密码  
-  saveAcccountFun = (e:any) => {
+  saveAcccountFun = (e: any) => {
     e.preventDefault();
-    this.props.form.validateFields((err:any, value:any) => {
+    this.props.form.validateFields((err: any, value: any) => {
       if (!err) {
         const { dispatch, userInfo: { token } } = this.props
         dispatch(saveAccountPassword({
@@ -108,7 +109,7 @@ class Account extends React.Component<any, any> {
 
   render() {
     const { is_edit, confirmLoading } = this.state
-    const { accountInfos, showModal, accountInfos: { address, email, mobile, name}} = this.props
+    const { accountInfos, showModal, accountInfos: { address, email, mobile, name } } = this.props
     const { getFieldDecorator } = this.props.form;
     // getFieldsError, getFieldError, isFieldTouched
 
@@ -160,7 +161,7 @@ class Account extends React.Component<any, any> {
             </Row>
           </Col>
         </Row>
-        <Row style={{ display: is_edit ? 'none' : 'block'}} className="edit_btn">
+        <Row style={{ display: is_edit ? 'none' : 'block' }} className="edit_btn">
           <Col span={5}>
             <Button onClick={() => this.toggleEditFun()}>
               修改账户信息
@@ -172,13 +173,13 @@ class Account extends React.Component<any, any> {
             </Button>
           </Col>
         </Row>
-        <Modal 
+        <Modal
           title="修改密码"
           visible={showModal}
           onOk={() => this.changePassWord()}
           onCancel={() => this.handleCancel()}
           confirmLoading={confirmLoading}
-          bodyStyle={{height:'auto'}}
+          bodyStyle={{ height: 'auto' }}
           footer={null}
           destroyOnClose={true}
         >
@@ -193,7 +194,7 @@ class Account extends React.Component<any, any> {
                 validateTrigger: 'onSubmit'
               })(
                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入密码" />
-                )}
+              )}
             </FormItem>
             <FormItem
               className="modal-form-item"
@@ -206,32 +207,40 @@ class Account extends React.Component<any, any> {
                 ],
                 validateTrigger: 'onSubmit'
               })(
-                <Input type="password" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入新密码" />
-                )}
+                <Input
+                  type="password"
+                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  placeholder="请输入新密码"
+                />
+              )}
             </FormItem>
             <FormItem
               className="modal-form-item"
             >
               {getFieldDecorator('password_confirmation', {
-                rules: [{ 
-                  required: true, message: '请确认新密码!' 
-                }, { 
+                rules: [{
+                  required: true, message: '请确认新密码!'
+                }, {
                   validator: this.handleConfirmPassword,
-                },{
+                }, {
                   min: 6,
                   message: '密码长度不足6位'
                 }],
-                validateTrigger:'onSubmit'
+                validateTrigger: 'onSubmit'
               })(
-                <Input type="password" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请确认密码" />
-                )}
+                <Input 
+                  type="password" 
+                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} 
+                  placeholder="请确认密码" 
+                />
+              )}
             </FormItem>
             <div className="account-btn-box">
-              <Button onClick={this.handleCancel} style={{marginRight:"13px"}}>
+              <Button onClick={this.handleCancel} style={{ marginRight: "13px" }}>
                 取消
               </Button>
               <Button htmlType="submit">
-                  保存
+                保存
               </Button>
             </div>
           </Form>

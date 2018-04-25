@@ -13,8 +13,8 @@ class AfterSale extends React.Component<any, any> {
       supplier_pro_num: '',
       product_name: '',
       type: '',
-      begin: '',
-      end: '',
+      begin: null,
+      end: null,
     }
   }
 
@@ -67,37 +67,47 @@ class AfterSale extends React.Component<any, any> {
       {
         title: '售后单编号',
         dataIndex: 'id',
-        render: (text: string) => <a href="#">{text}</a>
+        align: 'center',
       }, {
         title: '商品名称',
-        dataIndex: 'product_name'
+        dataIndex: 'product_name',
+        align: 'center',
       }, {
         title: '商品编号',
-        dataIndex: 'product_code'
+        dataIndex: 'product_code',
+        align: 'center',
       }, {
         title: '商品模式',
-        dataIndex: 'order_type'
+        dataIndex: 'order_type',
+        align: 'center',
       }, {
         title: '商品尺码',
-        dataIndex: 'specification'
+        dataIndex: 'specification',
+        align: 'center',
       }, {
         title: '供应商货号',
-        dataIndex: 'supplier_pro_num'
+        dataIndex: 'supplier_pro_num',
+        align: 'center',
       }, {
         title: '数量',
-        dataIndex: 'num'
+        dataIndex: 'num',
+        align: 'center',
       }, {
         title: '售后金额',
-        dataIndex: 'prices'
+        dataIndex: 'prices',
+        align: 'center',
       }, {
         title: '售后单总金额',
-        dataIndex: 'after_sale_prices'
+        dataIndex: 'after_sale_prices',
+        align: 'center',
       }, {
         title: '售后单类型',
-        dataIndex: 'type'
+        dataIndex: 'type',
+        align: 'center',
       }, {
         title: '创建时间',
-        dataIndex: 'updated_at'
+        dataIndex: 'updated_at',
+        align: 'center',
       }, 
     ];
 

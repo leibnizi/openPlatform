@@ -9,23 +9,40 @@ class Message extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-
+      listData: '',
     }
   }
 
   componentDidMount() {
     // fetch('/api/financial/info_list').then(Detail=>console.log('Detail',Detail))
     const token = this.props.state.userInfo.token
-    httpGet(`/api/financial/info_list?token=${token}`)
-      .then(res=>console.log(res))
+    httpGet(`/api/message/sys?token=${token}`)
+      .then(res => this.setState({ listData: res.data.data }))
   }
 
   render() {
-
+    const { listData } = this.state
+    console.log('listData', listData)
     return (
       <div className='message'>
         <p className='messageHead'>系统信息</p>
-
+        {
+          listData ? (
+            listData.article.map((item: any, index: number) => {
+              return (
+                <div className='messageContent' key={index}>
+                  <div className='messageTitle'>
+                    <p
+                      onClick={() => this.props.history.push(`/help/detail/${item.id}`)}
+                    >{item.title}</p>
+                    <p>{item.created_at}</p>
+                  </div>
+                  <hr />
+                </div>
+              )
+            })
+          ) : null
+        }
       </div>
     )
   }

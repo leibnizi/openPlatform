@@ -129,13 +129,14 @@
     // background-color: black;
   }
   .body{
-    // height: 100%;
+    height: 100%;
     min-height: 100%;
     padding: 20px @window_padding 60px;
     background: #f2f2f2;
     &>div{
       display: flex;
       min-height: 100%;
+      // height: 100%;
       .aside{
         width: 180px;
         flex-shrink: 0;
@@ -175,6 +176,13 @@
   }
 }
 a:link,a:active,a:visited,a:hover {text-decoration:none;}  
+input {
+  border-radius: 3px;
+  border: 1px solid #c3c3c3;
+}
+input:hover {
+  outline-color: #dd748e;
+}
 input:active {
   outline-color: #dd748e;
 }

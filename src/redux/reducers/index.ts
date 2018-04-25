@@ -10,9 +10,9 @@ import { message } from 'antd';
 
 function uploadImageBack(state: any = [], action: any) {
   switch (action.type) {
-    case 'UPLOAD_IMAGE_SUCCESS':
-      // const newState = Object.assign({}, state, action.data);
-      console.log(action.data,"ggg")
+    case 'UPLOAD_IMAGE_BASE_SUCCESS':
+      // // const newState = Object.assign({}, state, action.data);
+      // console.log(action.data,"ggg")
       return action.data;
     default:
       return state
@@ -57,6 +57,7 @@ function showGlobleMessage(state: any ={}, action: any) {
       return false
     case 'SHOW_GLOBLE_SUCCESS':
       message.success(action.data);
+      return false
     default:
       return state
   }
@@ -72,8 +73,6 @@ function showModal(state: any = false, action: any) {
       return state
   }
 }
-
-
 
 const rootReducer = combineReducers({
   routing:routerReducer,

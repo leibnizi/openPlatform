@@ -8,7 +8,6 @@ class Lease extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
-      productDetail: false,
       listData: [],
       startTime: null,
       endTime: null,
@@ -17,12 +16,44 @@ class Lease extends React.Component<any, any> {
       split_order_no: '',
       status: '',
       pageTotal: 0,
-      currentPage: 1
+      currentPage: 1,
+      productDetailData: null,
+      productDetailDataHead: null
     }
   }
 
   componentDidMount() {
-    this.getTableData(1)
+    if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
+      this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
+    } else {
+      this.getTableData(1)
+    }
+  }
+
+  productDetail = (id: any) => {
+    const token = this.props.state.userInfo.token
+    fetch(`/api/order/detail/${id}?token=${token}`)
+      .then(res => res.json())
+      .then(res => {
+        console.log('res',res)
+        if (res.status_code === 0) {
+          const productDetailData = res.data.specification_option_inner
+          productDetailData.map((item: any, index: number) => {
+            // item.purchaser_product_no = res.data.purchaser_product_no
+            // item.value = res.data.specification_option_inner[index].specification_size.value
+            item.split_order_no = res.data.split_order_no
+            item.m_order_no = res.data.order_split.m_order_no
+            // item.sale_discount_price = res.data.sale_discount_price
+            item.image_url = res.data.image_url
+            item.key = index
+            // item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
+          })
+          this.setState({
+            productDetailData,
+            productDetailDataHead: res.data
+          })
+        }
+      })
   }
 
   getTableData = (nextPage: number) => {
@@ -69,40 +100,118 @@ class Lease extends React.Component<any, any> {
         title: '订单编号',
         dataIndex: 'order_no',
         key: 'order_no',
-        render: (text: string) => <a href="#">{text}</a>
+        align: 'center',
       }, {
         title: '子订单编号',
         dataIndex: 'split_order_no',
         key: 'split_order_no',
+        align: 'center',
       }, {
         title: '商品编号',
         dataIndex: 'code',
         key: 'code',
+        align: 'center',
       }, {
         title: '商品主图',
-        dataIndex: 'brand_name',
-        key: 'brand_name',
+        dataIndex: 'image_url',
+        key: 'image_url',
+        align: 'center',
+        className: 'tableItem',
+        render: (e: any) => {
+          return (
+            <img
+              src={`${e}`}
+              alt="mainImage"
+            />
+          )
+        }
       }, {
         title: '订单状态',
         dataIndex: 'enabled',
         key: 'enabled',
+        align: 'center',
       }, {
         title: '下单时间',
         dataIndex: 'created_at',
         key: 'created_at',
+        align: 'center',
       }, {
         title: '租赁周期',
         dataIndex: 'rental_cycle',
         key: 'rental_cycle',
+        align: 'center',
       }, {
         title: '操作',
-        dataIndex: 'enabled',
+        dataIndex: 'id',
         key: 'chakanxiangqing',
+        align: 'center',
+        render: (e: any) => {
+          return (
+            <span
+              className='checkDetail'
+              onClick={() => {
+                this.props.history.push(`/operation/lease/detail/${e}`)
+              }}
+            >
+              {'查看详情'}
+            </span>
+          )
+        }
       }
-    ];
+    ]
 
-    const { productDetail, listData, startTime, endTime, pageTotal, currentPage } = this.state
-    if (!productDetail) {
+    const detailColumns: any[] = [
+      {
+        title: '商品编号',
+        dataIndex: 'code',
+        key: 'code',
+        align: 'center',
+      }, {
+        title: '商品名称',
+        dataIndex: 'name',
+        key: 'name',
+        align: 'center',
+      }, {
+        title: '商品主图',
+        dataIndex: 'image_url',
+        key: 'image_url',
+        align: 'center',
+        className: 'tableItem',
+        render: (img: any) => {
+          return (
+            <img
+              src={`${img}`}
+              alt="mainImage"
+            />
+          )
+        }
+      }, {
+        title: '商品规格',
+        dataIndex: 'specification_name',
+        key: 'specification_name',
+        className: 'tableItem',
+        align: 'center',
+
+      }, {
+        title: '租赁价(天)',
+        dataIndex: 'enabled',
+        key: 'enabled',
+        align: 'center',
+      }, {
+        title: '租赁周期',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        align: 'center',
+      }
+    ]
+
+    const { 
+      listData, 
+      startTime, 
+      endTime, pageTotal, currentPage, 
+      productDetailData, productDetailDataHead
+     } = this.state
+    if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
           <header className='productheader'>订单列表-租赁订单</header>
@@ -180,14 +289,12 @@ class Lease extends React.Component<any, any> {
           <header className='productheader'>租赁订单详情页</header>
           <section className='productmid'>
             {
-              [
-                ['商品编号:', 'DD071A'],
-                ['商品名称:', '简约休闲针织外套'],
-                ['类目:', '女装'],
-                ['品牌:', 'MIRROR FUN'],
-                ['上架状态:', 'DD071A'],
-                ['创建时间：', 'YYYY-MM-DD hh:mm:ss'],
-                ['上架时间：', 'YYYY-MM-DD hh:mm:ss']
+              productDetailDataHead&&[
+                ['订单编号:', productDetailDataHead.m_order_no],
+                ['子订单编号:', productDetailDataHead.split_order_no],
+                ['下单时间:', productDetailDataHead.return_date],
+                ['租赁周期:',  productDetailDataHead.rental_cycle],
+                ['订单状态:', productDetailDataHead.status]
               ].map((item, index) =>
                 <div className='productmiditem' key={index}>
                   <span>{item[0]}</span>
@@ -200,8 +307,8 @@ class Lease extends React.Component<any, any> {
           <section>
             <Table
               className='producttable'
-              columns={columns}
-              dataSource={listData}
+              columns={detailColumns}
+              dataSource={productDetailData}
               bordered={true}
               pagination={{
                 total: pageTotal,

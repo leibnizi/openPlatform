@@ -27,44 +27,66 @@ export default function* rootSaga() {
   yield takeEvery("GET_MERCHANT_MESSAGE", getMerchantMessage)
 
   // yield takeEvery('SAGA_POSTS', sagaPost)
-  yield takeEvery("UPLOAD_IMAGE", uploadImage) 
+  //资质管理
+  yield takeEvery("UPLOAD_IMAGE_BASE", uploadImageBase) 
+  yield takeEvery("UPLOAD_IMAGE_OTHERS", uploadImageOthers) 
+  
+  //提交商家信息
   yield takeEvery("POST_BUSINESS_INFO", postBsInfos) 
+  //提交账户
   yield takeEvery("POST_ACCOUNT_INFO", postAccountInfos)
+  //修改账户密码
   yield takeEvery("SAVE_ACCOUNT_PASSWPRD", saveAccountPassword)
+  //添加财务信息
   yield takeEvery("POST_BILL_INFO", postBillInfo)
 
 }
 
-export function* uploadImage(action: any = {}) {
-  const { formData, token, id, type } = action.data
+//把上传到的图片路径传给后端(基础资质)
+export function* uploadImageBase(action: any = {}) {
+  const { statusUrl, token, id } = action.data
   try {
-    const response = yield call(axios.post, "http://api.v2.msparis.com/common/upload", formData)
-    if (response.data.status != "ok") {
+    const response = yield call(axios.post, `/api/qualification/edit/${id}?token=${token}`, {
+      file: statusUrl
+    })
+    // debugger
+    if (response.data.status_code != 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
       return false
     }
-    yield put({ type: 'UPLOAD_IMAGE_SUCCESS', data: response.data.data });
-
-    const response1 = yield call(axios.post, `/api/qualification/edit/${id}?token=${token}`, {
-      file: response.data.data[0].url,
-      type_id: type
-    })
-    if (response1.data.status_code != 0) {
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: response1.msg || "有异常" });
-      return false
-    }
-    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
+    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
+    yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
   } catch (error) {
     // yield put(fetchFailure());
   }
 }
+
+//把上传到的图片路径传给后端(补充资质-添加)
+export function* uploadImageOthers(action: any = {}) {
+  const { statusMsg, token } = action.data
+  try {
+    const response = yield call(axios.post, `/api/qualification/add?token=${token}`, {
+      files: [statusMsg]
+    })
+    // debugger
+    if (response.data.status_code != 0) {
+      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
+      return false
+    }
+    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
+    yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
+  } catch (error) {
+    // yield put(fetchFailure());
+  }
+}
+
 
 export function* getMerchantMessage(action: any = {}) {
   const token = action.data
 
   try {
     const response = yield call(axios.get, `/api/message/merchant?token=${token}`)
-    if (response.data.status_code != 0) {
+    if (response.data.status_code !== 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
       return false
     }
@@ -205,7 +227,7 @@ export function* postAccountInfos(action: any = {}) {
   const { token, value } = action.data
   try {
     const response = yield call(axios.post, `/api/account/edit?token=${token}`, value)
-    if (response.data.status_code != 0) {
+    if (response.data.status_code !== 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
     }
@@ -222,7 +244,7 @@ export function* saveAccountPassword(action: any = {}) {
 
   try {
     const response = yield call(axios.post, `/api/reset?token=${token}`, value)
-    if (response.data.status_code != 0) {
+    if (response.data.status_code !== 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
     }
@@ -240,7 +262,7 @@ export function* postBillInfo(action: any = {}) {
   const { token, value } = action.data
   try {
     const response = yield call(axios.post, `/api/finance/add?token=${token}`, value)
-    if (response.data.status_code != 0) {
+    if (response.data.status_code !== 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
     }

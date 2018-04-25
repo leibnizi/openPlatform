@@ -9,23 +9,50 @@ class Customerservice extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-
+      dataList: null,
     }
   }
 
   componentDidMount() {
-    // fetch('/api/financial/info_list').then(Detail=>console.log('Detail',Detail))
     const token = this.props.state.userInfo.token
-    httpGet(`/api/financial/info_list?token=${token}`)
-      .then(res=>console.log(res))
+    httpGet(`/api/message/help?token=${token}`)
+      .then(res => this.setState({ dataList: res.data.data }))
   }
 
   render() {
-
+    const { dataList } = this.state
     return (
       <div className='customer'>
         <p className='customerHead'>联系客服</p>
-
+        <p className='customerContent'>
+          客服电话：
+            <span>{dataList && dataList.customerService.tel}</span>
+        </p>
+        <p className='customerContent'>
+          客服邮箱：
+            <span>{dataList && dataList.customerService.email}</span>
+        </p>
+        <hr className='minhr' />
+        <p className='customerHead'>常见问题</p>
+        {
+          dataList ? (
+            dataList.article.map((item: any, index: number) => {
+              return (
+                <div className='helpContent' key={index}>
+                  <div
+                    className='helpTitle'
+                  >
+                    <p onClick={() => {
+                      this.props.history.push(`/help/detail/${item.id}`)
+                    }}>{item.title}</p>
+                    <p>{item.created_at}</p>
+                  </div>
+                  <hr />
+                </div>
+              )
+            })
+          ) : null
+        }
       </div>
     )
   }

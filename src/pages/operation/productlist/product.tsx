@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
-import { GET_POSTS } from '../../../redux/actions/index'
+// import { GET_POSTS } from '../../../redux/actions/index'
+import { httpGet } from '../../../services/httpRequest'
 import './product.less'
 
 class Product extends React.Component<any, any> {
@@ -25,24 +26,35 @@ class Product extends React.Component<any, any> {
     }
   }
 
+  componentWillMount() {
+    // if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
+    //   this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
+    // }
+  }
+
   componentDidMount() {
     this.queryData()
-    this.props.dispatch(GET_POSTS({a:1}))
+    // this.props.dispatch(GET_POSTS({a:1}))
+    if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
+      this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
+    }
   }
 
   productDetail = (id: any) => {
     const token = this.props.state.userInfo.token
-    fetch(`api/product/detail/${id}?token=${token}`)
+    fetch(`/api/product/detail/${id}?token=${token}`)
       .then(res => res.json())
       .then(res => {
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
-            item.purchaser_product_no = res.data.purchaser_product_no 
+            item.purchaser_product_no = res.data.purchaser_product_no
             item.value = res.data.specification_option_inner[index].specification_size.value
             item.sale_market_price = res.data.sale_market_price
             item.rental_price = res.data.rental_price
             item.sale_discount_price = res.data.sale_discount_price
+            item.key = index
+            item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
           })
           this.setState({
             productDetail: true,
@@ -67,18 +79,19 @@ class Product extends React.Component<any, any> {
     const url = `/api/product/list?perPage=${20}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
                 &mode_id=${goodMode}&enabled=${goodStatus}&code=${code}&name=${name}
                 &purchaser_product_no=${purchaser_product_no}&page=${nextPage}`
-    fetch(url)
-      .then(res => res.json())
+    httpGet(url)
       .then((res) => {
-        const data = res.data.data
+        const data = res.data.data.data
         data.map((item: any, index: number) => {
           Object.assign(item, { key: index })
+          item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'          
         })
         this.setState({
           listData: data,
           pageTotal: res.data.total
         })
       })
+      .catch(err=>console.log('err',err))
   }
 
   queryData = () => {
@@ -97,21 +110,23 @@ class Product extends React.Component<any, any> {
         className: 'tableItem',
         dataIndex: 'code',
         key: 'code',
+        align: 'center',
       }, {
         title: '商品名称',
         className: 'tableItem',
         dataIndex: 'name',
         key: 'name',
+        align: 'center',
       }, {
         title: '商品主图',
         className: 'tableItem',
         dataIndex: '',
         key: 'img',
+        align: 'center',
         render: (e: any) => {
-          console.log('e',e)
           return (
-            <img 
-              src={`${e.main_image}`} 
+            <img
+              src={`${e.main_image}`}
               alt="mainImage"
             />
           )
@@ -120,53 +135,64 @@ class Product extends React.Component<any, any> {
         title: '品牌',
         className: 'tableItem',
         dataIndex: 'brand_name',
-        key: 'brand_name'
+        key: 'brand_name',
+        align: 'center',
       }, {
         title: '商品模式',
         className: 'tableItem',
         dataIndex: 'mode_id',
-        key: 'mode_id'
+        key: 'mode_id',
+        align: 'center',
       }, {
         title: '创建时间',
         className: 'tableItem',
         dataIndex: 'created_at',
-        key: 'created_at'
+        key: 'created_at',
+        align: 'center',
       }, {
         title: '上架时间',
         className: 'tableItem',
         dataIndex: 'enabled_at',
         key: 'enabled_at',
+        align: 'center',
         sorter: (a: any) => console.log(a)
       }, {
         title: '商品状态',
         className: 'tableItem',
-        dataIndex: 'enabled',
-        key: 'enabled',
+        dataIndex: 'shelfStatus',
+        key: 'shelfStatus',
+        align: 'center',
       }, {
         title: '租赁订单量',
         className: 'tableItem',
         dataIndex: 'rental_order_count',
-        key: 'rental_order_count'
+        key: 'rental_order_count',
+        align: 'center',
       }, {
         title: '销售订单量',
         className: 'tableItem',
         dataIndex: 'sale_order_count',
-        key: 'sale_order_count'
+        key: 'sale_order_count',
+        align: 'center',
       }, {
         title: '有效缓存',
         className: 'tableItem',
         dataIndex: 'stock',
         key: 'stock',
+        align: 'center',
       }, {
         title: '操作',
         className: 'tableItem',
         dataIndex: 'id',
         key: 'id',
+        align: 'center',
         render: (e: any) => {
           return (
             <span
               className='checkDetail'
-              onClick={() => this.productDetail(e)}
+              onClick={() => {
+                this.props.history.push(`/operation/detail/${e}`)
+              }}
             >
               {'查看详情'}
             </span>
@@ -181,44 +207,52 @@ class Product extends React.Component<any, any> {
         className: 'tableItem',
         dataIndex: 'specification_name',
         key: 'specification_name',
+        align: 'center',
       }, {
         title: '规格项',
         className: 'tableItem',
         dataIndex: 'value',
-        key: 'value'
+        key: 'value',
+        align: 'center',
       }, {
         title: '商品货号',
         className: 'tableItem',
         dataIndex: 'purchaser_product_no',
-        key: 'purchaser_product_no'
+        key: 'purchaser_product_no',
+        align: 'center',
       }, {
         title: '有效库存',
         className: 'tableItem',
         dataIndex: 'stock',
-        key: 'stock'
+        key: 'stock',
+        align: 'center',
       }, {
         title: '市场价',
         className: 'tableItem',
         dataIndex: 'sale_market_price',
-        key: 'sale_market_price'
+        key: 'sale_market_price',
+        align: 'center',
       }, {
         title: '租赁价(天)',
         className: 'tableItem',
         dataIndex: 'rental_price',
-        key: 'rental_price'
+        key: 'rental_price',
+        align: 'center',
       }, {
         title: '售卖价',
         className: 'tableItem',
         dataIndex: 'sale_discount_price',
-        key: 'sale_discount_price'
+        key: 'sale_discount_price',
+        align: 'center',
       },
     ]
 
-    const { 
-      productDetail, headerActive, listData, currentPage, pageTotal, productDetailData,
-      productDetailDataHead 
+    const {
+      headerActive, listData, currentPage, pageTotal, productDetailData,
+      productDetailDataHead
     } = this.state
-    if (!productDetail) {
+
+    if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
           <header className='productheader'>商品列表</header>
@@ -332,7 +366,7 @@ class Product extends React.Component<any, any> {
             </span>
           </section>
           {
-            headerActive === 0 ? (
+            headerActive === 0 && productDetailDataHead ? (
               <div>
                 <section className='productmid'>
                   {
@@ -350,10 +384,6 @@ class Product extends React.Component<any, any> {
                       </div>
                     )
                   }
-                  {/* <div className='productmiditem' key='1'>
-                    <span>商品编号</span>
-                    <span>{item[1]}</span>
-                  </div> */}
                 </section>
                 <hr />
                 <section>
@@ -366,8 +396,15 @@ class Product extends React.Component<any, any> {
                 </section>
               </div>
             ) : (
-                <div>
-                  null
+                <div className='productImg'>
+
+                  {
+                    productDetailDataHead && productDetailDataHead.images.map((item: any, index: number) => {
+                      return (
+                        <img key={index} src={item.key} alt={item.key} />
+                      )
+                    })
+                  }
                 </div>
               )
           }

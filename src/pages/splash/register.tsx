@@ -27,15 +27,10 @@ export default class Register extends React.Component<any, any> {
       qq: '',
       faxes: '',
       biz_address: '',
-      files: '',
       previewVisible: false,
       previewImage: '',
-      fileList: [{
-        uid: -1,
-        name: 'xxx.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      }],
+      fileList: [],
+      fileListSupplement: []
     }
   }
 
@@ -48,22 +43,9 @@ export default class Register extends React.Component<any, any> {
     this.setState({tabIndex})
   }
 
-  // handleChange = (info:any) => {
-  //   console.log('info', info)
-  //   if (info.file.status === 'uploading') {
-  //     this.setState({ loading: true })
-  //     return
-  //   }
-  //   if (info.file.status === 'done') {
-  //     // Get this url from response in real world.
-  //     getBase64(info.file.originFileObj, (licenseImage:any) => this.setState({
-  //       licenseImage,
-  //       loading: false,
-  //     }))
-  //   }
-  // }
-
   handleChange = (fileList:any) => this.setState({ fileList:fileList.fileList })
+
+  handleChangeList = (fileList:any) => this.setState({ fileListSupplement:fileList.fileList })
 
   handleCancel = () => this.setState({ previewVisible: false })
 
@@ -78,7 +60,7 @@ export default class Register extends React.Component<any, any> {
     const {
       tabIndex, name, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
-      mobile, email, qq, faxes, biz_address, files, previewVisible, previewImage, fileList
+      mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileList, fileListSupplement
     } = this.state
     const uploadButton = (
       <div>
@@ -88,7 +70,7 @@ export default class Register extends React.Component<any, any> {
     )
 
     return (
-      <div className='registerOut'>
+      <section className='registerOut'>
         {
           tabIndex === 2 ? (
             <div className='register'>
@@ -374,8 +356,9 @@ export default class Register extends React.Component<any, any> {
                         onChange={(e) => this.setState({biz_address: e.target.value})} 
                       />
                     </label>
-                    <label
-                      className='files'
+                    <hr/>
+                    <div
+                      className='uploadFile'
                     >
                       <div className='symbol'>
                         *
@@ -383,11 +366,6 @@ export default class Register extends React.Component<any, any> {
                           营业执照：
                         </span>
                       </div>
-                      {/* <input 
-                        type="text" 
-                        value={files} 
-                        onChange={(e) => this.setState({files: e.target.value})} 
-                      /> */}
                       <Upload
                         action="http://api.v2.msparis.com/common/upload"
                         listType="picture-card"
@@ -395,31 +373,41 @@ export default class Register extends React.Component<any, any> {
                         onPreview={this.handlePreview}
                         onChange={this.handleChange}
                         multiple={true}
+                        className='uploadImg'
                       >
-                        {fileList.length >= 3 ? null : uploadButton}
+                        {fileList.length >= 1 ? null : uploadButton}
                       </Upload>
                       <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                         <img alt="example" style={{ width: '100%' }} src={previewImage} />
                       </Modal>
-                    </label>
-                    <label
-                      className='files'
+                    </div>
+                    <div
+                      className='uploadFile'
                     >
                       <div className='symbol'>
                         <span className='labelName'>
                           补充资质：
                         </span>
                       </div>
-                      {
-                        !!0 && <input 
-                          type="text" 
-                          value={files} 
-                          onChange={(e) => this.setState({files: e.target.value})} 
-                        />
-                      }
-                    </label>
-                    <button className='submit' onClick={(e)=>this.gotoStep(e, 0)}>上一步</button>
-                    <input className='submit' type="submit" value="下一步" />
+                      <Upload
+                        action="http://api.v2.msparis.com/common/upload"
+                        listType="picture-card"
+                        fileList={fileListSupplement}
+                        onPreview={this.handlePreview}
+                        onChange={this.handleChangeList}
+                        multiple={true}
+                        className='uploadImg'
+                      >
+                        {fileList.length >= 20 ? null : uploadButton}
+                      </Upload>
+                      <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                      </Modal>
+                    </div>
+                    <div className='infoBottom'>
+                      <button className='submit' onClick={(e)=>this.gotoStep(e, 0)}>上一步</button>
+                      <input className='submit' type="submit" value="下一步" />
+                    </div>
                   </form>
                 ) : (
                   null
@@ -445,7 +433,7 @@ export default class Register extends React.Component<any, any> {
           <p>忘记密码？</p>
           <input className='submit' type="submit" value="登录" />
         </form> */}
-      </div>
+      </section>
     )
   }
 };

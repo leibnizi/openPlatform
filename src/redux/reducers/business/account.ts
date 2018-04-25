@@ -30,8 +30,6 @@ const accountInfos = (state: BillInfoState = initBillState, action: any) => {
   }
 }
 
-
-
 export default {
   accountInfos
 }

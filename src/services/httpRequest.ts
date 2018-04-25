@@ -39,7 +39,7 @@ const fetchUtil = (url: string, body: any) => {
         'Access-Control-Allow-Origin': '*'
       },
       mode: 'cors',
-      credentials: 'include',
+      // credentials: 'include',
       body: JSON.stringify(body)
     }).then((res:any) => {
         resolve(res)

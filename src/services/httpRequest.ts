@@ -35,8 +35,10 @@ const fetchUtil = (url: string, body: any) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Access-Control-Request-Method': 'POST'
+        'Access-Control-Request-Method': 'POST',
+        'Access-Control-Allow-Origin': '*'
       },
+      mode: 'cors',
       credentials: 'include',
       body: JSON.stringify(body)
     }).then((res:any) => {

@@ -48,15 +48,17 @@ class Login extends React.Component<any, any> {
     myEmitter.emit('event');
     request.post('/api/login', body)
       .then((res: any) => {
-        if (res.data.status_code === 0) {
+        if (res.status_code === 0) {
           console.log('res.data',res.data)
           this.props.setUserInfo(res.data)
           this.props.history.push('/')
-          Cookies.set('name', res.data);
+          Cookies.set('token:', res.data.token);
           console.log('res',res)
-        } 
+        }else {
+            this.setState({loginError:res.msg})
+        }
       })
-      .catch((err:any)=> this.setState({loginError:err.response.data.msg}))
+      .catch((err:any)=> this.setState({loginError:err.msg}))
   }
 
   handleChangeId = (id: string) => {

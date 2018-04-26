@@ -1,11 +1,12 @@
 import axios, {AxiosInstance, AxiosPromise} from 'axios';
 import * as Cookies from 'js-cookie';
+import { message, Button } from 'antd';
 
 const urlFix = "http://open-erp.test.msparis.com";
 
 export const httpGet = (url: string): AxiosPromise => {
-    var url = urlFix + url;
-    return axios.get(url);
+    var urlx = urlFix + url;
+    return axios.get(url)
 }
 
 export const httpPost = (url: string, queryString: any, body: any): any => {
@@ -76,7 +77,8 @@ function checkStatus(res: any) {
         return res
     }
 
-    const error = new Error(res.statusText)
+    const error = new Error(res.statusText);
+
 
     console.log(error)
 }
@@ -106,7 +108,7 @@ function handleError(error: any) {
 const instance = axios.create({
     baseURL: "http://open-erp.test.msparis.com",
     headers: {
-        withCredentials: false
+       // withCredentials: false
     },
     params: {},
     data: {},
@@ -118,6 +120,9 @@ const enhanceAxiosInstance = (instance: AxiosInstance) => {
     instance.defaults.params = Object.assign({}, instance.defaults.params, access_token);
     instance.defaults.data = Object.assign({}, instance.defaults.data, access_token);
 
+    instance.interceptors.response.use(checkStatus);
+    instance.interceptors.response.use(handelData);
+    //instance.interceptors.response.use(handleError);
     return instance
 }
 

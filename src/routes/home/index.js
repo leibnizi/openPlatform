@@ -8,8 +8,9 @@ import NumBlock from './components/NumBlock'
 import './index.less';
 import '../../styles/common.less';
 import { height } from 'window-size';
-import { barChart,lineChart } from '../../components/chartBuilder/index'
-import { get } from 'http';
+// import { barChart,lineChart } from '../../components/chartBuilder/index'
+// import { get } from 'http';
+import ReactEcharts from 'echarts-for-react';
 
 
 const { Meta } = Card;
@@ -38,6 +39,8 @@ class Home extends Component {
         sm: 12,
         md: 16
       },
+      dongZuLv:{},
+      dongXiaoLv: {},
       financial_view:{},
       on_sale_data: [
         {
@@ -81,8 +84,8 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    barChart(this._options)
-    barChart(this._lineOp)
+    // barChart(this._options)
+    // barChart(this._lineOp)
     const { dispatch, userInfo: { token } } = this.props
     dispatch(getUserInfos(token))
     dispatch(indexChartsAct(token))
@@ -100,11 +103,75 @@ class Home extends Component {
     // rental - and - sale - aggregate
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.getThirtyMessage,"@@@@getThirtyMessage")
-    if (nextProps.getThirtyMessage.rental_sale) {
-      
+    const { getThirtyMessage: { dynamic_rate }, getIndexCharts } = nextProps
+    console.log(getIndexCharts,"@@@@getThirtyMessage")
+    if (dynamic_rate) {
+      // console.log(dynamic_rate,"???>")
+      this.setState({
+        dongZuLv: this.getLineCharts("动租率", dynamic_rate["1"]),
+        dongXiaoLv: this.getLineCharts("动销率",dynamic_rate["2"]),
+      })
     }
   }
+
+  getLineCharts = (title, data) => {
+    // console.log(data,"jjh")
+    const baseData = {
+      title: {
+        text: ''
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      // toolbox: {
+      //   feature: {
+      //     saveAsImage: {}
+      //   }
+      // },
+      grid: {
+        // top:"5%",
+        left: '5%',
+        right: '5%',
+        bottom: '5%',
+        containLabel: true
+      },
+      xAxis: [
+        {
+          type: 'category',
+          boundaryGap: false,
+          data: [1,2,3,4,5,6],
+          nameTextStyle:{
+            color: '#DD748E'
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value'
+        }
+      ],
+      series: [
+        {
+          name: '动租率',
+          type: 'line',
+          stack: '总量',
+          areaStyle: { normal: {} },
+          data: [120, 132, 101, 134, 90, 230, 210]
+        }
+      ]
+    };
+    if (data) {
+      baseData.title.text = title;
+      baseData.xAxis[0].data =  Object.keys(data);
+      baseData.series[0].data = Object.values(data);
+      // debugger
+    }
+
+    return baseData
+    // this.setState({
+    //   chart1: baseData
+    // })
+  };
 
   rapTest(){
     fetch('api/v3/login')
@@ -169,7 +236,7 @@ class Home extends Component {
         <Col span={8}>
           <Card 
             title="汇总" 
-            className="card-row" 
+            className="card-row explain-left" 
             extra={
               <div className="to-yesterday" >
                 至昨天24点数据
@@ -206,7 +273,7 @@ class Home extends Component {
         </Col>
         <Col span={8}>
             <Card 
-              title="在架商品数据" 
+              title="公告" 
               extra={
                 <div onClick={() => { this.goTo("help/announcement") }}>
                   查看更多公告
@@ -254,7 +321,15 @@ class Home extends Component {
           </Card>
         </Col>
         <Col span={7}>
-          <Card title="租赁数据" className="card-column" bordered={false}>
+          <Card 
+            title="租赁数据" 
+            className="card-column explain-left" 
+            bordered={false}
+            extra={
+              <div className="to-yesterday" >
+                至昨天24点数据
+            </div>} 
+          >
             <div className="module-gutter">
                 <NumBlock title="近30天订单数" value={rental_sale && rental_sale["1"].orders_30 || '0'}>
                 </NumBlock>
@@ -268,7 +343,15 @@ class Home extends Component {
           </Card>
         </Col>
         <Col span={7}>
-          <Card title="销售数据" className="card-column" bordered={false}>
+          <Card 
+            title="销售数据" 
+            className="card-column explain-left" 
+            bordered={false}
+            extra={
+              <div className="to-yesterday" >
+                至昨天24点数据
+            </div>} 
+          >
             <div className="module-gutter">
               <NumBlock title="近30天订单数" value={rental_sale && rental_sale["2"].orders_30 || '0'}>
               </NumBlock>
@@ -283,11 +366,57 @@ class Home extends Component {
         </Col>
       </Row>
       <Row gutter={moduleGap} className="row-gutter">
-        <Col span={12} className="charts-box">
-          <div id='chart' className="charts-item" style={{ height: '50vh' }}></div>
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongZuLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
         </Col>
-        <Col span={12} className="charts-box">
-          <div id='line' className="charts-item" style={{ height: '50vh' }}></div>
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongXiaoLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+      </Row>
+      <Row gutter={moduleGap} className="row-gutter">
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongZuLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongXiaoLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+      </Row>
+      <Row gutter={moduleGap} className="row-gutter">
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongZuLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongXiaoLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
         </Col>
       </Row>
 

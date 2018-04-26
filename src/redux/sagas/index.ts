@@ -137,12 +137,15 @@ export function* getIndexCharts(action: any) {
 export function* getBsInfos(action:any) {
   try {
     const response = yield call(request, `/api/merchant/index?token=${action.data}`);
+    console.log(response,"????response")
+    // debugger
     // 或者
     // const response = yield call( fetch, fetchUrl );
 
     // 将上一步调用fetch得到的结果作为某action的参数dispatch，对应saga的put
     yield put({ type: 'GET_BUSINESS_SUCCESS', data: response.data.data });
   } catch (error) {
+    console.log(error,"LKKKKK")
     // yield put(fetchFailure());
   }
 }

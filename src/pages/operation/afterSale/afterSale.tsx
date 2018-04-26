@@ -113,7 +113,7 @@ class AfterSale extends React.Component<any, any> {
         title: '创建时间',
         dataIndex: 'updated_at',
         align: 'center',
-      }, 
+      },
     ];
 
     const { listData, end, begin } = this.state
@@ -185,11 +185,11 @@ class AfterSale extends React.Component<any, any> {
         </section>
         <hr />
         <section>
-          <Table 
-            className='producttab' 
-            columns={columns} 
-            dataSource={listData} 
-            bordered={true} 
+          <Table
+            className='producttab'
+            columns={columns}
+            dataSource={listData}
+            bordered={true}
           />
         </section>
       </div>

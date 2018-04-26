@@ -4,7 +4,7 @@ import { StatusCard } from '../components/statusCard/StatusCard'
 import { connect } from 'react-redux'
 import { EditStatusForm } from './components/EditStatusForm'
 import './statusControl.less'
-import { handleUploadBase, handleUploadOthers, business as businessAction } from '../../../redux/actions/index'
+import { handleUploadBase, handleUploadOthers,  business as businessAction } from '../../../redux/actions/index'
 
 const { getStatusInfos, deleteStatus } = businessAction
 const TabPane = Tabs.TabPane;
@@ -50,7 +50,7 @@ class StatusControl extends React.Component<any, any> {
     for (let i = 0; i < statusInfos.length; i++) {
       if (statusInfos[i].type_id === "基础资质") {
         baseStatus.push(statusInfos[i])
-
+        this.baseStatusId = baseStatus[0].id;
       }
       else if (statusInfos[i].type_id === "补充资质"){
         othersStatus.push(statusInfos[i])
@@ -60,7 +60,6 @@ class StatusControl extends React.Component<any, any> {
       baseStatus,
       othersStatus
     })
-    this.baseStatusId = baseStatus[0].id;
     // const baseStatus = statusInfos.map((item:any) => {
     //   return 
     // })
@@ -140,6 +139,10 @@ class StatusControl extends React.Component<any, any> {
       name: 'file',
       action: 'http://api.v2.msparis.com/common/upload',
       fileList: this.state.baseStatus,
+      onRemove: (e: any) => {
+        const { dispatch, userInfo: { token } } = this.props
+        dispatch(deleteStatus(e.id, token))
+      },
       onChange: ({ file, fileList, file: { status, response } }:any) => {
         if (status === 'done') {
           // message.success("图片上传成功");
@@ -163,6 +166,10 @@ class StatusControl extends React.Component<any, any> {
       name: 'file',
       action: 'http://api.v2.msparis.com/common/upload',
       fileList: this.state.othersStatus,
+      onRemove: (e:any) => {
+        const { dispatch, userInfo: { token } } = this.props
+        dispatch(deleteStatus(e.id, token))
+      },
       onChange: ({ file, fileList, file: { status, response } }: any) => {
         if (status === 'done') {
           const { dispatch, userInfo: { token } } = this.props
@@ -174,12 +181,6 @@ class StatusControl extends React.Component<any, any> {
             },
             token
           }))
-          // this.setState({
-          //   addOthersStatusMsg: {
-          //     addOthersStatusUrl: response.data[0].url,bsInfo
-          //     // id: this.addOthersStatusId
-          //   }
-          // });
         }
 
         this.setState({
@@ -268,11 +269,7 @@ class StatusControl extends React.Component<any, any> {
                   </div>
                 </Col>
                 <Upload
-                  // action="http://api.v2.msparis.com/common/upload"
                   listType="picture-card"
-                  // fileList={othersStatus} 
-                  // onPreview={this.handlePreview}
-                  // onChange={this.handleChangeOthers}
                   {...props2}
                 >
                   <Button>修改补充资质</Button>
@@ -291,25 +288,6 @@ class StatusControl extends React.Component<any, any> {
         >
           <EditStatusForm />
         </Modal>
-        {/* <Modal
-          visible={editStatusVisible}
-          title="Title"
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          // footer={[
-          //   <Button key="back" onClick={this.handleCancel}>Return</Button>,
-          //   <Button 
-          //     key="submit" 
-          //     type="primary" 
-          //     loading={editStatusloading} 
-          //     onClick={this.handleOk}
-          //   >
-          //     Submit
-          //   </Button>,
-          // ]}
-        >
-          <EditStatusForm />
-        </Modal> */}
       </div>
     )
   }

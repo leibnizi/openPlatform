@@ -22,7 +22,11 @@ class Overview extends React.Component<any, {}> {
 
   applywithdraw = (money: any) => {
     const token = this.props.state.userInfo.token
+<<<<<<< HEAD
     request.post(`/api/financial/apply`, { balance_available: 1 })
+=======
+    request.post(`/api/financial/apply?token=${token}`, { balance_available: 1 })
+>>>>>>> master
       .then()
   }
 

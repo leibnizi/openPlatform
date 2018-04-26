@@ -22,7 +22,7 @@ class Withdraw extends React.Component<any, any> {
         listData.map((item: any, index: number) => {
           Object.assign(item, { key: index })
         })
-        this.setState({ 
+        this.setState({
           listData
         })
       })

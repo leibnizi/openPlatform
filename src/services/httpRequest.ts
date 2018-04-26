@@ -1,6 +1,6 @@
 import axios, {AxiosInstance, AxiosPromise} from 'axios';
 import * as Cookies from 'js-cookie';
-import { message, Button } from 'antd';
+import { message } from 'antd';
 
 const urlFix = "http://open-erp.test.msparis.com";
 
@@ -74,13 +74,16 @@ export const fetchUtil = (url: string, body: any) => {
 //check 请求状态
 function checkStatus(res: any) {
     if (res.status >= 200 && res.status < 300) {
+        message.success('success');
         return res
+    }else {
+        message.error('失败!',1);
     }
 
-    const error = new Error(res.statusText);
+    //const error = new Error(res.statusText);
 
 
-    console.log(error)
+    //console.log(error)
 }
 
 //异常处理

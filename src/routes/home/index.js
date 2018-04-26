@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Row, Col, Card, Table } from 'antd'
-import { indexChartsAct, getOnlineProduct, getUserInfos, getMerchantMessage, getThirtyMessage } from '../../redux/actions'
+import { indexChartsAct, getOnlineProduct, getUserInfos, getMerchantMessage, getThirtyMessage, getFinancialView } from '../../redux/actions'
 // onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync, 
 // import Page from '../../components/page/Page'
 import NumBlock from './components/NumBlock'
@@ -14,21 +14,6 @@ import ReactEcharts from 'echarts-for-react';
 
 
 const { Meta } = Card;
-const on_sale_columns = [
-  {
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name'
-  }, {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age'
-  }, {
-    title: '住址',
-    dataIndex: 'address',
-    key: 'address'
-  }
-];
 
 class Home extends Component {
   constructor(props) {
@@ -41,20 +26,10 @@ class Home extends Component {
       },
       dongZuLv:{},
       dongXiaoLv: {},
-      financial_view:{},
-      on_sale_data: [
-        {
-          key: '1',
-          name: '胡彦斌',
-          age: 32,
-          address: '西湖区湖底公园1号'
-        }, {
-          key: '2',
-          name: '胡彦祖',
-          age: 42,
-          address: '西湖区湖底公园1号'
-        }
-      ]
+      rentalOrder: {},
+      rentalIncome: {},
+      saleOrder:{},
+      saleIncome:{}
     };
 
 
@@ -84,38 +59,35 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    // barChart(this._options)
-    // barChart(this._lineOp)
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(getUserInfos(token))
-    dispatch(indexChartsAct(token))
-    dispatch(getOnlineProduct(token))
-    dispatch(getMerchantMessage(token))
-    dispatch(getThirtyMessage(token))
-
-    fetch(`/api/financial/financial_view?token=${token}`)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          financial_view: res.data
-        })
-      })
-    // rental - and - sale - aggregate
+    const { dispatch } = this.props
+    dispatch(getUserInfos())
+    dispatch(indexChartsAct())
+    dispatch(getOnlineProduct())
+    dispatch(getMerchantMessage())
+    dispatch(getThirtyMessage())
+    dispatch(getFinancialView())
   }
   componentWillReceiveProps(nextProps) {
-    const { getThirtyMessage: { dynamic_rate }, getIndexCharts } = nextProps
-    console.log(getIndexCharts,"@@@@getThirtyMessage")
-    if (dynamic_rate) {
-      // console.log(dynamic_rate,"???>")
+    console.log(nextProps,"???")
+    // return false
+    const { thirtyMessageData, thirtyMessageData: { dynamic_rate }, getIndexCharts } = nextProps
+    
+    console.log(getIndexCharts, "TTTTT", thirtyMessageData)
+    if (getIndexCharts.rental && dynamic_rate ) {
+      const { rental, sale } = getIndexCharts
       this.setState({
-        dongZuLv: this.getLineCharts("动租率", dynamic_rate["1"]),
-        dongXiaoLv: this.getLineCharts("动销率",dynamic_rate["2"]),
+        dongZuLv: this.dataToCharts("动租率", dynamic_rate.rental),
+        dongXiaoLv: this.dataToCharts("动销率", dynamic_rate.sale),
+        // 租赁订单趋势图
+        rentalOrder: this.dataToCharts("租赁订单趋势图", rental.order, 'bar'),
+        rentalIncome: this.dataToCharts("租赁收益趋势图", rental.income, 'bar'),
+        saleOrder: this.dataToCharts("销售订单趋势图", sale.order, 'bar'),
+        saleIncome: this.dataToCharts("销售收益趋势图", sale.income, 'bar'),
       })
     }
   }
 
-  getLineCharts = (title, data) => {
-    // console.log(data,"jjh")
+  dataToCharts = (title, data ,type = 'line') => {
     const baseData = {
       title: {
         text: ''
@@ -130,10 +102,10 @@ class Home extends Component {
       // },
       grid: {
         // top:"5%",
-        left: '5%',
-        right: '5%',
-        bottom: '5%',
-        containLabel: true
+        // left: '5%',
+        // right: '5%',
+        // bottom: '5%',
+        // containLabel: true
       },
       xAxis: [
         {
@@ -153,7 +125,7 @@ class Home extends Component {
       series: [
         {
           name: '动租率',
-          type: 'line',
+          type,
           stack: '总量',
           areaStyle: { normal: {} },
           data: [120, 132, 101, 134, 90, 230, 210]
@@ -164,7 +136,6 @@ class Home extends Component {
       baseData.title.text = title;
       baseData.xAxis[0].data =  Object.keys(data);
       baseData.series[0].data = Object.values(data);
-      // debugger
     }
 
     return baseData
@@ -176,7 +147,6 @@ class Home extends Component {
   rapTest(){
     fetch('api/v3/login')
     .then(rsp=>{
-      console.log(rsp)
     })
   }
   toBusinessPage = () => {
@@ -190,12 +160,7 @@ class Home extends Component {
   }
 // /help/announcement
   render() {
-    const { moduleGap, on_sale_data, financial_view: { 
-      balance_available, 
-      balance_total, 
-      income_total 
-    }} = this.state
-    // console.log(this.props.userInfo,"ggg")
+    const { moduleGap, dongZuLv, dongXiaoLv, saleOrder, saleIncome } = this.state
     const { 
         userInfo: { name, created_at, updated_at }, 
         merchantMessage: { article },
@@ -206,9 +171,14 @@ class Home extends Component {
           yesterday_sale_total, 
           category
         },
-        getThirtyMessage: {
+        thirtyMessageData: {
           rental_sale,
           dynamic_rate,
+        },
+        getFinancialView:{
+          balance_available,
+          balance_total,
+          income_total
         }
       } = this.props
     return (
@@ -244,28 +214,11 @@ class Home extends Component {
             bordered={false}>
             <Row className="card-content-margin" gutter={30} type="flex" justify="space-between">
               <Col span={12}>
-                {/* <NumBlock title="租赁商品数" value={rent_total}>
-                  <div className="yesterday-message">
-                    昨日：{yesterday_rent_total}
-                  </div>
-                </NumBlock> */}
                   <NumBlock title="累计收益" value={income_total}>
-                    {/* <div className="yesterday-message">
-                      昨日：{yesterday_rent_total}
-                    </div> */}
                   </NumBlock>
               </Col>
               <Col span={12}>
-                {/* <NumBlock title="销售商品数" value={sale_total}>
-                  <div className="yesterday-message">
-                    昨日：{yesterday_sale_total}
-                  </div>
-                </NumBlock> */}
-                  {console.log(balance_total,"GRRR")}
                   <NumBlock title="可提现现金" value={balance_total}>
-                  {/* <div className="yesterday-message">
-                    昨日：{yesterday_sale_total}
-                  </div> */}
                 </NumBlock>
               </Col>
             </Row>
@@ -313,11 +266,6 @@ class Home extends Component {
             <Row className="no-data">
               <Col>暂无数据</Col>
             </Row>
-             
-            {/* <Row className="module-gutter">
-              <Table dataSource={on_sale_data} columns={on_sale_columns} />
-            </Row> */}
-
           </Card>
         </Col>
         <Col span={7}>
@@ -331,14 +279,14 @@ class Home extends Component {
             </div>} 
           >
             <div className="module-gutter">
-                <NumBlock title="近30天订单数" value={rental_sale && rental_sale["1"].orders_30 || '0'}>
+                <NumBlock title="近30天订单数" value={rental_sale && rental_sale.rental.orders_30 || '0'}>
                 </NumBlock>
             </div>
             <div className="module-gutter">
-                <NumBlock title="近30天收益金额" value={rental_sale && rental_sale["1"].income_30 || '0'}></NumBlock>
+                <NumBlock title="近30天收益金额" value={rental_sale && rental_sale.rental.income_30 || '0'}></NumBlock>
             </div>
             <div className="module-gutter">
-              <NumBlock title="累计收益金额" value={rental_sale && rental_sale["1"].inconme_total || '0'}></NumBlock>
+                <NumBlock title="累计收益金额" value={rental_sale && rental_sale.rental.inconme_total || '0'}></NumBlock>
             </div>
           </Card>
         </Col>
@@ -353,14 +301,14 @@ class Home extends Component {
             </div>} 
           >
             <div className="module-gutter">
-              <NumBlock title="近30天订单数" value={rental_sale && rental_sale["2"].orders_30 || '0'}>
+              <NumBlock title="近30天订单数" value={rental_sale && rental_sale.sale.orders_30 || '0'}>
               </NumBlock>
             </div>
             <div className="module-gutter">
-              <NumBlock title="近30天收益金额" value={rental_sale && rental_sale["2"].income_30 || '0'}></NumBlock>
+              <NumBlock title="近30天收益金额" value={rental_sale && rental_sale.sale.income_30 || '0'}></NumBlock>
             </div>
             <div className="module-gutter">
-              <NumBlock title="累计收益金额" value={rental_sale && rental_sale["2"].inconme_total || '0'}></NumBlock>
+              <NumBlock title="累计收益金额" value={rental_sale && rental_sale.sale.inconme_total || '0'}></NumBlock>
             </div>
           </Card>
         </Col>
@@ -387,7 +335,7 @@ class Home extends Component {
         <Col span={12}>
           <div className="charts-items">
             <ReactEcharts
-              option={this.state.dongZuLv}
+              option={this.state.rentalOrder}
               style={{ height: '350px', width: '100%' }}
               className='react_for_echarts' />
           </div>
@@ -395,7 +343,7 @@ class Home extends Component {
         <Col span={12}>
           <div className="charts-items">
             <ReactEcharts
-              option={this.state.dongXiaoLv}
+              option={this.state.saleOrder}
               style={{ height: '350px', width: '100%' }}
               className='react_for_echarts' />
           </div>
@@ -405,7 +353,7 @@ class Home extends Component {
         <Col span={12}>
           <div className="charts-items">
             <ReactEcharts
-              option={this.state.dongZuLv}
+              option={this.state.rentalIncome}
               style={{ height: '350px', width: '100%' }}
               className='react_for_echarts' />
           </div>
@@ -413,7 +361,7 @@ class Home extends Component {
         <Col span={12}>
           <div className="charts-items">
             <ReactEcharts
-              option={this.state.dongXiaoLv}
+              option={this.state.saleIncome}
               style={{ height: '350px', width: '100%' }}
               className='react_for_echarts' />
           </div>
@@ -425,12 +373,13 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = ({ getIndexCharts, userInfo, merchantMessage, getOnlineProduct, getThirtyMessage}) => ({
+const mapStateToProps = ({ getIndexCharts, getFinancialView, userInfo, merchantMessage, getOnlineProduct, thirtyMessageData}) => ({
   getIndexCharts,
   userInfo,
   getOnlineProduct,
   merchantMessage,
-  getThirtyMessage
+  thirtyMessageData,
+  getFinancialView
 })
 
 const mapDispatchToProps = (dispatch) => ({

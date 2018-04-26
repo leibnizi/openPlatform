@@ -91,8 +91,8 @@ class Account extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(getAccountInfos(token))
+    const { dispatch } = this.props
+    dispatch(getAccountInfos())
   }
 
   componentWillReceiveProps(nextProps:any) {

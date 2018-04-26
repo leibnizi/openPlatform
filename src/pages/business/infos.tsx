@@ -31,8 +31,8 @@ class Infos extends React.Component<any, {}> {
 
   }
   componentDidMount() {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(getBusinessInfos(token))
+    const { dispatch } = this.props
+    dispatch(getBusinessInfos())
   }
 
   editMsg = () => {

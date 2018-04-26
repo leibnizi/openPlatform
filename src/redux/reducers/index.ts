@@ -19,6 +19,17 @@ function uploadImageBack(state: any = [], action: any) {
   }
 }
 
+
+function getFinancialView(state: any = {}, action: any) {
+  switch (action.type) {
+    case 'GET_FINANCIAL_VIEW_SUCCESS':
+      const newState = Object.assign({}, state, action.data);
+      return newState;
+    default:
+      return state
+  }
+}
+
 function merchantMessage(state: any = { article: [{ title: "" }, { title: "" }, { title: "" }] }, action: any) {
   switch (action.type) {
     case 'GET_MERCHANT_MESSAGE_SUCCESS':
@@ -39,7 +50,7 @@ function getOnlineProduct(state: any = {}, action: any) {
   }
 }
 
-function getThirtyMessage(state: any = {}, action: any) {
+function thirtyMessageData(state: any = {}, action: any) {
   switch (action.type) {
     case 'GET_THIRTY_MESSAGE_SUCCESS':
       const newState = Object.assign({}, state, action.data);
@@ -92,8 +103,9 @@ const rootReducer = combineReducers({
   merchantMessage,
   getOnlineProduct,
   userInfo,
-  getThirtyMessage,
+  thirtyMessageData,
   businessInfos,
+  getFinancialView,
   ...business,
   ...billInfos,
   ...accountInfos

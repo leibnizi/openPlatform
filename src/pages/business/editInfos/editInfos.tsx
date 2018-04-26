@@ -33,8 +33,7 @@ class EditInfos extends React.Component<any, {}> {
 
   }
   componentDidMount() {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(getBusinessInfos(token))
+    const { dispatch } = this.props
   }
 
   editMsg = () => {
@@ -43,13 +42,12 @@ class EditInfos extends React.Component<any, {}> {
   }
 
   handleSubmit = (e:any) => {
-    const { dispatch, userInfo: { token }} = this.props
+    const { dispatch } = this.props
     
     e.preventDefault();
     this.props.form.validateFields((err:any, value:any) => {
       if (!err) {
         dispatch(editBusinessInfos({
-          token,
           value
         }))
       }

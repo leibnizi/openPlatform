@@ -40,8 +40,8 @@ class StatusControl extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(getStatusInfos(token))
+    const { dispatch } = this.props
+    dispatch(getStatusInfos())
   }
   componentWillReceiveProps(nextProps:{statusInfos:any}){
     const { statusInfos } = nextProps
@@ -81,13 +81,13 @@ class StatusControl extends React.Component<any, any> {
   }
 
   editStatusCard = (file:any, id:any) => {
-    // const { dispatch, userInfo: { token } } = this.props
-    // dispatch(getBusinessInfos(token))
+    // const { dispatch } = this.props
+
   }
 
   deleteStatusCard = (id:any) => {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(deleteStatus(token, id))
+    const { dispatch } = this.props
+    dispatch(deleteStatus(id))
   }
 
   handleOk = () => {
@@ -107,12 +107,11 @@ class StatusControl extends React.Component<any, any> {
 
   // type = 1 是基础资质 2是补充资质
   handleUploadBase = (type: any) => {
-    const { dispatch, userInfo: { token } } = this.props
+    const { dispatch } = this.props
     const { changeBaseStatusMsg } = this.state
     dispatch(handleUploadBase({
       ...changeBaseStatusMsg,
       type_id: 1,
-      token
     }))
     this.setState({
       isEdit: false,
@@ -140,8 +139,8 @@ class StatusControl extends React.Component<any, any> {
       action: 'http://api.v2.msparis.com/common/upload',
       fileList: this.state.baseStatus,
       onRemove: (e: any) => {
-        const { dispatch, userInfo: { token } } = this.props
-        dispatch(deleteStatus(e.id, token))
+        const { dispatch } = this.props
+        dispatch(deleteStatus(e.id))
       },
       onChange: ({ file, fileList, file: { status, response } }:any) => {
         if (status === 'done') {
@@ -167,19 +166,18 @@ class StatusControl extends React.Component<any, any> {
       action: 'http://api.v2.msparis.com/common/upload',
       fileList: this.state.othersStatus,
       onRemove: (e:any) => {
-        const { dispatch, userInfo: { token } } = this.props
-        dispatch(deleteStatus(e.id, token))
+        const { dispatch } = this.props
+        dispatch(deleteStatus(e.id))
       },
       onChange: ({ file, fileList, file: { status, response } }: any) => {
         if (status === 'done') {
-          const { dispatch, userInfo: { token } } = this.props
+          const { dispatch } = this.props
 
           dispatch(handleUploadOthers({
             statusMsg:{
               file: response.data[0].url,
               type_id: 2,
             },
-            token
           }))
         }
 

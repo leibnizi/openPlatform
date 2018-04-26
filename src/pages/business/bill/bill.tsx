@@ -26,8 +26,7 @@ class Bill extends React.Component<any, any> {
   };
 
   componentDidMount() {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(getBillInfos(token))
+    const { dispatch } = this.props
   }
 
   componentWillReceiveProps(nextProps:any) {
@@ -40,11 +39,8 @@ class Bill extends React.Component<any, any> {
   }
 
   handleFormChange = (value: any) => {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(postBillInfos({
-      token,
-      value
-    }))
+    const { dispatch } = this.props
+    dispatch(postBillInfos({value}))
     // api / finance / index
   }
 

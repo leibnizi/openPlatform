@@ -66,7 +66,7 @@ class Home extends Component {
         name: '租赁订单数趋势图'
       }],
       legend: false,
-      tooltip:true,
+      tooltip: true,
       color: ['#006699']
     };
 

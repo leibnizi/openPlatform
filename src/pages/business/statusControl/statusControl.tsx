@@ -43,13 +43,11 @@ class StatusControl extends React.Component<any, any> {
     const { dispatch, userInfo: { token } } = this.props
     dispatch(getStatusInfos(token))
   }
-  componentWillReceiveProps(nextProps:any){
+  componentWillReceiveProps(nextProps:{statusInfos:any}){
     const { statusInfos } = nextProps
-    let baseStatus = []
-    let othersStatus = []
-    console.log(statusInfos,"jjj")
+    let baseStatus :any[]= []
+    let othersStatus:any[] = []
     for (let i = 0; i < statusInfos.length; i++) {
-      // const element = array[index];
       if (statusInfos[i].type_id === "基础资质") {
         baseStatus.push(statusInfos[i])
         this.baseStatusId = baseStatus[0].id;

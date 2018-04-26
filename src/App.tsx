@@ -2,13 +2,13 @@ import * as React from 'react'
 import { BrowserRouter, Link } from "react-router-dom"
 import { Route, Switch } from 'react-router'
 import { Provider } from 'react-redux'
-import routes from './routes'
 import Splash from './pages/splash'
 import Login from './pages/splash/login'
 import Register from './pages/splash/register'
 import Forgetpassword from './pages/splash/forgetpassword'
 import store from './redux/store/store';
 import './styles/App.less';
+import Content from './content'
 // import axios from 'axios';
 
 const EventEmitter = require('events');
@@ -19,7 +19,7 @@ interface OldMenuLinkType {
   activeOnlyWhenExact: boolean
 }
 
-const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuLinkType) => (
+export const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuLinkType) => (
   <Route
     path={to}
     exact={activeOnlyWhenExact}
@@ -30,55 +30,6 @@ const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuLinkType) => (
     )}
   />
 )
-
-class Content extends React.Component {
-  render() {
-    return (
-      <div className='app'>
-        <header className='header'>
-          <div className="top">
-            1
-          </div>
-          <div className='header-box'>
-            <div className='logo'>
-              <img
-                src={require('./styles/img/msheader.png')}
-                alt='头部logo'
-              />
-              <div>商家后台管理系统</div>
-            </div>
-            <div className='navigation'>
-              {
-                routes.map((item, index) =>
-                  <OldMenuLink
-                    key={index}
-                    activeOnlyWhenExact={index === 0 ? true : false}
-                    to={item.path}
-                    label={item.label}
-                  />
-                )
-              }
-            </div>
-          </div>
-        </header>
-        <section className='body'>
-          {
-            routes.map((item, index) => {
-              return (
-                <Route
-                  key={index}
-                  exact={index === 0 ? true : false}
-                  path={item.path}
-                  component={item.component}
-                />
-              )
-            })
-          }
-        </section>
-      </div>
-    )
-  }
-}
 
 class RegisterRoute extends React.Component {
   render() {

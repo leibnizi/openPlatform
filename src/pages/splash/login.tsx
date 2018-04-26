@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import './index.less'
 import { setUserInfo } from '../../redux/actions'
-import { fetchUtil } from '../../services/httpRequest'
+import { httpPost } from '../../services/httpRequest'
 import { myEmitter } from './../../App'
 
 export const themes = {
@@ -45,17 +45,14 @@ class Login extends React.Component<any, any> {
         password
       }
     myEmitter.emit('event');
-    fetchUtil('/api/login', body)
-      .then((v: { status_code: number, msg: string }) => {
-        if (v.status_code === 0) {
-
-          this.props.setUserInfo(v)
+    httpPost('/api/login', body)
+      .then((res: any) => {
+        if (res.data.status_code === 0) {
+          this.props.setUserInfo(res.data)
           this.props.history.push('/')
-        } else {
-          // this.setState({ loginError: v.msg })
-          // this.props.history.push('/')
-        }
+        } 
       })
+      .catch((err:any)=> this.setState({loginError:err.response.data.msg}))
   }
 
   handleChangeId = (id: string) => {

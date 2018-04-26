@@ -1,15 +1,23 @@
-import axios, { AxiosPromise } from 'axios';
+import axios, { AxiosPromise } from 'axios'
 
-const urlFix = "http://open-erp.test.msparis.com";
+const urlFix = "http://open-erp.test.msparis.com"
 
 const httpGet = (url: string): AxiosPromise => {
   var url = urlFix + url;
   return axios.get(url);
 }
 
-const httpPost = (url: string, queryString: any, body: any): any => {
-  var url = urlFix + url;
-  return axios.post(url);
+const httpPost = (url: string, body: any): any => {
+  var url = urlFix + url
+  return axios({
+    method: 'post',
+    url,
+    data: body,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
 }
 
 const httpPut = (url: string) => {
@@ -45,11 +53,11 @@ const fetchUtil = (url: string, body: any) => {
   var url = urlFix + url;
   const jsonBody = JSON.stringify(body)
   const myFetch = fetch(url, {
-    method: 'post',
+    method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Access-Control-Request-Method': 'POST',
+      'Access-Control-Request-Method': 'POST'
     },
     mode: 'cors',
     body: jsonBody,
@@ -70,7 +78,7 @@ const fetchUtil = (url: string, body: any) => {
 }
 
 const request = axios.create({
-  baseURL: "http://open-erp.test.msparis.com",
+  baseURL: urlFix,
   timeout: 50000
 });
 

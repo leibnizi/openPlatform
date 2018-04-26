@@ -24,15 +24,13 @@
   version "4.6.2"
   resolved "http://registry.npm.taobao.org/@types/history/download/@types/history-4.6.2.tgz#12cfaba693ba20f114ed5765467ff25fdf67ddb0"
 
-"@types/immutable@^3.8.7":
-  version "3.8.7"
-  resolved "http://registry.npm.taobao.org/@types/immutable/download/@types/immutable-3.8.7.tgz#536d33d30f3f3d9a6d4642a219419fd82af633fb"
-  dependencies:
-    immutable "*"
-
 "@types/jest@^22.2.2":
   version "22.2.2"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.2.2.tgz#afe5dacbd00d65325f52da0ed3e76e259629ac9d"
+
+"@types/js-cookie@^2.1.0":
+  version "2.1.0"
+  resolved "http://registry.npm.taobao.org/@types/js-cookie/download/@types/js-cookie-2.1.0.tgz#a8916246aa994db646c66d54c854916213300a51"
 
 "@types/node@*", "@types/node@^7.0.60":
   version "7.0.60"
@@ -3599,7 +3597,7 @@ image-size@~0.5.0:
   version "0.5.5"
   resolved "http://registry.npm.taobao.org/image-size/download/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
 
-immutable@*, immutable@^3.7.4, immutable@^3.8.2:
+immutable@^3.7.4, immutable@^3.8.2:
   version "3.8.2"
   resolved "http://registry.npm.taobao.org/immutable/download/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
@@ -4352,6 +4350,10 @@ jest@22.1.4:
 js-base64@^2.1.9:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.3.tgz#2e545ec2b0f2957f41356510205214e98fad6582"
+
+js-cookie@^2.2.0:
+  version "2.2.0"
+  resolved "http://registry.npm.taobao.org/js-cookie/download/js-cookie-2.2.0.tgz#1b2c279a6eece380a12168b92485265b35b1effb"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"

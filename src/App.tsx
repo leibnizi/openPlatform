@@ -7,8 +7,9 @@ import Login from './pages/splash/login'
 import Register from './pages/splash/register'
 import Forgetpassword from './pages/splash/forgetpassword'
 import store from './redux/store/store';
-import './styles/App.less';
 import Content from './content'
+import './styles/App.less';
+//import { message } from 'antd'
 // import axios from 'axios';
 
 const EventEmitter = require('events');

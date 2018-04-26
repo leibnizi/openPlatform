@@ -16,13 +16,18 @@ class Content extends Component {
     return (
       <div className='app'>
         <header className='header'>
-          <div className="top">
-            {this.props.state.userInfo.name}
-            <span>|</span>
-            {this.props.state.userInfo.biz_name}
-            <span>|</span>
-            <span onClick={() => this.logOut()}>安全退出</span>
-          </div>
+          {
+            this.props.state.userInfo.name ?
+            <div className="top">
+              {this.props.state.userInfo.name}
+              <span>|</span>
+              {this.props.state.userInfo.biz_name}
+              <span>|</span>
+              <span onClick={() => this.logOut()}>安全退出</span>
+            </div> : 
+            <div className="top"></div> 
+          }
+
           <div className='header-box'>
             <div className='logo'>
               <img

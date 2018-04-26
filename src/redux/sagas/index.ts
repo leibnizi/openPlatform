@@ -1,6 +1,6 @@
 import { delay, takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
-import { request } from '../../../src/services/httpRequest'
+import request from '../../../src/services/httpRequest'
 //import axios from 'axios';
 // const delay = (ms: any) => new Promise(resolve => setTimeout(resolve, ms))
 // interface SagaPostType {

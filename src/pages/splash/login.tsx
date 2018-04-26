@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import * as Cookies from 'js-cookie'
 import './index.less'
 import { setUserInfo } from '../../redux/actions'
-import { httpPost } from '../../services/httpRequest'
+import request from '../../services/httpRequest'
 import { myEmitter } from './../../App'
 
 export const themes = {
@@ -45,11 +46,14 @@ class Login extends React.Component<any, any> {
         password
       }
     myEmitter.emit('event');
-    httpPost('/api/login', body)
+    request.post('/api/login', body)
       .then((res: any) => {
         if (res.data.status_code === 0) {
+          console.log('res.data',res.data)
           this.props.setUserInfo(res.data)
           this.props.history.push('/')
+          Cookies.set('name', res.data);
+          console.log('res',res)
         } 
       })
       .catch((err:any)=> this.setState({loginError:err.response.data.msg}))

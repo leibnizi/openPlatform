@@ -2,6 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
 import './withdraw.less'
+import request from '../../../services/httpRequest'
 
 class Withdraw extends React.Component<any, any> {
 
@@ -15,8 +16,7 @@ class Withdraw extends React.Component<any, any> {
 
   componentDidMount() {
     const token = this.props.state.userInfo.token
-    fetch(`/api/financial/get_list?token=${token}`)
-      .then(res => res.json())
+    request(`/api/financial/get_list?token=${token}`)
       .then(res => {
         const listData = res.data
         listData.map((item: any, index: number) => {

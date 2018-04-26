@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 // import { Icon } from 'antd'
-import { httpPost } from '../../../services/httpRequest'
+import  request from '../../../services/httpRequest'
 import './overview.less'
 
 class Overview extends React.Component<any, {}> {
@@ -23,7 +23,7 @@ class Overview extends React.Component<any, {}> {
 
   applywithdraw = (money: any) => {
     const token = this.props.state.userInfo.token
-    httpPost(`/api/financial/apply?token=${token}`, { balance_available: 1 })
+    request.post(`/api/financial/apply?token=${token}`, { balance_available: 1 })
       .then()
   }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Table, TimePicker } from 'antd'
 import './sale.less'
 import { getFormatDate } from '../../../helper/utils'
+import request from '../../../services/httpRequest'
 
 class Sale extends React.Component<any, any> {
   constructor(props: Object) {
@@ -32,11 +33,10 @@ class Sale extends React.Component<any, any> {
 
   productDetail = (id: any) => {
     const token = this.props.state.userInfo.token
-    fetch(`/api/order/detail/${id}?token=${token}`)
-      .then(res => res.json())
+    request(`/api/order/detail/${id}?token=${token}`)
       .then(res => {
         console.log('res',res)
-        if (res.status_code === 0) {
+        if (res.data.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
             item.supply_price = res.data.product_master.supply_price
@@ -68,8 +68,7 @@ class Sale extends React.Component<any, any> {
                 &split_order_no=${split_order_no}&status=${status}
                 &order_time[]=${startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}
                 &order_time[]=${endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
-    fetch(url)
-      .then(res => res.json())
+    request(url)
       .then((res) => {
         const listData = res.data.data
         listData.map((item: any, index: number) => {

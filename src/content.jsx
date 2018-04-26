@@ -4,20 +4,24 @@ import Immutable from 'immutable'
 import { Route } from 'react-router'
 import routes from './routes'
 import { OldMenuLink } from './App'
+import { httpGet } from '../src/services/httpRequest'
 
 class Content extends Component {
-  componentWillReceiveProps(pre, curr) {
-    console.log('componentWillReceiveProps',Immutable.fromJS(pre.state), Immutable.fromJS(curr.state))
-    if (!Immutable.is(Immutable.fromJS(pre.state)), Immutable.fromJS(curr.state)) {
-      console.log('pre', pre.state)
-    }
+
+  logOut = () => {
+    // httpGet(`/api/logout?token${}`)
   }
+
   render() {
     return (
       <div className='app'>
         <header className='header'>
           <div className="top">
-            1
+            {this.props.state.userInfo.name}
+            <span>|</span>
+            {this.props.state.userInfo.biz_name}
+            <span>|</span>
+            <span onClick={() => this.logOut()}>安全退出</span>
           </div>
           <div className='header-box'>
             <div className='logo'>

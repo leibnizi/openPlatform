@@ -1,29 +1,29 @@
-import axios, { AxiosPromise } from 'axios';
+import axios, {AxiosInstance, AxiosPromise} from 'axios';
 import * as Cookies from 'js-cookie';
 
 const urlFix = "http://open-erp.test.msparis.com";
 
-const httpGet = (url: string): AxiosPromise => {
+export const httpGet = (url: string): AxiosPromise => {
     var url = urlFix + url;
     return axios.get(url);
 }
 
-const httpPost = (url: string, queryString: any, body: any): any => {
+export const httpPost = (url: string, queryString: any, body: any): any => {
     var url = urlFix + url;
     return axios.post(url);
 }
 
-const httpPut = (url: string) => {
+export const httpPut = (url: string) => {
     // 未完待续
     return null;
 }
 
-const httpPatch = () => {
+export const httpPatch = () => {
     // 未完待续
     return null;
 }
 
-const httpDelete = () => {
+export const httpDelete = () => {
     // 未完待续
     return null;
 }
@@ -42,7 +42,7 @@ const _fetch = (requestPromise: any, timeout = 30000) => {
 }
 
 
-const fetchUtil = (url: string, body: any) => {
+export const fetchUtil = (url: string, body: any) => {
     var url = urlFix + url;
     const jsonBody = JSON.stringify(body)
     const myFetch = fetch(url, {
@@ -71,7 +71,7 @@ const fetchUtil = (url: string, body: any) => {
 }
 
 //check 请求状态
-function checkStatus (res:any) {
+function checkStatus(res: any) {
     if (res.status >= 200 && res.status < 300) {
         return res
     }
@@ -82,56 +82,47 @@ function checkStatus (res:any) {
 }
 
 //异常处理
-function handelData (res:any) {
+function handelData(res: any) {
     const data = res.data
-    if(data.status !== 'ok'){
-        if(data.error.code === '11008'){
+    if (data.status !== 'ok') {
+        if (data.error.code === '11008') {
 
         }
-        else{
+        else {
             return data
         }
     }
-    else{
+    else {
         return data
     }
 }
 
-function handleError (error:any) {
-    return { success: false }
+function handleError(error: any) {
+    return {success: false}
 }
 
 
 //创建axios
 const instance = axios.create({
     baseURL: "http://open-erp.test.msparis.com",
-    headers:{
+    headers: {
         withCredentials: false
     },
     params: {},
-    data:{},
+    data: {},
     timeout: 50000
 });
 
-//发送请求的方法
-const request = function (options:any,params:any) {
+const enhanceAxiosInstance = (instance: AxiosInstance) => {
     let access_token = Cookies.getJSON('access_token');
-    instance.defaults.params = Object.assign({}, request.defaults.params, access_token);
-    instance.defaults.data = Object.assign({}, request.defaults.data, access_token);
+    instance.defaults.params = Object.assign({}, instance.defaults.params, access_token);
+    instance.defaults.data = Object.assign({}, instance.defaults.data, access_token);
 
-    /*    if(params){
-            Object.keys(params).forEach((key) => {
-                request.defaults.params[key] = params[key]
-                request.defaults.data[key] = params[key]
-            })
-
-        }*/
-
-    return instance(options)
-        .then(checkStatus)
-        .then(handelData)
-        .catch(handleError)
+    return instance
 }
+
+//发送请求的方法
+const request = enhanceAxiosInstance(instance)
 
 
 export default request;

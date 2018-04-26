@@ -130,6 +130,5 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "proxy": "http://open-erp.test.msparis.com"
+  }
 }

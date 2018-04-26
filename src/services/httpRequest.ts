@@ -1,4 +1,5 @@
 import axios, { AxiosPromise } from 'axios';
+import * as Cookies from 'js-cookie';
 
 const urlFix = "http://open-erp.test.msparis.com";
 
@@ -70,7 +71,7 @@ const fetchUtil = (url: string, body: any) => {
 }
 
 //check 请求状态
-function checkStatus (res) {
+function checkStatus (res:any) {
     if (res.status >= 200 && res.status < 300) {
         return res
     }
@@ -81,7 +82,7 @@ function checkStatus (res) {
 }
 
 //异常处理
-function handelData (res) {
+function handelData (res:any) {
     const data = res.data
     if(data.status !== 'ok'){
         if(data.error.code === '11008'){
@@ -96,7 +97,7 @@ function handelData (res) {
     }
 }
 
-function handleError (error) {
+function handleError (error:any) {
     return { success: false }
 }
 
@@ -113,32 +114,24 @@ const instance = axios.create({
 });
 
 //发送请求的方法
-const request = function (options, params) {
+const request = function (options:any,params:any) {
     let access_token = Cookies.getJSON('access_token');
-    request.defaults.params = Object.assign({}, request.defaults.params, access_token);
-    request.defaults.data = Object.assign({}, request.defaults.data, access_token);
+    instance.defaults.params = Object.assign({}, request.defaults.params, access_token);
+    instance.defaults.data = Object.assign({}, request.defaults.data, access_token);
 
-    if(params){
-        Object.keys(params).forEach((key) => {
-            request.defaults.params[key] = params[key]
-            request.defaults.data[key] = params[key]
-        })
+    /*    if(params){
+            Object.keys(params).forEach((key) => {
+                request.defaults.params[key] = params[key]
+                request.defaults.data[key] = params[key]
+            })
 
-    }
+        }*/
 
-    return request(options)
+    return instance(options)
         .then(checkStatus)
         .then(handelData)
         .catch(handleError)
 }
 
 
-export {
-    httpGet,
-    httpPost,
-    httpPut,
-    httpPatch,
-    httpDelete,
-    fetchUtil,
-    request
-}
+export default request;

@@ -23,8 +23,10 @@ export default function* rootSaga() {
   yield takeEvery("GET_ACCOUNT_INFO", getAccountInfos)
   yield takeEvery("DEIETE_STATUS", deleteStatus)
   yield takeEvery("GET_CHARTS", getIndexCharts)
+  yield takeEvery("GET_THIRTY_MESSAGE", getThirtyMessage)
   yield takeEvery("GET_ONLINE_PRODUCT", getOnlineProduct)
   yield takeEvery("GET_MERCHANT_MESSAGE", getMerchantMessage)
+  // 
 
   // yield takeEvery('SAGA_POSTS', sagaPost)
   //资质管理
@@ -80,7 +82,6 @@ export function* uploadImageOthers(action: any = {}) {
   }
 }
 
-
 export function* getMerchantMessage(action: any = {}) {
   const token = action.data
 
@@ -107,11 +108,22 @@ export function* getOnlineProduct(action: any) {
 }
 export function* getUserInfos(action: any) {
   try {
-    const response = yield call(request, `/api/auth/user?token=${action.data}`);
+    const response = yield call(request.get, '/api/auth/user');
+    debugger
     yield put({ type: 'GET_USER_INFOS_SUCCESS', data: response.data.data });
 
   } catch (error) {
+    console.log(error,"llk")
     // yield put(fetchFailure());
+  }
+}
+
+export function* getThirtyMessage(action: any) {
+  try {
+    const response = yield call(request, `/api/home/rental-and-sale-aggregate?token=${action.data}`);
+    yield put({ type: 'GET_THIRTY_MESSAGE_SUCCESS', data: response.data.data });
+  } catch (error) {
+
   }
 }
 
@@ -127,12 +139,15 @@ export function* getIndexCharts(action: any) {
 export function* getBsInfos(action:any) {
   try {
     const response = yield call(request, `/api/merchant/index?token=${action.data}`);
+    console.log(response,"????response")
+    // debugger
     // 或者
     // const response = yield call( fetch, fetchUrl );
 
     // 将上一步调用fetch得到的结果作为某action的参数dispatch，对应saga的put
     yield put({ type: 'GET_BUSINESS_SUCCESS', data: response.data.data });
   } catch (error) {
+    console.log(error,"LKKKKK")
     // yield put(fetchFailure());
   }
 }

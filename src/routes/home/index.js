@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Row, Col, Card, Table } from 'antd'
-import { indexChartsAct, getOnlineProduct, getUserInfos, getMerchantMessage } from '../../redux/actions'
+import { indexChartsAct, getOnlineProduct, getUserInfos, getMerchantMessage, getThirtyMessage } from '../../redux/actions'
 // onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync, 
 // import Page from '../../components/page/Page'
 import NumBlock from './components/NumBlock'
 import './index.less';
 import '../../styles/common.less';
 import { height } from 'window-size';
-import { barChart,lineChart } from '../../components/chartBuilder/index'
-import { get } from 'http';
+// import { barChart,lineChart } from '../../components/chartBuilder/index'
+// import { get } from 'http';
+import ReactEcharts from 'echarts-for-react';
 
 
 const { Meta } = Card;
@@ -38,6 +39,9 @@ class Home extends Component {
         sm: 12,
         md: 16
       },
+      dongZuLv:{},
+      dongXiaoLv: {},
+      financial_view:{},
       on_sale_data: [
         {
           key: '1',
@@ -80,17 +84,94 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    barChart(this._options)
-    barChart(this._lineOp)
+    // barChart(this._options)
+    // barChart(this._lineOp)
     const { dispatch, userInfo: { token } } = this.props
     dispatch(getUserInfos(token))
     dispatch(indexChartsAct(token))
     dispatch(getOnlineProduct(token))
     dispatch(getMerchantMessage(token))
+    dispatch(getThirtyMessage(token))
+
+    fetch(`/api/financial/financial_view?token=${token}`)
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          financial_view: res.data
+        })
+      })
+    // rental - and - sale - aggregate
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.getIndexCharts,"@@@@")
+    const { getThirtyMessage: { dynamic_rate }, getIndexCharts } = nextProps
+    console.log(getIndexCharts,"@@@@getThirtyMessage")
+    if (dynamic_rate) {
+      // console.log(dynamic_rate,"???>")
+      this.setState({
+        dongZuLv: this.getLineCharts("动租率", dynamic_rate["1"]),
+        dongXiaoLv: this.getLineCharts("动销率",dynamic_rate["2"]),
+      })
+    }
   }
+
+  getLineCharts = (title, data) => {
+    // console.log(data,"jjh")
+    const baseData = {
+      title: {
+        text: ''
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      // toolbox: {
+      //   feature: {
+      //     saveAsImage: {}
+      //   }
+      // },
+      grid: {
+        // top:"5%",
+        left: '5%',
+        right: '5%',
+        bottom: '5%',
+        containLabel: true
+      },
+      xAxis: [
+        {
+          type: 'category',
+          boundaryGap: false,
+          data: [1,2,3,4,5,6],
+          nameTextStyle:{
+            color: '#DD748E'
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value'
+        }
+      ],
+      series: [
+        {
+          name: '动租率',
+          type: 'line',
+          stack: '总量',
+          areaStyle: { normal: {} },
+          data: [120, 132, 101, 134, 90, 230, 210]
+        }
+      ]
+    };
+    if (data) {
+      baseData.title.text = title;
+      baseData.xAxis[0].data =  Object.keys(data);
+      baseData.series[0].data = Object.values(data);
+      // debugger
+    }
+
+    return baseData
+    // this.setState({
+    //   chart1: baseData
+    // })
+  };
 
   rapTest(){
     fetch('api/v3/login')
@@ -109,8 +190,12 @@ class Home extends Component {
   }
 // /help/announcement
   render() {
-    const { moduleGap, on_sale_data } = this.state
-    console.log(this.props.userInfo,"ggg")
+    const { moduleGap, on_sale_data, financial_view: { 
+      balance_available, 
+      balance_total, 
+      income_total 
+    }} = this.state
+    // console.log(this.props.userInfo,"ggg")
     const { 
         userInfo: { name, created_at, updated_at }, 
         merchantMessage: { article },
@@ -120,6 +205,10 @@ class Home extends Component {
           yesterday_rent_total, 
           yesterday_sale_total, 
           category
+        },
+        getThirtyMessage: {
+          rental_sale,
+          dynamic_rate,
         }
       } = this.props
     return (
@@ -145,8 +234,67 @@ class Home extends Component {
           </Card>
         </Col>
         <Col span={8}>
-          <Card title="汇总" className="card-row" bordered={false}>
+          <Card 
+            title="汇总" 
+            className="card-row explain-left" 
+            extra={
+              <div className="to-yesterday" >
+                至昨天24点数据
+              </div>}  
+            bordered={false}>
             <Row className="card-content-margin" gutter={30} type="flex" justify="space-between">
+              <Col span={12}>
+                {/* <NumBlock title="租赁商品数" value={rent_total}>
+                  <div className="yesterday-message">
+                    昨日：{yesterday_rent_total}
+                  </div>
+                </NumBlock> */}
+                  <NumBlock title="累计收益" value={income_total}>
+                    {/* <div className="yesterday-message">
+                      昨日：{yesterday_rent_total}
+                    </div> */}
+                  </NumBlock>
+              </Col>
+              <Col span={12}>
+                {/* <NumBlock title="销售商品数" value={sale_total}>
+                  <div className="yesterday-message">
+                    昨日：{yesterday_sale_total}
+                  </div>
+                </NumBlock> */}
+                  {console.log(balance_total,"GRRR")}
+                  <NumBlock title="可提现现金" value={balance_total}>
+                  {/* <div className="yesterday-message">
+                    昨日：{yesterday_sale_total}
+                  </div> */}
+                </NumBlock>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+        <Col span={8}>
+            <Card 
+              title="公告" 
+              extra={
+                <div onClick={() => { this.goTo("help/announcement") }}>
+                  查看更多公告
+                </div>}  
+              className="card-row" 
+              bordered={false}
+            >
+            <Row className="notice card-content-margin" gutter={10} type="flex" justify="space-between">
+              <div className="ellipsis notice-item-title">{article[0].title}</div>
+              <div className="ellipsis notice-item-title">{article[1].title}</div>
+              <div className="ellipsis notice-item-title">{article[2].title}</div>
+            </Row>
+            <Row className="more-notice">
+            </Row>
+          </Card>
+        </Col>
+      </Row>
+      <Row className="row-gutter" gutter={moduleGap} type="flex" justify="start">
+        <Col span={10}>
+          <Card title="在架商品数据" className="card-column" bordered={false}>
+            <Row className="card-content-margin" gutter={10}>
               <Col span={12}>
                 <NumBlock title="租赁商品数" value={rent_total}>
                   <div className="yesterday-message">
@@ -162,36 +310,6 @@ class Home extends Component {
                 </NumBlock>
               </Col>
             </Row>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card title="在架商品数据"  className="card-row" bordered={false}>
-            <Row className="notice card-content-margin" gutter={10} type="flex" justify="space-between">
-              <div className="ellipsis notice-item-title">{article[0].title}</div>
-              <div className="ellipsis notice-item-title">{article[1].title}</div>
-              <div className="ellipsis notice-item-title">{article[2].title}</div>
-            </Row>
-            <Row className="more-notice">
-                <div onClick={() => { this.goTo("help/announcement") }} to="">
-                查看更多公告
-              </div>
-            </Row>
-          </Card>
-        </Col>
-      </Row>
-      <Row className="row-gutter" gutter={moduleGap} type="flex" justify="start">
-        <Col span={10}>
-          <Card title="在架商品数据" className="card-column" bordered={false}>
-            <Row className="card-content-margin" gutter={10}>
-              <Col span={12}>
-                <NumBlock title="租赁商品数据" value={10}>
-                </NumBlock>
-              </Col>
-              <Col span={12}>
-                <NumBlock title="销售商品数" value={10}>
-                </NumBlock>
-              </Col>
-            </Row>
             <Row className="no-data">
               <Col>暂无数据</Col>
             </Row>
@@ -203,38 +321,102 @@ class Home extends Component {
           </Card>
         </Col>
         <Col span={7}>
-          <Card title="租赁数据" className="card-column" bordered={false}>
+          <Card 
+            title="租赁数据" 
+            className="card-column explain-left" 
+            bordered={false}
+            extra={
+              <div className="to-yesterday" >
+                至昨天24点数据
+            </div>} 
+          >
             <div className="module-gutter">
-              <NumBlock title="近30天订单数" value={10}></NumBlock>
+                <NumBlock title="近30天订单数" value={rental_sale && rental_sale["1"].orders_30 || '0'}>
+                </NumBlock>
             </div>
             <div className="module-gutter">
-              <NumBlock title="近30天收益金额" value={10}></NumBlock>
+                <NumBlock title="近30天收益金额" value={rental_sale && rental_sale["1"].income_30 || '0'}></NumBlock>
             </div>
             <div className="module-gutter">
-              <NumBlock title="累计收益金额" value={10}></NumBlock>
+              <NumBlock title="累计收益金额" value={rental_sale && rental_sale["1"].inconme_total || '0'}></NumBlock>
             </div>
           </Card>
         </Col>
         <Col span={7}>
-          <Card title="销售数据" className="card-column" bordered={false}>
+          <Card 
+            title="销售数据" 
+            className="card-column explain-left" 
+            bordered={false}
+            extra={
+              <div className="to-yesterday" >
+                至昨天24点数据
+            </div>} 
+          >
             <div className="module-gutter">
-              <NumBlock title="近30天订单数" value={10}></NumBlock>
+              <NumBlock title="近30天订单数" value={rental_sale && rental_sale["2"].orders_30 || '0'}>
+              </NumBlock>
             </div>
             <div className="module-gutter">
-              <NumBlock title="近30天收益金额" value={10}></NumBlock>
+              <NumBlock title="近30天收益金额" value={rental_sale && rental_sale["2"].income_30 || '0'}></NumBlock>
             </div>
             <div className="module-gutter">
-              <NumBlock title="累计收益金额" value={10}></NumBlock>
+              <NumBlock title="累计收益金额" value={rental_sale && rental_sale["2"].inconme_total || '0'}></NumBlock>
             </div>
           </Card>
         </Col>
       </Row>
       <Row gutter={moduleGap} className="row-gutter">
-        <Col span={12} className="charts-box">
-          <div id='chart' className="charts-item" style={{ height: '50vh' }}></div>
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongZuLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
         </Col>
-        <Col span={12} className="charts-box">
-          <div id='line' className="charts-item" style={{ height: '50vh' }}></div>
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongXiaoLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+      </Row>
+      <Row gutter={moduleGap} className="row-gutter">
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongZuLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongXiaoLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+      </Row>
+      <Row gutter={moduleGap} className="row-gutter">
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongZuLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+        <Col span={12}>
+          <div className="charts-items">
+            <ReactEcharts
+              option={this.state.dongXiaoLv}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
         </Col>
       </Row>
 
@@ -243,11 +425,12 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = ({ getIndexCharts, userInfo, merchantMessage, getOnlineProduct}) => ({
+const mapStateToProps = ({ getIndexCharts, userInfo, merchantMessage, getOnlineProduct, getThirtyMessage}) => ({
   getIndexCharts,
   userInfo,
   getOnlineProduct,
-  merchantMessage
+  merchantMessage,
+  getThirtyMessage
 })
 
 const mapDispatchToProps = (dispatch) => ({

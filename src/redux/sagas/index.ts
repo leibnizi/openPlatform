@@ -108,10 +108,12 @@ export function* getOnlineProduct(action: any) {
 }
 export function* getUserInfos(action: any) {
   try {
-    const response = yield call(request, `/api/auth/user?token=${action.data}`);
+    const response = yield call(request.get, '/api/auth/user');
+    debugger
     yield put({ type: 'GET_USER_INFOS_SUCCESS', data: response.data.data });
 
   } catch (error) {
+    console.log(error,"llk")
     // yield put(fetchFailure());
   }
 }

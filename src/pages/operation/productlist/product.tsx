@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'antd'
 // import { GET_POSTS } from '../../../redux/actions/index'
-import { httpGet } from '../../../services/httpRequest'
+import request from '../../../services/httpRequest'
 import './product.less'
 
 class Product extends React.Component<any, any> {
@@ -26,12 +26,6 @@ class Product extends React.Component<any, any> {
     }
   }
 
-  componentWillMount() {
-    // if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
-    //   this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
-    // }
-  }
-
   componentDidMount() {
     this.queryData()
     // this.props.dispatch(GET_POSTS({a:1}))
@@ -42,10 +36,9 @@ class Product extends React.Component<any, any> {
 
   productDetail = (id: any) => {
     const token = this.props.state.userInfo.token
-    fetch(`/api/product/detail/${id}?token=${token}`)
-      .then(res => res.json())
+    request(`/api/product/detail/${id}?token=${token}`)
       .then(res => {
-        if (res.status_code === 0) {
+        if (res.data.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
             item.purchaser_product_no = res.data.purchaser_product_no
@@ -79,9 +72,9 @@ class Product extends React.Component<any, any> {
     const url = `/api/product/list?perPage=${20}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
                 &mode_id=${goodMode}&enabled=${goodStatus}&code=${code}&name=${name}
                 &purchaser_product_no=${purchaser_product_no}&page=${nextPage}`
-    httpGet(url)
+    request(url)
       .then((res) => {
-        const data = res.data.data.data
+        const data = res.data.data
         data.map((item: any, index: number) => {
           Object.assign(item, { key: index })
           item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'          

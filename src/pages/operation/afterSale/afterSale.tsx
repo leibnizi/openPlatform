@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Table, TimePicker } from 'antd'
 import './afterSale.less'
 import { getFormatDate } from '../../../helper/utils'
+import request from '../../../services/httpRequest'
 
 class AfterSale extends React.Component<any, any> {
   constructor(props: Object) {
@@ -39,8 +40,7 @@ class AfterSale extends React.Component<any, any> {
                 &type=${type}
                 &begin=${begin ? getFormatDate(begin._d, 'yyyy-MM-dd hh:mm:ss') : ''}
                 &end=${end ? getFormatDate(end._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
-    fetch(url)
-      .then(res => res.json())
+    request(url)
       .then((res) => {
         const listData = res.data.list
         listData.map((item: any, index: number) => {

@@ -2,7 +2,7 @@ import axios, {AxiosInstance, AxiosPromise} from 'axios';
 import * as Cookies from 'js-cookie';
 import { message } from 'antd';
 
-const urlFix = "http://open-erp.test.msparis.com";
+const urlFix = "http://open-erp.test.msparis.com"
 
 export const httpGet = (url: string): AxiosPromise => {
     var urlx = urlFix + url;
@@ -30,16 +30,16 @@ export const httpDelete = () => {
 }
 
 const _fetch = (requestPromise: any, timeout = 30000) => {
-    let timeoutAction: any = null;
-    const timerPromise = new Promise((resolve, reject) => {
-        timeoutAction = () => {
-            reject('请求超时');
-        }
-    })
-    setTimeout(() => {
-        timeoutAction()
-    }, timeout)
-    return Promise.race([requestPromise, timerPromise]);
+  let timeoutAction: any = null;
+  const timerPromise = new Promise((resolve, reject) => {
+    timeoutAction = () => {
+      reject('请求超时');
+    }
+  })
+  setTimeout(() => {
+    timeoutAction()
+  }, timeout)
+  return Promise.race([requestPromise, timerPromise]);
 }
 
 
@@ -89,8 +89,8 @@ function checkStatus(res: any) {
 //异常处理
 function handelData(res: any) {
     const data = res.data
-    if (data.status !== 'ok') {
-        if (data.error.code === '11008') {
+    if (res.statusText !== 'ok') {
+        if (data.status_code === '11008') {
 
         }
         else {
@@ -119,9 +119,9 @@ const instance = axios.create({
 });
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
-    let access_token = Cookies.getJSON('access_token');
-    instance.defaults.params = Object.assign({}, instance.defaults.params, access_token);
-    instance.defaults.data = Object.assign({}, instance.defaults.data, access_token);
+    let token = Cookies.getJSON('access_token');
+    instance.defaults.params = Object.assign({}, instance.defaults.params, token);
+    instance.defaults.data = Object.assign({}, instance.defaults.data, token);
 
     instance.interceptors.response.use(checkStatus);
     instance.interceptors.response.use(handelData);

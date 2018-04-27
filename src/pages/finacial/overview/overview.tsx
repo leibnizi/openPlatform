@@ -16,14 +16,13 @@ class Overview extends React.Component<any, {}> {
 
   componentDidMount() {
     const token = this.props.state.userInfo.token
-    fetch(`/api/financial/financial_view?token=${token}`)
-      .then(res => res.json())
+    request('/api/financial/financial_view')
       .then(res => this.setState({ overviewdata: res }))
   }
 
   applywithdraw = (money: any) => {
     const token = this.props.state.userInfo.token
-    request.post(`/api/financial/apply?token=${token}`, { balance_available: 1 })
+    request.post(`/api/financial/apply`, { balance_available: 1 })
       .then()
   }
 

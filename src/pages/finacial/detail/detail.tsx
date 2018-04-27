@@ -22,7 +22,9 @@ class Detail extends React.Component<any, any> {
     const token = this.props.state.userInfo.token
     let tableData: any[] = []
 
-    request(`/api/financial/info_list?token=${token}&begin=${startTime}&end=${endTime}&id=${formNum}`)
+    request('/api/financial/info_list', {
+      params: { begin: startTime, end: endTime, id: formNum }
+    })
       .then((Detail: any) => {
         Detail.data.map((item: any, index: number) =>
           tableData.push({

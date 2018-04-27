@@ -34,13 +34,18 @@ class AfterSale extends React.Component<any, any> {
       end
     } = this.state
     const token = this.props.state.userInfo.token
-    const url = `/api/financial/after_sale_list?perPage=${20}&token=${token}
-                &id=${id}&product_code=${product_code}
-                &supplier_pro_num=${supplier_pro_num}&product_name=${product_name}
-                &type=${type}
-                &begin=${begin ? getFormatDate(begin._d, 'yyyy-MM-dd hh:mm:ss') : ''}
-                &end=${end ? getFormatDate(end._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
-    request(url)
+    request('/api/financial/after_sale_list', {
+      params: {
+        perPage:20,
+        id,
+        product_code,
+        supplier_pro_num,
+        product_name,
+        type,
+        begin: begin ? getFormatDate(begin._d, 'yyyy-MM-dd hh:mm:ss') : '',
+        end: end ? getFormatDate(end._d, 'yyyy-MM-dd hh:mm:ss') : ''
+      }
+    })
       .then((res) => {
         const listData = res.data.list
         listData.map((item: any, index: number) => {

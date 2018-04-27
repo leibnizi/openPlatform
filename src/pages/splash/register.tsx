@@ -217,7 +217,7 @@ class Register extends React.Component<any, any> {
                         extra="We must make sure that your are a human."
                       >
                         <Row gutter={8}>
-                          <Col span={24}>
+                          <Col span={12}>
                             {getFieldDecorator('captcha', {
                               rules: [{ required: true, message: 'Please input the captcha you got!' }],
                             })(

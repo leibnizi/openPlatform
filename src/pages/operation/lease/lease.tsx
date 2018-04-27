@@ -33,9 +33,11 @@ class Lease extends React.Component<any, any> {
 
   productDetail = (id: any) => {
     const token = this.props.state.userInfo.token
-    request(`/api/order/detail/${id}?token=${token}`)
+    request('/api/order/detail', {
+      params: { id }
+    })
       .then(res => {
-        console.log('res',res)
+        console.log('res', res)
         if (res.data.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
@@ -62,12 +64,19 @@ class Lease extends React.Component<any, any> {
       endTime
     } = this.state
     const token = this.props.state.userInfo.token
-    const url = `/api/order/list/1?perPage=${20}&token=${token}
-                &product_spu=${product_spu}&m_order_no=${m_order_no}
-                &split_order_no=${split_order_no}&status=${status}
-                &order_time[]=${startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}
-                &order_time[]=${endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
-    request(url)
+    request('/api/order/list/1', {
+      params: {
+        perPage: 20,
+        product_spu,
+        m_order_no,
+        split_order_no,
+        status,
+        order_time: [
+          startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
+          endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''
+        ]
+      }
+    })
       .then((res) => {
         const listData = res.data.data
         listData.map((item: any, index: number) => {
@@ -200,12 +209,12 @@ class Lease extends React.Component<any, any> {
       }
     ]
 
-    const { 
-      listData, 
-      startTime, 
-      endTime, pageTotal, currentPage, 
+    const {
+      listData,
+      startTime,
+      endTime, pageTotal, currentPage,
       productDetailData, productDetailDataHead
-     } = this.state
+    } = this.state
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
@@ -287,11 +296,11 @@ class Lease extends React.Component<any, any> {
           <header className='productheader'>租赁订单详情页</header>
           <section className='productmid'>
             {
-              productDetailDataHead&&[
+              productDetailDataHead && [
                 ['订单编号:', productDetailDataHead.m_order_no],
                 ['子订单编号:', productDetailDataHead.split_order_no],
                 ['下单时间:', productDetailDataHead.return_date],
-                ['租赁周期:',  productDetailDataHead.rental_cycle],
+                ['租赁周期:', productDetailDataHead.rental_cycle],
                 ['订单状态:', productDetailDataHead.status]
               ].map((item, index) =>
                 <div className='productmiditem' key={index}>

@@ -15,7 +15,7 @@ class Customerservice extends React.Component<any, any> {
 
   componentDidMount() {
     const token = this.props.state.userInfo.token
-    request(`/api/message/help?token=${token}`)
+    request('/api/message/help')
       .then(res => this.setState({ dataList: res.data.data }))
   }
 

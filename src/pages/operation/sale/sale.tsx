@@ -33,9 +33,10 @@ class Sale extends React.Component<any, any> {
 
   productDetail = (id: any) => {
     const token = this.props.state.userInfo.token
-    request(`/api/order/detail/${id}?token=${token}`)
+    request('/api/order/detail', {
+      params: { id }
+    })
       .then(res => {
-        console.log('res',res)
         if (res.data.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
@@ -63,12 +64,19 @@ class Sale extends React.Component<any, any> {
       endTime
     } = this.state
     const token = this.props.state.userInfo.token
-    const url = `/api/order/list/2?perPage=${20}&token=${token}
-                &product_spu=${product_spu}&m_order_no=${m_order_no}
-                &split_order_no=${split_order_no}&status=${status}
-                &order_time[]=${startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}
-                &order_time[]=${endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
-    request(url)
+
+    request('/api/order/list/2', {
+      params: {
+        product_spu,
+        m_order_no,
+        split_order_no,
+        status,
+        order_time: [
+          startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
+          endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''
+        ]
+      }
+    })
       .then((res) => {
         const listData = res.data.data
         listData.map((item: any, index: number) => {
@@ -202,7 +210,7 @@ class Sale extends React.Component<any, any> {
       currentPage,
       listData,
       productDetailData
-     } = this.state
+    } = this.state
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
@@ -260,11 +268,11 @@ class Sale extends React.Component<any, any> {
           </section>
           <hr />
           <section>
-            <Table 
-              className='producttab' 
-              columns={columns} 
-              dataSource={listData} 
-              bordered={true} 
+            <Table
+              className='producttab'
+              columns={columns}
+              dataSource={listData}
+              bordered={true}
               pagination={{
                 total: pageTotal,
                 defaultCurrent: currentPage,
@@ -279,39 +287,39 @@ class Sale extends React.Component<any, any> {
       return (
         <div className='productdetail'>
           <header className='productheader'>销售订单详情页</header>
-            <section className='productmid'>
-              {
-                [
-                  ['商品编号:', 'DD071A'], 
-                  ['商品名称:', '简约休闲针织外套'], 
-                  ['类目:', '女装'], 
-                  ['品牌:', 'MIRROR FUN'], 
-                  ['上架状态:', 'DD071A'], 
-                  ['创建时间：', 'YYYY-MM-DD hh:mm:ss'], 
-                  ['上架时间：', 'YYYY-MM-DD hh:mm:ss']
-                ].map((item, index) =>
-                  <div className='productmiditem' key={index}>
-                    <span>{item[0]}</span>
-                    <span>{item[1]}</span>
-                  </div>
-                )
-              }
-            </section>
-            <hr />
-            <section>
-              <Table 
-                className='producttable' 
-                columns={detailColumns} 
-                dataSource={productDetailData} 
-                bordered={true} 
-                pagination={{
-                  total: pageTotal,
-                  defaultCurrent: currentPage,
-                  pageSize: 20
-                }}
-                onChange={(e) => this.pageChange(e)}
-              />
-            </section>
+          <section className='productmid'>
+            {
+              [
+                ['商品编号:', 'DD071A'],
+                ['商品名称:', '简约休闲针织外套'],
+                ['类目:', '女装'],
+                ['品牌:', 'MIRROR FUN'],
+                ['上架状态:', 'DD071A'],
+                ['创建时间：', 'YYYY-MM-DD hh:mm:ss'],
+                ['上架时间：', 'YYYY-MM-DD hh:mm:ss']
+              ].map((item, index) =>
+                <div className='productmiditem' key={index}>
+                  <span>{item[0]}</span>
+                  <span>{item[1]}</span>
+                </div>
+              )
+            }
+          </section>
+          <hr />
+          <section>
+            <Table
+              className='producttable'
+              columns={detailColumns}
+              dataSource={productDetailData}
+              bordered={true}
+              pagination={{
+                total: pageTotal,
+                defaultCurrent: currentPage,
+                pageSize: 20
+              }}
+              onChange={(e) => this.pageChange(e)}
+            />
+          </section>
         </div>
       )
     }

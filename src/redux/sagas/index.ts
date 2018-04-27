@@ -48,9 +48,10 @@ export default function* rootSaga() {
 
 //把上传到的图片路径传给后端(基础资质)
 export function* uploadImageBase(action: any = {}) {
-  const { statusUrl, token, id } = action.data
+  const { statusUrl, id } = action.data
   try {
-    const response = yield call(request.post, `/api/qualification/edit/${id}?token=${token}`, {
+    const response = yield call(request.post, "/api/qualification/edit/", {
+      id,
       file: statusUrl
     })
     if (response.status_code != 0) {
@@ -66,9 +67,9 @@ export function* uploadImageBase(action: any = {}) {
 
 //把上传到的图片路径传给后端(补充资质-添加)
 export function* uploadImageOthers(action: any = {}) {
-  const { statusMsg, token } = action.data
+  const { statusMsg } = action.data
   try {
-    const response = yield call(request.post, `/api/qualification/add?token=${token}`, {
+    const response = yield call(request.post, "/api/qualification/add", {
       files: [statusMsg]
     })
     if (response.status_code != 0) {
@@ -76,6 +77,7 @@ export function* uploadImageOthers(action: any = {}) {
       return false
     }
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
+    yield put({ type: "GET_STATUS_INFO" })
     yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
   } catch (error) {
     // yield put(fetchFailure());
@@ -186,7 +188,7 @@ export function* deleteStatus(action: any) {
         id
       }
     });
-    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.msg });
+    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg });
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -211,13 +213,11 @@ export function* getAccountInfos(action: any) {
 }
 
 export function* postBsInfos(action: any = {}) {
-  const { token, value } = action.data
+  const value = action.data
   
   try {
     // const response = yield call(request.post, `/api/merchant/edit?token=${token}`, value)
-    const response = yield call(request.post, "/api/merchant/edit",{
-      data: value
-    });
+    const response = yield call(request.post, "/api/merchant/edit", value);
   
     const { data: { data, msg, status_code } } = response
     if (data instanceof Array  && data.length === 0 && status_code != 0) {
@@ -232,17 +232,17 @@ export function* postBsInfos(action: any = {}) {
 }
 
 export function* postAccountInfos(action: any = {}) {
-  const { token, value } = action.data
+  const value  = action.data
   try {
-    const response = yield call(request.post, "/api/account/edit", {
-      data: value
-    });
+    // debugger
+    const response = yield call(request.post, "/api/account/edit", value);
     if (response.status_code != 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
     }
     yield put({ type: 'POST_ACCOUNT_SUCCESS', data: response.data });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
+    yield put({ type: 'HIDE_ACCOUNT_MOBLE' });
     
   } catch (error) {
     // yield put(fetchFailure());
@@ -250,12 +250,10 @@ export function* postAccountInfos(action: any = {}) {
 }
 
 export function* saveAccountPassword(action: any = {}) {
-  const { token, value } = action.data
+  const value = action.data
 
   try {
-    const response = yield call(request.post, "/api/reset", {
-      data: value
-    });
+    const response = yield call(request.post, "/api/reset", value);
 
     if (response.status_code != 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });

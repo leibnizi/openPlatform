@@ -117,11 +117,11 @@ const instance = axios.create({
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
     let access_token = Cookies.getJSON('access_token');
-    let access_token_test = {
-        token: '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9'
-    } ;
-    instance.defaults.params = Object.assign({}, instance.defaults.params, access_token_test);
-    instance.defaults.data = Object.assign({}, instance.defaults.data, access_token_test);
+    // let access_token = {
+    //     token: '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9'
+    // } ;
+    instance.defaults.params = Object.assign({}, instance.defaults.params, access_token);
+    instance.defaults.data = Object.assign({}, instance.defaults.data, access_token);
 
     instance.interceptors.response.use(checkStatus);
     instance.interceptors.response.use(handelData);

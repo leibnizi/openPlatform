@@ -33,7 +33,11 @@ class EditInfos extends React.Component<any, {}> {
 
   }
   componentDidMount() {
-    const { dispatch } = this.props
+    const { dispatch, businessInfos } = this.props
+    // 如果刷新页面或者不是从前面页面跳转过来的，将不会有businessInfos，所以要手动获取
+    if (JSON.stringify(businessInfos) === "{}"){
+      dispatch(getBusinessInfos())
+    }
   }
 
   editMsg = () => {
@@ -47,9 +51,7 @@ class EditInfos extends React.Component<any, {}> {
     e.preventDefault();
     this.props.form.validateFields((err:any, value:any) => {
       if (!err) {
-        dispatch(editBusinessInfos({
-          value
-        }))
+        dispatch(editBusinessInfos(value))
       }
     });
   }
@@ -79,7 +81,8 @@ class EditInfos extends React.Component<any, {}> {
     const {
       businessInfos: {
         biz_name, profit_level, brand, website, biz_intro, merchant_state,
-        biz_operator, mobile, email, qq, faxes, address, biz_type, category_id
+        biz_operator, mobile, email, qq, faxes, address, biz_type, category_id,
+        cooperation_term
       }
     } = this.props
     return (
@@ -168,7 +171,7 @@ class EditInfos extends React.Component<any, {}> {
               <Col span={3} className="cotent-title">商家状态：</Col>
               <Col span={2}>{merchant_state}</Col>
               <Col span={2}><Button>续约</Button></Col>
-              <Col className="describe" span={14}>有效期至：2019年1月28日</Col>
+              <Col className="describe" span={14}>有效期至：{cooperation_term}</Col>
             </Row>
             <Row className="form-row">
               <Col>

@@ -26,36 +26,28 @@ class Account extends React.Component<any, any> {
           value: '',
         },
       },
-      is_edit: false,
       confirmLoading: false
     };
   }
   
-  handleFormChange = (value: any) => {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(postAccountInfos({
-      value,
-      token
-    }))
+  saveAccountAccountFun = (value: any) => {
+    const { dispatch} = this.props
+    console.log(value,"twtwtet")
+    dispatch(postAccountInfos(value))
   }
 
-  toggleEditFun = () => {
-    const { is_edit } = this.state;
-    this.setState({
-      is_edit: !is_edit
+  showEditFun = () => {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'SHOW_ACCOUNT_ACCOUNT_MOBLE',
     })
   }
 
   showChangePassWord = () => {
-    // this.setState({
-    //   showChangePassWord: true
-    // })
     const { dispatch } = this.props
-    // dispatch())
     dispatch({
-      type: 'SHOW_ACCOUNT_MOBLE',
+      type: 'SHOW_ACCOUNT_PASSWORD_MOBLE',
     })
-    // showModal
   }
 
   handleCancel = () => {
@@ -76,15 +68,12 @@ class Account extends React.Component<any, any> {
     }
   }
 
-  saveAcccountFun = (e: any) => {
+  saveAccountPasswordFun = (e: any) => {
     e.preventDefault();
     this.props.form.validateFields((err: any, value: any) => {
       if (!err) {
-        const { dispatch, userInfo: { token } } = this.props
-        dispatch(saveAccountPassword({
-          token,
-          value
-        }))
+        const { dispatch } = this.props
+        dispatch(saveAccountPassword(value))
       }
     });
     return false
@@ -96,36 +85,23 @@ class Account extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(nextProps:any) {
-    // debugger
-    // this.setState({
-    //   showModal: nextProps.showModal
-    // })
   }
   cancelEdit = () => {
-    this.setState({
-      is_edit: false
-    })
+    // this.setState({
+    //   is_edit: false
+    // })
   }
 
   render() {
-    const { is_edit, confirmLoading } = this.state
-    const { accountInfos, showModal, accountInfos: { address, email, mobile, name } } = this.props
+    const { confirmLoading } = this.state
+    const { accountInfos, showPasswordModal, showAccountModal, accountInfos: { address, email, mobile, name } } = this.props
     const { getFieldDecorator } = this.props.form;
     // getFieldsError, getFieldError, isFieldTouched
 
     return (
       <div className="bill-page">
         <header className="content-title">账务信息</header>
-        <Row style={{ display: `${is_edit ? 'block' : 'none'}` }}>
-          <Col span={12}>
-            <AccountForm
-              {...accountInfos}
-              onChange={this.handleFormChange}
-              cancelEdit={this.cancelEdit}
-            />
-          </Col>
-        </Row>
-        <Row style={{ display: `${!is_edit ? 'block' : 'none'}` }} className="message-box">
+        <Row className="message-box">
           <Col span={12}>
             <Row className="message-item">
               <Col span={5}>
@@ -161,9 +137,9 @@ class Account extends React.Component<any, any> {
             </Row>
           </Col>
         </Row>
-        <Row style={{ display: is_edit ? 'none' : 'block' }} className="edit_btn">
+        <Row className="edit_btn">
           <Col span={5}>
-            <Button onClick={() => this.toggleEditFun()}>
+            <Button onClick={() => this.showEditFun()}>
               修改账户信息
             </Button>
           </Col>
@@ -175,7 +151,7 @@ class Account extends React.Component<any, any> {
         </Row>
         <Modal
           title="修改密码"
-          visible={showModal}
+          visible={showPasswordModal}
           onOk={() => this.changePassWord()}
           onCancel={() => this.handleCancel()}
           confirmLoading={confirmLoading}
@@ -184,7 +160,7 @@ class Account extends React.Component<any, any> {
           destroyOnClose={true}
         >
           <Form
-            onSubmit={this.saveAcccountFun}
+            onSubmit={this.saveAccountPasswordFun}
           >
             <FormItem
               className="modal-form-item"
@@ -245,16 +221,31 @@ class Account extends React.Component<any, any> {
             </div>
           </Form>
         </Modal>
+        <Modal
+          title="修改账户信息"
+          visible={showAccountModal}
+          confirmLoading={confirmLoading}
+          bodyStyle={{ height: 'auto' }}
+          footer={null}
+          destroyOnClose={true}
+        >
+          <AccountForm
+            {...accountInfos}
+            onChange={this.saveAccountAccountFun}
+            cancelEdit={this.handleCancel}
+          />
+        </Modal>
       </div>
     );
   }
 }
 
-const mapStateToProps: any = ({ accountInfos, userInfo, showModal }: any) => {
+const mapStateToProps: any = ({ accountInfos, userInfo, showPasswordModal, showAccountModal }: any) => {
   return {
     accountInfos,
     userInfo,
-    showModal,
+    showPasswordModal,
+    showAccountModal
   }
 }
 

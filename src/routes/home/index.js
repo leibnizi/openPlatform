@@ -68,11 +68,8 @@ class Home extends Component {
     dispatch(getFinancialView())
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps,"???")
-    // return false
     const { thirtyMessageData, thirtyMessageData: { dynamic_rate }, getIndexCharts } = nextProps
     
-    console.log(getIndexCharts, "TTTTT", thirtyMessageData)
     if (getIndexCharts.rental && dynamic_rate ) {
       const { rental, sale } = getIndexCharts
       this.setState({
@@ -114,7 +111,7 @@ class Home extends Component {
           data: [1,2,3,4,5,6],
           nameTextStyle:{
             color: '#DD748E'
-          }
+          },
         }
       ],
       yAxis: [
@@ -128,7 +125,13 @@ class Home extends Component {
           type,
           stack: '总量',
           areaStyle: { normal: {} },
-          data: [120, 132, 101, 134, 90, 230, 210]
+          data: [120, 132, 101, 134, 90, 230, 210],
+          barMaxWidth: 10,
+          itemStyle: {
+            normal: {
+              color: '#dd748e',
+            }
+          },
         }
       ]
     };

@@ -83,9 +83,20 @@ function showGlobleMessage(state: any ={}, action: any) {
   }
 }
 
-function showModal(state: any = false, action: any) {
+function showPasswordModal(state: any = false, action: any) {
   switch (action.type) {
-    case 'SHOW_ACCOUNT_MOBLE':
+    case 'SHOW_ACCOUNT_PASSWORD_MOBLE':
+      return true
+    case 'HIDE_ACCOUNT_MOBLE':
+      return false
+    default:
+      return state
+  }
+}
+
+function showAccountModal(state: any = false, action: any) {
+  switch (action.type) {
+    case 'SHOW_ACCOUNT_ACCOUNT_MOBLE':
       return true
     case 'HIDE_ACCOUNT_MOBLE':
       return false
@@ -96,7 +107,8 @@ function showModal(state: any = false, action: any) {
 
 const rootReducer = combineReducers({
   routing:routerReducer,
-  showModal,
+  showAccountModal,
+  showPasswordModal,
   uploadImageBack,
   showGlobleMessage,
   getIndexCharts,

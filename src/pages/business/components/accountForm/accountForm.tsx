@@ -34,7 +34,7 @@ export const AccountForm: any = Form.create()((props: any) => {
         {getFieldDecorator('name', {
           initialValue: `${name}`,
           rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
+        })(<Input disabled={true}/>)}
       </FormItem>
       <FormItem {...formItemLayout} label="手机号">
         {getFieldDecorator('mobile', {
@@ -58,7 +58,7 @@ export const AccountForm: any = Form.create()((props: any) => {
         <Button onClick={cancelEdit}>
           取消
         </Button>
-        <Button style={{margin: "0 40px 0 40px"}} htmlType="submit">
+        <Button type="primary" style={{margin: "0 40px 0 40px"}} htmlType="submit">
           保存
         </Button>
       </div>

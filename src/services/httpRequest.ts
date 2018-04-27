@@ -15,7 +15,7 @@ function checkStatus(res: any) {
             return res
         }else {
             if(res.data.status_code == 210 || res.data.status_code == 202){
-                warning();
+                warning(res.data.msg );
                 return false;
             }else if(is_message_show){
                 console.log(res);
@@ -59,10 +59,10 @@ function handleError(error: any) {
 /**
  * 警告弹窗
  */
-function warning() {
+function warning(msg) {
     Modal.warning({
         title: '警告',
-        content: '登录超时，请重新登录!',
+        content: msg,
         okText:'确定',
         onOk() {
             window.location.href =  window.location.origin+ "/login";

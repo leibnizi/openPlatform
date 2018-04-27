@@ -3,6 +3,7 @@ import * as Cookies from 'js-cookie';
 import { message, Modal } from 'antd';
 
 var is_message_show = true;
+var is_modal_show = true;
 /**
  * heck 请求状态
  * @param res
@@ -60,28 +61,34 @@ function handleError(error: any) {
  * 警告弹窗
  */
 function warning(msg) {
-    Modal.warning({
-        title: '警告',
-        content: msg,
-        okText:'确定',
-        onOk() {
-            window.location.href =  window.location.origin+ "/login";
-        },
-    });
+    if(is_modal_show){
+        Modal.warning({
+            title: '警告',
+            content: msg,
+            okText:'确定',
+            onOk() {
+                window.location.href =  window.location.origin+ "/login";
+                is_modal_show = true;
+            },
+        });
+    }
 }
 
 /**
  * 网络错误
  */
 function error() {
-    Modal.error({
-        title: '错误',
-        content: '网络错误返回登录，请联系系统人员',
-        okText:'确定',
-        onOk() {
-            window.location.href =  window.location.origin+ "/login";
-        },
-    });
+    if(is_modal_show){
+        Modal.error({
+            title: '错误',
+            content: '网络错误返回登录，请联系系统人员',
+            okText:'确定',
+            onOk() {
+                window.location.href =  window.location.origin+ "/login";
+                is_modal_show = true;
+            },
+        });
+    }
 }
 
 /**

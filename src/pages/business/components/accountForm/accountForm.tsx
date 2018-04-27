@@ -34,7 +34,7 @@ export const AccountForm: any = Form.create()((props: any) => {
         {getFieldDecorator('name', {
           initialValue: `${name}`,
           rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
+        })(<Input disabled={true}/>)}
       </FormItem>
       <FormItem {...formItemLayout} label="手机号">
         {getFieldDecorator('mobile', {
@@ -45,7 +45,13 @@ export const AccountForm: any = Form.create()((props: any) => {
       <FormItem {...formItemLayout} label="邮箱">
         {getFieldDecorator('email', {
           initialValue: `${email}`,
-          rules: [{ required: true, message: 'Username is required!' }],
+          rules: [
+            { required: false, message: '请输入邮箱' },
+            {
+              // ^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$
+              message: '邮箱格式错误！' 
+            }
+          ],
         })(<Input />)}
       </FormItem>
       <FormItem {...formItemLayout} label="地址">
@@ -58,7 +64,7 @@ export const AccountForm: any = Form.create()((props: any) => {
         <Button onClick={cancelEdit}>
           取消
         </Button>
-        <Button style={{margin: "0 40px 0 40px"}} htmlType="submit">
+        <Button type="primary" style={{margin: "0 40px 0 40px"}} htmlType="submit">
           保存
         </Button>
       </div>

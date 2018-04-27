@@ -40,11 +40,12 @@ class StatusControl extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(getStatusInfos(token))
+    const { dispatch } = this.props
+    dispatch(getStatusInfos())
   }
   componentWillReceiveProps(nextProps:{statusInfos:any}){
     const { statusInfos } = nextProps
+    console.log(statusInfos,"rrerererer")
     let baseStatus :any[]= []
     let othersStatus:any[] = []
     for (let i = 0; i < statusInfos.length; i++) {
@@ -60,9 +61,6 @@ class StatusControl extends React.Component<any, any> {
       baseStatus,
       othersStatus
     })
-    // const baseStatus = statusInfos.map((item:any) => {
-    //   return 
-    // })
   }
 
   renderCard(cardList:any) {
@@ -81,13 +79,13 @@ class StatusControl extends React.Component<any, any> {
   }
 
   editStatusCard = (file:any, id:any) => {
-    // const { dispatch, userInfo: { token } } = this.props
-    // dispatch(getBusinessInfos(token))
+    // const { dispatch } = this.props
+
   }
 
   deleteStatusCard = (id:any) => {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(deleteStatus(token, id))
+    const { dispatch } = this.props
+    dispatch(deleteStatus(id))
   }
 
   handleOk = () => {
@@ -107,13 +105,23 @@ class StatusControl extends React.Component<any, any> {
 
   // type = 1 是基础资质 2是补充资质
   handleUploadBase = (type: any) => {
-    const { dispatch, userInfo: { token } } = this.props
+    const { dispatch } = this.props
     const { changeBaseStatusMsg } = this.state
-    dispatch(handleUploadBase({
-      ...changeBaseStatusMsg,
-      type_id: 1,
-      token
-    }))
+
+    if (this.baseStatusId) {
+      dispatch(handleUploadBase({
+        ...changeBaseStatusMsg,
+        type_id: 1,
+      }))
+    } else{
+      dispatch(handleUploadOthers({
+        statusMsg: {
+          file: changeBaseStatusMsg.statusUrl,
+          type_id: 1,
+        },
+      }))
+    }
+
     this.setState({
       isEdit: false,
       hasChange: false
@@ -140,8 +148,8 @@ class StatusControl extends React.Component<any, any> {
       action: 'http://api.v2.msparis.com/common/upload',
       fileList: this.state.baseStatus,
       onRemove: (e: any) => {
-        const { dispatch, userInfo: { token } } = this.props
-        dispatch(deleteStatus(e.id, token))
+        const { dispatch } = this.props
+        dispatch(deleteStatus(e.id))
       },
       onChange: ({ file, fileList, file: { status, response } }:any) => {
         if (status === 'done') {
@@ -167,19 +175,18 @@ class StatusControl extends React.Component<any, any> {
       action: 'http://api.v2.msparis.com/common/upload',
       fileList: this.state.othersStatus,
       onRemove: (e:any) => {
-        const { dispatch, userInfo: { token } } = this.props
-        dispatch(deleteStatus(e.id, token))
+        const { dispatch } = this.props
+        dispatch(deleteStatus(e.id))
       },
       onChange: ({ file, fileList, file: { status, response } }: any) => {
         if (status === 'done') {
-          const { dispatch, userInfo: { token } } = this.props
+          const { dispatch } = this.props
 
           dispatch(handleUploadOthers({
             statusMsg:{
               file: response.data[0].url,
               type_id: 2,
             },
-            token
           }))
         }
 
@@ -233,29 +240,33 @@ class StatusControl extends React.Component<any, any> {
                     <Button
                       style={{ display: `${isEdit && !hasChange ? "block" : "none"}` }}
                       className="upload-demo-start"
-                      type="primary"
                       onClick={this.closeEditFun}
                       // disabled={this.state.fileList.length === 0}
                       loading={uploading}
                     >
-                      返回
+                      取消
                     </Button>
                   </div>
                 </Col>
-                <Col span={21}>
-                  <Row>
-                    <Col>
-                      <Upload
-                        listType="picture-card"
-                        {...props1}
-                      >
-                        {isEdit ? <div>修改基本资质</div> : null }
-                      </Upload>
-                      <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                      </Modal>
-                    </Col>
-                  </Row>
+                <Col span={21} className="tab-content-right">
+                {
+                  this.state.othersStatus.length ? 
+                    <Row>
+                      <Col>
+                        <Upload
+                          listType="picture-card"
+                          {...props1}
+                        >
+                          {isEdit ? <Button type="primary">修改</Button> : null}
+                        </Upload>
+                        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                        </Modal>
+                      </Col>
+                      </Row> : <div className="no-status">
+                        <div className="no-status-content">暂无资质</div>
+                        </div>
+                }
                 </Col>
               </Row>
             </TabPane>
@@ -272,7 +283,7 @@ class StatusControl extends React.Component<any, any> {
                   listType="picture-card"
                   {...props2}
                 >
-                  <Button>修改补充资质</Button>
+                  <Button type="primary">修改补充资质</Button>
                 </Upload>
               </Row>
             </TabPane>

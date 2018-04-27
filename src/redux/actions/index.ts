@@ -9,29 +9,28 @@ const GET_POSTS = (posts: Object) => {
   return { type: 'SAGA_POSTS', posts }
 }
 
-const getUserInfos = (token: any) => ({
+const getUserInfos = () => ({
   type: 'GET_USER_INFOS',
-  data: token
 })
 
-const indexChartsAct = (token: any) => ({
+const indexChartsAct = () => ({
   type: 'GET_CHARTS',
-  data: token
 })
 
-const getOnlineProduct = (token: any) => ({
+const getOnlineProduct = () => ({
   type: 'GET_ONLINE_PRODUCT',
-  data: token
 })
 
-const getMerchantMessage = (token: any) => ({
+const getMerchantMessage = () => ({
   type: 'GET_MERCHANT_MESSAGE',
-  data: token
 })
 
-const getThirtyMessage = (token: any) => ({
+const getThirtyMessage = () => ({
   type: 'GET_THIRTY_MESSAGE',
-  data: token
+})
+
+const getFinancialView = () => ({
+  type: 'GET_FINANCIAL_VIEW',
 })
 
 const handleUploadBase = (prarms:any) => ({
@@ -48,10 +47,6 @@ const handleUploadOthers = (prarms:any) => ({
 
 export {
   business,
-  // onIncrement,
-  // onDecrement,
-  // onIncrementIfOdd,
-  // onIncrementAsync,,
   getUserInfos,
   setUserInfo,
   indexChartsAct,
@@ -60,5 +55,6 @@ export {
   getMerchantMessage,
   handleUploadBase,
   handleUploadOthers,
-  getThirtyMessage
+  getThirtyMessage,
+  getFinancialView
 }

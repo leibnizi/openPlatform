@@ -16,8 +16,8 @@ class Message extends React.Component<any, any> {
   componentDidMount() {
     // fetch('/api/financial/info_list').then(Detail=>console.log('Detail',Detail))
     const token = this.props.state.userInfo.token
-    request(`/api/message/sys?token=${token}`)
-      .then(res => this.setState({ listData: res.data.data }))
+    request('/api/message/sys')
+      .then(res => this.setState({ listData: res.data }))
   }
 
   render() {

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from 'react-redux'
-// import { fetchUtil } from '../../../services/httpRequest'
 import { Layout, Row, Col, Form, Input, Button, Checkbox, Select } from 'antd';
 import './editInfos.less'
 import { business as businessAction } from '../../../redux/actions/index'
@@ -33,8 +32,11 @@ class EditInfos extends React.Component<any, {}> {
 
   }
   componentDidMount() {
-    const { dispatch, userInfo: { token } } = this.props
-    dispatch(getBusinessInfos(token))
+    const { dispatch, businessInfos } = this.props
+    // 如果刷新页面或者不是从前面页面跳转过来的，将不会有businessInfos，所以要手动获取
+    if (JSON.stringify(businessInfos) === "{}"){
+      dispatch(getBusinessInfos())
+    }
   }
 
   editMsg = () => {
@@ -42,16 +44,22 @@ class EditInfos extends React.Component<any, {}> {
     this.props.history.push('edit_infos')
   }
 
+  validateMail = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && !value.match(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
+      callback('邮箱格式有误！');
+    } else {
+      callback()
+    }
+  }
+
   handleSubmit = (e:any) => {
-    const { dispatch, userInfo: { token }} = this.props
+    const { dispatch } = this.props
     
     e.preventDefault();
     this.props.form.validateFields((err:any, value:any) => {
       if (!err) {
-        dispatch(editBusinessInfos({
-          token,
-          value
-        }))
+        dispatch(editBusinessInfos(value))
       }
     });
   }
@@ -81,9 +89,17 @@ class EditInfos extends React.Component<any, {}> {
     const {
       businessInfos: {
         biz_name, profit_level, brand, website, biz_intro, merchant_state,
-        biz_operator, mobile, email, qq, faxes, address, biz_type, category_id
+        biz_operator, mobile, email, qq, faxes, address, biz_type, category_id,
+        cooperation_term, categoryAll//对象
       }
     } = this.props
+    let categoryAllArr:any = []
+    if (categoryAll) {
+      categoryAllArr = Object.keys(categoryAll).map((item:any, index:number)=> {
+        // debugger
+        return categoryAll[`${item}`]
+      })
+    }
     return (
       <Layout className="bs-info-box">
         <header>
@@ -170,7 +186,7 @@ class EditInfos extends React.Component<any, {}> {
               <Col span={3} className="cotent-title">商家状态：</Col>
               <Col span={2}>{merchant_state}</Col>
               <Col span={2}><Button>续约</Button></Col>
-              <Col className="describe" span={14}>有效期至：2019年1月28日</Col>
+              <Col className="describe" span={14}>有效期至：{cooperation_term}</Col>
             </Row>
             <Row className="form-row">
               <Col>
@@ -184,10 +200,11 @@ class EditInfos extends React.Component<any, {}> {
                   })(
                     <Checkbox.Group style={{ width: '100%', marginTop: '10px' }}>
                       <Row>
-                        <Col span={3}><Checkbox value={1}>女装</Checkbox></Col>
-                        <Col span={3}><Checkbox value={2}>箱包</Checkbox></Col>
-                        <Col span={3}><Checkbox value={3}>配饰</Checkbox></Col>
-                        <Col span={3}><Checkbox value={4}>其他</Checkbox></Col>
+                      {categoryAllArr.map((item, index) => 
+                        <Col span={3} key={index}>
+                          <Checkbox value={index + 1}>{item}</Checkbox>
+                        </Col>
+                        )}
                       </Row>
                     </Checkbox.Group>
                     )}
@@ -261,7 +278,13 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('biz_email', {
                     initialValue: `${email}`,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [
+                      { required: true, message: 'Please input your username!' },
+                      { 
+                        validator: this.validateMail,
+                        message: '邮箱格式有问题'
+                      }
+                    ],
                   })(
                     <Input placeholder="请输入邮箱" />
                     )}

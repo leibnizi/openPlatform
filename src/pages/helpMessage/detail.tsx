@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import request from '../../services/httpRequest'
+import axios from 'axios'
 // import { TimePicker, Table, Button } from 'antd'
 import './index.less'
 
@@ -16,8 +17,10 @@ class HelpDetail extends React.Component<any, any> {
   componentDidMount() {
     const token = this.props.state.userInfo.token
     const { pathname } = this.props.location
-    request(`/api/message/detail/${pathname.split('/').slice(-1)[0]}?token=${token}`)
+    request.get('/api/message/detail', { params: { id: pathname.split('/').slice(-1)[0] } })
       .then(res => this.setState({ dataList: res.data.data }))
+    // axios.get('/api/message/detail', { id: pathname.split('/').slice(-1)[0] })
+    //   .then(res => this.setState({ dataList: res.data.data }))
   }
 
   render() {

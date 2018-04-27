@@ -107,9 +107,41 @@
   border-top: none;
   padding-bottom: 20px;
 }
-.ant-btn-primary {
+
+.ant-btn{
+  // background-color: #dd748e;
+  // border-color: #dd748e;
+  // color: #fff;
+  &:hover{
+    // background-color: rgba(183, 108, 128, 0.6);
+    border-color: #dd748e;
+    color: #dd748e;
+  }
+  &:active, &.active, &:focus{
+    border-color: #dd748e;
+    color: #dd748e;
+  }
+}
+.ant-btn-primary  {
   background-color: #dd748e;
   border-color: #dd748e;
+  color: #fff;
+  &:hover{
+    background-color: rgba(183, 108, 128, 0.6);
+    border-color: rgba(183, 108, 128, 0.6);
+    color: #fff;
+  }
+  &:active, &.active, &:focus{
+    background-color:transparent;
+    border-color: #dd748e;
+    color: #dd748e;
+  }
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
+  color: #dd748e;
+}
+.ant-tabs-tab:hover{
+  color: #dd748e!important;
 }
 .ant-modal-body {
   height: 150px;

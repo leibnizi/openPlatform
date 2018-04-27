@@ -1,25 +1,21 @@
 export default {
-  getBusinessInfos: (token:any) => ({ 
+  getBusinessInfos: () => ({ 
     type: 'GET_BUSINESS_INFO',
-    data: token
   }),
 
-  getStatusInfos: (token: any) => ({
+  getStatusInfos: () => ({
     type: 'GET_STATUS_INFO',
-    data: token
   }),
 
-  deleteStatus: (id: string, token: string) => ({
+  deleteStatus: (id: string) => ({
     type: 'DEIETE_STATUS',
     data: {
-      token,
       id
     }
   }),
 
-  getBillInfos: (token: any) => ({
+  getBillInfos: () => ({
     type: 'GET_BILL_INFO',
-    data: token
   }),  
 
   postBillInfos: (param: any) => ({
@@ -27,9 +23,8 @@ export default {
     data: param
   }),  
 
-  getAccountInfos: (token: any) => ({
+  getAccountInfos: () => ({
     type: 'GET_ACCOUNT_INFO',
-    data: token
   }), 
   
   postAccountInfos: (param: any) => ({

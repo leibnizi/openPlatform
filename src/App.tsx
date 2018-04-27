@@ -9,7 +9,6 @@ import Forgetpassword from './pages/splash/forgetpassword'
 import store from './redux/store/store';
 import Content from './content'
 import './styles/App.less';
-//import { message } from 'antd'
 // import axios from 'axios';
 
 const EventEmitter = require('events');
@@ -38,7 +37,7 @@ class RegisterRoute extends React.Component {
       <div className='app'>
         <header className='header'>
           <div className="top">
-            1
+
           </div>
           <div className='header-box'>
             <div className='logo'>
@@ -72,7 +71,7 @@ class PassWordRoute extends React.Component {
       <div className='app'>
         <header className='header'>
           <div className="top">
-            1
+            
           </div>
           <div className='header-box'>
             <div className='logo'>

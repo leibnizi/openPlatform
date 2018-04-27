@@ -16,13 +16,13 @@ class Withdraw extends React.Component<any, any> {
 
   componentDidMount() {
     const token = this.props.state.userInfo.token
-    request(`/api/financial/get_list?token=${token}`)
+    request('/api/financial/get_list')
       .then(res => {
         const listData = res.data
         listData.map((item: any, index: number) => {
           Object.assign(item, { key: index })
         })
-        this.setState({ 
+        this.setState({
           listData
         })
       })

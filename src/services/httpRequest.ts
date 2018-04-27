@@ -2,7 +2,10 @@ import axios, {AxiosInstance, AxiosPromise} from 'axios';
 import * as Cookies from 'js-cookie';
 import { message, Modal } from 'antd';
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8b4d4c745689b07c6075ce6f3907e99a033de7db
 //check 请求状态
 function checkStatus(res: any) {
     if (res.statusText == 'OK') {
@@ -21,8 +24,10 @@ function checkStatus(res: any) {
 //异常处理
 function handelData(res: any) {
     const data = res.data
-    if (res.statusText !== 'ok') {
-        if (data.status_code === '11008') {
+    if (data.status_code != 0) {
+        if (data.status_code == '11008') {
+    // if (res.statusText !== 'ok') {
+    //     if (data.status_code === '11008') {
 
         }
         else {
@@ -60,10 +65,31 @@ const instance = axios.create({
     timeout: 50000
 });
 
+function setToken(params:any) {
+    
+}
+
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
+<<<<<<< HEAD
     let token = Cookies.getJSON('token');
     instance.defaults.params = Object.assign({}, instance.defaults.params, token);
     instance.defaults.data = Object.assign({}, instance.defaults.data, token);
+=======
+    // let token = {
+    //     token: '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9'
+    // } ;
+    //let token = {}
+    
+
+    instance.interceptors.request.use(function (config:any) {
+        let token = Cookies.getJSON('token');
+        config.params['token'] = token;
+        config.data['token'] = token;
+        console.log(config, 1212);
+        console.log(instance.defaults.params,123);
+        return config;
+    });
+>>>>>>> 8b4d4c745689b07c6075ce6f3907e99a033de7db
 
     instance.interceptors.response.use(checkStatus);
     instance.interceptors.response.use(handelData);

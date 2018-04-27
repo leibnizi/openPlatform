@@ -2,6 +2,7 @@ import axios, {AxiosInstance, AxiosPromise} from 'axios';
 import * as Cookies from 'js-cookie';
 import { message, Modal } from 'antd';
 
+var is_message_show = true;
 /**
  * heck 请求状态
  * @param res
@@ -9,16 +10,23 @@ import { message, Modal } from 'antd';
  */
 
 function checkStatus(res: any) {
-    if (res.status_code == 0) {
-        return res
-    }else {
-        if(res.status_code == 210 || res.status_code == 202){
-            warning();
+    if(res.status == 200){
+        if (res.data.status_code == 0) {
+            return res
         }else {
-            console.log(res);
-            message.error(res.data.msg || '失败',1);
+            if(res.data.status_code == 210 || res.data.status_code == 202){
+                warning();
+                return false;
+            }else if(is_message_show){
+                console.log(res);
+                message.error(res.data.msg || '失败',1);
+                is_message_show = false;
+            }
+            return res
         }
-        return res
+    }else {
+        error();
+        return false;
     }
 }
 
@@ -55,6 +63,20 @@ function warning() {
     Modal.warning({
         title: '警告',
         content: '登录超时，请重新登录!',
+        okText:'确定',
+        onOk() {
+            window.location.href =  window.location.origin+ "/login";
+        },
+    });
+}
+
+/**
+ * 网络错误
+ */
+function error() {
+    Modal.error({
+        title: '错误',
+        content: '网络错误返回登录，请联系系统人员',
         okText:'确定',
         onOk() {
             window.location.href =  window.location.origin+ "/login";

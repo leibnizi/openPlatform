@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { TimePicker, Table, Button } from 'antd'
-import { httpGet } from '../../../services/httpRequest'
 import './detail.less'
+import request from '../../../services/httpRequest'
 
 class Detail extends React.Component<any, any> {
 
@@ -22,9 +22,9 @@ class Detail extends React.Component<any, any> {
     const token = this.props.state.userInfo.token
     let tableData: any[] = []
 
-    httpGet(`/api/financial/info_list?token=${token}&begin=${startTime}&end=${endTime}&id=${formNum}`)
+    request(`/api/financial/info_list?token=${token}&begin=${startTime}&end=${endTime}&id=${formNum}`)
       .then((Detail: any) => {
-        Detail.data.data.map((item: any, index: number) =>
+        Detail.data.map((item: any, index: number) =>
           tableData.push({
             amount: item.amount,
             month: item.month,

@@ -22,11 +22,7 @@ class Overview extends React.Component<any, {}> {
 
   applywithdraw = (money: any) => {
     const token = this.props.state.userInfo.token
-<<<<<<< HEAD
     request.post(`/api/financial/apply`, { balance_available: 1 })
-=======
-    request.post(`/api/financial/apply?token=${token}`, { balance_available: 1 })
->>>>>>> master
       .then()
   }
 
@@ -41,21 +37,21 @@ class Overview extends React.Component<any, {}> {
             {
               overviewdata ? (
                 Object.keys(overviewdata.data).map((item, index) =>
-                  <p className='overviewitem' key={index}> 
+                  <p className='overviewitem' key={index}>
                     可提现金额:
                     <span>￥{overviewdata.data[item]}</span>
                   </p>
                 )
               ) : (
                 Array.from({length:3}).map((item, index) =>
-                  <p className='overviewitem' key={index}> 
+                  <p className='overviewitem' key={index}>
                     可提现金额:
                     <span>￥</span>
                   </p>
                 )
               )
             }
-            
+
           </div>
 
           <button onClick={() => this.applywithdraw("money")}>申请提现</button>

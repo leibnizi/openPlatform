@@ -129,11 +129,7 @@ const instance = axios.create({
 });
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
-<<<<<<< HEAD
-    let token = Cookies.getJSON('access_token');
-=======
     let token = Cookies.getJSON('token');
->>>>>>> master
     instance.defaults.params = Object.assign({}, instance.defaults.params, token);
     instance.defaults.data = Object.assign({}, instance.defaults.data, token);
 

@@ -42,9 +42,14 @@ class Infos extends React.Component<any, {}> {
   render() {
     const {
       businessInfos: {
-        biz_name, brand, website, biz_intro, merchant_state, category_id, biz_type, audited_at, profit_level_original
+        biz_name, brand, website, biz_intro, merchant_state, category_id, biz_type, audited_at, profit_level_original, categoryText
       }
-    } = this.props
+    } = this.props;
+    let categoryTextHtml = '';
+    categoryText && categoryText.map( item => {
+      categoryTextHtml += item + '&nbsp;&nbsp;&nbsp;&nbsp'
+    })
+
     return (
       <Layout className="bs-info-box">
         <header>
@@ -79,7 +84,7 @@ class Infos extends React.Component<any, {}> {
           </Row>
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">类目：</Col>
-            <Col className="content-title-text">{category_id}</Col>
+            <Col className="content-title-text"><div dangerouslySetInnerHTML={{ __html: categoryTextHtml }}></div></Col>
           </Row>
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">商家类型：</Col>

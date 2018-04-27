@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from 'react-redux'
-// import { fetchUtil } from '../../../services/httpRequest'
 import { Layout, Row, Col, Form, Input, Button, Checkbox, Select } from 'antd';
 import './editInfos.less'
 import { business as businessAction } from '../../../redux/actions/index'
@@ -82,9 +81,16 @@ class EditInfos extends React.Component<any, {}> {
       businessInfos: {
         biz_name, profit_level, brand, website, biz_intro, merchant_state,
         biz_operator, mobile, email, qq, faxes, address, biz_type, category_id,
-        cooperation_term
+        cooperation_term, categoryAll//对象
       }
     } = this.props
+    let categoryAllArr:any = []
+    if (categoryAll) {
+      categoryAllArr = Object.keys(categoryAll).map((item:any, index:number)=> {
+        // debugger
+        return categoryAll[`${item}`]
+      })
+    }
     return (
       <Layout className="bs-info-box">
         <header>
@@ -185,10 +191,11 @@ class EditInfos extends React.Component<any, {}> {
                   })(
                     <Checkbox.Group style={{ width: '100%', marginTop: '10px' }}>
                       <Row>
-                        <Col span={3}><Checkbox value={1}>女装</Checkbox></Col>
-                        <Col span={3}><Checkbox value={2}>箱包</Checkbox></Col>
-                        <Col span={3}><Checkbox value={3}>配饰</Checkbox></Col>
-                        <Col span={3}><Checkbox value={4}>其他</Checkbox></Col>
+                      {categoryAllArr.map((item, index) => 
+                        <Col span={3} key={index}>
+                          <Checkbox value={index + 1}>{item}</Checkbox>
+                        </Col>
+                        )}
                       </Row>
                     </Checkbox.Group>
                     )}

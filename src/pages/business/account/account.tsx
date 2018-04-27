@@ -82,6 +82,7 @@ class Account extends React.Component<any, any> {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(getAccountInfos())
+    // dispatch(getAroductCategory())
   }
 
   componentWillReceiveProps(nextProps:any) {

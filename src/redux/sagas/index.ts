@@ -109,11 +109,9 @@ export function* getOnlineProduct(action: any) {
 export function* getUserInfos(action: any) {
   try {
     const response = yield call(request.get, '/api/auth/user');
-    console.log(response.data,"hhh")
     yield put({ type: 'GET_USER_INFOS_SUCCESS', data: response.data });
 
   } catch (error) {
-    console.log(error,"llk")
     // yield put(fetchFailure());
   }
 }
@@ -149,10 +147,17 @@ export function* getIndexCharts(action: any) {
 export function* getBsInfos(action:any) {
   try {
     const response = yield call(request.get, "/api/merchant/index");
-    // 将上一步调用fetch得到的结果作为某action的参数dispatch，对应saga的put
+    // 类目的所有 是个数组
+    const categoryAll = yield call(request.get, "/api/config/product-category");
+
+    //选中类目文案数组
+    const categoryText = response.data.category_id.map(item => categoryAll.data[`${item}`])
+
+    response.data.categoryText = categoryText
+    response.data.categoryAll = categoryAll.data
+    // debugger
     yield put({ type: 'GET_BUSINESS_SUCCESS', data: response.data });
   } catch (error) {
-    console.log(error,"LKKKKK")
     // yield put(fetchFailure());
   }
 }
@@ -206,6 +211,7 @@ export function* getBillInfos(action: any) {
 export function* getAccountInfos(action: any) {
   try {
     const response = yield call(request.get, "/api/account/index");
+    
     yield put({ type: 'GET_ACCOUNT_SUCCESS', data: response.data });
   } catch (error) {
     // yield put(fetchFailure());
@@ -216,14 +222,14 @@ export function* postBsInfos(action: any = {}) {
   const value = action.data
   
   try {
-    // const response = yield call(request.post, `/api/merchant/edit?token=${token}`, value)
     const response = yield call(request.post, "/api/merchant/edit", value);
   
-    const { data: { data, msg, status_code } } = response
+    const { data, msg, status_code } = response
     if (data instanceof Array  && data.length === 0 && status_code != 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: msg || '有异常' });
       return false
     }
+
     yield put({ type: 'POST_BUSINESS_SUCCESS', data: data });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
   } catch (error) {
@@ -234,7 +240,6 @@ export function* postBsInfos(action: any = {}) {
 export function* postAccountInfos(action: any = {}) {
   const value  = action.data
   try {
-    // debugger
     const response = yield call(request.post, "/api/account/edit", value);
     if (response.status_code != 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });

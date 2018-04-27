@@ -44,6 +44,15 @@ class EditInfos extends React.Component<any, {}> {
     this.props.history.push('edit_infos')
   }
 
+  validateMail = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && !value.match(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
+      callback('邮箱格式有误！');
+    } else {
+      callback()
+    }
+  }
+
   handleSubmit = (e:any) => {
     const { dispatch } = this.props
     
@@ -269,7 +278,13 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('biz_email', {
                     initialValue: `${email}`,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [
+                      { required: true, message: 'Please input your username!' },
+                      { 
+                        validator: this.validateMail,
+                        message: '邮箱格式有问题'
+                      }
+                    ],
                   })(
                     <Input placeholder="请输入邮箱" />
                     )}

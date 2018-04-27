@@ -85,6 +85,7 @@ class Register extends React.Component {
     callback();
   }
 
+  //昵称
   validateNickName = (rule, value, callback) => {
     const form = this.props.form;
     if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9_]{6,16}$')) {

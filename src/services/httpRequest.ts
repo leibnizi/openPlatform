@@ -131,10 +131,10 @@ const instance = axios.create({
 });
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
-    // let token = Cookies.getJSON('token');
-    let token = {
-        token: '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9'
-    } ;
+    let token = Cookies.getJSON('token');
+    // let token = {
+    //     token: '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9'
+    // } ;
     instance.defaults.params = Object.assign({}, instance.defaults.params, token);
     instance.defaults.data = Object.assign({}, instance.defaults.data, token);
 

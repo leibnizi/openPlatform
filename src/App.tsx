@@ -38,7 +38,7 @@ class RegisterRoute extends React.Component {
       <div className='app'>
         <header className='header'>
           <div className="top">
-            1
+
           </div>
           <div className='header-box'>
             <div className='logo'>
@@ -72,7 +72,7 @@ class PassWordRoute extends React.Component {
       <div className='app'>
         <header className='header'>
           <div className="top">
-            1
+            
           </div>
           <div className='header-box'>
             <div className='logo'>

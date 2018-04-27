@@ -38,7 +38,11 @@ class Register extends React.Component {
 
   gotoStep = (e, tabIndex) => {
     e.preventDefault()
-    this.setState({ tabIndex })
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (tabIndex === 0 || !err) {
+        this.setState({ tabIndex })
+      }
+    })
   }
 
   handleChange = (fileList) => this.setState({ fileList: fileList.fileList })
@@ -60,7 +64,7 @@ class Register extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
       }
-    });
+    })
   }
 
   handleConfirmBlur = (e) => {
@@ -200,7 +204,7 @@ class Register extends React.Component {
                 </header>
                 <hr />
                 {
-                  tabIndex === 0 ? (
+                  tabIndex === 1 ? (
                     <Form onSubmit={(e) => this.gotoStep(e, 1)}>
                       <FormItem
                         {...formItemLayout2}
@@ -250,7 +254,14 @@ class Register extends React.Component {
                         <Row gutter={8}>
                           <Col span={15}>
                             {getFieldDecorator('captcha', {
-                              rules: [{ required: true, message: 'Please input the captcha you got!' }],
+                              rules: [
+                                {
+                                  required: true, message: '验证码4位数'
+                                },
+                                {
+                                  len: 4
+                                }
+                              ],
                             })(
                               <Input />
                             )}
@@ -299,7 +310,7 @@ class Register extends React.Component {
                         <Button type="primary" htmlType="submit">下一步</Button>
                       </FormItem>
                     </Form>
-                  ) : tabIndex === 1 ? (
+                  ) : tabIndex === 0 ? (
                     <RegisterNext
                       gotoStep={(e, num) => this.gotoStep(e, num)}
                     />

@@ -139,12 +139,12 @@ class Account extends React.Component<any, any> {
         </Row>
         <Row className="edit_btn">
           <Col span={5}>
-            <Button onClick={() => this.showEditFun()}>
+            <Button type="primary" onClick={() => this.showEditFun()}>
               修改账户信息
             </Button>
           </Col>
           <Col span={5}>
-            <Button onClick={() => this.showChangePassWord()}>
+            <Button type="primary" onClick={() => this.showChangePassWord()}>
               修改密码
             </Button>
           </Col>
@@ -226,6 +226,7 @@ class Account extends React.Component<any, any> {
           visible={showAccountModal}
           confirmLoading={confirmLoading}
           bodyStyle={{ height: 'auto' }}
+          onCancel={() => this.handleCancel()}
           footer={null}
           destroyOnClose={true}
         >

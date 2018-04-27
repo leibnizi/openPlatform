@@ -97,6 +97,18 @@ class Account extends React.Component<any, any> {
     const { confirmLoading } = this.state
     const { accountInfos, showPasswordModal, showAccountModal, accountInfos: { address, email, mobile, name } } = this.props
     const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: {
+        // xs: { span: 24 },
+        lg: { span: 4 },
+        md: { span: 4 },
+      },
+      wrapperCol: {
+        // xs: { span: 24 },
+        lg: { span: 20 },
+        md: { span: 20 },
+      },
+    };
     // getFieldsError, getFieldError, isFieldTouched
 
     return (
@@ -162,26 +174,31 @@ class Account extends React.Component<any, any> {
         >
           <Form
             onSubmit={this.saveAccountPasswordFun}
+            // layout="inline"
           >
             <FormItem
-               label="原始密码"
+              label="原始密码"
               className="modal-form-item"
+              {...formItemLayout}
             >
               {getFieldDecorator('old_password', {
-                rules: [{ required: true, message: '请输入原始密码!' }],
+                rules: [
+                  { required: true, message: '请输入原始密码!' },
+                  { min: 6, message: '密码长度不足6位' }
+                ],
                 validateTrigger: 'onSubmit'
               })(
                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入密码" />
               )}
             </FormItem>
             <FormItem
-               label="新密码"
+              label="新密码"
               className="modal-form-item"
+              {...formItemLayout}
             >
               {getFieldDecorator('password', {
                 rules: [
                   { required: true, message: '请输入新密码!' },
-                  // { validator: this.handleConfirmPassword },
                   { min: 6, message: '密码长度不足6位' }
                 ],
                 validateTrigger: 'onSubmit'
@@ -195,6 +212,7 @@ class Account extends React.Component<any, any> {
             </FormItem>
             <FormItem
               label="确认密码"
+              {...formItemLayout}
               className="modal-form-item"
             >
               {getFieldDecorator('password_confirmation', {

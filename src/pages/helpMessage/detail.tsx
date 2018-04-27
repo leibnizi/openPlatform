@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { httpGet } from '../../services/httpRequest'
+import request from '../../services/httpRequest'
 // import { TimePicker, Table, Button } from 'antd'
 import './index.less'
 
@@ -16,7 +16,7 @@ class HelpDetail extends React.Component<any, any> {
   componentDidMount() {
     const token = this.props.state.userInfo.token
     const { pathname } = this.props.location
-    httpGet(`/api/message/detail/${pathname.split('/').slice(-1)[0]}?token=${token}`)
+    request(`/api/message/detail/${pathname.split('/').slice(-1)[0]}?token=${token}`)
       .then(res => this.setState({ dataList: res.data.data }))
   }
 

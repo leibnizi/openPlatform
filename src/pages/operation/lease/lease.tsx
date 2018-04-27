@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Table, TimePicker } from 'antd'
 import './lease.less'
 import { getFormatDate } from '../../../helper/utils'
+import request from '../../../services/httpRequest'
 
 class Lease extends React.Component<any, any> {
   constructor(props: Object) {
@@ -32,21 +33,16 @@ class Lease extends React.Component<any, any> {
 
   productDetail = (id: any) => {
     const token = this.props.state.userInfo.token
-    fetch(`/api/order/detail/${id}?token=${token}`)
-      .then(res => res.json())
+    request(`/api/order/detail/${id}?token=${token}`)
       .then(res => {
         console.log('res',res)
-        if (res.status_code === 0) {
+        if (res.data.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
-            // item.purchaser_product_no = res.data.purchaser_product_no
-            // item.value = res.data.specification_option_inner[index].specification_size.value
             item.split_order_no = res.data.split_order_no
             item.m_order_no = res.data.order_split.m_order_no
-            // item.sale_discount_price = res.data.sale_discount_price
             item.image_url = res.data.image_url
             item.key = index
-            // item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
           })
           this.setState({
             productDetailData,
@@ -71,8 +67,7 @@ class Lease extends React.Component<any, any> {
                 &split_order_no=${split_order_no}&status=${status}
                 &order_time[]=${startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}
                 &order_time[]=${endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''}`
-    fetch(url)
-      .then(res => res.json())
+    request(url)
       .then((res) => {
         const listData = res.data.data
         listData.map((item: any, index: number) => {

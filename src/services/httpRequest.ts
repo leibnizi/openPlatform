@@ -2,7 +2,6 @@ import axios, {AxiosInstance, AxiosPromise} from 'axios';
 import * as Cookies from 'js-cookie';
 import { message, Modal } from 'antd';
 
-
 /**
  * heck 请求状态
  * @param res

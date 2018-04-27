@@ -36,7 +36,11 @@ class Product extends React.Component<any, any> {
 
   productDetail = (id: any) => {
     const token = this.props.state.userInfo.token
-    request(`/api/product/detail/${id}?token=${token}`)
+    request('/api/product/detail', {
+      params: {
+        id
+      }
+    })
       .then(res => {
         if (res.data.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
@@ -69,22 +73,30 @@ class Product extends React.Component<any, any> {
       purchaser_product_no
     } = this.state
     const token = this.props.state.userInfo.token
-    const url = `/api/product/list?perPage=${20}&token=${token}&category_id=${goodCategory}&spu_enabled=${SPU}
-                &mode_id=${goodMode}&enabled=${goodStatus}&code=${code}&name=${name}
-                &purchaser_product_no=${purchaser_product_no}&page=${nextPage}`
-    request(url)
+    request('/api/product/list', {
+      params: {
+        category_id: goodCategory,
+        spu_enabled: SPU,
+        mode_id: goodMode,
+        enabled: goodStatus,
+        code,
+        name,
+        purchaser_product_no,
+        page: nextPage
+      }
+    })
       .then((res) => {
         const data = res.data.data
         data.map((item: any, index: number) => {
           Object.assign(item, { key: index })
-          item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'          
+          item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
         })
         this.setState({
           listData: data,
           pageTotal: res.data.total
         })
       })
-      .catch(err=>console.log('err',err))
+      .catch(err => console.log('err', err))
   }
 
   queryData = () => {

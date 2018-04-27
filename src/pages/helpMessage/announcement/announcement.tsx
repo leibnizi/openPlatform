@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { httpGet } from '../../../services/httpRequest'
+import request from '../../../services/httpRequest'
 // import { TimePicker, Table, Button } from 'antd'
 import './announcement.less'
 
@@ -15,7 +15,7 @@ class Announcement extends React.Component<any, any> {
 
   componentDidMount() {
     const token = this.props.state.userInfo.token
-    httpGet(`/api/message/merchant?token=${token}`)
+    request('/api/message/merchant')
       .then(res => this.setState({ listData: res.data.data }))
   }
 

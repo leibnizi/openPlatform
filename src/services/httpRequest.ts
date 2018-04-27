@@ -76,7 +76,7 @@ function checkStatus(res: any) {
     if (res.statusText == 'OK') {
         return res
     }else {
-        if(res.status_code == 210){
+        if(res.status_code == 210 || res.status_code == 202){
             warning();
         }else {
             console.log(res);

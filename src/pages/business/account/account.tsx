@@ -163,6 +163,7 @@ class Account extends React.Component<any, any> {
             onSubmit={this.saveAccountPasswordFun}
           >
             <FormItem
+               label="原始密码"
               className="modal-form-item"
             >
               {getFieldDecorator('old_password', {
@@ -173,6 +174,7 @@ class Account extends React.Component<any, any> {
               )}
             </FormItem>
             <FormItem
+               label="新密码"
               className="modal-form-item"
             >
               {getFieldDecorator('password', {
@@ -191,6 +193,7 @@ class Account extends React.Component<any, any> {
               )}
             </FormItem>
             <FormItem
+              label="确认密码"
               className="modal-form-item"
             >
               {getFieldDecorator('password_confirmation', {

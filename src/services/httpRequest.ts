@@ -15,8 +15,9 @@ function checkStatus(res: any) {
         if (res.data.status_code == 0) {
             return res
         }else {
-            if(res.data.status_code == 210 || res.data.status_code == 202){
+            if((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show){
                 warning(res.data.msg );
+                is_message_show = false;
                 return false;
             }else if(is_message_show){
                 console.log(res);
@@ -27,6 +28,7 @@ function checkStatus(res: any) {
         }
     }else {
         error();
+        is_message_show = false;
         return false;
     }
 }

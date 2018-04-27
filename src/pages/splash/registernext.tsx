@@ -99,11 +99,11 @@ class RegisterNext extends React.Component<any, any> {
       wrapperCol: {
         xs: {
           span: 24,
-          offset: 0,
+          offset: 18,
         },
         sm: {
           span: 16,
-          offset: 8,
+          offset: 6,
         },
       },
     }
@@ -325,10 +325,8 @@ class RegisterNext extends React.Component<any, any> {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" onClick={e => this.props.gotoStep(e, 0)}>上一步</Button>
-        </FormItem>
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">下一步</Button>
+          <Button className='submitButton' type="primary" onClick={e => this.props.gotoStep(e, 0)}>上一步</Button>
+          <Button className='submitButton' type="primary" htmlType="submit">下一步</Button>
         </FormItem>
       </Form>
     )

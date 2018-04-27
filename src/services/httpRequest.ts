@@ -2,9 +2,15 @@ import axios, {AxiosInstance, AxiosPromise} from 'axios';
 import * as Cookies from 'js-cookie';
 import { message, Modal } from 'antd';
 
-//check 请求状态
+
+/**
+ * heck 请求状态
+ * @param res
+ * @return {any}
+ */
+
 function checkStatus(res: any) {
-    if (res.statusText == 'OK') {
+    if (res.status_code == 0) {
         return res
     }else {
         if(res.status_code == 210 || res.status_code == 202){
@@ -17,7 +23,11 @@ function checkStatus(res: any) {
     }
 }
 
-//异常处理
+/**
+ * 异常处理
+ * @param res
+ * @return {any}
+ */
 function handelData(res: any) {
     const data = res.data
     if (data.status_code != 0) {
@@ -38,7 +48,10 @@ function handelData(res: any) {
 function handleError(error: any) {
     return {success: false}
 }
-//警告弹窗
+
+/**
+ * 警告弹窗
+ */
 function warning() {
     Modal.warning({
         title: '警告',
@@ -50,7 +63,9 @@ function warning() {
     });
 }
 
-//创建axios
+/**
+ * 创建axios
+ */
 const instance = axios.create({
     baseURL: "http://open-erp.test.msparis.com",
     headers: {
@@ -61,9 +76,6 @@ const instance = axios.create({
     timeout: 50000
 });
 
-function setToken(params:any) {
-    
-}
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
     // let token = {

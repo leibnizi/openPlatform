@@ -113,24 +113,19 @@ const instance = axios.create({
 
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
-  // let token = {
-  //     token: '19$$b5fbab2e48ad5a0470ef8a351f9b6aa9'
-  // } ;
-  //let token = {}
+    //let token = {}
+    
 
-  instance.interceptors.request.use(function (config: any) {
-    let token = Cookies.getJSON('token');
-    config.params['token'] = token;
-    config.data['token'] = token;
-    console.log(config, 1212);
-    console.log(instance.defaults.params, 123);
-    return config;
-  });
+    instance.interceptors.request.use(function (config:any) {
+        let token = Cookies.getJSON('token');
+        config.params['token'] = token;
+        config.data['token'] = token;
+        return config;
+    });
 
-  instance.interceptors.response.use(checkStatus);
-  instance.interceptors.response.use(handelData);
-  //instance.interceptors.response.use(handleError);
-  return instance
+    instance.interceptors.response.use(checkStatus);
+    instance.interceptors.response.use(handelData);
+    return instance
 }
 
 //发送请求的方法

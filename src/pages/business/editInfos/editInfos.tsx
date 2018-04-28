@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Layout, Row, Col, Form, Input, Button, Checkbox, Select } from 'antd';
 import './editInfos.less'
 import { business as businessAction } from '../../../redux/actions/index'
+import { validateMail } from '../../../utils'
+
 const { getBusinessInfos, editBusinessInfos } = businessAction
 const Option = Select.Option;
 
@@ -44,14 +46,14 @@ class EditInfos extends React.Component<any, {}> {
     this.props.history.push('edit_infos')
   }
 
-  validateMail = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && !value.match(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
-      callback('邮箱格式有误！');
-    } else {
-      callback()
-    }
-  }
+  // validateMail = (rule, value, callback) => {
+  //   const form = this.props.form;
+  //   if (value && !value.match(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
+  //     callback('邮箱格式有误！');
+  //   } else {
+  //     callback()
+  //   }
+  // }
 
   handleSubmit = (e:any) => {
     const { dispatch } = this.props
@@ -145,7 +147,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('brand', {
                     initialValue: `${brand}`,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: false}],
                   })(
                     <Input placeholder="主营品牌" />
                     )}
@@ -160,7 +162,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('biz_intro', {
                     initialValue: `${biz_intro}`,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: false, message: '' }],
                   })(
                     <TextArea rows={4} placeholder="供应商简介" />
                     )}
@@ -175,7 +177,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('website', {
                     initialValue: `${website}`,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: false, message: '' }],
                   })(
                     <Input placeholder="请输入官网地址" />
                     )}
@@ -196,7 +198,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('category_id', {
                     initialValue: category_id,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: true, message: '请选择了类目！' }],
                   })(
                     <Checkbox.Group style={{ width: '100%', marginTop: '10px' }}>
                       <Row>
@@ -219,7 +221,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('biz_operator', {
                     initialValue: biz_operator,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: true, message: '请输入运营人员!' }],
                   })(
                     // <Select style={{ width: 120 }}>
                     //   <Option value={1}>品牌方</Option>
@@ -263,7 +265,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('biz_mobile', {
                     initialValue: `${mobile}`,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: true, message: '请输入联系电话！' }],
                   })(
                     <Input placeholder="请输入联系电话" />
                     )}
@@ -279,10 +281,10 @@ class EditInfos extends React.Component<any, {}> {
                   {getFieldDecorator('biz_email', {
                     initialValue: `${email}`,
                     rules: [
-                      { required: true, message: 'Please input your username!' },
+                      { required: false, message: 'Please input your username!' },
                       { 
-                        validator: this.validateMail,
-                        message: '邮箱格式有问题'
+                        validator: validateMail,
+                        message: '邮箱格式有误！'
                       }
                     ],
                   })(
@@ -299,7 +301,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('qq', {
                     initialValue: `${qq}`,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: false, message: '请输入QQ！' }],
                   })(
                     <Input placeholder="请输入QQ" />
                     )}
@@ -314,7 +316,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('faxes', {
                     initialValue: `${faxes}`,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: false, message: 'Please input your username!' }],
                   })(
                     <Input placeholder="请输入传真" />
                     )}
@@ -325,20 +327,19 @@ class EditInfos extends React.Component<any, {}> {
               <Col>
                 <FormItem
                   {...formItemLayout2}
-                  label="收获地址"
+                  label="收货地址"
                 >
                   {getFieldDecorator('biz_address', {
                     initialValue: `${address}`,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: true, message: '请输入收获地址' }],
                   })(
                     <Input placeholder="请输入收货地址" />
                     )}
                 </FormItem>
               </Col>
             </Row>
-            <Row className="btn-box">
+            <Row>
               <Col span={3} className="text-right">
-                {/* <Button onClick={() => this.affirm()}>确认修改</Button> */}
                 <Button type="primary" htmlType="submit">确认修改</Button>
               </Col>
             </Row>

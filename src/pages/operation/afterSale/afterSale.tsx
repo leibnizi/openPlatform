@@ -1,9 +1,12 @@
 import * as React from 'react'
 import { connect } from 'react-redux';
-import { Table, TimePicker } from 'antd'
+import { Table, DatePicker } from 'antd'
 import './afterSale.less'
 import { getFormatDate } from '../../../helper/utils'
 import request from '../../../services/httpRequest'
+
+const { MonthPicker } = DatePicker
+const monthFormat = 'YYYY/MM'
 
 class AfterSale extends React.Component<any, any> {
   constructor(props: Object) {
@@ -36,7 +39,7 @@ class AfterSale extends React.Component<any, any> {
     const token = this.props.state.userInfo.token
     request('/api/financial/after_sale_list', {
       params: {
-        perPage:20,
+        perPage: 20,
         id,
         product_code,
         supplier_pro_num,
@@ -47,14 +50,16 @@ class AfterSale extends React.Component<any, any> {
       }
     })
       .then((res) => {
-        const listData = res.data.list
-        listData.map((item: any, index: number) => {
-          Object.assign(item, { key: index })
-        })
-        this.setState({
-          listData,
-          pageTotal: res.data.total
-        })
+        if (res) {
+          const listData = res.data.list
+          listData.map((item: any, index: number) => {
+            Object.assign(item, { key: index })
+          })
+          this.setState({
+            listData,
+            pageTotal: res.data.total
+          })
+        }
       })
   }
 
@@ -159,24 +164,24 @@ class AfterSale extends React.Component<any, any> {
           </div>
           <div className='item'>
             <p>开始时间:</p>
-            <TimePicker
+            <MonthPicker 
               className='itemTime'
-              value={begin}
-              onChange={(e: any) => this.setState({ startTime: e })}
+              onChange={(e: any) => this.setState({ startTime: e })} 
+              format={monthFormat} placeholder=''
             />
           </div>
           <div className='item'>
             <p>结束时间:</p>
-            <TimePicker
+            <MonthPicker 
               className='itemTime'
-              value={end}
-              onChange={(e: any) => this.setState({ endTime: e })}
+              onChange={(e: any) => this.setState({ endTime: e })} 
+              format={monthFormat} placeholder=''
             />
           </div>
         </section>
         <section className='productmid'>
           <span
-            onClick={()=>this.queryData()}
+            onClick={() => this.queryData()}
           >
             查询
           </span>

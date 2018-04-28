@@ -1,9 +1,12 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table, TimePicker } from 'antd'
+import { Table, DatePicker } from 'antd'
 import './sale.less'
 import { getFormatDate } from '../../../helper/utils'
 import request from '../../../services/httpRequest'
+
+const { MonthPicker } = DatePicker
+const monthFormat = 'YYYY/MM'
 
 class Sale extends React.Component<any, any> {
   constructor(props: Object) {
@@ -249,16 +252,16 @@ class Sale extends React.Component<any, any> {
             </div>
             <div className='item'>
               <p>下单时间:</p>
-              <TimePicker
+              <MonthPicker
                 className='itemTime'
-                value={startTime}
                 onChange={(e: any) => this.setState({ startTime: e })}
+                format={monthFormat} placeholder=''
               />
-              -
-              <TimePicker
+              -  
+              <MonthPicker
                 className='itemTime'
-                value={endTime}
                 onChange={(e: any) => this.setState({ endTime: e })}
+                format={monthFormat} placeholder=''
               />
             </div>
           </section>

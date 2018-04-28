@@ -1,9 +1,12 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table, TimePicker } from 'antd'
+import { Table, DatePicker } from 'antd'
 import './lease.less'
 import { getFormatDate } from '../../../helper/utils'
 import request from '../../../services/httpRequest'
+
+const { MonthPicker } = DatePicker
+const monthFormat = 'YYYY/MM'
 
 class Lease extends React.Component<any, any> {
   constructor(props: Object) {
@@ -36,8 +39,7 @@ class Lease extends React.Component<any, any> {
     request('/api/order/detail', {
       params: { id }
     })
-      .then((res:any) => {
-        console.log('res', res)
+      .then((res: any) => {
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
@@ -81,15 +83,16 @@ class Lease extends React.Component<any, any> {
       }
     })
       .then((res) => {
-        console.log('res',res)
-        const listData = res.data.data
-        listData.map((item: any, index: number) => {
-          Object.assign(item, { key: index })
-        })
-        this.setState({
-          listData,
-          pageTotal: res.data.total
-        })
+        if (res) {
+          const listData = res.data.data
+          listData.map((item: any, index: number) => {
+            Object.assign(item, { key: index })
+          })
+          this.setState({
+            listData,
+            pageTotal: res.data.total
+          })
+        }
       })
   }
 
@@ -255,16 +258,16 @@ class Lease extends React.Component<any, any> {
             </div>
             <div className='item'>
               <p>下单时间:</p>
-              <TimePicker
+              <MonthPicker
                 className='itemTime'
-                value={startTime}
                 onChange={(e: any) => this.setState({ startTime: e })}
+                format={monthFormat} placeholder=''
               />
-              -
-              <TimePicker
+              -  
+              <MonthPicker
                 className='itemTime'
-                value={endTime}
                 onChange={(e: any) => this.setState({ endTime: e })}
+                format={monthFormat} placeholder=''
               />
             </div>
           </section>

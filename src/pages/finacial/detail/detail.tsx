@@ -1,8 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { TimePicker, Table, Button } from 'antd'
+import { DatePicker, Table, Button } from 'antd'
 import './detail.less'
 import request from '../../../services/httpRequest'
+
+const { MonthPicker } = DatePicker
+const monthFormat = 'YYYY/MM'
 
 class Detail extends React.Component<any, any> {
 
@@ -13,7 +16,6 @@ class Detail extends React.Component<any, any> {
       startTime: '',
       endTime: '',
       tableData: [],
-
     }
   }
 
@@ -97,22 +99,12 @@ class Detail extends React.Component<any, any> {
         align: 'center',
         render: (e: any) => {
           return (
-            <div className='fincialOperating'>
-              <span
-                className='checkDetail'
-                onClick={() => this.download()}
-              >
-                {'下载对账明细'}
-              </span>
-              <span
-                className='checkDetail'
-                onClick={() => {
-                  // this.props.history.push(`/operation/detail/${e}`)
-                }}
-              >
-                {'查看打款回执'}
-              </span>
-            </div>
+            <span
+              className='checkDetail'
+              onClick={() => this.download()}
+            >
+              {'下载对账明细'}
+            </span>
           )
         }
       }
@@ -125,15 +117,9 @@ class Detail extends React.Component<any, any> {
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <label className='formTime'>
             <span className='timeFont'>下单时间：</span>
-            <TimePicker
-              className='timePick'
-              onChange={(e) => this.startTime(e)}
-            />
-            <span className='timeSymbol'>-</span>
-            <TimePicker
-              className='timePick'
-              onChange={(e) => this.endTime(e)}
-            />
+            <MonthPicker onChange={this.startTime} format={monthFormat} placeholder='' />
+            <span className='timeSymbol'> - </span>
+            <MonthPicker onChange={this.endTime} format={monthFormat} placeholder='' />
           </label>
           <label className='formsecond'>
             <span>账单编号:</span>

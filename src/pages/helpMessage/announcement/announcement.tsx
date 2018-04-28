@@ -16,7 +16,12 @@ class Announcement extends React.Component<any, any> {
   componentDidMount() {
     const token = this.props.state.userInfo.token
     request('/api/message/merchant')
-      .then(res => this.setState({ listData: res.data.data }))
+      .then(res => {
+        console.log('res',res.data)
+        if (res) {
+          this.setState({ listData: res.data })
+        }
+      })
   }
 
   render() {

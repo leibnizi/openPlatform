@@ -16,7 +16,11 @@ class Customerservice extends React.Component<any, any> {
   componentDidMount() {
     const token = this.props.state.userInfo.token
     request('/api/message/help')
-      .then(res => this.setState({ dataList: res.data.data }))
+      .then(res => {
+        if (res) {
+          this.setState({ dataList: res.data })
+        }
+      })
   }
 
   render() {
@@ -36,18 +40,18 @@ class Customerservice extends React.Component<any, any> {
         <p className='customerHead'>常见问题</p>
         {
           dataList ? (
-            dataList.article.map((item: any, index: number) => {
+            dataList.faq.map((item: any, index: number) => {
               return (
                 <div className='helpContent' key={index}>
+                  <p className='helpIndex'>{`${index+1}、`}</p>
                   <div
                     className='helpTitle'
                   >
-                    <p onClick={() => {
-                      this.props.history.push(`/help/detail/${item.id}`)
-                    }}>{item.title}</p>
-                    <p>{item.created_at}</p>
+                    <p>
+                      {item.question}
+                    </p>
+                    <p>{item.answer}</p>
                   </div>
-                  <hr />
                 </div>
               )
             })

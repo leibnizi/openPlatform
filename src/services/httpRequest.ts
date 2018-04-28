@@ -75,6 +75,7 @@ function warning(msg) {
         window.location.href = window.location.origin + "/login";
         is_modal_show = true;
         Cookies.remove('name')
+        Cookies.remove('token')
       },
     });
   }

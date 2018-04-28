@@ -55,15 +55,6 @@ class RegisterNext extends React.Component<any, any> {
     }
   }
 
-  validateNickName = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9_]{6,16}$')) {
-      callback('6-16位不包含非法字符串');
-    } else {
-      callback()
-    }
-  }
-
   getCaptcha = () => {
     const form = this.props.form
     const mobile = form.getFieldValue('phone')
@@ -79,12 +70,6 @@ class RegisterNext extends React.Component<any, any> {
       mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileListSupplement,
       fileListSupplement2
     } = this.state
-    const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    )
     const FormItem = Form.Item;
     const Option = Select.Option;
     const AutoCompleteOption = AutoComplete.Option;
@@ -114,14 +99,18 @@ class RegisterNext extends React.Component<any, any> {
       wrapperCol: {
         xs: {
           span: 24,
-          offset: 0,
+          offset: 18,
         },
         sm: {
           span: 16,
-          offset: 8,
+          offset: 6,
         },
       },
     }
+    const upLoadButton = <div>
+      <span className='upload'>上传</span>
+      <p className='uploadfont'>限制XXX像素</p>
+    </div>
 
     return (
 
@@ -133,8 +122,6 @@ class RegisterNext extends React.Component<any, any> {
           {getFieldDecorator('biz_name', {
             rules: [{
               required: true, message: 'Please input your nickname!', whitespace: true, extra: '输入非法字符'
-            }, {
-              validator: this.validateNickName,
             }],
           })(
             <Input />
@@ -304,7 +291,7 @@ class RegisterNext extends React.Component<any, any> {
                 multiple={true}
                 className='uploadImg'
               >
-                {fileListSupplement.length >= 1 ? null : uploadButton}
+                {fileListSupplement.length >= 1 ? null : upLoadButton}
               </Upload>
               <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                 <img alt="example" style={{ width: '100%' }} src={previewImage} />
@@ -329,7 +316,7 @@ class RegisterNext extends React.Component<any, any> {
                 multiple={true}
                 className='uploadImg'
               >
-                {fileListSupplement2.length >= 10 ? null : uploadButton}
+                {fileListSupplement2.length >= 10 ? null : upLoadButton}
               </Upload>
               <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                 <img alt="example" style={{ width: '100%' }} src={previewImage} />
@@ -338,10 +325,8 @@ class RegisterNext extends React.Component<any, any> {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" onClick={e => this.props.gotoStep(e, 0)}>上一步</Button>
-        </FormItem>
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">下一步</Button>
+          <Button className='submitButton' type="primary" onClick={e => this.props.gotoStep(e, 0)}>上一步</Button>
+          <Button className='submitButton' type="primary" htmlType="submit">下一步</Button>
         </FormItem>
       </Form>
     )

@@ -165,7 +165,7 @@ class Home extends Component {
   render() {
     const { moduleGap, dongZuLv, dongXiaoLv, saleOrder, saleIncome } = this.state
     const { 
-        userInfo: { name, created_at, updated_at }, 
+        userInfo: { name, created_at, updated_at, expire_at }, 
         merchantMessage: { article },
         getOnlineProduct: { 
           rent_total, 
@@ -192,21 +192,21 @@ class Home extends Component {
         justify="start"
         align="top"
       >
-        <Col span={8}>
+        <Col span={6}>
           <Card title={`欢迎您：${name}`}  className="card-row" bordered={false}>
             <p>上次登录：{updated_at}</p>
-            <p>到期登录：YYYY年MM月DD日 hh:mm:ss</p>
-            <Row type="flex" justify="space-between">
+            <p>到期登录：{expire_at}</p>
+            <Row className="index-btn-box" type="flex" justify="space-between">
               <Col span={8}>
                 <Button onClick={()=>{this.toBusinessPage()}}>商家信息</Button>
               </Col>
               <Col span={8}>
-                <Button onClick={() => { this.toBillPage() }}>财务总览</Button>
+                <Button type="primary" onClick={() => { this.toBillPage() }}>财务总览</Button>
               </Col>
             </Row>
           </Card>
         </Col>
-        <Col span={8}>
+        <Col span={9}>
           <Card 
             title="汇总" 
             className="card-row explain-left" 
@@ -227,7 +227,7 @@ class Home extends Component {
             </Row>
           </Card>
         </Col>
-        <Col span={8}>
+        <Col span={9}>
             <Card 
               title="公告" 
               extra={

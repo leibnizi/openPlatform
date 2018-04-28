@@ -8,7 +8,7 @@ const NumBlock = ({ title, value = 0, children }) => {
     <div className="box">
       <div className="title">{title}</div>
       <div className="value">{value}</div>
-      <div>{children}</div>
+      <div className="others">{children}</div>
     </div>
   )
 

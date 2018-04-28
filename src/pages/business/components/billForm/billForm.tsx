@@ -32,26 +32,26 @@ export const BillForm:any = Form.create()((props:any) => {
       <FormItem {...formItemLayout} label="开户行">
         {getFieldDecorator('bank', {
           initialValue: `${bank}`,
-          rules: [{ required: true, message: 'Username is required!' }],
+          rules: [{ required: false, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
       <FormItem {...formItemLayout} label="收款账号">
         {getFieldDecorator('account', {
           initialValue: `${account}`,
-          rules: [{ required: true, message: 'Username is required!' }],
+          rules: [{ required: false, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
       <FormItem {...formItemLayout} label="收款人">
         {getFieldDecorator('payee', {
           initialValue: `${payee}`,
-          rules: [{ required: true, message: 'Username is required!' }],
+          rules: [{ required: false, message: 'Username is required!' }],
         })(<Input />)}
       </FormItem>
       {/* <div>{finance_state}</div> */}
       {/* <FormItem {...formItemLayout} label="信息状态">
         {getFieldDecorator('status', {
           initialValue: `${finance_state}`,
-          rules: [{ required: true, message: 'Username is required!' }],
+          rules: [{ required: false, message: 'Username is required!' }],
         })(<div></div>)}
       </FormItem> */}
       

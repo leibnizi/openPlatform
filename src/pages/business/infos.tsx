@@ -42,7 +42,7 @@ class Infos extends React.Component<any, {}> {
   render() {
     const {
       businessInfos: {
-        biz_name, brand, website, biz_intro, merchant_state, category_id, biz_type, audited_at, profit_level_original, categoryText
+        biz_name, brand, website, biz_intro, merchant_state, category_id, biz_type, cooperation_term, profit_level_original, categoryText
       }
     } = this.props;
     let categoryTextHtml = '';
@@ -80,7 +80,7 @@ class Infos extends React.Component<any, {}> {
           <Row type="flex" align="middle" className="row-box">
             <Col span={3} className="content-title-label">商家状态：</Col>
             <Col className="content-title-text">{merchant_state}</Col>
-            <Col offset={1} className="describe">有效期至：{audited_at}</Col>
+            <Col offset={1} className="describe">有效期至：{cooperation_term}</Col>
           </Row>
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">类目：</Col>
@@ -93,7 +93,7 @@ class Infos extends React.Component<any, {}> {
           <Row className="line" />
           {this.renderContentItems()}
           <Row className="edit-msg">
-            <Button onClick={() => this.editMsg()}>修改商家信息</Button>
+            <Button type="primary" onClick={() => this.editMsg()}>修改商家信息</Button>
           </Row>
         </article>
       </Layout>

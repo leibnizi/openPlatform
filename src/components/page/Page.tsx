@@ -1,11 +1,11 @@
 import * as React from "react";
-// import classnames from 'classnames'
-import Loader from '../Loader'
+import { Spin } from 'antd';
+import './page.less'
 
 interface PageProps {
   className?: string;
   children?: any;
-  loading: boolean;
+  pageLoading: boolean;
   inner?: boolean;
 }
 
@@ -16,14 +16,10 @@ export default class Page extends React.Component<PageProps, {}> {
   }
 
   render() {
-    const { children, loading = false } = this.props
-    // const loadingStyle = {
-    //   height: 'calc(100vh - 184px)',
-    //   overflow: 'hidden',
-    // }
+    const { children, pageLoading = false } = this.props
     return (
-      <div>
-        {loading ? <Loader spinning={true} /> : ''}
+      <div className='app'>
+        {pageLoading ? <div className="page-loading"><Spin size="large" /></div>: ''}
         {children}
       </div>
     )

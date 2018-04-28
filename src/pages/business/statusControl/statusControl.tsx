@@ -2,7 +2,7 @@ import * as React from "react";
 import { Tabs, Row, Col, Button, Modal, Upload } from 'antd';
 import { StatusCard } from '../components/statusCard/StatusCard'
 import { connect } from 'react-redux'
-import { EditStatusForm } from './components/EditStatusForm'
+// import { EditStatusForm } from './components/EditStatusForm'
 import './statusControl.less'
 import { handleUploadBase, handleUploadOthers,  business as businessAction } from '../../../redux/actions/index'
 
@@ -44,7 +44,7 @@ class StatusControl extends React.Component<any, any> {
     dispatch(getStatusInfos())
   }
   componentWillReceiveProps(nextProps:{statusInfos:any}){
-    const { statusInfos } = nextProps
+    const { statusInfos, deleteStatusId }: any = nextProps
     console.log(statusInfos,"rrerererer")
     let baseStatus :any[]= []
     let othersStatus:any[] = []
@@ -53,10 +53,11 @@ class StatusControl extends React.Component<any, any> {
         baseStatus.push(statusInfos[i])
         this.baseStatusId = baseStatus[0].id;
       }
-      else if (statusInfos[i].type_id === "补充资质"){
+      else if (statusInfos[i].type_id === "补充资质" && statusInfos[i].id != deleteStatusId ){
         othersStatus.push(statusInfos[i])
       }
     }
+    console.log(othersStatus,"@@@@@@@@@")
     this.setState({
       baseStatus,
       othersStatus
@@ -250,7 +251,7 @@ class StatusControl extends React.Component<any, any> {
                 </Col>
                 <Col span={21} className="tab-content-right">
                 {
-                  this.state.othersStatus.length ? 
+                  this.state.baseStatus.length ? 
                     <Row>
                       <Col>
                         <Upload
@@ -279,17 +280,26 @@ class StatusControl extends React.Component<any, any> {
                   <div className="btn-box">
                   </div>
                 </Col>
-                <Upload
-                  listType="picture-card"
-                  {...props2}
-                >
-                  <Button type="primary">修改补充资质</Button>
-                </Upload>
+                <Col span={21} className="tab-content-right">
+                  {
+                    // this.state.othersStatus.length ? 
+                    <Upload
+                      listType="picture-card"
+                      {...props2}
+                    >
+                      <Button type="primary">修改补充资质</Button>
+                    </Upload> 
+                    // : <div className="no-status">
+                    //     <div className="no-status-content">暂无资质</div>
+                    //   </div>
+                  }
+                </Col>
+                
               </Row>
             </TabPane>
           </Tabs>
         </section>
-        <Modal 
+        {/* <Modal 
           title="Title"
           visible={editStatusVisible}
           onOk={this.handleOk}
@@ -298,16 +308,17 @@ class StatusControl extends React.Component<any, any> {
           footer={null}
         >
           <EditStatusForm />
-        </Modal>
+        </Modal> */}
       </div>
     )
   }
 }
 
-const mapStateToProps: any = ({ statusInfos, userInfo }: any) => {
+const mapStateToProps: any = ({ statusInfos, userInfo, deleteStatusId }: any) => {
   return ({
   statusInfos,
   userInfo,
+  deleteStatusId
 })
 }
 

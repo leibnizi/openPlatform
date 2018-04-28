@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Row, Col, Card, Table } from 'antd'
+import { Button, Row, Col, Card } from 'antd'
 import { indexChartsAct, getOnlineProduct, getUserInfos, getMerchantMessage, getThirtyMessage, getFinancialView } from '../../redux/actions'
 // onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync, 
 // import Page from '../../components/page/Page'
@@ -184,6 +184,7 @@ class Home extends Component {
           income_total
         }
       } = this.props
+      
     return (
     <div className="home-page">
       <Row 

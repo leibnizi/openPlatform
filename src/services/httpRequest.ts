@@ -69,6 +69,7 @@ function warning(msg) {
             content: msg,
             okText:'确定',
             onOk() {
+                Cookies.remove('token');
                 window.location.href =  window.location.origin+ "/login";
                 is_modal_show = true;
             },

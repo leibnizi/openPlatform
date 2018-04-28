@@ -90,6 +90,29 @@ class Detail extends React.Component<any, any> {
         dataIndex: 'moshi',
         key: 'moshi',
         align: 'center',
+        render: (e: any) => {
+          return (
+            <div className='fincialOperating'>
+              <span
+                className='checkDetail'
+                onClick={() => {
+                  // this.props.history.push(`/operation/detail/${e}`)
+                }}
+              >
+                {'下载对账明细'}
+              </span>
+              <span
+                className='checkDetail'
+                onClick={() => {
+                  // this.props.history.push(`/operation/detail/${e}`)
+                }}
+              >
+                {'查看打款回执'}
+              </span>
+            </div>
+
+          )
+        }
       }
     ]
 

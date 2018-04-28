@@ -19,7 +19,7 @@ class Content extends Component {
 
   render() {
     return (
-      <Page>
+      <div className='app'>
         <header className='header'>
           {
             this.props.state.userInfo.name ?
@@ -69,7 +69,7 @@ class Content extends Component {
             })
           }
         </section>
-      </Page>
+      </div>
     )
   }
 }

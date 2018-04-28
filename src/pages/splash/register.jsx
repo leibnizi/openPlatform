@@ -38,7 +38,11 @@ class Register extends React.Component {
 
   gotoStep = (e, tabIndex) => {
     e.preventDefault()
-    this.setState({ tabIndex })
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (tabIndex === 0 || !err) {
+        this.setState({ tabIndex })
+      }
+    })
   }
 
   handleChange = (fileList) => this.setState({ fileList: fileList.fileList })
@@ -60,7 +64,7 @@ class Register extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
       }
-    });
+    })
   }
 
   handleConfirmBlur = (e) => {
@@ -71,9 +75,9 @@ class Register extends React.Component {
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback('Two passwords that you enter is inconsistent!')
     } else {
-      callback();
+      callback()
     }
   }
 
@@ -81,8 +85,11 @@ class Register extends React.Component {
     const form = this.props.form;
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
+      if (!value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
+        callback('6-16位大小写字母或数字');
+      }
     }
-    callback();
+    callback()
   }
 
   //昵称
@@ -198,21 +205,24 @@ class Register extends React.Component {
                 </header>
                 <hr />
                 {
-                  tabIndex === 0 ? (
+                  tabIndex === 1 ? (
                     <Form onSubmit={(e) => this.gotoStep(e, 1)}>
                       <FormItem
-                        {...formItemLayout}
+                        {...formItemLayout2}
                         label="用户名"
                       >
-                        {getFieldDecorator('nickname', {
-                          rules: [{
-                            required: true, message: 'Please input your nickname!', whitespace: true, extra: '输入非法字符'
-                          }, {
-                            validator: this.validateNickName,
-                          }],
-                        })(
-                          <Input />
-                        )}
+                        <Row gutter={8}>
+                          <Col span={15}>
+                            {getFieldDecorator('nickname', {
+                              rules: [{ required: true, message: 'Please input the captcha you got!' }],
+                            })(
+                              <Input />
+                            )}
+                          </Col>
+                          <Col span={8}>
+                            <span className='nickname'>(用户名为6-16个字符，不可使用非法字符串)</span>
+                          </Col>
+                        </Row>
                       </FormItem>
                       <FormItem
                         {...formItemLayout}
@@ -245,7 +255,14 @@ class Register extends React.Component {
                         <Row gutter={8}>
                           <Col span={15}>
                             {getFieldDecorator('captcha', {
-                              rules: [{ required: true, message: 'Please input the captcha you got!' }],
+                              rules: [
+                                {
+                                  required: true, message: '验证码4位数'
+                                },
+                                {
+                                  len: 4
+                                }
+                              ],
                             })(
                               <Input />
                             )}
@@ -256,18 +273,25 @@ class Register extends React.Component {
                         </Row>
                       </FormItem>
                       <FormItem
-                        {...formItemLayout}
+                        {...formItemLayout2}
                         label="密码"
                       >
-                        {getFieldDecorator('password', {
-                          rules: [{
-                            required: true, message: 'Please input your password!',
-                          }, {
-                            validator: this.validateToNextPassword,
-                          }],
-                        })(
-                          <Input type="password" />
-                        )}
+                        <Row gutter={8}>
+                          <Col span={15}>
+                            {getFieldDecorator('password', {
+                              rules: [{
+                                required: true, message: 'Please input the captcha you got!'
+                              }, {
+                                validator: this.validateToNextPassword,
+                              }],
+                            })(
+                              <Input />
+                            )}
+                          </Col>
+                          <Col span={8}>
+                            <span className='nickname'>(密码为6-16个字符，由大小写字母或数字组成)</span>
+                          </Col>
+                        </Row>
                       </FormItem>
                       <FormItem
                         {...formItemLayout}
@@ -287,7 +311,7 @@ class Register extends React.Component {
                         <Button type="primary" htmlType="submit">下一步</Button>
                       </FormItem>
                     </Form>
-                  ) : tabIndex === 1 ? (
+                  ) : tabIndex === 0 ? (
                     <RegisterNext
                       gotoStep={(e, num) => this.gotoStep(e, num)}
                     />

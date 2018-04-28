@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Row, Col } from 'antd'
 import { onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync } from '../redux/actions'
 import { fetchUtil } from '../service/api'
-import Page from '../components/page/Page'
+import Page from '../components/page/page'
 
 
 class Home extends Component {

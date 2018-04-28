@@ -187,7 +187,7 @@ class EditInfos extends React.Component<any, {}> {
             <Row type="flex" align="middle" className="row-box">
               <Col span={3} className="cotent-title">商家状态：</Col>
               <Col span={2}>{merchant_state}</Col>
-              <Col span={2}><Button>续约</Button></Col>
+              {/* <Col span={2}><Button>续约</Button></Col> */}
               <Col className="describe" span={14}>有效期至：{cooperation_term}</Col>
             </Row>
             <Row className="form-row">

@@ -5,6 +5,7 @@ import { Route } from 'react-router'
 import routes from './routes'
 import { OldMenuLink } from './App'
 import { httpGet } from '../src/services/httpRequest'
+import Page from './components/page/page'
 
 class Content extends Component {
 
@@ -14,7 +15,7 @@ class Content extends Component {
 
   render() {
     return (
-      <div className='app'>
+      <Page>
         <header className='header'>
           {
             this.props.state.userInfo.name ?
@@ -64,7 +65,7 @@ class Content extends Component {
             })
           }
         </section>
-      </div>
+      </Page>
     )
   }
 }

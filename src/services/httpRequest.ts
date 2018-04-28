@@ -66,19 +66,18 @@ function handleError(error: any) {
  * 警告弹窗
  */
 function warning(msg) {
-  if (is_modal_show) {
-    Modal.warning({
-      title: '警告',
-      content: msg,
-      okText: '确定',
-      onOk() {
-        window.location.href = window.location.origin + "/login";
-        is_modal_show = true;
-        Cookies.remove('name')
-        Cookies.remove('token')
-      },
-    });
-  }
+    if(is_modal_show){
+        Modal.warning({
+            title: '警告',
+            content: msg,
+            okText:'确定',
+            onOk() {
+                Cookies.remove('token');
+                window.location.href =  window.location.origin+ "/login";
+                is_modal_show = true;
+            },
+        });
+    }
 }
 
 /**

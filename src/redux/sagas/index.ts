@@ -193,7 +193,9 @@ export function* deleteStatus(action: any) {
         id
       }
     });
+    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data[0] });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg });
+    // yield put({ type: "GET_STATUS_INFO" })
   } catch (error) {
     // yield put(fetchFailure());
   }

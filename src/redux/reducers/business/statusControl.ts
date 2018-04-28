@@ -17,9 +17,10 @@ const statusInfos = (state: any = [], action: any) => {
 //   }
 // }
 
-const deleteStatus = (state: any = {}, action: any) => {
+const deleteStatusId = (state: string = "", action: any) => {
   switch (action.type) {
     case 'DEIETE_STATUS_SUCCESS':
+      return action.data
     default:
       return state
   }
@@ -27,5 +28,5 @@ const deleteStatus = (state: any = {}, action: any) => {
 
 export default {
   statusInfos,
-  deleteStatus,
+  deleteStatusId,
 }

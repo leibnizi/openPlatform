@@ -9,6 +9,7 @@ import Forgetpassword from './pages/splash/forgetpassword'
 import store from './redux/store/store';
 import Content from './content'
 import './styles/App.less';
+
 // import axios from 'axios';
 
 interface OldMenuLinkType {

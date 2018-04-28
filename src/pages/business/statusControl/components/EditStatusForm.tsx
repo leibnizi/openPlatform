@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Form, Input, Button } from 'antd';
+import { validateUsername, validateMobile } from '../../../../utils'
 const FormItem = Form.Item;
 
 export const EditStatusForm: any = Form.create()((props: any) => {
@@ -30,27 +31,27 @@ export const EditStatusForm: any = Form.create()((props: any) => {
       <FormItem {...formItemLayout} label="用户名">
         {getFieldDecorator('name', {
           initialValue: `${name}`,
-          rules: [{ required: true, message: 'Username is required!' }],
+          rules: [
+            { required: true, message: '请输入用户名！' },
+            {
+              validator: validateUsername,
+              message: '用户名格式有误！'
+            }
+          ],
         })(<Input />)}
       </FormItem>
       <FormItem {...formItemLayout} label="手机号">
         {getFieldDecorator('mobile', {
           initialValue: `${mobile}`,
-          rules: [{ required: true, message: 'Username is required!' }],
+          rules: [
+            { required: true, message: '请输入手机号！' },
+            {
+              validator: validateMobile,
+              message: '手机号码格式有误！'
+            }
+          ],
         })(<Input />)}
       </FormItem>
-      {/* <FormItem {...formItemLayout} label="邮箱">
-        {getFieldDecorator('email', {
-          initialValue: `${email}`,
-          rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
-      </FormItem>
-      <FormItem {...formItemLayout} label="地址">
-        {getFieldDecorator('address', {
-          initialValue: `${address}`,
-          rules: [{ required: true, message: 'Username is required!' }],
-        })(<Input />)}
-      </FormItem> */}
       <Button htmlType="submit">
         保存
       </Button>

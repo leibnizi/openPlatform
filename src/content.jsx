@@ -4,12 +4,7 @@ import Immutable from 'immutable'
 import { Route } from 'react-router'
 import routes from './routes'
 import { OldMenuLink } from './App'
-<<<<<<< HEAD
-import { httpGet } from '../src/services/httpRequest'
-import Page from './components/page/page'
-=======
 import { easyRequest } from '../src/services/httpRequest'
->>>>>>> initrouter
 
 class Content extends Component {
 

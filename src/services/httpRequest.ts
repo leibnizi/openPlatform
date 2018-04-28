@@ -24,7 +24,7 @@ function checkStatus(res: any) {
                 message.error(res.data.msg || '失败',1);
                 is_message_show = false;
             }
-            return res
+            //return res
         }
     }else {
         error();

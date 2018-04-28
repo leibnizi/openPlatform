@@ -36,14 +36,17 @@ class Lease extends React.Component<any, any> {
     request('/api/order/detail', {
       params: { id }
     })
-      .then(res => {
+      .then((res:any) => {
         console.log('res', res)
-        if (res.data.status_code === 0) {
+        if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
             item.split_order_no = res.data.split_order_no
-            item.m_order_no = res.data.order_split.m_order_no
+            item.rental_cycle = res.data.rental_cycle
             item.image_url = res.data.image_url
+            item.code = res.data.product_master.code
+            item.name = res.data.product_master.name
+            item.rental_price = res.data.product_master.rental_price
             item.key = index
           })
           this.setState({
@@ -78,6 +81,7 @@ class Lease extends React.Component<any, any> {
       }
     })
       .then((res) => {
+        console.log('res',res)
         const listData = res.data.data
         listData.map((item: any, index: number) => {
           Object.assign(item, { key: index })
@@ -131,8 +135,8 @@ class Lease extends React.Component<any, any> {
         }
       }, {
         title: '订单状态',
-        dataIndex: 'enabled',
-        key: 'enabled',
+        dataIndex: 'status',
+        key: 'status',
         align: 'center',
       }, {
         title: '下单时间',
@@ -198,13 +202,13 @@ class Lease extends React.Component<any, any> {
 
       }, {
         title: '租赁价(天)',
-        dataIndex: 'enabled',
-        key: 'enabled',
+        dataIndex: 'rental_price',
+        key: 'rental_price',
         align: 'center',
       }, {
         title: '租赁周期',
-        dataIndex: 'created_at',
-        key: 'created_at',
+        dataIndex: 'rental_cycle',
+        key: 'rental_cycle',
         align: 'center',
       }
     ]

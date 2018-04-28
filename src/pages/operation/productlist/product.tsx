@@ -27,10 +27,10 @@ class Product extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    this.queryData()
-    // this.props.dispatch(GET_POSTS({a:1}))
     if (!isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
+    } else {
+      this.queryData()
     }
   }
 
@@ -41,15 +41,12 @@ class Product extends React.Component<any, any> {
         id
       }
     })
-      .then(res => {
-        if (res.data.status_code === 0) {
+      .then((res:any) => {
+        if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
             item.purchaser_product_no = res.data.purchaser_product_no
             item.value = res.data.specification_option_inner[index].specification_size.value
-            item.sale_market_price = res.data.sale_market_price
-            item.rental_price = res.data.rental_price
-            item.sale_discount_price = res.data.sale_discount_price
             item.key = index
             item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
           })

@@ -40,15 +40,17 @@ function checkStatus(res: any) {
  */
 function handelData(res: any) {
     const data = res.data
-    if (data.status_code != 0) {
-        if (data.status_code == '11008') {
-    // if (res.statusText !== 'ok') {
-    //     if (data.status_code === '11008') {
-
-        }
-        else {
-            return data
-        }
+    if (res.status_code != 0) {
+    //     if (data.status_code == '11008') {
+    // // if (res.statusText !== 'ok') {
+    // //     if (data.status_code === '11008') {
+          
+    //     }
+    //     else {
+    //         return data
+    //     }
+      // message.error(res.msg)
+      return data
     }
     else {
         return data
@@ -71,6 +73,7 @@ function warning(msg) {
             onOk() {
                 window.location.href =  window.location.origin+ "/login";
                 is_modal_show = true;
+                Cookies.remove('token')
             },
         });
     }
@@ -113,7 +116,6 @@ const enhanceAxiosInstance = (instance: AxiosInstance) => {
     // } ;
     //let token = {}
     
-
     instance.interceptors.request.use(function (config:any) {
         let token = Cookies.getJSON('token');
         config.params['token'] = token;

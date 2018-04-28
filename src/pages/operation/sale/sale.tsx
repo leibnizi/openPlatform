@@ -36,14 +36,15 @@ class Sale extends React.Component<any, any> {
     request('/api/order/detail', {
       params: { id }
     })
-      .then(res => {
-        if (res.data.status_code === 0) {
+      .then((res:any) => {
+        if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
-            item.supply_price = res.data.product_master.supply_price
+            item.supply_price = res.data.supply_price
             item.name = res.data.product_master.name
             item.code = res.data.product_master.code
             item.image_url = res.data.image_url
+            item.specification_name = `${item.specification_name}/${item.option_name.value}`
             item.key = index
           })
           this.setState({
@@ -142,8 +143,8 @@ class Sale extends React.Component<any, any> {
         align: 'center',
       }, {
         title: '下单时间',
-        dataIndex: 'delivery_date',
-        key: 'delivery_date',
+        dataIndex: 'created_at',
+        key: 'created_at',
         align: 'center',
       }, {
         title: '操作',

@@ -111,7 +111,7 @@ class AfterSale extends React.Component<any, any> {
         align: 'center',
       }, {
         title: '创建时间',
-        dataIndex: 'updated_at',
+        dataIndex: 'erp_after_no_created_at',
         align: 'center',
       },
     ];

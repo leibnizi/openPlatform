@@ -39,6 +39,24 @@
       margin: 80px auto;
       width: 700px;
       background-color: #fff;
+      .ant-upload.ant-upload-select-picture-card {
+        border: none;
+        background-color: #fff;
+        // border-color: #dd748e;
+        width: auto;
+        height: auto;
+        .upload {
+          padding: 8px 25px;
+          background-color: #dd748e;
+          color: #fff;
+          border: none;
+          width: 70px;
+          border-radius: 4px;
+        }
+        .uploadfont {
+          margin: 30px 0 10px 0px;
+        }
+      }
       .uploadFile {
         height: 220px;
         display: flex;
@@ -94,11 +112,6 @@
             padding: 5px 15px;
             margin-top: 60px;
           }
-        }
-        input {
-          height: 30px;
-          width: 350px;
-          margin-left: 20px;
         }
         ::-webkit-input-placeholder {
           color: #adb9c4;
@@ -167,6 +180,11 @@
           margin: 0 60px;
         }
       }
+      .nickname {
+        color: #c4c4c4;
+        position: absolute;
+        width: 300px;
+      }
     }
     .registerSuccess {
       display: flex;
@@ -189,4 +207,7 @@
       }
     }
   }
+}
+.submitButton {
+  margin: 0 50px;
 }

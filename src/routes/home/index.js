@@ -183,7 +183,8 @@ class Home extends Component {
           balance_total,
           income_total
         }
-      } = this.props
+      } = this.props;
+
     return (
     <div className="home-page">
       <Row 
@@ -238,9 +239,11 @@ class Home extends Component {
               bordered={false}
             >
             <Row className="notice card-content-margin" gutter={10} type="flex" justify="space-between">
+
               <div className="ellipsis notice-item-title">{article[0].title}</div>
               <div className="ellipsis notice-item-title">{article[1].title}</div>
               <div className="ellipsis notice-item-title">{article[2].title}</div>
+
             </Row>
             <Row className="more-notice">
             </Row>

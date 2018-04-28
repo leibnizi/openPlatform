@@ -15,7 +15,7 @@ function checkStatus(res: any) {
         if (res.data.status_code == 0) {
             return res
         }else {
-            if((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show){
+            if((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show && (res.config.url && res.config.url.indexOf('login') == -1)){
                 warning(res.data.msg );
                 is_message_show = false;
                 return false;
@@ -23,8 +23,10 @@ function checkStatus(res: any) {
                 console.log(res);
                 message.error(res.data.msg || '失败',1);
                 is_message_show = false;
+
+                return res
             }
-            //return res
+
         }
     }else {
         error();

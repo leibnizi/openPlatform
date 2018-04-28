@@ -4,12 +4,17 @@ import Immutable from 'immutable'
 import { Route } from 'react-router'
 import routes from './routes'
 import { OldMenuLink } from './App'
-import { httpGet } from '../src/services/httpRequest'
+import { easyRequest } from '../src/services/httpRequest'
 
 class Content extends Component {
 
   logOut = () => {
-    // httpGet(`/api/logout?token${}`)
+    easyRequest('/api/logout')
+      .then(res => {
+        if (res && res.status_code === 0) {
+          window.location.href = window.location.origin + "/login"
+        }
+      })
   }
 
   render() {
@@ -18,14 +23,14 @@ class Content extends Component {
         <header className='header'>
           {
             this.props.state.userInfo.name ?
-            <div className="top">
-              {this.props.state.userInfo.name}
-              <span>|</span>
-              {this.props.state.userInfo.biz_name}
-              <span>|</span>
-              <span onClick={() => this.logOut()}>安全退出</span>
-            </div> : 
-            <div className="top"></div> 
+              <div className="top">
+                {this.props.state.userInfo.name}
+                <span>|</span>
+                {this.props.state.userInfo.biz_name}
+                <span>|</span>
+                <span onClick={() => this.logOut()}>安全退出</span>
+              </div> :
+              <div className="top"></div>
           }
 
           <div className='header-box'>

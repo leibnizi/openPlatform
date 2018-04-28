@@ -27,7 +27,7 @@ function checkStatus(res: any) {
       return res
     }
   } else {
-    
+
     error();
     is_message_show = false;
     return false;
@@ -72,7 +72,7 @@ function warning(msg) {
       content: msg,
       okText: '确定',
       onOk() {
-        window.location.href = window.location.origin + "/login";
+        window.location.href = window.location.origin + "/login"
         is_modal_show = true;
         Cookies.remove('name')
         Cookies.remove('token')
@@ -110,26 +110,37 @@ const instance = axios.create({
   data: {},
   timeout: 50000
 });
+const instance2 = axios.create({
+  baseURL: "http://open-erp.test.msparis.com",
+  headers: {
+    // withCredentials: false
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  params: {},
+  data: {},
+  timeout: 50000
+});
 
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
-    //let token = {}
-    
+  //let token = {}
 
-    instance.interceptors.request.use(function (config:any) {
-        let token = Cookies.getJSON('token');
-        config.params['token'] = token;
-        config.data['token'] = token;
-        return config;
-    });
 
-    instance.interceptors.response.use(checkStatus);
-    instance.interceptors.response.use(handelData);
-    return instance
+  instance.interceptors.request.use(function (config: any) {
+    let token = Cookies.getJSON('token');
+    config.params['token'] = token;
+    config.data['token'] = token;
+    return config;
+  });
+
+  instance.interceptors.response.use(checkStatus);
+  instance.interceptors.response.use(handelData);
+  return instance
 }
 
 //发送请求的方法
 const request = enhanceAxiosInstance(instance)
+export const easyRequest = enhanceAxiosInstance(instance2)
 
 
 export default request;

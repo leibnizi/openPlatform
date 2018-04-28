@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosPromise} from 'axios';
+import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import * as Cookies from 'js-cookie';
 import { message, Modal } from 'antd';
 
@@ -11,6 +11,7 @@ var is_modal_show = true;
  */
 
 function checkStatus(res: any) {
+
     if(res.status == 200){
         if (res.data.status_code == 0) {
             return res
@@ -29,10 +30,10 @@ function checkStatus(res: any) {
 
         }
     }else {
-        error();
-        is_message_show = false;
-        return false;
-    }
+    error();
+    is_message_show = false;
+    return false;
+  }
 }
 
 /**
@@ -41,71 +42,75 @@ function checkStatus(res: any) {
  * @return {any}
  */
 function handelData(res: any) {
-    const data = res.data
-    if (data.status_code != 0) {
-        if (data.status_code == '11008') {
-    // if (res.statusText !== 'ok') {
-    //     if (data.status_code === '11008') {
+  const data = res.data
+  if (res.status_code != 0) {
+    //     if (data.status_code == '11008') {
+    // // if (res.statusText !== 'ok') {
+    // //     if (data.status_code === '11008') {
 
-        }
-        else {
-            return data
-        }
-    }
-    else {
-        return data
-    }
+    //     }
+    //     else {
+    //         return data
+    //     }
+    // message.error(res.msg)
+    return data
+  }
+  else {
+    return data
+  }
 }
 
 function handleError(error: any) {
-    return {success: false}
+  return { success: false }
 }
 
 /**
  * 警告弹窗
  */
 function warning(msg) {
-    if(is_modal_show){
-        Modal.warning({
-            title: '警告',
-            content: msg,
-            okText:'确定',
-            onOk() {
-                window.location.href =  window.location.origin+ "/login";
-                is_modal_show = true;
-            },
-        });
-    }
+  if (is_modal_show) {
+    Modal.warning({
+      title: '警告',
+      content: msg,
+      okText: '确定',
+      onOk() {
+        window.location.href = window.location.origin + "/login";
+        is_modal_show = true;
+        Cookies.remove('name')
+        Cookies.remove('token')
+      },
+    });
+  }
 }
 
 /**
  * 网络错误
  */
 function error() {
-    if(is_modal_show){
-        Modal.error({
-            title: '错误',
-            content: '网络错误返回登录，请联系系统人员',
-            okText:'确定',
-            onOk() {
-                window.location.href =  window.location.origin+ "/login";
-                is_modal_show = true;
-            },
-        });
-    }
+  if (is_modal_show) {
+    Modal.error({
+      title: '错误',
+      content: '网络错误返回登录，请联系系统人员',
+      okText: '确定',
+      onOk() {
+        window.location.href = window.location.origin + "/login";
+        is_modal_show = true;
+      },
+    });
+  }
 }
 
 /**
  * 创建axios
  */
 const instance = axios.create({
-    baseURL: "http://open-erp.test.msparis.com",
-    headers: {
-       // withCredentials: false
-    },
-    params: {},
-    data: {},
-    timeout: 50000
+  baseURL: "http://open-erp.test.msparis.com",
+  headers: {
+    // withCredentials: false
+  },
+  params: {},
+  data: {},
+  timeout: 50000
 });
 
 

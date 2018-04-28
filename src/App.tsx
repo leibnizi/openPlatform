@@ -11,8 +11,6 @@ import Content from './content'
 import './styles/App.less';
 // import axios from 'axios';
 
-const EventEmitter = require('events');
-export const myEmitter = new EventEmitter()
 interface OldMenuLinkType {
   label: string,
   to: string,
@@ -101,9 +99,7 @@ class PassWordRoute extends React.Component {
 
 class App extends React.Component {
   componentDidMount() {
-    myEmitter.on('event', () => {
-      console.log('A!!!!!!!');
-    });
+
   }
   render() {
     return (

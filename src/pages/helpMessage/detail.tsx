@@ -18,9 +18,12 @@ class HelpDetail extends React.Component<any, any> {
     const token = this.props.state.userInfo.token
     const { pathname } = this.props.location
     request.get('/api/message/detail', { params: { id: pathname.split('/').slice(-1)[0] } })
-      .then(res => this.setState({ dataList: res.data.data }))
-    // axios.get('/api/message/detail', { id: pathname.split('/').slice(-1)[0] })
-    //   .then(res => this.setState({ dataList: res.data.data }))
+      .then(res => {
+        if (res) {
+          this.setState({ dataList: res.data })
+        }
+      })
+      console.log('HelpDetail')
   }
 
   render() {

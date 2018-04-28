@@ -26,16 +26,18 @@ class Detail extends React.Component<any, any> {
       params: { begin: startTime, end: endTime, id: formNum }
     })
       .then((Detail: any) => {
-        Detail.data.map((item: any, index: number) =>
-          tableData.push({
-            amount: item.amount,
-            month: item.month,
-            supplier_id: item.supplier_id,
-            year: item.year,
-            key: index
-          })
-        )
-        this.setState({ tableData })
+        if (Detail) {
+          Detail.data.map((item: any, index: number) =>
+            tableData.push({
+              amount: item.amount,
+              month: item.month,
+              supplier_id: item.supplier_id,
+              year: item.year,
+              key: index
+            })
+          )
+          this.setState({ tableData })
+        }
       })
   }
 
@@ -43,13 +45,16 @@ class Detail extends React.Component<any, any> {
     this.getData()
   }
 
+  download = () => {
+    const { startTime, endTime, formNum } = this.state
+    request('/api/financial/list_export', {
+      params: { begin: startTime, end: endTime, id: formNum }
+    })
+  }
+
   handleSubmit = (e: any) => {
     e.preventDefault()
     this.getData()
-  }
-
-  handleChange = (e: string) => {
-    this.setState({ formNum: e })
   }
 
   startTime = (e: any) => {
@@ -90,6 +95,26 @@ class Detail extends React.Component<any, any> {
         dataIndex: 'moshi',
         key: 'moshi',
         align: 'center',
+        render: (e: any) => {
+          return (
+            <div className='fincialOperating'>
+              <span
+                className='checkDetail'
+                onClick={() => this.download()}
+              >
+                {'下载对账明细'}
+              </span>
+              <span
+                className='checkDetail'
+                onClick={() => {
+                  // this.props.history.push(`/operation/detail/${e}`)
+                }}
+              >
+                {'查看打款回执'}
+              </span>
+            </div>
+          )
+        }
       }
     ]
 
@@ -115,7 +140,7 @@ class Detail extends React.Component<any, any> {
             <input
               type="text"
               value={formNum}
-              onChange={(e) => this.handleChange(e.target.value)}
+              onChange={(e) => this.setState({ formNum: e.target.value })}
             />
           </label>
           <div className='querySubmit'>

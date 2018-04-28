@@ -4,7 +4,6 @@ import * as Cookies from 'js-cookie'
 import './index.less'
 import { setUserInfo } from '../../redux/actions'
 import request from '../../services/httpRequest'
-import { myEmitter } from './../../App'
 
 export const themes = {
   light: {
@@ -45,20 +44,17 @@ class Login extends React.Component<any, any> {
         name: id,
         password
       }
-    myEmitter.emit('event');
     request.post('/api/login', body)
       .then((res: any) => {
         if (res.status_code === 0) {
-          console.log('res.data',res.data)
           this.props.setUserInfo(res.data)
           this.props.history.push('/')
-          Cookies.set('token', res.data.token);
-          console.log('res',res)
-        }else {
-            this.setState({loginError:res.msg})
+          Cookies.set('token', res.data.token)
+        } else {
+          this.setState({ loginError: res.msg })
         }
       })
-      .catch((err:any)=> this.setState({loginError:err.msg}))
+      .catch((err: any) => this.setState({ loginError: err.msg }))
   }
 
   handleChangeId = (id: string) => {

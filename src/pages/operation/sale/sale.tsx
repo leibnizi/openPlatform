@@ -17,6 +17,7 @@ class Sale extends React.Component<any, any> {
       endTime: null,
       product_spu: '',
       m_order_no: '',
+      pay_status: '',
       split_order_no: '',
       status: '',
       pageTotal: '',
@@ -47,6 +48,7 @@ class Sale extends React.Component<any, any> {
             item.supply_price = res.data.supply_price
             item.name = res.data.product_master.name
             item.code = res.data.product_master.code
+            item.order_no = res.data.order_no
             item.image_url = res.data.image_url
             item.specification_name = `${item.specification_name}/${item.option_name.value}`
             item.key = index
@@ -62,6 +64,7 @@ class Sale extends React.Component<any, any> {
   getTableData = (nextPage: number) => {
     const {
       product_spu,
+      pay_status,
       m_order_no,
       split_order_no,
       status,
@@ -71,6 +74,7 @@ class Sale extends React.Component<any, any> {
     request('/api/order/list/2', {
       params: {
         product_spu,
+        pay_status,
         m_order_no,
         split_order_no,
         status,
@@ -105,8 +109,8 @@ class Sale extends React.Component<any, any> {
     const columns: any[] = [
       {
         title: '订单编号',
-        dataIndex: 'product_spu',
-        key: 'product_spu',
+        dataIndex: 'order_no',
+        key: 'order_no',
         align: 'center',
       }, {
         title: '子订单编号',
@@ -252,9 +256,13 @@ class Sale extends React.Component<any, any> {
             </div>
             <div className='item'>
               <p>支付状态:</p>
-              <input
-                onChange={(e) => this.setState({ product_spu: e.target.value })}
-              />
+              <select
+                onChange={(e) => this.setState({ pay_status: e.target.value })}
+              >
+                <option value=''>全部</option>
+                <option value='0'>未支付</option>
+                <option value='1'>已支付</option>
+              </select>
             </div>
             <div className='item'>
               <p>下单时间:</p>
@@ -272,7 +280,13 @@ class Sale extends React.Component<any, any> {
             </div>
           </section>
           <section className='productmid'>
-            <Button>查询</Button>
+            <Button
+              onClick={() => {
+                this.getTableData(1)
+              }}
+            >
+              查询
+            </Button>
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>

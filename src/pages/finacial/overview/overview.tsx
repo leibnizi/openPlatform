@@ -16,7 +16,6 @@ class Overview extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const token = this.props.state.userInfo.token
     request('/api/financial/financial_view')
       .then(res => {
         if (res) {

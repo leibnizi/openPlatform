@@ -1,6 +1,7 @@
 
 import store from '../store/store'
 import business from './business'
+import operation from './operation'
 
 const setUserInfo = (info: any) => store.dispatch({ type: 'SET_USERINFO', info })
 // const getOnlineProduct = (info: any) => store.dispatch({ type: 'GET_ONLINE_PRODUCT', info })
@@ -47,6 +48,7 @@ const handleUploadAdd = (prarms:any) => ({
 
 export {
   business,
+  operation,
   getUserInfos,
   setUserInfo,
   indexChartsAct,

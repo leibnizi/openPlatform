@@ -22,7 +22,8 @@ class Product extends React.Component<any, any> {
       pageTotal: 0,
       currentPage: 0,
       productDetailData: null,
-      productDetailDataHead: null
+      productDetailDataHead: null,
+      hoverImg: null
     }
   }
 
@@ -35,13 +36,12 @@ class Product extends React.Component<any, any> {
   }
 
   productDetail = (id: any) => {
-    const token = this.props.state.userInfo.token
     request('/api/product/detail', {
       params: {
         id
       }
     })
-      .then((res:any) => {
+      .then((res: any) => {
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
@@ -69,7 +69,6 @@ class Product extends React.Component<any, any> {
       name,
       purchaser_product_no
     } = this.state
-    const token = this.props.state.userInfo.token
     request('/api/product/list', {
       params: {
         category_id: goodCategory,
@@ -106,6 +105,7 @@ class Product extends React.Component<any, any> {
   }
 
   render() {
+    const { hoverImg } = this.state
     const columns: any[] = [
       {
         title: '商品编号',
@@ -121,16 +121,36 @@ class Product extends React.Component<any, any> {
         align: 'center',
       }, {
         title: '商品主图',
-        className: 'tableItem',
+        className: 'tableItem tableItemImg',
         dataIndex: '',
         key: 'img',
         align: 'center',
         render: (e: any) => {
           return (
-            <img
-              src={`${e.main_image}`}
-              alt="mainImage"
-            />
+            <div>
+              <img
+                onMouseOver={() => {
+                  this.setState({ hoverImg: e.id })
+                }}
+                onMouseOut={() => this.setState({ hoverImg: false })}
+                src={`${e.main_image}`}
+                alt="mainImage"
+              />
+              {/* {
+                e.id === hoverImg && <div className='hoverImg'>
+                  {
+                    e.images.map((item: any, index: number) =>
+                      <img
+                        src={item.key}
+                        key={index}
+                        alt="mainImage"
+                      />
+                    )
+                  }
+                </div>
+              } */}
+            </div>
+
           )
         }
       }, {
@@ -190,14 +210,14 @@ class Product extends React.Component<any, any> {
         align: 'center',
         render: (e: any) => {
           return (
-            <span
+            <Button
               className='checkDetail'
               onClick={() => {
                 this.props.history.push(`/operation/detail/${e}`)
               }}
             >
               {'查看详情'}
-            </span>
+            </Button>
           )
         }
       }
@@ -324,11 +344,11 @@ class Product extends React.Component<any, any> {
             </div>
           </section>
           <section className='productmid'>
-            <span
+            <Button
               onClick={() => this.queryData()}
             >
               查询
-            </span>
+            </Button>
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>

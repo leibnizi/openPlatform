@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { DatePicker, Table, Button } from 'antd'
+import * as Cookies from 'js-cookie'
 import './detail.less'
 import request from '../../../services/httpRequest'
 import { getFormatDate } from '../../../helper/utils'
@@ -22,7 +23,6 @@ class Detail extends React.Component<any, any> {
 
   getData = () => {
     const { startTime, endTime, formNum } = this.state
-    const token = this.props.state.userInfo.token
     let tableData: any[] = []
 
     request('/api/financial/info_list', {
@@ -36,10 +36,11 @@ class Detail extends React.Component<any, any> {
         if (Detail) {
           Detail.data.map((item: any, index: number) =>
             tableData.push({
+              id: item.id,
               amount: item.amount,
-              month: item.month,
-              supplier_id: item.supplier_id,
-              year: item.year,
+              status: item.status,
+              time: `${item.year}/${item.month}`,
+              balance: item.balance,
               key: index
             })
           )
@@ -54,9 +55,7 @@ class Detail extends React.Component<any, any> {
 
   download = () => {
     const { startTime, endTime, formNum } = this.state
-    request('/api/financial/list_export', {
-      params: { begin: startTime, end: endTime, id: formNum }
-    })
+    window.open(`http://open-erp.test.msparis.com/api/financial/list_export?token=${Cookies.getJSON('token')}&begin=${startTime}&end=${endTime}&id=${formNum}`)
   }
 
   handleSubmit = (e: any) => {
@@ -78,24 +77,24 @@ class Detail extends React.Component<any, any> {
     const columns: any[] = [
       {
         title: '账单编号',
-        dataIndex: 'supplier_id',
-        key: 'supplier_id',
+        dataIndex: 'id',
+        key: 'id',
         align: 'center',
       }, {
         title: '账单时间',
         className: 'column-money',
-        dataIndex: 'year',
-        key: 'year',
+        dataIndex: 'time',
+        key: 'time',
         align: 'center',
       }, {
         title: '可提现金额',
-        dataIndex: 'amount',
-        key: 'amount',
+        dataIndex: 'balance',
+        key: 'balance',
         align: 'center',
       }, {
         title: '账单状态',
-        dataIndex: 'month',
-        key: 'month',
+        dataIndex: 'status',
+        key: 'status',
         align: 'center',
       }, {
         title: '操作',

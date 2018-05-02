@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table, DatePicker } from 'antd'
+import { Table, DatePicker, Button } from 'antd'
 import './lease.less'
 import { getFormatDate } from '../../../helper/utils'
+import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
 
+const { getStatusList } = operation
 const { MonthPicker } = DatePicker
 const monthFormat = 'YYYY/MM'
 
@@ -22,7 +24,7 @@ class Lease extends React.Component<any, any> {
       pageTotal: 0,
       currentPage: 1,
       productDetailData: null,
-      productDetailDataHead: null
+      productDetailDataHead: null,
     }
   }
 
@@ -31,11 +33,11 @@ class Lease extends React.Component<any, any> {
       this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
     } else {
       this.getTableData(1)
+      this.props.dispatch(getStatusList())
     }
   }
 
   productDetail = (id: any) => {
-    const token = this.props.state.userInfo.token
     request('/api/order/detail', {
       params: { id }
     })
@@ -68,7 +70,6 @@ class Lease extends React.Component<any, any> {
       startTime,
       endTime
     } = this.state
-    const token = this.props.state.userInfo.token
     request('/api/order/list/1', {
       params: {
         perPage: 20,
@@ -158,14 +159,14 @@ class Lease extends React.Component<any, any> {
         align: 'center',
         render: (e: any) => {
           return (
-            <span
+            <Button
               className='checkDetail'
               onClick={() => {
                 this.props.history.push(`/operation/lease/detail/${e}`)
               }}
             >
               {'查看详情'}
-            </span>
+            </Button>
           )
         }
       }
@@ -222,6 +223,7 @@ class Lease extends React.Component<any, any> {
       endTime, pageTotal, currentPage,
       productDetailData, productDetailDataHead
     } = this.state
+    const { statusList } = this.props
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
@@ -250,10 +252,11 @@ class Lease extends React.Component<any, any> {
               <select
                 onChange={(e) => this.setState({ status: e.target.value })}
               >
-                <option value="">全部</option>
-                <option value="0">未上架</option>
-                <option value="1">已上架</option>
-                <option value="2">待上架</option>
+                {
+                  statusList&& Object.keys(statusList).map((item:any,index:number)=> 
+                  <option key={index} value={item}>{statusList[item]}</option>
+                  )
+                }
               </select>
             </div>
             <div className='item'>
@@ -263,7 +266,7 @@ class Lease extends React.Component<any, any> {
                 onChange={(e: any) => this.setState({ startTime: e })}
                 format={monthFormat} placeholder=''
               />
-              -  
+              -
               <MonthPicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
@@ -272,11 +275,11 @@ class Lease extends React.Component<any, any> {
             </div>
           </section>
           <section className='productmid'>
-            <span
+            <Button
               onClick={() => this.queryData()}
             >
               查询
-            </span>
+            </Button>
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
@@ -338,8 +341,8 @@ class Lease extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps: any = (state: object) => ({
-  state: state
+const mapStateToProps: any = (state: any) => ({
+  statusList: state.statusList
 })
 
 export default connect(mapStateToProps)(Lease)

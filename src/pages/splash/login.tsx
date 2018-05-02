@@ -5,20 +5,6 @@ import './index.less'
 import { setUserInfo } from '../../redux/actions'
 import request from '../../services/httpRequest'
 
-export const themes = {
-  light: {
-    foreground: '#ffffff',
-    background: '#222222',
-  },
-  dark: {
-    foreground: '#000000',
-    background: '#eeeeee',
-  },
-};
-
-// export const ThemeContext = React.createContext(
-//   themes.dark // 默认值
-// );
 class Login extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
@@ -51,7 +37,7 @@ class Login extends React.Component<any, any> {
           this.props.history.push('/')
           Cookies.set('token', res.data.token)
           localStorage.setItem('name', res.data.name);
-          localStorage.setItem('biz_name', res.data.biz_name);
+          localStorage.setItem('bizName', res.data.bizName);
         } else {
           this.setState({ loginError: res.msg })
         }

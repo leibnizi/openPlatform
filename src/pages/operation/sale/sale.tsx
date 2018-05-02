@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table, DatePicker } from 'antd'
+import { Table, DatePicker, Button } from 'antd'
 import './sale.less'
 import { getFormatDate } from '../../../helper/utils'
+import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
 
 const { MonthPicker } = DatePicker
@@ -16,6 +17,7 @@ class Sale extends React.Component<any, any> {
       endTime: null,
       product_spu: '',
       m_order_no: '',
+      pay_status: '',
       split_order_no: '',
       status: '',
       pageTotal: '',
@@ -31,21 +33,22 @@ class Sale extends React.Component<any, any> {
       this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
     } else {
       this.getTableData(1)
+      this.props.dispatch(operation.getStatusList())
     }
   }
 
   productDetail = (id: any) => {
-    const token = this.props.state.userInfo.token
     request('/api/order/detail', {
       params: { id }
     })
-      .then((res:any) => {
+      .then((res: any) => {
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
             item.supply_price = res.data.supply_price
             item.name = res.data.product_master.name
             item.code = res.data.product_master.code
+            item.order_no = res.data.order_no
             item.image_url = res.data.image_url
             item.specification_name = `${item.specification_name}/${item.option_name.value}`
             item.key = index
@@ -61,17 +64,17 @@ class Sale extends React.Component<any, any> {
   getTableData = (nextPage: number) => {
     const {
       product_spu,
+      pay_status,
       m_order_no,
       split_order_no,
       status,
       startTime,
       endTime
     } = this.state
-    const token = this.props.state.userInfo.token
-
     request('/api/order/list/2', {
       params: {
         product_spu,
+        pay_status,
         m_order_no,
         split_order_no,
         status,
@@ -106,8 +109,8 @@ class Sale extends React.Component<any, any> {
     const columns: any[] = [
       {
         title: '订单编号',
-        dataIndex: 'product_spu',
-        key: 'product_spu',
+        dataIndex: 'order_no',
+        key: 'order_no',
         align: 'center',
       }, {
         title: '子订单编号',
@@ -156,14 +159,14 @@ class Sale extends React.Component<any, any> {
         align: 'center',
         render: (id: any) => {
           return (
-            <span
+            <Button
               className='checkDetail'
               onClick={() => {
                 this.props.history.push(`/operation/sale/detail/${id}`)
               }}
             >
               {'查看详情'}
-            </span>
+            </Button>
           )
         }
       }
@@ -215,6 +218,7 @@ class Sale extends React.Component<any, any> {
       listData,
       productDetailData
     } = this.state
+    const { statusList } = this.props
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
@@ -240,15 +244,25 @@ class Sale extends React.Component<any, any> {
             </div>
             <div className='item'>
               <p>订单状态:</p>
-              <input
+              <select
                 onChange={(e) => this.setState({ status: e.target.value })}
-              />
+              >
+                {
+                  statusList && Object.keys(statusList).map((item: any, index: number) =>
+                    <option key={index} value={item}>{statusList[item]}</option>
+                  )
+                }
+              </select>
             </div>
             <div className='item'>
               <p>支付状态:</p>
-              <input
-                onChange={(e) => this.setState({ product_spu: e.target.value })}
-              />
+              <select
+                onChange={(e) => this.setState({ pay_status: e.target.value })}
+              >
+                <option value=''>全部</option>
+                <option value='0'>未支付</option>
+                <option value='1'>已支付</option>
+              </select>
             </div>
             <div className='item'>
               <p>下单时间:</p>
@@ -257,7 +271,7 @@ class Sale extends React.Component<any, any> {
                 onChange={(e: any) => this.setState({ startTime: e })}
                 format={monthFormat} placeholder=''
               />
-              -  
+              -
               <MonthPicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
@@ -266,7 +280,13 @@ class Sale extends React.Component<any, any> {
             </div>
           </section>
           <section className='productmid'>
-            <span>查询</span>
+            <Button
+              onClick={() => {
+                this.getTableData(1)
+              }}
+            >
+              查询
+            </Button>
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
@@ -330,8 +350,8 @@ class Sale extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps: any = (state: object) => ({
-  state: state
+const mapStateToProps: any = (state: { statusList: {} }) => ({
+  statusList: state.statusList
 })
 
 export default connect(mapStateToProps)(Sale)

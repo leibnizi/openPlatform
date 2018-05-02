@@ -166,7 +166,7 @@ class AfterSale extends React.Component<any, any> {
             <p>开始时间:</p>
             <MonthPicker 
               className='itemTime'
-              onChange={(e: any) => this.setState({ startTime: e })} 
+              onChange={(e: any) => this.setState({ begin: e })} 
               format={monthFormat} placeholder=''
             />
           </div>
@@ -174,7 +174,7 @@ class AfterSale extends React.Component<any, any> {
             <p>结束时间:</p>
             <MonthPicker 
               className='itemTime'
-              onChange={(e: any) => this.setState({ endTime: e })} 
+              onChange={(e: any) => this.setState({ end: e })} 
               format={monthFormat} placeholder=''
             />
           </div>

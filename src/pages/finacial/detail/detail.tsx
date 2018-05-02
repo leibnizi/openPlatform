@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { DatePicker, Table, Button } from 'antd'
 import './detail.less'
 import request from '../../../services/httpRequest'
+import { getFormatDate } from '../../../helper/utils'
 
 const { MonthPicker } = DatePicker
 const monthFormat = 'YYYY/MM'
@@ -25,7 +26,11 @@ class Detail extends React.Component<any, any> {
     let tableData: any[] = []
 
     request('/api/financial/info_list', {
-      params: { begin: startTime, end: endTime, id: formNum }
+      params: { 
+        begin: startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '', 
+        end: endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : '', 
+        id: formNum 
+      }
     })
       .then((Detail: any) => {
         if (Detail) {
@@ -60,11 +65,11 @@ class Detail extends React.Component<any, any> {
   }
 
   startTime = (e: any) => {
-    this.setState({ startTime: e._d.getTime() })
+    this.setState({ startTime: e })
   }
 
   endTime = (e: any) => {
-    this.setState({ endTime: e._d.getTime() })
+    this.setState({ endTime: e })
   }
 
   render() {

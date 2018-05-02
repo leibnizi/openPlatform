@@ -37,7 +37,7 @@ class Login extends React.Component<any, any> {
           this.props.history.push('/')
           Cookies.set('token', res.data.token)
           localStorage.setItem('name', res.data.name);
-          localStorage.setItem('biz_name', res.data.biz_name);
+          localStorage.setItem('bizName', res.data.bizName);
         } else {
           this.setState({ loginError: res.msg })
         }

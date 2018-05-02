@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { Table, DatePicker } from 'antd'
 import './lease.less'
 import { getFormatDate } from '../../../helper/utils'
+import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
 
+const { getStatusList } = operation
 const { MonthPicker } = DatePicker
 const monthFormat = 'YYYY/MM'
 
@@ -22,7 +24,7 @@ class Lease extends React.Component<any, any> {
       pageTotal: 0,
       currentPage: 1,
       productDetailData: null,
-      productDetailDataHead: null
+      productDetailDataHead: null,
     }
   }
 
@@ -31,6 +33,7 @@ class Lease extends React.Component<any, any> {
       this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
     } else {
       this.getTableData(1)
+      this.props.dispatch(getStatusList())
     }
   }
 
@@ -68,7 +71,6 @@ class Lease extends React.Component<any, any> {
       startTime,
       endTime
     } = this.state
-    const token = this.props.state.userInfo.token
     request('/api/order/list/1', {
       params: {
         perPage: 20,
@@ -222,6 +224,7 @@ class Lease extends React.Component<any, any> {
       endTime, pageTotal, currentPage,
       productDetailData, productDetailDataHead
     } = this.state
+    const { statusList } = this.props
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
@@ -250,10 +253,11 @@ class Lease extends React.Component<any, any> {
               <select
                 onChange={(e) => this.setState({ status: e.target.value })}
               >
-                <option value="">全部</option>
-                <option value="0">未上架</option>
-                <option value="1">已上架</option>
-                <option value="2">待上架</option>
+                {
+                  statusList&& Object.keys(statusList).map((item:any,index:number)=> 
+                  <option key={index} value={item}>{statusList[item]}</option>
+                  )
+                }
               </select>
             </div>
             <div className='item'>
@@ -263,7 +267,7 @@ class Lease extends React.Component<any, any> {
                 onChange={(e: any) => this.setState({ startTime: e })}
                 format={monthFormat} placeholder=''
               />
-              -  
+              -
               <MonthPicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
@@ -338,8 +342,8 @@ class Lease extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps: any = (state: object) => ({
-  state: state
+const mapStateToProps: any = (state: any) => ({
+  statusList: state.statusList
 })
 
 export default connect(mapStateToProps)(Lease)

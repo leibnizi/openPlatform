@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { DatePicker, Table, Button } from 'antd'
+import * as Cookies from 'js-cookie'
 import './detail.less'
 import request from '../../../services/httpRequest'
 import { getFormatDate } from '../../../helper/utils'
@@ -55,7 +56,7 @@ class Detail extends React.Component<any, any> {
 
   download = () => {
     const { startTime, endTime, formNum } = this.state
-    window.open(`http://open-erp.test.msparis.com/api/financial/list_export?${document.cookie}&begin=${startTime}&end=${endTime}&id=${formNum}`)
+    window.open(`http://open-erp.test.msparis.com/api/financial/list_export?token=${Cookies.getJSON('token')}&begin=${startTime}&end=${endTime}&id=${formNum}`)
   }
 
   handleSubmit = (e: any) => {

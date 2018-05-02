@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import userInfo from './home'
+import operation from './operation'
 import businessInfos from './business/infos'
 import business from './business/statusControl'
 import billInfos from './business/bill'
@@ -118,6 +119,7 @@ const rootReducer = combineReducers({
   thirtyMessageData,
   businessInfos,
   getFinancialView,
+  ...operation,
   ...business,
   ...billInfos,
   ...accountInfos

@@ -1,12 +1,6 @@
 import { delay, takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import request from '../../../src/services/httpRequest'
-//import axios from 'axios';
-// const delay = (ms: any) => new Promise(resolve => setTimeout(resolve, ms))
-// interface SagaPostType {
-//   posts: Object
-//   type: string
-// }
 
 export function* incrementAsync() {
   yield delay(1000)
@@ -43,7 +37,8 @@ export default function* rootSaga() {
   yield takeEvery("SAVE_ACCOUNT_PASSWPRD", saveAccountPassword)
   //添加财务信息
   yield takeEvery("POST_BILL_INFO", postBillInfo)
-
+  /* 获取订单状态 */
+  yield takeEvery("GET_STATUS_LIST", getStatusList)
 }
 
 //把上传到的图片路径传给后端(基础资质)
@@ -292,5 +287,20 @@ export function* postBillInfo(action: any = {}) {
 
   } catch (error) {
     yield put({ type: 'SHOW_GLOBLE_ERR', data: "出现未知异常" });
+  }
+}
+
+function* getStatusList(action:any) {
+  try {
+    const response = yield call(request, "/api/config/order-status")
+    if (response.status_code != 0) {
+      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
+      return false
+    } else {
+      yield put({ type: 'SET_STATUS_LIST', data: response.data });
+    }
+    
+  } catch {
+    // yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
   }
 }

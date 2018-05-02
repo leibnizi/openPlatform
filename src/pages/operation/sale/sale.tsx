@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Table, DatePicker } from 'antd'
 import './sale.less'
 import { getFormatDate } from '../../../helper/utils'
+import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
 
 const { MonthPicker } = DatePicker
@@ -31,6 +32,7 @@ class Sale extends React.Component<any, any> {
       this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
     } else {
       this.getTableData(1)
+      this.props.dispatch(operation.getStatusList())
     }
   }
 
@@ -39,7 +41,7 @@ class Sale extends React.Component<any, any> {
     request('/api/order/detail', {
       params: { id }
     })
-      .then((res:any) => {
+      .then((res: any) => {
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
@@ -67,8 +69,6 @@ class Sale extends React.Component<any, any> {
       startTime,
       endTime
     } = this.state
-    const token = this.props.state.userInfo.token
-
     request('/api/order/list/2', {
       params: {
         product_spu,
@@ -215,6 +215,7 @@ class Sale extends React.Component<any, any> {
       listData,
       productDetailData
     } = this.state
+    const { statusList } = this.props
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
       return (
         <div className='operationproduct'>
@@ -240,9 +241,15 @@ class Sale extends React.Component<any, any> {
             </div>
             <div className='item'>
               <p>订单状态:</p>
-              <input
+              <select
                 onChange={(e) => this.setState({ status: e.target.value })}
-              />
+              >
+                {
+                  statusList && Object.keys(statusList).map((item: any, index: number) =>
+                    <option key={index} value={item}>{statusList[item]}</option>
+                  )
+                }
+              </select>
             </div>
             <div className='item'>
               <p>支付状态:</p>
@@ -257,7 +264,7 @@ class Sale extends React.Component<any, any> {
                 onChange={(e: any) => this.setState({ startTime: e })}
                 format={monthFormat} placeholder=''
               />
-              -  
+              -
               <MonthPicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
@@ -330,8 +337,8 @@ class Sale extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps: any = (state: object) => ({
-  state: state
+const mapStateToProps: any = (state: { statusList: {} }) => ({
+  statusList: state.statusList
 })
 
 export default connect(mapStateToProps)(Sale)

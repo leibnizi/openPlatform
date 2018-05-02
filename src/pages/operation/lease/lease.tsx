@@ -25,6 +25,7 @@ class Lease extends React.Component<any, any> {
       currentPage: 1,
       productDetailData: null,
       productDetailDataHead: null,
+      hoverImg: null
     }
   }
 
@@ -87,7 +88,9 @@ class Lease extends React.Component<any, any> {
         if (res) {
           const listData = res.data.data
           listData.map((item: any, index: number) => {
-            Object.assign(item, { key: index })
+            item.key = index
+            item.code = item.codes.join(',')
+            item.image = item.images[0]
           })
           this.setState({
             listData,
@@ -107,11 +110,12 @@ class Lease extends React.Component<any, any> {
   }
 
   render() {
+    const { hoverImg } = this.state
     const columns: any[] = [
       {
         title: '订单编号',
-        dataIndex: 'order_no',
-        key: 'order_no',
+        dataIndex: 'm_order_no',
+        key: 'm_order_no',
         align: 'center',
       }, {
         title: '子订单编号',
@@ -125,22 +129,41 @@ class Lease extends React.Component<any, any> {
         align: 'center',
       }, {
         title: '商品主图',
-        dataIndex: 'image_url',
-        key: 'image_url',
+        dataIndex: '',
+        key: 'image',
         align: 'center',
         className: 'tableItem',
         render: (e: any) => {
           return (
-            <img
-              src={`${e}`}
-              alt="mainImage"
-            />
+            <div>
+              <img
+                onMouseOver={() => {
+                  this.setState({ hoverImg: e.id })
+                }}
+                onMouseOut={() => this.setState({ hoverImg: false })}
+                src={`${e.images[0]}`}
+                alt="mainImage"
+              />
+              {
+                e.id === hoverImg && <div className='hoverImg'>
+                  {
+                    e.images.map((item: any, index: number) =>
+                      <img
+                        src={item}
+                        key={index}
+                        alt="mainImage"
+                      />
+                    )
+                  }
+                </div>
+              }
+            </div>
           )
         }
       }, {
         title: '订单状态',
-        dataIndex: 'status',
-        key: 'status',
+        dataIndex: 'order_status',
+        key: 'order_status',
         align: 'center',
       }, {
         title: '下单时间',
@@ -253,8 +276,8 @@ class Lease extends React.Component<any, any> {
                 onChange={(e) => this.setState({ status: e.target.value })}
               >
                 {
-                  statusList&& Object.keys(statusList).map((item:any,index:number)=> 
-                  <option key={index} value={item}>{statusList[item]}</option>
+                  statusList && Object.keys(statusList).map((item: any, index: number) =>
+                    <option key={index} value={item}>{statusList[item]}</option>
                   )
                 }
               </select>

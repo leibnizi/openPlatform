@@ -136,21 +136,7 @@ class Product extends React.Component<any, any> {
                 src={`${e.main_image}`}
                 alt="mainImage"
               />
-              {/* {
-                e.id === hoverImg && <div className='hoverImg'>
-                  {
-                    e.images.map((item: any, index: number) =>
-                      <img
-                        src={item.key}
-                        key={index}
-                        alt="mainImage"
-                      />
-                    )
-                  }
-                </div>
-              } */}
             </div>
-
           )
         }
       }, {

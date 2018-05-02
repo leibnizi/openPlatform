@@ -59,6 +59,12 @@ class Forgetpassword extends React.Component<any, any> {
       console.log('Received values of form1: ', values);
       if (!err) {
         this.setState({ formValue: values })
+        request.post('/api/forget/pwd', {
+          mobile: values.phone,
+          password: values.password,
+          password_confirmation: values.confirm,
+          verification_code: values.captcha
+        })
       }
     })
   }
@@ -103,67 +109,6 @@ class Forgetpassword extends React.Component<any, any> {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className='forgetpassword'>
-        {/* <form onSubmit={(e) => this.onSubmit(e)}>
-          <label
-            className='name'
-          >
-            <div className='symbol'>
-              *
-              <span className='labelName'>
-                手机号:
-              </span>
-            </div>
-            <input
-              type="text"
-              value={phone}
-              onChange={(e) => this.setState({ phone: e.target.value })}
-            />
-          </label>
-          <label
-            className='mail'
-          >
-            <div className='symbol'>
-              *
-              <span className='labelName'>
-                验证码:
-              </span>
-            </div>
-            <input type="text" value={verificationCode} onChange={(e) => this.setState({ verificationCode: e.target.value })} />
-          </label>
-          <label
-            className='phone'
-          >
-            <div className='symbol'>
-              *
-              <span className='labelName'>
-                新密码:
-              </span>
-            </div>
-            <input
-              type="text"
-              value={newpassword}
-              onChange={(e) => this.setState({ newpassword: e.target.value })}
-              placeholder='（密码为6-16个字符，由大小写或数字组成）'
-            />
-          </label>
-          <label
-            className='verificationCode'
-          >
-            <div className='symbol'>
-              *
-              <span className='labelName'>
-                确认新密码:
-              </span>
-            </div>
-            <input
-              type="text"
-              value={passwordconfirm}
-              onChange={(e) => this.setState({ passwordconfirm: e.target.value })}
-            />
-            <span className='vCode'>获取验证码</span>
-          </label>
-          <input className='submit' type="submit" value="提交" />
-        </form> */}
         <Form onSubmit={(e) => this.onSubmit(e)}>
           <FormItem
             {...formItemLayout2}
@@ -171,14 +116,18 @@ class Forgetpassword extends React.Component<any, any> {
           >
             <Row gutter={8}>
               <Col span={15}>
-                {getFieldDecorator('nickname', {
-                  rules: [{ required: true, message: 'Please input the captcha you got!' }],
+                {getFieldDecorator('phone', {
+                  rules: [
+                    {
+                      required: true, message: 'Please input the captcha you got!'
+                    },
+                    {
+                      len: 11
+                    }
+                  ],
                 })(
                   <Input />
                 )}
-              </Col>
-              <Col span={8}>
-                <span className='nickname'>(用户名为6-16个字符，不可使用非法字符串)</span>
               </Col>
             </Row>
           </FormItem>

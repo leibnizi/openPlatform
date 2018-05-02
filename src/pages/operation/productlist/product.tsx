@@ -41,7 +41,7 @@ class Product extends React.Component<any, any> {
         id
       }
     })
-      .then((res:any) => {
+      .then((res: any) => {
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
           productDetailData.map((item: any, index: number) => {
@@ -121,13 +121,15 @@ class Product extends React.Component<any, any> {
         align: 'center',
       }, {
         title: '商品主图',
-        className: 'tableItem',
+        className: 'tableItem tableItemImg',
         dataIndex: '',
         key: 'img',
         align: 'center',
         render: (e: any) => {
           return (
             <img
+              onMouseOver={() => console.log('touch')}
+              onMouseOut={() => console.log('out')}
               src={`${e.main_image}`}
               alt="mainImage"
             />

@@ -28,14 +28,14 @@ class Content extends Component {
                 <span>|</span>
                 {this.props.state.userInfo.biz_name}
                 <span>|</span>
-                <span onClick={() => this.logOut()}>安全退出</span>
+                <span className="logOut" onClick={() => this.logOut()}>安全退出</span>
               </div> :
               <div className="top">
                 {localStorage.getItem('name')}
                 <span>|</span>
                 {localStorage.getItem('biz_name')}
                 <span>|</span>
-                <span onClick={() => this.logOut()}>安全退出</span>
+                <span className="logOut" onClick={() => this.logOut()}>安全退出</span>
               </div>
           }
 

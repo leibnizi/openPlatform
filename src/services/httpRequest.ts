@@ -16,7 +16,9 @@ function checkStatus(res: any) {
       return res
     } else {
       if ((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show) {
-        warning(res.data.msg);
+        goToLogin()
+        is_modal_show = true;
+        // warning(res.data.msg);
         is_message_show = false;
         return false;
       } else if (is_message_show) {
@@ -72,13 +74,17 @@ function warning(msg) {
       content: msg,
       okText: '确定',
       onOk() {
-        window.location.href = window.location.origin + "/login"
         is_modal_show = true;
-        Cookies.remove('name')
-        Cookies.remove('token')
+        goToLogin()
       },
     });
   }
+}
+
+const goToLogin = () => {
+  window.location.href = window.location.origin + "/login"
+  Cookies.remove('name')
+  Cookies.remove('token')
 }
 
 /**

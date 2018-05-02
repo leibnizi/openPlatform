@@ -82,7 +82,7 @@ class Login extends React.Component<any, any> {
             className='password'
           >
             密码
-            <input type="text" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
+            <input type="password" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
           </label>
           <p
             onClick={() => this.props.history.push('/forgetpassword')}

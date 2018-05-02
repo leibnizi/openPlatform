@@ -33,7 +33,7 @@ export default function* rootSaga() {
   // yield takeEvery('SAGA_POSTS', sagaPost)
   //资质管理
   yield takeEvery("UPLOAD_IMAGE_BASE", uploadImageBase) 
-  yield takeEvery("UPLOAD_IMAGE_OTHERS", uploadImageOthers) 
+  yield takeEvery("UPLOAD_IMAGE_ADD", uploadImageAdd) 
   
   //提交商家信息
   yield takeEvery("POST_BUSINESS_INFO", postBsInfos) 
@@ -59,14 +59,17 @@ export function* uploadImageBase(action: any = {}) {
       return false
     }
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
-    yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
+    yield put({ type: "GET_STATUS_INFO" })
+    // yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: response.data.data });
+    // case 'ADD_STATUS_SUCCESS':
+    // return action.data
   } catch (error) {
     // yield put(fetchFailure());
   }
 }
 
 //把上传到的图片路径传给后端(补充资质-添加)
-export function* uploadImageOthers(action: any = {}) {
+export function* uploadImageAdd(action: any = {}) {
   const { statusMsg } = action.data
   try {
     const response = yield call(request.post, "/api/qualification/add", {
@@ -78,7 +81,7 @@ export function* uploadImageOthers(action: any = {}) {
     }
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
     yield put({ type: "GET_STATUS_INFO" })
-    yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
+    // yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -193,7 +196,8 @@ export function* deleteStatus(action: any) {
         id
       }
     });
-    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data[0] });
+    // yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data[0] });
+    yield put({ type: "GET_STATUS_INFO" })
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg });
     // yield put({ type: "GET_STATUS_INFO" })
   } catch (error) {

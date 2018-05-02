@@ -40,8 +40,8 @@ const handleUploadBase = (prarms:any) => ({
   // type_id: 1,
   // token
 })
-const handleUploadOthers = (prarms:any) => ({
-  type: 'UPLOAD_IMAGE_OTHERS',
+const handleUploadAdd = (prarms:any) => ({
+  type: 'UPLOAD_IMAGE_ADD',
   data: {...prarms}
 })
 
@@ -54,7 +54,7 @@ export {
   getOnlineProduct,
   getMerchantMessage,
   handleUploadBase,
-  handleUploadOthers,
+  handleUploadAdd,
   getThirtyMessage,
   getFinancialView
 }

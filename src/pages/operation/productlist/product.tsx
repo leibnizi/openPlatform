@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table } from 'antd'
+import { Table,Row, Col } from 'antd'
 // import { GET_POSTS } from '../../../redux/actions/index'
 import request from '../../../services/httpRequest'
 import './product.less'
@@ -333,9 +333,14 @@ class Product extends React.Component<any, any> {
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
           <hr />
-          <section>
+          <div style={{width:"1000px",marginLeft: "30px"}}>
             <Table
-              className='producttab'
+              scroll={{ x: 1000 }}
+              columns={columns}
+              dataSource={listData}
+            />
+            {/* <Table
+              // className='producttab'
               columns={columns}
               dataSource={listData}
               bordered={true}
@@ -345,8 +350,9 @@ class Product extends React.Component<any, any> {
                 pageSize: 20
               }}
               onChange={(e) => this.pageChange(e)}
-            />
-          </section>
+            /> */}
+          </div>
+          
         </div>
       )
     } else {
@@ -390,6 +396,7 @@ class Product extends React.Component<any, any> {
                 <hr />
                 <section>
                   <Table
+                    scroll={{ x: 700 }}
                     className='producttable'
                     columns={detailColumn}
                     dataSource={productDetailData}

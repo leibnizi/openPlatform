@@ -30,7 +30,13 @@ class Content extends Component {
                 <span>|</span>
                 <span onClick={() => this.logOut()}>安全退出</span>
               </div> :
-              <div className="top"></div>
+              <div className="top">
+                {localStorage.getItem('name')}
+                <span>|</span>
+                {localStorage.getItem('biz_name')}
+                <span>|</span>
+                <span onClick={() => this.logOut()}>安全退出</span>
+              </div>
           }
 
           <div className='header-box'>

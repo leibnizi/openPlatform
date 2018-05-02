@@ -33,7 +33,7 @@ class Content extends Component {
               <div className="top">
                 {localStorage.getItem('name')}
                 <span>|</span>
-                {localStorage.getItem('biz_name')}
+                {localStorage.getItem('bizName')}
                 <span>|</span>
                 <span className="logOut" onClick={() => this.logOut()}>安全退出</span>
               </div>

@@ -15,7 +15,6 @@ class HelpDetail extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const token = this.props.state.userInfo.token
     const { pathname } = this.props.location
     request.get('/api/message/detail', { params: { id: pathname.split('/').slice(-1)[0] } })
       .then(res => {

@@ -23,7 +23,6 @@ class Detail extends React.Component<any, any> {
 
   getData = () => {
     const { startTime, endTime, formNum } = this.state
-    const token = this.props.state.userInfo.token
     let tableData: any[] = []
 
     request('/api/financial/info_list', {

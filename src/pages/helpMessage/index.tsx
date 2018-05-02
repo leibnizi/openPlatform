@@ -14,7 +14,6 @@ class Customerservice extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const token = this.props.state.userInfo.token
     request('/api/message/help')
       .then(res => {
         if (res) {

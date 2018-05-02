@@ -38,7 +38,6 @@ class Lease extends React.Component<any, any> {
   }
 
   productDetail = (id: any) => {
-    const token = this.props.state.userInfo.token
     request('/api/order/detail', {
       params: { id }
     })

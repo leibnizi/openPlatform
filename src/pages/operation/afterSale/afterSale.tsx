@@ -44,7 +44,6 @@ class AfterSale extends React.Component<any, any> {
       begin,
       end
     } = this.state
-    const token = this.props.state.userInfo.token
     request('/api/financial/after_sale_list', {
       params: {
         perPage: 20,

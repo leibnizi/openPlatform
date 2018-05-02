@@ -36,7 +36,6 @@ class Product extends React.Component<any, any> {
   }
 
   productDetail = (id: any) => {
-    const token = this.props.state.userInfo.token
     request('/api/product/detail', {
       params: {
         id
@@ -70,7 +69,6 @@ class Product extends React.Component<any, any> {
       name,
       purchaser_product_no
     } = this.state
-    const token = this.props.state.userInfo.token
     request('/api/product/list', {
       params: {
         category_id: goodCategory,

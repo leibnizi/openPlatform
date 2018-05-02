@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table, DatePicker } from 'antd'
+import { Table, DatePicker, Button } from 'antd'
 import './sale.less'
 import { getFormatDate } from '../../../helper/utils'
 import { operation } from '../../../redux/actions'
@@ -37,7 +37,6 @@ class Sale extends React.Component<any, any> {
   }
 
   productDetail = (id: any) => {
-    const token = this.props.state.userInfo.token
     request('/api/order/detail', {
       params: { id }
     })
@@ -156,14 +155,14 @@ class Sale extends React.Component<any, any> {
         align: 'center',
         render: (id: any) => {
           return (
-            <span
+            <Button
               className='checkDetail'
               onClick={() => {
                 this.props.history.push(`/operation/sale/detail/${id}`)
               }}
             >
               {'查看详情'}
-            </span>
+            </Button>
           )
         }
       }
@@ -273,7 +272,7 @@ class Sale extends React.Component<any, any> {
             </div>
           </section>
           <section className='productmid'>
-            <span>查询</span>
+            <Button>查询</Button>
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>

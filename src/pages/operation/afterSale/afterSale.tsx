@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux';
-import { Table, DatePicker } from 'antd'
+import { Table, DatePicker, Button } from 'antd'
 import './afterSale.less'
 import { getFormatDate } from '../../../helper/utils'
 import request from '../../../services/httpRequest'
@@ -189,11 +189,11 @@ class AfterSale extends React.Component<any, any> {
           </div>
         </section>
         <section className='productmid'>
-          <span
+          <Button
             onClick={() => this.queryData()}
           >
             查询
-          </span>
+          </Button>
           <img src={require('../../../styles/img/exclamation.png')} />
           <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
         </section>

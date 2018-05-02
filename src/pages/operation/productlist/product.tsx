@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 // import { GET_POSTS } from '../../../redux/actions/index'
 import request from '../../../services/httpRequest'
 import './product.less'
@@ -22,7 +22,8 @@ class Product extends React.Component<any, any> {
       pageTotal: 0,
       currentPage: 0,
       productDetailData: null,
-      productDetailDataHead: null
+      productDetailDataHead: null,
+      hoverImg: null
     }
   }
 
@@ -106,6 +107,7 @@ class Product extends React.Component<any, any> {
   }
 
   render() {
+    const { hoverImg } = this.state
     const columns: any[] = [
       {
         title: '商品编号',
@@ -127,12 +129,30 @@ class Product extends React.Component<any, any> {
         align: 'center',
         render: (e: any) => {
           return (
-            <img
-              onMouseOver={() => console.log('touch')}
-              onMouseOut={() => console.log('out')}
-              src={`${e.main_image}`}
-              alt="mainImage"
-            />
+            <div>
+              <img
+                onMouseOver={() => {
+                  this.setState({ hoverImg: e.id })
+                }}
+                onMouseOut={() => this.setState({ hoverImg: false })}
+                src={`${e.main_image}`}
+                alt="mainImage"
+              />
+              {/* {
+                e.id === hoverImg && <div className='hoverImg'>
+                  {
+                    e.images.map((item: any, index: number) =>
+                      <img
+                        src={item.key}
+                        key={index}
+                        alt="mainImage"
+                      />
+                    )
+                  }
+                </div>
+              } */}
+            </div>
+
           )
         }
       }, {
@@ -192,14 +212,14 @@ class Product extends React.Component<any, any> {
         align: 'center',
         render: (e: any) => {
           return (
-            <span
+            <Button
               className='checkDetail'
               onClick={() => {
                 this.props.history.push(`/operation/detail/${e}`)
               }}
             >
               {'查看详情'}
-            </span>
+            </Button>
           )
         }
       }
@@ -326,11 +346,11 @@ class Product extends React.Component<any, any> {
             </div>
           </section>
           <section className='productmid'>
-            <span
+            <Button
               onClick={() => this.queryData()}
             >
               查询
-            </span>
+            </Button>
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>

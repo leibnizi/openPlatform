@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table, DatePicker } from 'antd'
+import { Table, DatePicker, Button } from 'antd'
 import './lease.less'
 import { getFormatDate } from '../../../helper/utils'
 import { operation } from '../../../redux/actions'
@@ -160,14 +160,14 @@ class Lease extends React.Component<any, any> {
         align: 'center',
         render: (e: any) => {
           return (
-            <span
+            <Button
               className='checkDetail'
               onClick={() => {
                 this.props.history.push(`/operation/lease/detail/${e}`)
               }}
             >
               {'查看详情'}
-            </span>
+            </Button>
           )
         }
       }
@@ -276,11 +276,11 @@ class Lease extends React.Component<any, any> {
             </div>
           </section>
           <section className='productmid'>
-            <span
+            <Button
               onClick={() => this.queryData()}
             >
               查询
-            </span>
+            </Button>
             <img src={require('../../../styles/img/exclamation.png')} />
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>

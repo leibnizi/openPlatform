@@ -1,9 +1,12 @@
 import * as React from 'react'
 import { connect } from 'react-redux';
-import { Table, TimePicker } from 'antd'
+import { Table, DatePicker, Button } from 'antd'
 import './afterSale.less'
 import { getFormatDate } from '../../../helper/utils'
 import request from '../../../services/httpRequest'
+
+const { MonthPicker } = DatePicker
+const monthFormat = 'YYYY/MM'
 
 class AfterSale extends React.Component<any, any> {
   constructor(props: Object) {
@@ -16,11 +19,19 @@ class AfterSale extends React.Component<any, any> {
       type: '',
       begin: null,
       end: null,
+      after_sale_type_list: null
     }
   }
 
   componentDidMount() {
+    const { after_sale_type_list } = this.state
     this.getTableData(1)
+    request('/api/financial/after_sale_type_list')
+      .then((res: any) => {
+        if (res) {
+          this.setState({ after_sale_type_list: res.data })
+        }
+      })
   }
 
   getTableData = (nextPage: number) => {
@@ -33,10 +44,9 @@ class AfterSale extends React.Component<any, any> {
       begin,
       end
     } = this.state
-    const token = this.props.state.userInfo.token
     request('/api/financial/after_sale_list', {
       params: {
-        perPage:20,
+        perPage: 20,
         id,
         product_code,
         supplier_pro_num,
@@ -47,14 +57,16 @@ class AfterSale extends React.Component<any, any> {
       }
     })
       .then((res) => {
-        const listData = res.data.list
-        listData.map((item: any, index: number) => {
-          Object.assign(item, { key: index })
-        })
-        this.setState({
-          listData,
-          pageTotal: res.data.total
-        })
+        if (res) {
+          const listData = res.data.list
+          listData.map((item: any, index: number) => {
+            Object.assign(item, { key: index })
+          })
+          this.setState({
+            listData,
+            pageTotal: res.data.total
+          })
+        }
       })
   }
 
@@ -116,7 +128,7 @@ class AfterSale extends React.Component<any, any> {
       },
     ];
 
-    const { listData, end, begin } = this.state
+    const { listData, end, begin, after_sale_type_list } = this.state
 
     return (
       <div className='operationproduct'>
@@ -151,35 +163,36 @@ class AfterSale extends React.Component<any, any> {
             <select
               onChange={(e) => this.setState({ type: e.target.value })}
             >
-              <option value="">全部</option>
-              <option value="0">未上架</option>
-              <option value="1">已上架</option>
-              <option value="2">待上架</option>
+              {
+                after_sale_type_list&&Object.keys(after_sale_type_list).map((item: any, index: number) =>
+                  <option key={index} value={item}>{after_sale_type_list[item]}</option>
+                )
+              }
             </select>
           </div>
           <div className='item'>
             <p>开始时间:</p>
-            <TimePicker
+            <MonthPicker
               className='itemTime'
-              value={begin}
-              onChange={(e: any) => this.setState({ startTime: e })}
+              onChange={(e: any) => this.setState({ begin: e })}
+              format={monthFormat} placeholder=''
             />
           </div>
           <div className='item'>
             <p>结束时间:</p>
-            <TimePicker
+            <MonthPicker
               className='itemTime'
-              value={end}
-              onChange={(e: any) => this.setState({ endTime: e })}
+              onChange={(e: any) => this.setState({ end: e })}
+              format={monthFormat} placeholder=''
             />
           </div>
         </section>
         <section className='productmid'>
-          <span
-            onClick={()=>this.queryData()}
+          <Button
+            onClick={() => this.queryData()}
           >
             查询
-          </span>
+          </Button>
           <img src={require('../../../styles/img/exclamation.png')} />
           <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
         </section>

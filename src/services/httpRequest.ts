@@ -11,25 +11,25 @@ var is_modal_show = true;
  */
 
 function checkStatus(res: any) {
+  if (res.status == 200) {
+    if (res.data.status_code == 0) {
+      return res
+    } else {
+      if ((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show) {
+        goToLogin()
+        is_modal_show = true;
+        // warning(res.data.msg);
+        is_message_show = false;
+        return false;
+      } else if (is_message_show) {
+        console.log(res);
+        message.error(res.data.msg || '失败', 1);
+        is_message_show = false;
+      }
+      return res
+    }
+  } else {
 
-    if(res.status == 200){
-        if (res.data.status_code == 0) {
-            return res
-        }else {
-            if((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show && (res.config.url && res.config.url.indexOf('login') == -1)){
-                warning(res.data.msg );
-                is_message_show = false;
-                return false;
-            }else if(is_message_show){
-                console.log(res);
-                message.error(res.data.msg || '失败',1);
-                is_message_show = false;
-
-                return res
-            }
-
-        }
-    }else {
     error();
     is_message_show = false;
     return false;
@@ -68,18 +68,23 @@ function handleError(error: any) {
  * 警告弹窗
  */
 function warning(msg) {
-    if(is_modal_show){
-        Modal.warning({
-            title: '警告',
-            content: msg,
-            okText:'确定',
-            onOk() {
-                Cookies.remove('token');
-                window.location.href =  window.location.origin+ "/login";
-                is_modal_show = true;
-            },
-        });
-    }
+  if (is_modal_show) {
+    Modal.warning({
+      title: '警告',
+      content: msg,
+      okText: '确定',
+      onOk() {
+        is_modal_show = true;
+        goToLogin()
+      },
+    });
+  }
+}
+
+const goToLogin = () => {
+  window.location.href = window.location.origin + "/splash"
+  Cookies.remove('name')
+  Cookies.remove('token')
 }
 
 /**
@@ -111,26 +116,42 @@ const instance = axios.create({
   data: {},
   timeout: 50000
 });
+const instance2 = axios.create({
+  baseURL: "http://open-erp.test.msparis.com",
+  headers: {
+    // withCredentials: false
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  params: {},
+  data: {},
+  timeout: 50000
+});
 
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
-    //let token = {}
-    
+  //let token = {}
+  var CancelToken = axios.CancelToken;
+  var cancel: any
 
-    instance.interceptors.request.use(function (config:any) {
-        let token = Cookies.getJSON('token');
-        config.params['token'] = token;
-        config.data['token'] = token;
-        return config;
-    });
+  instance.interceptors.request.use(function (config: any) {
+    let token = Cookies.getJSON('token');
+    config.params['token'] = token;
+    config.data['token'] = token;
+    config.cancelToken = new CancelToken(function executor(c) {
+      // executor 函数接收一个 cancel 函数作为参数
+      cancel = c;
+    })
+    return config;
+  });
 
-    instance.interceptors.response.use(checkStatus);
-    instance.interceptors.response.use(handelData);
-    return instance
+  instance.interceptors.response.use(checkStatus);
+  instance.interceptors.response.use(handelData);
+  return instance
 }
 
 //发送请求的方法
 const request = enhanceAxiosInstance(instance)
+export const easyRequest = enhanceAxiosInstance(instance2)
 
 
 export default request;

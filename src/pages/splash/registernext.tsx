@@ -35,12 +35,48 @@ class RegisterNext extends React.Component<any, any> {
   }
 
   handleSubmit = (e: any) => {
-    console.log('handleSubmit')
-    e.preventDefault();
+    e.preventDefault()
+    const { 
+      email, faxes, phone, nickname, password, password_confirmation,
+      captcha
+    } = this.props.formNext
+    const { fileListSupplement, fileListSupplement2 } = this.state
+    let files: any = []
+    files.push({
+      fiel: fileListSupplement[0].thumbUrl,
+      type_id: 1
+    })
+    fileListSupplement2.map((item: any, index: number) => {
+      files.push({
+        fiel: item.thumbUrl,
+        type_id: 2
+      })
+    })
+
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log('err', err)
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('Received values of form: ', values)
+        request.post('/api/register', {
+          biz_address: values.biz_address,
+          biz_email: values.email,
+          biz_mobile: values.biz_mobile,
+          biz_name: values.biz_name,
+          biz_operator: values.biz_operator,
+          biz_type: values.biz_type,
+          brand: values.brand,
+          category_id: values.category_id,
+          email,
+          faxes: values.faxes,
+          files,
+          mobile: phone,
+          name: nickname,
+          password,
+          password_confirmation,
+          profit_level: values.profit_level,
+          qq: values.qq,
+          verification_code: captcha,
+          website: values.website
+        })
       }
     });
   }
@@ -279,7 +315,7 @@ class RegisterNext extends React.Component<any, any> {
           label="营业执照"
         >
           {getFieldDecorator('files', {
-            rules: [{ required: false, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: 'Please input your phone number!' }],
           })(
             <div>
               <Upload

@@ -5,20 +5,6 @@ import './index.less'
 import { setUserInfo } from '../../redux/actions'
 import request from '../../services/httpRequest'
 
-export const themes = {
-  light: {
-    foreground: '#ffffff',
-    background: '#222222',
-  },
-  dark: {
-    foreground: '#000000',
-    background: '#eeeeee',
-  },
-};
-
-// export const ThemeContext = React.createContext(
-//   themes.dark // 默认值
-// );
 class Login extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
@@ -50,6 +36,8 @@ class Login extends React.Component<any, any> {
           this.props.setUserInfo(res.data)
           this.props.history.push('/')
           Cookies.set('token', res.data.token)
+          localStorage.setItem('name', res.data.name);
+          localStorage.setItem('bizName', res.data.bizName);
         } else {
           this.setState({ loginError: res.msg })
         }
@@ -82,7 +70,7 @@ class Login extends React.Component<any, any> {
             className='password'
           >
             密码
-            <input type="text" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
+            <input type="password" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
           </label>
           <p
             onClick={() => this.props.history.push('/forgetpassword')}

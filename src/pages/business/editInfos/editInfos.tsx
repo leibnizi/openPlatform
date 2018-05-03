@@ -98,7 +98,6 @@ class EditInfos extends React.Component<any, {}> {
     let categoryAllArr:any = []
     if (categoryAll) {
       categoryAllArr = Object.keys(categoryAll).map((item:any, index:number)=> {
-        // debugger
         return categoryAll[`${item}`]
       })
     }

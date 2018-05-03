@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Row, Col, Card } from 'antd'
+import { Button, Row, Col, Card, Icon } from 'antd'
+import { Link } from "react-router-dom";
 import { indexChartsAct, getOnlineProduct, getUserInfos, getMerchantMessage, getThirtyMessage, getFinancialView } from '../../redux/actions'
 // onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync, 
 // import Page from '../../components/page/Page'
@@ -11,7 +12,6 @@ import { height } from 'window-size';
 // import { barChart,lineChart } from '../../components/chartBuilder/index'
 // import { get } from 'http';
 import ReactEcharts from 'echarts-for-react';
-
 
 const { Meta } = Card;
 
@@ -184,9 +184,30 @@ class Home extends Component {
           income_total
         }
       } = this.props
-
     return (
     <div className="home-page">
+      <Row className="notice-box border-radius" type="flex" justify="space-between">
+        <Col>
+          <div className="notice-content-box ellipsis">
+            <Icon 
+              type="sound" 
+              style={{fontSize:"22px", color:"#999",marginRight:"20px"}}
+              />
+            {article && article.map((item, index) => {
+              return (
+                <Link className="notice" key={index} to={`help/detail/${item.id}`}>
+                  {item.title}
+                </Link>
+              )
+            })}
+          </div>
+        </Col>
+        <Col>
+          <Link to="help/announcement">
+            更多
+          </Link>
+        </Col>
+      </Row>
       <Row 
         gutter={moduleGap} 
         type="flex" 
@@ -222,99 +243,82 @@ class Home extends Component {
                   </NumBlock>
               </Col>
               <Col span={12}>
-                  <NumBlock title="可提现现金" value={balance_total}>
+                  <NumBlock title="可提现现金" value={balance_available}>
                 </NumBlock>
               </Col>
             </Row>
           </Card>
         </Col>
-        <Col span={9}>
-            <Card 
-              title="公告" 
-              extra={
-                <div onClick={() => { this.goTo("help/announcement") }}>
-                  查看更多公告
-                </div>}  
-              className="card-row" 
-              bordered={false}
-            >
-            <Row className="notice card-content-margin" gutter={10} type="flex" justify="space-between">
-
-              <div className="ellipsis notice-item-title">{article[0].title}</div>
-              <div className="ellipsis notice-item-title">{article[1].title}</div>
-              <div className="ellipsis notice-item-title">{article[2].title}</div>
-
-            </Row>
-            <Row className="more-notice">
-            </Row>
-          </Card>
-        </Col>
+          <Col span={9}>
+            <Card title="在架商品数据" className="card-row" bordered={false}>
+              <Row className="card-content-margin" gutter={10}>
+                <Col span={12}>
+                  <NumBlock title="租赁商品数" value={rent_total}>
+                    <div className="yesterday-message">
+                      昨日：{yesterday_rent_total}
+                    </div>
+                  </NumBlock>
+                </Col>
+                <Col span={12}>
+                  <NumBlock title="销售商品数" value={sale_total}>
+                    <div className="yesterday-message">
+                      昨日：{yesterday_sale_total}
+                    </div>
+                  </NumBlock>
+                </Col>
+              </Row>
+              {/* <Row className="no-data">
+                <Col>暂无数据</Col>
+              </Row> */}
+            </Card>
+          </Col>
       </Row>
       <Row className="row-gutter" gutter={moduleGap} type="flex" justify="start">
-        <Col span={10}>
-          <Card title="在架商品数据" className="card-column" bordered={false}>
-            <Row className="card-content-margin" gutter={10}>
-              <Col span={12}>
-                <NumBlock title="租赁商品数" value={rent_total}>
-                  <div className="yesterday-message">
-                    昨日：{yesterday_rent_total}
-                  </div>
-                </NumBlock>
-              </Col>
-              <Col span={12}>
-                <NumBlock title="销售商品数" value={sale_total}>
-                  <div className="yesterday-message">
-                    昨日：{yesterday_sale_total}
-                  </div>
-                </NumBlock>
-              </Col>
-            </Row>
-            <Row className="no-data">
-              <Col>暂无数据</Col>
-            </Row>
-          </Card>
-        </Col>
-        <Col span={7}>
+        <Col span={12}>
           <Card 
             title="租赁数据" 
-            className="card-column explain-left" 
+            className="card-line explain-left" 
             bordered={false}
             extra={
               <div className="to-yesterday" >
                 至昨天24点数据
             </div>} 
           >
-            <div className="module-gutter">
-                <NumBlock title="近30天订单数" value={rental_sale && rental_sale.rental.orders_30 || '0'}>
-                </NumBlock>
-            </div>
-            <div className="module-gutter">
-                <NumBlock title="近30天收益金额" value={rental_sale && rental_sale.rental.income_30 || '0'}></NumBlock>
-            </div>
-            <div className="module-gutter">
-                <NumBlock title="累计收益金额" value={rental_sale && rental_sale.rental.inconme_total || '0'}></NumBlock>
+            <div className="card-line-content">
+              <div>
+                  <NumBlock title="近30天订单数" value={rental_sale && rental_sale.rental.orders_30 || '0'}>
+                  </NumBlock>
+              </div>
+              <div>
+                  <NumBlock title="近30天收益金额" value={rental_sale && rental_sale.rental.income_30 || '0'}></NumBlock>
+              </div>
+              <div>
+                  <NumBlock title="累计收益金额" value={rental_sale && rental_sale.rental.inconme_total || '0'}></NumBlock>
+              </div>
             </div>
           </Card>
         </Col>
-        <Col span={7}>
+        <Col span={12}>
           <Card 
             title="销售数据" 
-            className="card-column explain-left" 
+            className="card-line explain-left" 
             bordered={false}
             extra={
               <div className="to-yesterday" >
                 至昨天24点数据
             </div>} 
           >
-            <div className="module-gutter">
-              <NumBlock title="近30天订单数" value={rental_sale && rental_sale.sale.orders_30 || '0'}>
-              </NumBlock>
-            </div>
-            <div className="module-gutter">
-              <NumBlock title="近30天收益金额" value={rental_sale && rental_sale.sale.income_30 || '0'}></NumBlock>
-            </div>
-            <div className="module-gutter">
-              <NumBlock title="累计收益金额" value={rental_sale && rental_sale.sale.inconme_total || '0'}></NumBlock>
+            <div className="card-line-content">
+              <div>
+                <NumBlock title="近30天订单数" value={rental_sale && rental_sale.sale.orders_30 || '0'}>
+                </NumBlock>
+              </div>
+              <div>
+                <NumBlock title="近30天收益金额" value={rental_sale && rental_sale.sale.income_30 || '0'}></NumBlock>
+              </div>
+              <div>
+                <NumBlock title="累计收益金额" value={rental_sale && rental_sale.sale.inconme_total || '0'}></NumBlock>
+              </div>
             </div>
           </Card>
         </Col>

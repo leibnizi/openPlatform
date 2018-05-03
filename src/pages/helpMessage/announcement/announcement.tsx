@@ -14,7 +14,6 @@ class Announcement extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const token = this.props.state.userInfo.token
     request('/api/message/merchant')
       .then(res => {
         console.log('res',res.data)

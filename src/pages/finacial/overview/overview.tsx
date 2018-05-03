@@ -16,7 +16,6 @@ class Overview extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const token = this.props.state.userInfo.token
     request('/api/financial/financial_view')
       .then(res => {
         if (res) {
@@ -36,13 +35,21 @@ class Overview extends React.Component<any, any> {
     })
     this.props.history.push('/fincial/detail')
   }
-  handleCancel = (e) => {
+  handleWidthdraw = (e) => {
     const { overviewdata } = this.state
     this.setState({
       visible: false,
     });
     request.post(`/api/financial/apply`, { balance_available: overviewdata.data.balance_available })
-      .then()
+      .then((res: any) => {
+        if (res.status_code === 0) {
+          const modal = Modal.success({
+            // title: 'This is a notification message',
+            content: '申请成功，如有疑问请联系对接人',
+          });
+          setTimeout(() => modal.destroy(), 1000);
+        }
+      })
   }
 
   render() {
@@ -83,7 +90,7 @@ class Overview extends React.Component<any, any> {
           <Modal
             visible={this.state.visible}
             onOk={this.handleOk}
-            onCancel={this.handleCancel}
+            onCancel={this.handleWidthdraw}
             okText='查看对账明细'
             cancelText='确认申请提现'
           >

@@ -3,6 +3,7 @@ import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, 
 import './register.less'
 import request from '../../services/httpRequest'
 import RegisterNext from './registernext'
+import { stat } from 'fs';
 
 class Register extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class Register extends React.Component {
 
     this.state = {
       tabIndex: 0,
-      name: '',
+      formNext: null,
       mail: '',
       phone: '',
       verificationCode: '',
@@ -38,9 +39,11 @@ class Register extends React.Component {
 
   gotoStep = (e, tabIndex) => {
     e.preventDefault()
+    
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log('Received values of form1: ', values);
       if (tabIndex === 0 || !err) {
-        this.setState({ tabIndex })
+        this.setState({ tabIndex, formNext: values })
       }
     })
   }
@@ -55,15 +58,6 @@ class Register extends React.Component {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
-    })
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
     })
   }
 
@@ -112,7 +106,7 @@ class Register extends React.Component {
 
   render() {
     const {
-      tabIndex, name, mail, phone, verificationCode, password, confirmPassword,
+      tabIndex, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
       mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileList, fileListSupplement,
       autoCompleteResult
@@ -205,7 +199,7 @@ class Register extends React.Component {
                 </header>
                 <hr />
                 {
-                  tabIndex === 1 ? (
+                  tabIndex === 0 ? (
                     <Form onSubmit={(e) => this.gotoStep(e, 1)}>
                       <FormItem
                         {...formItemLayout2}
@@ -311,8 +305,9 @@ class Register extends React.Component {
                         <Button type="primary" htmlType="submit">下一步</Button>
                       </FormItem>
                     </Form>
-                  ) : tabIndex === 0 ? (
+                  ) : tabIndex === 1 ? (
                     <RegisterNext
+                      formNext={this.state.formNext}
                       gotoStep={(e, num) => this.gotoStep(e, num)}
                     />
                   ) : (

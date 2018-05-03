@@ -4,7 +4,7 @@ import { StatusCard } from '../components/statusCard/StatusCard'
 import { connect } from 'react-redux'
 // import { EditStatusForm } from './components/EditStatusForm'
 import './statusControl.less'
-import { handleUploadBase, handleUploadOthers,  business as businessAction } from '../../../redux/actions/index'
+import { handleUploadBase, handleUploadAdd,  business as businessAction } from '../../../redux/actions/index'
 
 const { getStatusInfos, deleteStatus } = businessAction
 const TabPane = Tabs.TabPane;
@@ -115,7 +115,7 @@ class StatusControl extends React.Component<any, any> {
         type_id: 1,
       }))
     } else{
-      dispatch(handleUploadOthers({
+      dispatch(handleUploadAdd({
         statusMsg: {
           file: changeBaseStatusMsg.statusUrl,
           type_id: 1,
@@ -183,7 +183,7 @@ class StatusControl extends React.Component<any, any> {
         if (status === 'done') {
           const { dispatch } = this.props
 
-          dispatch(handleUploadOthers({
+          dispatch(handleUploadAdd({
             statusMsg:{
               file: response.data[0].url,
               type_id: 2,
@@ -250,7 +250,20 @@ class StatusControl extends React.Component<any, any> {
                   </div>
                 </Col>
                 <Col span={21} className="tab-content-right">
-                {
+                  <Row>
+                    <Col>
+                      <Upload
+                        listType="picture-card"
+                        {...props1}
+                      >
+                        {isEdit ? <Button type="primary">修改</Button> : null}
+                      </Upload>
+                      <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                      </Modal>
+                    </Col>
+                  </Row>
+                {/* {
                   this.state.baseStatus.length ? 
                     <Row>
                       <Col>
@@ -265,9 +278,16 @@ class StatusControl extends React.Component<any, any> {
                         </Modal>
                       </Col>
                       </Row> : <div className="no-status">
-                        <div className="no-status-content">暂无资质</div>
+                        <div className="no-status-content">
+                          <Upload
+                            listType="picture-card"
+                            {...props1}
+                          >
+                            {isEdit ? <Button type="primary">添加资质</Button> : null}
+                          </Upload>
                         </div>
-                }
+                        </div>
+                } */}
                 </Col>
               </Row>
             </TabPane>

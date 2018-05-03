@@ -1,12 +1,6 @@
 import { delay, takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import request from '../../../src/services/httpRequest'
-//import axios from 'axios';
-// const delay = (ms: any) => new Promise(resolve => setTimeout(resolve, ms))
-// interface SagaPostType {
-//   posts: Object
-//   type: string
-// }
 
 export function* incrementAsync() {
   yield delay(1000)
@@ -33,7 +27,7 @@ export default function* rootSaga() {
   // yield takeEvery('SAGA_POSTS', sagaPost)
   //资质管理
   yield takeEvery("UPLOAD_IMAGE_BASE", uploadImageBase) 
-  yield takeEvery("UPLOAD_IMAGE_OTHERS", uploadImageOthers) 
+  yield takeEvery("UPLOAD_IMAGE_ADD", uploadImageAdd) 
   
   //提交商家信息
   yield takeEvery("POST_BUSINESS_INFO", postBsInfos) 
@@ -43,7 +37,8 @@ export default function* rootSaga() {
   yield takeEvery("SAVE_ACCOUNT_PASSWPRD", saveAccountPassword)
   //添加财务信息
   yield takeEvery("POST_BILL_INFO", postBillInfo)
-
+  /* 获取订单状态 */
+  yield takeEvery("GET_STATUS_LIST", getStatusList)
 }
 
 //把上传到的图片路径传给后端(基础资质)
@@ -59,14 +54,17 @@ export function* uploadImageBase(action: any = {}) {
       return false
     }
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
-    yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
+    yield put({ type: "GET_STATUS_INFO" })
+    // yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: response.data.data });
+    // case 'ADD_STATUS_SUCCESS':
+    // return action.data
   } catch (error) {
     // yield put(fetchFailure());
   }
 }
 
 //把上传到的图片路径传给后端(补充资质-添加)
-export function* uploadImageOthers(action: any = {}) {
+export function* uploadImageAdd(action: any = {}) {
   const { statusMsg } = action.data
   try {
     const response = yield call(request.post, "/api/qualification/add", {
@@ -78,7 +76,7 @@ export function* uploadImageOthers(action: any = {}) {
     }
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
     yield put({ type: "GET_STATUS_INFO" })
-    yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
+    // yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -193,7 +191,8 @@ export function* deleteStatus(action: any) {
         id
       }
     });
-    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data[0] });
+    // yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data[0] });
+    yield put({ type: "GET_STATUS_INFO" })
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg });
     // yield put({ type: "GET_STATUS_INFO" })
   } catch (error) {
@@ -292,5 +291,20 @@ export function* postBillInfo(action: any = {}) {
 
   } catch (error) {
     yield put({ type: 'SHOW_GLOBLE_ERR', data: "出现未知异常" });
+  }
+}
+
+function* getStatusList(action:any) {
+  try {
+    const response = yield call(request, "/api/config/order-status")
+    if (response.status_code != 0) {
+      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
+      return false
+    } else {
+      yield put({ type: 'SET_STATUS_LIST', data: response.data });
+    }
+    
+  } catch {
+    // yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
   }
 }

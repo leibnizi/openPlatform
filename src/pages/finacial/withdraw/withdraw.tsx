@@ -15,7 +15,6 @@ class Withdraw extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const token = this.props.state.userInfo.token
     request('/api/financial/get_list')
       .then(res => {
         const listData = res.data

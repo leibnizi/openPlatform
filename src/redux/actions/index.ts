@@ -1,6 +1,7 @@
 
 import store from '../store/store'
 import business from './business'
+import operation from './operation'
 
 const setUserInfo = (info: any) => store.dispatch({ type: 'SET_USERINFO', info })
 // const getOnlineProduct = (info: any) => store.dispatch({ type: 'GET_ONLINE_PRODUCT', info })
@@ -40,13 +41,14 @@ const handleUploadBase = (prarms:any) => ({
   // type_id: 1,
   // token
 })
-const handleUploadOthers = (prarms:any) => ({
-  type: 'UPLOAD_IMAGE_OTHERS',
+const handleUploadAdd = (prarms:any) => ({
+  type: 'UPLOAD_IMAGE_ADD',
   data: {...prarms}
 })
 
 export {
   business,
+  operation,
   getUserInfos,
   setUserInfo,
   indexChartsAct,
@@ -54,7 +56,7 @@ export {
   getOnlineProduct,
   getMerchantMessage,
   handleUploadBase,
-  handleUploadOthers,
+  handleUploadAdd,
   getThirtyMessage,
   getFinancialView
 }

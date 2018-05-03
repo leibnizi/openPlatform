@@ -1,3 +1,11 @@
+
+.card-line{
+  // display: flex;
+  .card-line-content{
+    display: flex;
+    justify-content: space-between;
+  }
+}
 .card-row{
   height: 240px;
   p{
@@ -10,17 +18,20 @@
   height: 350px;
 }
 .row-gutter{
-  margin-top: 15px;
+  margin-top: 20px;
 }
 .charts-box{
   // padding-top: 30px;
   // background-color: #fff;
-  
 }
 
 .charts-items{
   background-color: #fff;
   padding: 25px 25px 0;
+  
+}
+.card-row, .card-row, .card-line{
+  border-radius: 5px;
 }
 .module-gutter{
   margin-top: 15px;
@@ -28,20 +39,33 @@
 .card-content-margin{
   // margin: 20px 0 0px;
 }
-.notice{
-  padding: 4px 10px;
-  &>div{
-    margin: 5px 0;
-    padding-bottom: 4px;
-    border-bottom: 1px dashed #ccc;
+.notice-box{
+  background: #fff;
+  // width: 100%;
+  padding: 7px 30px;
+  margin-bottom: 20px;
+  .notice-content-box{
+    display: flex;
+    max-width: 80%;
+    .notice{
+      margin-right: 20px;
+      color: #333;
+    }
   }
-  .notice-item-title{
-    width: 100%;
-  }
+  
+  // padding: 4px 10px;
+  // &>div{
+  //   margin: 5px 0;
+  //   padding-bottom: 4px;
+  //   border-bottom: 1px dashed #ccc;
+  // }
+  // .notice-item-title{
+  //   width: 100%;
+  // }
 }
-.more-notice{
-  text-align: right;
-}
+// .more-notice{
+//   text-align: right;
+// }
 .yesterday-message{
   margin-top: 10px;
   color: #ccc;

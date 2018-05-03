@@ -74,15 +74,17 @@ class Sale extends React.Component<any, any> {
     } = this.state
     request('/api/order/list/2', {
       params: {
-        product_spu,
-        pay_status,
-        m_order_no,
-        split_order_no,
-        status,
-        order_time: [
-          startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
-          endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''
-        ]
+        _search: {
+          product_spu,
+          pay_status,
+          m_order_no,
+          split_order_no,
+          status,
+          order_time: [
+            startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
+            endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''
+          ]
+        }
       }
     })
       .then((res) => {

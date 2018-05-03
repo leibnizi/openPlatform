@@ -74,14 +74,16 @@ class Lease extends React.Component<any, any> {
     request('/api/order/list/1', {
       params: {
         perPage: 20,
-        product_spu,
-        m_order_no,
-        split_order_no,
-        status,
-        order_time: [
-          startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
-          endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''
-        ]
+        _search: {
+          product_spu,
+          m_order_no,
+          split_order_no,
+          status,
+          order_time: [
+            startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
+            endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''
+          ]
+        }
       }
     })
       .then((res) => {

@@ -70,12 +70,13 @@ export function* uploadImageAdd(action: any = {}) {
     const response = yield call(request.post, "/api/qualification/add", {
       files: action.data
     })
+    
     if (response.status_code != 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
       return false
     }
-    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
-    yield put({ type: "GET_STATUS_INFO" })
+    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg || "操作成功！！" });
+    yield put({ type: "ADD_STATUS_SUCCESS", data: response.data })
     // yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
   } catch (error) {
     // yield put(fetchFailure());
@@ -191,8 +192,8 @@ export function* deleteStatus(action: any) {
         id
       }
     });
-    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data[0] });
-    yield put({ type: "GET_STATUS_INFO" })
+    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data });
+    // yield put({ type: "GET_STATUS_INFO" })
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg });
   } catch (error) {
     // yield put(fetchFailure());

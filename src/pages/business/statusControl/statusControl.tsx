@@ -28,12 +28,23 @@ class StatusControl extends React.Component<any, any> {
       canEditOthersStatus: false,
       imageHasChange: false,
       othersImageHasChange: false,
-      changeBaseStatusMsg:{}, 
     }
   }
 
   baseStatusId = ''
   deleteStatusId = ''
+
+  initStateFun =()=> {
+    this.setState({
+      // baseStatusArray: [],
+      // othersStatusArray: [],
+      canEditBaseStatus: false,
+      canEditOthersStatus: false,
+      imageHasChange: false,
+      othersImageHasChange: false,
+    })
+    console.log("initStateFun")
+  }
 
   componentDidMount() {
     const { dispatch } = this.props
@@ -51,8 +62,7 @@ class StatusControl extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.statusInfos,"hhg")
-    const { statusInfos, deleteStatusId } = nextProps
+    const { statusInfos } = nextProps
 
     let baseStatus: any[] = []
     let othersStatus: any[] = []
@@ -62,27 +72,14 @@ class StatusControl extends React.Component<any, any> {
       if (newItem.type_id === "基础资质") {
         baseStatus.push(newItem)
         this.baseStatusId = item.id
-        // if (deleteStatusId) {
-        //   this.baseStatusId
-        // }
       }
       else if (newItem.type_id){
         othersStatus.push(newItem)
       }
-
-      if (!this.state.baseStatusArray.length) {
-        this.setState({
-          baseStatusArray: baseStatus,
-        })
-      }
-      if (!this.state.othersStatusArray.length) {
-        this.setState({
-          othersStatusArray: othersStatus,
-        })
-      }
     });
     this.setState({
-      // baseStatusArray: statusInfos
+      baseStatusArray: baseStatus,
+      othersStatusArray: othersStatus,
     })
   }
 
@@ -97,7 +94,6 @@ class StatusControl extends React.Component<any, any> {
           file: url,
           type_id: 1
         })
-        console.log(this.hasUploadImagesUrls,"mmn")
         // debugger
         // this.statusDataToUploadNeed({
 
@@ -111,19 +107,23 @@ class StatusControl extends React.Component<any, any> {
         }
         this.setState({
           baseStatusArray: [newBaseStatusArray],
-          imageHasChange: true
+          imageHasChange: true,
         })
+        // setTimeout(() => {
+        //   console.log(this.state.imageHasChange)
+        // }, 1);
       }
       else{
         this.setState({
           baseStatusArray: fileList,
-          imageHasChange: true
+          // imageHasChange: true,
         });
       }
   }
+
+
   editOrAddBaseStatus = () => {
     const { dispatch } = this.props
-    // const { changeBaseStatusMsg } = this.state
 
     if (this.baseStatusId) {
       dispatch(handleUploadBase({
@@ -137,8 +137,8 @@ class StatusControl extends React.Component<any, any> {
     }
 
     this.setState({
-      canEditOthersStatus: false,
-      othersImageHasChange: false
+      canEditBaseStatus: false,
+      imageHasChange: false,
     })
   }
 
@@ -150,23 +150,6 @@ class StatusControl extends React.Component<any, any> {
         file: url,
         type_id: 2
       })
-      // console.log(this.hasUploadOrdersImagesUrls, "mmn")
-      // this.
-      // const that = this
-      // const newOthersStatusArray = [...this.state.othersStatusArray, {
-      //   uid: - that.baseStatusId,
-      //   id: that.baseStatusId,
-      //   url,
-      //   type_id: '补充资质'
-      // }]
-      
-      // Object.assign({}, this.state.othersStatusArray, {
-      //   uid: - that.baseStatusId,
-      //   id: that.baseStatusId,
-      //   url,
-      //   type_id: '补充资质'
-      // })
-      
 
       this.setState({
         othersImageHasChange: true
@@ -175,7 +158,7 @@ class StatusControl extends React.Component<any, any> {
     else {
       this.setState({
         othersStatusArray: fileList,
-        imageHasChange: true
+        // othersImageHasChange: true
       });
     }
   }
@@ -186,10 +169,10 @@ class StatusControl extends React.Component<any, any> {
     this.hasUploadOrdersImagesUrls = []
   }
 
-  deleteStatusFun = (id) => {
+  deleteStatusFun = (file) => {
     const { dispatch } = this.props
-    // console.log(e,"mmnbbb")
-    dispatch(deleteStatus(id))
+    dispatch(deleteStatus(file.id))
+    this.initStateFun()
   }
 
   showEditBtn = () => {
@@ -227,13 +210,13 @@ class StatusControl extends React.Component<any, any> {
       imageHasChange,
       othersImageHasChange 
     } = this.state;
-    console.log(baseStatusArray,"jjy")
     const uploadButton = (
       <div>
         <Icon type="plus" />
         <div className="ant-upload-text">修改基础资质</div>
       </div>
     );
+    console.log(canEditBaseStatus,"???",imageHasChange)
     
     return (
       <div className="status-container">
@@ -281,7 +264,7 @@ class StatusControl extends React.Component<any, any> {
                     listType="picture-card"
                     fileList={baseStatusArray}
                     // onPreview={this.handlePreview}
-                    onRemove={() => { this.deleteStatusFun(this.baseStatusId) }}
+                    onRemove={(file) => { this.deleteStatusFun(file) }}
                     onChange={this.baseImageResultFun}
                   >
                     {canEditBaseStatus ? uploadButton : null}
@@ -309,7 +292,7 @@ class StatusControl extends React.Component<any, any> {
                       onClick={this.showOthersEditBtn}
                     // disabled={this.state.fileList.length === 0}
                     >
-                      修改基本资质
+                      修改补充资质
                     </Button>
                     <Button
                       style={{ display: `${canEditOthersStatus && !othersImageHasChange ? "block" : "none"}` }}
@@ -325,7 +308,7 @@ class StatusControl extends React.Component<any, any> {
                     listType="picture-card"
                     fileList={othersStatusArray}
                     // onPreview={this.handlePreview}
-                    onRemove={() => { this.deleteStatusFun(this.baseStatusId) }}
+                    onRemove={(file) => { this.deleteStatusFun(file) }}
                     onChange={this.othersImageResultFun}
                   >
                     {canEditOthersStatus ? uploadButton : null}

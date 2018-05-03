@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table,Row, Col } from 'antd'
+import { Table,Row, Col, Button } from 'antd'
 // import { GET_POSTS } from '../../../redux/actions/index'
 import request from '../../../services/httpRequest'
 import './product.less'

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { Input } from 'antd'
 import * as Cookies from 'js-cookie'
 import './index.less'
 import { setUserInfo } from '../../redux/actions'
@@ -64,13 +65,13 @@ class Login extends React.Component<any, any> {
             className='id'
           >
             账户
-            <input type="text" value={this.state.value} onChange={(e) => this.handleChangeId(e.target.value)} />
+            <Input type="text" value={this.state.value} onChange={(e) => this.handleChangeId(e.target.value)} />
           </label>
           <label
             className='password'
           >
             密码
-            <input type="password" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
+            <Input type="password" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
           </label>
           <p
             onClick={() => this.props.history.push('/forgetpassword')}

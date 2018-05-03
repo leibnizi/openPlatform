@@ -27,13 +27,13 @@ export default class Splash extends React.Component<any, any> {
             className='login'
           >
             登录
-        </Link>
+          </Link>
           <Link
             to='/register'
             className='register'
           >
             申请加入女神派
-        </Link>
+          </Link>
         </div>
 
       </div>

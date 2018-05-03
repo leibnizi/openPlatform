@@ -123,6 +123,7 @@ class Home extends Component {
         {
           name: '动租率',
           type,
+          smooth: true,
           stack: '总量',
           areaStyle: { normal: {} },
           data: [120, 132, 101, 134, 90, 230, 210],
@@ -203,7 +204,7 @@ class Home extends Component {
           </div>
         </Col>
         <Col>
-          <Link to="help/announcement">
+          <Link style={{color: "#f03a80"}} to="help/announcement">
             更多
           </Link>
         </Col>
@@ -216,7 +217,7 @@ class Home extends Component {
       >
         <Col span={6}>
           <Card title={`欢迎您：${name}`}  className="card-row" bordered={false}>
-            <p>上次登录：{updated_at}</p>
+            <p style={{marginTop:'15px'}}>上次登录：{updated_at}</p>
             <p>到期登录：{expire_at}</p>
             <Row className="index-btn-box" type="flex" justify="space-between">
               <Col span={8}>

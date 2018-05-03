@@ -278,7 +278,7 @@ export function* postBillInfo(action: any = {}) {
   const { token, value } = action.data
   try {
     const response = yield call(request.post, "/api/finance/add", {
-      data: value
+      ...value
     });
     
     if (response.status_code != 0) {

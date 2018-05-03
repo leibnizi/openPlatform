@@ -55,7 +55,6 @@ class Infos extends React.Component<any, {}> {
         <header>
           <Row className="">
             <Col span={3} className="content-title">商家信息</Col>
-            <Col className="describe" offset={1} >BUSINESS INFOMATION</Col>
           </Row>
         </header>
 
@@ -80,7 +79,7 @@ class Infos extends React.Component<any, {}> {
           <Row type="flex" align="middle" className="row-box">
             <Col span={3} className="content-title-label">商家状态：</Col>
             <Col className="content-title-text">{merchant_state}</Col>
-            <Col offset={1} className="describe">有效期至：{cooperation_term}</Col>
+            <Col offset={1} className="describe">有效期至：{ cooperation_term && cooperation_term.substring(0, 11)}</Col>
           </Row>
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">类目：</Col>

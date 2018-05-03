@@ -70,7 +70,7 @@ class Bill extends React.Component<any, any> {
         <Row style={{ display: `${!is_edit ? 'block' : 'none'}` }} className="message-box">
           <Col span={12}>
             <Row className="message-item">
-              <Col span={5}>
+              <Col className="lable-font-weight" span={5}>
                 开户行：
               </Col>
                 <Col span={19}>
@@ -78,27 +78,27 @@ class Bill extends React.Component<any, any> {
                 </Col>
               </Row>
               <Row className="message-item">
-                <Col span={5}>
+                <Col className="lable-font-weight" span={5}>
                   收款账号：
-              </Col>
+                </Col>
                 <Col span={19}>
                 {billInfos.account}
                 </Col>
               </Row>
               <Row className="message-item">
-                <Col span={5}>
+                <Col className="lable-font-weight" span={5}>
                   收款人：
-              </Col>
+                </Col>
                 <Col span={19}>
                 {billInfos.payee}
                 </Col>
               </Row>
               <Row className="message-item">
-                <Col span={5}>
+                <Col className="lable-font-weight" span={5}>
                   信息状态：
-              </Col>
-                <Col span={19}>
-                {billInfos.finance_state}
+                </Col>
+                <Col className="lable-font-weight" span={19}>
+                  {billInfos.finance_state}
                 </Col>
               </Row>
           </Col>

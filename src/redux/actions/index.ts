@@ -38,12 +38,15 @@ const handleUploadBase = (prarms:any) => ({
   type: 'UPLOAD_IMAGE_BASE',
   data: {...prarms}
   // statusUrl,
-  // type_id: 1,
-  // token
+  // id: "",
 })
 const handleUploadAdd = (prarms:any) => ({
   type: 'UPLOAD_IMAGE_ADD',
-  data: {...prarms}
+  data: prarms
+  // dispatch(handleUploadAdd({
+  //   file: this.hasUploadOrdersImagesUrls[0],
+  //   type_id: 2,
+  // }))
 })
 
 export {

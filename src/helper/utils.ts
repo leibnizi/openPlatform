@@ -1,4 +1,4 @@
-export const getFormatDate = (date:any, pattern:string) => {
+export const getFormatDate = (date: any, pattern: string) => {
   if (date === undefined) {
     date = new Date();
   }

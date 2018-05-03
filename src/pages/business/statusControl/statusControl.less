@@ -1,67 +1,98 @@
-@content-left:30px;
-html{
-  .status-container{
-    .tab1, .tab2{
-      .tab-content-right{
-        padding-left: 20px;
-        height: 100%;
-        min-height: 60vh;
-      }
-      .no-status{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        border-radius: 10px;
-        background-color: #fff;
-        border: 1px solid #f2f2f2;
-        .no-status-content{
-          // flex-grow: 1;f
-          color: #eeeeee;
-          font-size: 28px;
-          font-weight: 800;
-        }
-      }
-      .ant-upload-list-picture-card .ant-upload-list-item{
-        width: 304px;
-        height: 214px;
-      }
+// @content-left:30px;
+// html{
+//   .status-container{
+//     .tab1, .tab2{
+//       .tab-content-right{
+//         padding-left: 20px;
+//         height: 100%;
+//         min-height: 60vh;
+//       }
+//       .no-status{
+//         width: 100%;
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//         height: 100%;
+//         border-radius: 10px;
+//         background-color: #fff;
+//         border: 1px solid #f2f2f2;
+//         .no-status-content{
+//           // flex-grow: 1;f
+//           color: #eeeeee;
+//           font-size: 28px;
+//           font-weight: 800;
+//         }
+//       }
+//       .ant-upload-list-picture-card .ant-upload-list-item{
+//         width: 304px;
+//         height: 214px;
+//       }
       
-    }
-    .tab1{
-      .btn-box{
-        margin-top: 200px;
-        padding-bottom: 5px;
-      }
-      .ant-upload.ant-upload-select-picture-card{
-        margin-top: 171px;
-        margin-left: @content-left;
-        height: auto;
-        border: none;
-        background: transparent;
-      }
-    }
-    .tab2{
-      .ant-upload.ant-upload-select-picture-card{
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        border: none;
-        height: auto;
-        .ant-upload{
-          background-color: transparent;
-          padding: 0;
-          text-align: left;
-          .ant-btn{
-            width: 100%;
-            max-width: 150px;
-          }
-        }
-      }
-    }
+//     }
+//     .tab1{
+//       .btn-box{
+//         margin-top: 200px;
+//         padding-bottom: 5px;
+//       }
+//       .ant-upload.ant-upload-select-picture-card{
+//         margin-top: 171px;
+//         margin-left: @content-left;
+//         height: auto;
+//         border: none;
+//         background: transparent;
+//       }
+//       // .ant-upload-list-picture-card .ant-upload-list-item:hover .ant-upload-list-item-info:before{
+//       //   opacity: 0;
+//       // }
+//       // .ant-upload-list-item-actions{
+//       //   display: none;
+//       // }
+//     }
+//     .tab2{
+//       .ant-upload.ant-upload-select-picture-card{
+//         position: absolute;
+//         // left: 0;
+//         bottom: 0;
+//         border: none;
+//         height: auto;
+//         .ant-upload{
+//           background-color: transparent;
+//           padding: 0;
+//           text-align: left;
+//           .ant-btn{
+//             width: 100%;
+//             max-width: 150px;
+//           }
+//         }
+//       }
+//     }
+//   }
+//   .ant-modal-body{
+//     height: auto;
+//   }
+// }
+
+.content-title-sider{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 120px;
+  font-size: 16px;
+  padding-left: 10px;
+  min-height: 60vh;
+}
+.status-content{
+  position: relative;
+  flex-grow: 1;
+  .ant-upload-list-picture-card .ant-upload-list-item{
+    width: 300px;
+    height: 214px;
   }
-  .ant-modal-body{
-    height: auto;
+  .ant-upload.ant-upload-select-picture-card{
+    // position: absolute;
+    // // width: 300px;
+    // left: 0;
+    // bottom: 0;
+    height: 214px;
   }
 }

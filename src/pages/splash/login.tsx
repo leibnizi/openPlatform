@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { Form, Icon, Input, Button, Checkbox } from 'antd'
 import * as Cookies from 'js-cookie'
 import './index.less'
 import { setUserInfo } from '../../redux/actions'
@@ -22,27 +23,31 @@ class Login extends React.Component<any, any> {
 
   loginin = (e: any) => {
     e.preventDefault()
-    const { id, password } = this.state
-    const body = !!Number(id) ? {
-      mobile: id,
-      password
-    } : {
-        name: id,
-        password
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        const body = !!Number(values.userName) ? {
+          mobile: values.userName,
+          password: values.password
+        } : {
+            name: values.userName,
+            password: values.password
+          }
+        request.post('/api/login', body)
+          .then((res: any) => {
+            if (res.status_code === 0) {
+              this.props.setUserInfo(res.data)
+              this.props.history.push('/')
+              Cookies.set('token', res.data.token)
+              localStorage.setItem('name', res.data.name);
+              localStorage.setItem('bizName', res.data.bizName);
+            } else {
+              this.setState({ loginError: res.msg })
+            }
+          })
+          .catch((err: any) => this.setState({ loginError: err.msg }))
       }
-    request.post('/api/login', body)
-      .then((res: any) => {
-        if (res.status_code === 0) {
-          this.props.setUserInfo(res.data)
-          this.props.history.push('/')
-          Cookies.set('token', res.data.token)
-          localStorage.setItem('name', res.data.name);
-          localStorage.setItem('bizName', res.data.bizName);
-        } else {
-          this.setState({ loginError: res.msg })
-        }
-      })
-      .catch((err: any) => this.setState({ loginError: err.msg }))
+    })
   }
 
   handleChangeId = (id: string) => {
@@ -55,30 +60,44 @@ class Login extends React.Component<any, any> {
 
   render() {
     const { loginError } = this.state
+    const { getFieldDecorator } = this.props.form
+    const FormItem = Form.Item
     return (
       <div className='splash'>
         <p className='name splashchild'>商家后台管理系统</p>
         <p className='loginError'>{loginError ? loginError : '   '}</p>
-        <form onSubmit={(e) => this.loginin(e)}>
-          <label
-            className='id'
-          >
-            账户
-            <input type="text" value={this.state.value} onChange={(e) => this.handleChangeId(e.target.value)} />
-          </label>
-          <label
-            className='password'
-          >
-            密码
-            <input type="password" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
-          </label>
+        <Form onSubmit={this.loginin} className="login-form">
+          <FormItem>
+            {getFieldDecorator('userName', {
+              rules: [{ required: true, message: '请输入用户名' }],
+            })(
+              <div className='loginname'>
+                <span>账户</span>
+                <Input className='logininput' placeholder="" />
+              </div>
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: '请输入密码' }],
+            })(
+              <div className='loginpass'>
+                <span>密码</span>
+                <Input className='logininput' type="password" placeholder="" />
+              </div>
+            )}
+          </FormItem>
           <p
             onClick={() => this.props.history.push('/forgetpassword')}
           >
             忘记密码？
           </p>
-          <input className='submit' type="submit" value="登录" />
-        </form>
+          <FormItem className='loginsubmit'>
+            <Button type="primary" htmlType="submit" className="login-form-button">
+              登录
+            </Button>
+          </FormItem>
+        </Form>
       </div>
     )
   }
@@ -92,5 +111,5 @@ const mapDispatchToProps: any = (dispatch: any) => ({
   dispatch,
   setUserInfo
 })
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+const WrappedNormalLoginForm = Form.create()(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedNormalLoginForm)

@@ -12,7 +12,9 @@ class Forgetpassword extends React.Component<any, any> {
       verificationCode: '',
       newpassword: '',
       passwordconfirm: '',
-      formValue: null
+      formValue: null,
+      second: 60,
+      verificationShow: false
     }
   }
 
@@ -21,17 +23,26 @@ class Forgetpassword extends React.Component<any, any> {
   // }
 
   getCaptcha = () => {
+    const { second } = this.state
     const form = this.props.form
     const mobile = form.getFieldValue('phone')
     request('/api/verification_code', {
       params: { mobile }
     })
+    const siv = setInterval(() => {
+      this.setState({ second: this.state.second - 1 })
+      if (this.state.second < 0) {
+        this.setState({ second: 60 })
+        clearInterval(siv)
+      }
+    }, 1000)
+
   }
 
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!')
+      callback('两次密码不一样!')
     } else {
       callback()
     }
@@ -69,8 +80,18 @@ class Forgetpassword extends React.Component<any, any> {
     })
   }
 
+  validateMobile = (rule, value, callback) => {
+    if (value && !(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
+      callback('请输入正确格式手机号码，之后才能获取验证码！')
+      this.setState({ verificationShow: false })
+    } else {
+      callback()
+      this.setState({ verificationShow: true })
+    }
+  }
+
   render() {
-    const { phone, verificationCode, newpassword, passwordconfirm } = this.state
+    const { phone, verificationCode, newpassword, passwordconfirm, second, verificationShow } = this.state
     const FormItem = Form.Item;
     const Option = Select.Option;
     const AutoCompleteOption = AutoComplete.Option;
@@ -122,7 +143,7 @@ class Forgetpassword extends React.Component<any, any> {
                       required: true, message: 'Please input the captcha you got!'
                     },
                     {
-                      len: 11
+                      validator: this.validateMobile,
                     }
                   ],
                 })(
@@ -151,7 +172,13 @@ class Forgetpassword extends React.Component<any, any> {
                 )}
               </Col>
               <Col span={8}>
-                <Button onClick={this.getCaptcha} type="primary">获取验证码</Button>
+                {
+                  second !== 60 ? <Button disabled>{second}s之后重新获取</Button> :
+                    (
+                      verificationShow ? <Button onClick={this.getCaptcha} type="primary">获取验证码</Button> :
+                        <Button disabled type="primary">获取验证码</Button>
+                    )
+                }
               </Col>
             </Row>
           </FormItem>

@@ -34,12 +34,14 @@ class Register extends React.Component {
       fileListSupplement: [],
       confirmDirty: false,
       autoCompleteResult: [],
+      second: 60,
+      verificationShow: false
     }
   }
 
   gotoStep = (e, tabIndex) => {
     e.preventDefault()
-    
+
     this.props.form.validateFieldsAndScroll((err, values) => {
       console.log('Received values of form1: ', values);
       if (tabIndex === 0 || !err) {
@@ -96,12 +98,29 @@ class Register extends React.Component {
     }
   }
 
+  validateMobile = (rule, value, callback) => {
+    if (value && !(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
+      callback('请输入正确格式手机号码，之后才能获取验证码！')
+      this.setState({ verificationShow: false })
+    } else {
+      callback()
+      this.setState({ verificationShow: true })
+    }
+  }
+
   getCaptcha = () => {
     const form = this.props.form
     const mobile = form.getFieldValue('phone')
     request('/api/verification_code', {
       params: { mobile }
     })
+    const siv = setInterval(() => {
+      this.setState({ second: this.state.second - 1 })
+      if (this.state.second < 0) {
+        this.setState({ second: 60 })
+        clearInterval(siv)
+      }
+    }, 1000)
   }
 
   render() {
@@ -109,7 +128,7 @@ class Register extends React.Component {
       tabIndex, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
       mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileList, fileListSupplement,
-      autoCompleteResult
+      autoCompleteResult, second, verificationShow
     } = this.state
     const { getFieldDecorator } = this.props.form;
     const uploadButton = (
@@ -208,7 +227,14 @@ class Register extends React.Component {
                         <Row gutter={8}>
                           <Col span={15}>
                             {getFieldDecorator('nickname', {
-                              rules: [{ required: true, message: 'Please input the captcha you got!' }],
+                              rules: [
+                                {
+                                  required: true, message: '请输入你的用户名!'
+                                },
+                                {
+                                  validator: this.validateNickName,
+                                }
+                              ],
                             })(
                               <Input />
                             )}
@@ -224,9 +250,9 @@ class Register extends React.Component {
                       >
                         {getFieldDecorator('email', {
                           rules: [{
-                            type: 'email', message: 'The input is not valid E-mail!',
+                            type: 'email', message: '无效的E-mail地址!',
                           }, {
-                            required: true, message: 'Please input your E-mail!',
+                            required: true, message: '请输入你的E-mail!',
                           }],
                         })(
                           <Input />
@@ -237,7 +263,14 @@ class Register extends React.Component {
                         label="手机号"
                       >
                         {getFieldDecorator('phone', {
-                          rules: [{ required: true, message: 'Please input your phone number!' }],
+                          rules: [
+                            {
+                              required: true, message: '请输入你的手机号码!'
+                            },
+                            {
+                              validator: this.validateMobile,
+                            }
+                          ],
                         })(
                           <Input style={{ width: '100%' }} />
                         )}
@@ -262,7 +295,12 @@ class Register extends React.Component {
                             )}
                           </Col>
                           <Col span={8}>
-                            <Button onClick={this.getCaptcha} type="primary">获取验证码</Button>
+                            {
+                              second !== 60 ? <Button disabled>{second}s之后重新获取</Button> : (
+                                verificationShow ? <Button onClick={this.getCaptcha} type="primary">获取验证码</Button> :
+                                <Button disabled type="primary">获取验证码</Button>
+                              )
+                            }
                           </Col>
                         </Row>
                       </FormItem>
@@ -274,12 +312,12 @@ class Register extends React.Component {
                           <Col span={15}>
                             {getFieldDecorator('password', {
                               rules: [{
-                                required: true, message: 'Please input the captcha you got!'
+                                required: true, message: '请输入密码!'
                               }, {
                                 validator: this.validateToNextPassword,
                               }],
                             })(
-                              <Input />
+                              <Input type="password" />
                             )}
                           </Col>
                           <Col span={8}>
@@ -293,7 +331,7 @@ class Register extends React.Component {
                       >
                         {getFieldDecorator('confirm', {
                           rules: [{
-                            required: true, message: 'Please confirm your password!',
+                            required: true, message: '请确认你的密码!',
                           }, {
                             validator: this.compareToFirstPassword,
                           }],

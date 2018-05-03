@@ -35,19 +35,22 @@ class Register extends React.Component {
       confirmDirty: false,
       autoCompleteResult: [],
       second: 60,
-      verificationShow: false
+      verificationShow: false,
+      formValue: null
     }
   }
 
-  gotoStep = (e, tabIndex) => {
+  gotoStep = (e, tabIndex, formValue) => {
     e.preventDefault()
-
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log('Received values of form1: ', values);
-      if (tabIndex === 0 || !err) {
-        this.setState({ tabIndex, formNext: values })
-      }
-    })
+    if (tabIndex === 0) {
+      this.setState({ tabIndex, formValue })
+    } else {
+      this.props.form.validateFieldsAndScroll((err, values) => {
+        if (!err) {
+          this.setState({ tabIndex, formNext: values })
+        }
+      })
+    }
   }
 
   handleChange = (fileList) => this.setState({ fileList: fileList.fileList })
@@ -128,7 +131,7 @@ class Register extends React.Component {
       tabIndex, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
       mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileList, fileListSupplement,
-      autoCompleteResult, second, verificationShow
+      autoCompleteResult, second, verificationShow, formNext
     } = this.state
     const { getFieldDecorator } = this.props.form;
     const uploadButton = (
@@ -227,6 +230,7 @@ class Register extends React.Component {
                         <Row gutter={8}>
                           <Col span={15}>
                             {getFieldDecorator('nickname', {
+                              initialValue: formNext && formNext.nickname,
                               rules: [
                                 {
                                   required: true, message: '请输入你的用户名!'
@@ -249,6 +253,7 @@ class Register extends React.Component {
                         label="邮箱"
                       >
                         {getFieldDecorator('email', {
+                          initialValue: formNext && formNext.email,
                           rules: [{
                             type: 'email', message: '无效的E-mail地址!',
                           }, {
@@ -263,6 +268,7 @@ class Register extends React.Component {
                         label="手机号"
                       >
                         {getFieldDecorator('phone', {
+                          initialValue: formNext && formNext.phone,
                           rules: [
                             {
                               required: true, message: '请输入你的手机号码!'
@@ -282,6 +288,7 @@ class Register extends React.Component {
                         <Row gutter={8}>
                           <Col span={15}>
                             {getFieldDecorator('captcha', {
+                              initialValue: formNext && formNext.captcha,
                               rules: [
                                 {
                                   required: true, message: '验证码4位数'
@@ -298,7 +305,7 @@ class Register extends React.Component {
                             {
                               second !== 60 ? <Button disabled>{second}s之后重新获取</Button> : (
                                 verificationShow ? <Button onClick={this.getCaptcha} type="primary">获取验证码</Button> :
-                                <Button disabled type="primary">获取验证码</Button>
+                                  <Button disabled type="primary">获取验证码</Button>
                               )
                             }
                           </Col>
@@ -311,6 +318,7 @@ class Register extends React.Component {
                         <Row gutter={8}>
                           <Col span={15}>
                             {getFieldDecorator('password', {
+                              initialValue: formNext && formNext.password,
                               rules: [{
                                 required: true, message: '请输入密码!'
                               }, {
@@ -330,6 +338,7 @@ class Register extends React.Component {
                         label="确认密码"
                       >
                         {getFieldDecorator('confirm', {
+                          initialValue: formNext && formNext.confirm,
                           rules: [{
                             required: true, message: '请确认你的密码!',
                           }, {
@@ -346,7 +355,8 @@ class Register extends React.Component {
                   ) : tabIndex === 1 ? (
                     <RegisterNext
                       formNext={this.state.formNext}
-                      gotoStep={(e, num) => this.gotoStep(e, num)}
+                      formValue={this.state.formValue}
+                      gotoStep={(e, num, values) => this.gotoStep(e, num, values)}
                     />
                   ) : (
                         null

@@ -24,7 +24,8 @@ class Sale extends React.Component<any, any> {
       currentPage: 1,
       listData: [],
       productDetailData: null,
-      productDetailDataHead: null
+      productDetailDataHead: null,
+      hoverImg: null
     }
   }
 
@@ -87,7 +88,8 @@ class Sale extends React.Component<any, any> {
       .then((res) => {
         const listData = res.data.data
         listData.map((item: any, index: number) => {
-          Object.assign(item, { key: index })
+          item.key = index
+          item.code = item.codes[0]
         })
         this.setState({
           listData,
@@ -106,11 +108,12 @@ class Sale extends React.Component<any, any> {
   }
 
   render() {
+    const { hoverImg } = this.state
     const columns: any[] = [
       {
         title: '订单编号',
-        dataIndex: 'order_no',
-        key: 'order_no',
+        dataIndex: 'm_order_no',
+        key: 'm_order_no',
         align: 'center',
       }, {
         title: '子订单编号',
@@ -125,27 +128,46 @@ class Sale extends React.Component<any, any> {
         align: 'center',
       }, {
         title: '商品主图',
-        dataIndex: 'image_url',
+        dataIndex: '',
         key: 'image_url',
         align: 'center',
         className: 'tableItem',
         render: (e: any) => {
           return (
-            <img
-              src={`${e}`}
-              alt="mainImage"
-            />
+            <div>
+              <img
+                onMouseOver={() => {
+                  this.setState({ hoverImg: e.id })
+                }}
+                onMouseOut={() => this.setState({ hoverImg: false })}
+                src={`${e.images[0]}`}
+                alt="mainImage"
+              />
+              {
+                e.id === hoverImg && <div className='hoverImg'>
+                  {
+                    e.images.map((item: any, index: number) =>
+                      <img
+                        src={item}
+                        key={index}
+                        alt="mainImage"
+                      />
+                    )
+                  }
+                </div>
+              }
+            </div>
           )
         }
       }, {
         title: '订单状态',
-        dataIndex: 'status',
-        key: 'status',
+        dataIndex: 'order_status',
+        key: 'order_status',
         align: 'center',
       }, {
         title: '支付状态',
-        dataIndex: 'is_pay',
-        key: 'is_pay',
+        dataIndex: 'pay_status',
+        key: 'pay_status',
         align: 'center',
       }, {
         title: '下单时间',

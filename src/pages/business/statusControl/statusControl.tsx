@@ -1,334 +1,340 @@
 import * as React from "react";
-import { Tabs, Row, Col, Button, Modal, Upload } from 'antd';
+import { Tabs, Row, Col, Button, Modal, Upload, Icon } from 'antd';
 import { StatusCard } from '../components/statusCard/StatusCard'
 import { connect } from 'react-redux'
 // import { EditStatusForm } from './components/EditStatusForm'
 import './statusControl.less'
-import { handleUploadBase, handleUploadAdd,  business as businessAction } from '../../../redux/actions/index'
+import { handleUploadBase, handleUploadAdd, business as businessAction } from '../../../redux/actions/index'
 
 const { getStatusInfos, deleteStatus } = businessAction
 const TabPane = Tabs.TabPane;
+const baseStatusData = {
+  "id": 0,
+  "user_id": "",
+  "file": "",
+  "type_id": "",
+  "state": ""
+}
 
 class StatusControl extends React.Component<any, any> {
+
   constructor(props: any) {
     super(props)
-    this.state= {
-      cardList: [1,2,3,4],
-      editStatusloading: false,
-      editStatusVisible: false,
+    this.state = {
       previewVisible: false,
-      previewImage: '',
-      uploading: false,
-      baseStatus:[],
-      othersStatus: [],
-      baseFile:[],
-      isEdit:false,
-      changeBaseStatusMsg:{
-        statusUrl:"",
-        id:""
-      },
-      addOthersStatusMsg: {
-        addOthersStatusUrl: "",
-        id: ""
-      },
-      hasChange: false//是否替换了图片
+      baseStatusArray:[],
+      othersStatusArray: [],
+      canEditBaseStatus: false,
+      canEditOthersStatus: false,
+      imageHasChange: false,
+      othersImageHasChange: false,
+      changeBaseStatusMsg:{}, 
     }
   }
-  baseStatusId:''
-  changeTabFun() {
-    
-  }
+
+  baseStatusId = ''
+  deleteStatusId = ''
 
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(getStatusInfos())
   }
-  componentWillReceiveProps(nextProps:{statusInfos:any}){
-    const { statusInfos, deleteStatusId }: any = nextProps
-    console.log(statusInfos,"rrerererer")
-    let baseStatus :any[]= []
-    let othersStatus:any[] = []
-    for (let i = 0; i < statusInfos.length; i++) {
-      if (statusInfos[i].type_id === "基础资质") {
-        baseStatus.push(statusInfos[i])
-        this.baseStatusId = baseStatus[0].id;
-      }
-      else if (statusInfos[i].type_id === "补充资质" && statusInfos[i].id != deleteStatusId ){
-        othersStatus.push(statusInfos[i])
-      }
+  statusDataToUploadNeed = (obj) => {
+    // return { uid: - parseInt(obj.id), ...obj  }
+    const { id, file, type_id } = obj
+    return {
+      uid: - id,
+      id,
+      url: file,
+      type_id
     }
-    console.log(othersStatus,"@@@@@@@@@")
-    this.setState({
-      baseStatus,
-      othersStatus
-    })
   }
 
-  renderCard(cardList:any) {
-    return cardList.map((item: any, index: any) => {
-      return (
-        <Col className="status-card" span={8} key={index}>
-          <StatusCard 
-            key={item.id}
-            {...item}
-            editFun={this.editStatusCard}
-            deleteFun={this.deleteStatusCard}
-          />
-        </Col>
-      )
-    })
-  }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.statusInfos,"hhg")
+    const { statusInfos, deleteStatusId } = nextProps
 
-  editStatusCard = (file:any, id:any) => {
-    // const { dispatch } = this.props
+    let baseStatus: any[] = []
+    let othersStatus: any[] = []
 
-  }
+    statusInfos.forEach(item => {
+      const newItem = this.statusDataToUploadNeed(item)
+      if (newItem.type_id === "基础资质") {
+        baseStatus.push(newItem)
+        this.baseStatusId = item.id
+        // if (deleteStatusId) {
+        //   this.baseStatusId
+        // }
+      }
+      else if (newItem.type_id){
+        othersStatus.push(newItem)
+      }
 
-  deleteStatusCard = (id:any) => {
-    const { dispatch } = this.props
-    dispatch(deleteStatus(id))
-  }
-
-  handleOk = () => {
-  }
-  handleCancel = () => this.setState({ previewVisible: false })
-
-  handlePreview = (file:any) => {
-    this.setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true,
+      if (!this.state.baseStatusArray.length) {
+        this.setState({
+          baseStatusArray: baseStatus,
+        })
+      }
+      if (!this.state.othersStatusArray.length) {
+        this.setState({
+          othersStatusArray: othersStatus,
+        })
+      }
     });
+    this.setState({
+      // baseStatusArray: statusInfos
+    })
   }
 
-  handleChangeOthers = (file:any) => {
-    
-  };
+  //已经上传cdn的图片数组
+  hasUploadImagesUrls: any = []
+  hasUploadOrdersImagesUrls: any = []
 
-  // type = 1 是基础资质 2是补充资质
-  handleUploadBase = (type: any) => {
+  baseImageResultFun = ({ file, fileList, file: { status, response } }: any) => {
+      if (status === 'done') {
+        const url:any = response.data[0].url;
+        this.hasUploadImagesUrls.push({
+          file: url,
+          type_id: 1
+        })
+        console.log(this.hasUploadImagesUrls,"mmn")
+        // debugger
+        // this.statusDataToUploadNeed({
+
+        // })
+        const that = this
+        const newBaseStatusArray = {
+          uid: - that.baseStatusId,
+          id: that.baseStatusId,
+          url,
+          type_id:'基础资质'
+        }
+        this.setState({
+          baseStatusArray: [newBaseStatusArray],
+          imageHasChange: true
+        })
+      }
+      else{
+        this.setState({
+          baseStatusArray: fileList,
+          imageHasChange: true
+        });
+      }
+  }
+  editOrAddBaseStatus = () => {
     const { dispatch } = this.props
-    const { changeBaseStatusMsg } = this.state
+    // const { changeBaseStatusMsg } = this.state
 
     if (this.baseStatusId) {
       dispatch(handleUploadBase({
-        ...changeBaseStatusMsg,
-        type_id: 1,
+        statusUrl: this.hasUploadImagesUrls[0].file,
+        id: this.baseStatusId
       }))
-    } else{
-      dispatch(handleUploadAdd({
-        statusMsg: {
-          file: changeBaseStatusMsg.statusUrl,
-          type_id: 1,
-        },
-      }))
+      this.hasUploadImagesUrls = []
+    } else {
+      dispatch(handleUploadAdd(this.hasUploadImagesUrls))
+      this.hasUploadImagesUrls = []
     }
 
     this.setState({
-      isEdit: false,
-      hasChange: false
+      canEditOthersStatus: false,
+      othersImageHasChange: false
     })
   }
 
-  closeEditFun = () => {
+  othersImageResultFun = ({ file, fileList, file: { status, response } }: any) => {
+    const { dispatch } = this.props
+    if (status === 'done') {
+      const url: any = response.data[0].url;
+      this.hasUploadOrdersImagesUrls.push({
+        file: url,
+        type_id: 2
+      })
+      // console.log(this.hasUploadOrdersImagesUrls, "mmn")
+      // this.
+      // const that = this
+      // const newOthersStatusArray = [...this.state.othersStatusArray, {
+      //   uid: - that.baseStatusId,
+      //   id: that.baseStatusId,
+      //   url,
+      //   type_id: '补充资质'
+      // }]
+      
+      // Object.assign({}, this.state.othersStatusArray, {
+      //   uid: - that.baseStatusId,
+      //   id: that.baseStatusId,
+      //   url,
+      //   type_id: '补充资质'
+      // })
+      
+
+      this.setState({
+        othersImageHasChange: true
+      })
+    }
+    else {
+      this.setState({
+        othersStatusArray: fileList,
+        imageHasChange: true
+      });
+    }
+  }
+
+  addOthersStatus = () => {
+    const { dispatch } = this.props
+    dispatch(handleUploadAdd(this.hasUploadOrdersImagesUrls))
+    this.hasUploadOrdersImagesUrls = []
+  }
+
+  deleteStatusFun = (id) => {
+    const { dispatch } = this.props
+    // console.log(e,"mmnbbb")
+    dispatch(deleteStatus(id))
+  }
+
+  showEditBtn = () => {
     this.setState({
-      isEdit: false,
-      hasChange: false
+      canEditBaseStatus: true
     })
   }
 
-  showEditStatus = () => {
+  showOthersEditBtn = () => {
     this.setState({
-      isEdit: true
+      canEditOthersStatus: true
+    })
+  }
+
+  hideOthersEditBtn = () => {
+    this.setState({
+      canEditOthersStatus: false
+    })
+  }
+
+
+  hideEditBtn = () => {
+    this.setState({
+      canEditBaseStatus: false
     })
   }
 
   render() {
-    const { editStatusVisible, editStatusloading, previewVisible, previewImage, uploading, isEdit, hasChange } = this.state
-    const props1 = {
-      name: 'file',
-      action: 'http://api.v2.msparis.com/common/upload',
-      fileList: this.state.baseStatus,
-      onRemove: (e: any) => {
-        const { dispatch } = this.props
-        dispatch(deleteStatus(e.id))
-      },
-      onChange: ({ file, fileList, file: { status, response } }:any) => {
-        if (status === 'done') {
-          // message.success("图片上传成功");
-          this.setState({
-            changeBaseStatusMsg:{
-              statusUrl: response.data[0].url,
-              id: this.baseStatusId
-            }
-          });
-        }
-
-        this.setState({ 
-          baseStatus: [file],
-          hasChange: true
-        });
-        return false
-      },
-    };
-
-    const props2 = {
-      name: 'file',
-      action: 'http://api.v2.msparis.com/common/upload',
-      fileList: this.state.othersStatus,
-      onRemove: (e:any) => {
-        const { dispatch } = this.props
-        dispatch(deleteStatus(e.id))
-      },
-      onChange: ({ file, fileList, file: { status, response } }: any) => {
-        if (status === 'done') {
-          const { dispatch } = this.props
-
-          dispatch(handleUploadAdd({
-            statusMsg:{
-              file: response.data[0].url,
-              type_id: 2,
-            },
-          }))
-        }
-
-        this.setState({
-          othersStatus: fileList,
-          // hasChange: true
-        });
-        // return false
-      },
-    };
+    const { 
+      previewVisible, 
+      canEditBaseStatus,
+      canEditOthersStatus,
+      baseStatusArray,
+      othersStatusArray,
+      imageHasChange,
+      othersImageHasChange 
+    } = this.state;
+    console.log(baseStatusArray,"jjy")
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">修改基础资质</div>
+      </div>
+    );
     
     return (
       <div className="status-container">
         {/* content-title 这个样式是公用的 在common里 */}
         <header className="content-title">资质管理</header>
-        <section className="status-content"> 
-          <Tabs 
-            onChange={this.changeTabFun} 
+        <section className="status-content">
+          <Tabs
             tabBarGutter={10}
             type="card"
             className="tabs-container"
           >
             <TabPane className="tab-content tab1" tab="基本资质" key="1">
-              <Row className="tab-content-box">
-                <Col className="tab-content-left" span={3}>
+              <Row type="flex">
+                <Col className="content-title-sider">
+                  <div>营业执照：</div>
                   <div>
-                    营业执照：
-                  </div>
-                  <div className="btn-box">
                     <Button
-                      style={{ display: `${isEdit && hasChange ? "block" : "none"}` }}
+                      style={{ display: `${canEditBaseStatus && imageHasChange ? "block" : "none"}` }}
                       className="upload-demo-start"
                       type="primary"
-                      onClick={() => { this.handleUploadBase(1) }}
-                      // disabled={this.state.fileList.length === 0}
-                      // loading={uploading}
-                      // ant-upload-select-picture-card
+                      onClick={() => { this.editOrAddBaseStatus() }}
                     >
                       提交
                     </Button>
                     <Button
-                      style={{ display: `${!isEdit && !hasChange ? "block" : "none"}` }}
+                      style={{ display: `${!canEditBaseStatus && !imageHasChange ? "block" : "none"}` }}
                       className="upload-demo-start"
                       type="primary"
-                      onClick={this.showEditStatus}
+                      onClick={this.showEditBtn}
                       // disabled={this.state.fileList.length === 0}
-                      loading={uploading}
                     >
                       修改基本资质
                     </Button>
                     <Button
-                      style={{ display: `${isEdit && !hasChange ? "block" : "none"}` }}
-                      className="upload-demo-start"
-                      onClick={this.closeEditFun}
-                      // disabled={this.state.fileList.length === 0}
-                      loading={uploading}
+                      style={{ display: `${canEditBaseStatus && !imageHasChange ? "block" : "none"}` }}
+                      onClick={this.hideEditBtn}
                     >
                       取消
                     </Button>
                   </div>
                 </Col>
-                <Col span={21} className="tab-content-right">
-                  <Row>
-                    <Col>
-                      <Upload
-                        listType="picture-card"
-                        {...props1}
-                      >
-                        {isEdit ? <Button type="primary">修改</Button> : null}
-                      </Upload>
-                      <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                      </Modal>
-                    </Col>
-                  </Row>
-                {/* {
-                  this.state.baseStatus.length ? 
-                    <Row>
-                      <Col>
-                        <Upload
-                          listType="picture-card"
-                          {...props1}
-                        >
-                          {isEdit ? <Button type="primary">修改</Button> : null}
-                        </Upload>
-                        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                        </Modal>
-                      </Col>
-                      </Row> : <div className="no-status">
-                        <div className="no-status-content">
-                          <Upload
-                            listType="picture-card"
-                            {...props1}
-                          >
-                            {isEdit ? <Button type="primary">添加资质</Button> : null}
-                          </Upload>
-                        </div>
-                        </div>
-                } */}
+                <Col className="status-content">
+                  <Upload
+                    action='http://api.v2.msparis.com/common/upload'
+                    listType="picture-card"
+                    fileList={baseStatusArray}
+                    // onPreview={this.handlePreview}
+                    onRemove={() => { this.deleteStatusFun(this.baseStatusId) }}
+                    onChange={this.baseImageResultFun}
+                  >
+                    {canEditBaseStatus ? uploadButton : null}
+                  </Upload>
                 </Col>
               </Row>
             </TabPane>
-            <TabPane className="tab-content tab2"  tab="补充资源" key="2">
-              <Row className="tab-content-box">
-                <Col className="tab-content-left" span={3}>
+            <TabPane className="tab-content tab2" tab="补充资源" key="2">
+              <Row type="flex" style={{ flexWrap: 'nowrap' }}>
+                <Col className="content-title-sider">
+                  <div>补充资质：</div>
                   <div>
-                    补充资质：
-                  </div>
-                  <div className="btn-box">
-                  </div>
-                </Col>
-                <Col span={21} className="tab-content-right">
-                  {
-                    // this.state.othersStatus.length ? 
-                    <Upload
-                      listType="picture-card"
-                      {...props2}
+                    <Button
+                      style={{ display: `${canEditOthersStatus && othersImageHasChange ? "block" : "none"}` }}
+                      className="upload-demo-start"
+                      type="primary"
+                      onClick={() => { this.addOthersStatus() }}
                     >
-                      <Button type="primary">修改补充资质</Button>
-                    </Upload> 
-                    // : <div className="no-status">
-                    //     <div className="no-status-content">暂无资质</div>
-                    //   </div>
-                  }
+                      提交
+                    </Button>
+                    <Button
+                      style={{ display: `${!canEditOthersStatus && !othersImageHasChange ? "block" : "none"}` }}
+                      className="upload-demo-start"
+                      type="primary"
+                      onClick={this.showOthersEditBtn}
+                    // disabled={this.state.fileList.length === 0}
+                    >
+                      修改基本资质
+                    </Button>
+                    <Button
+                      style={{ display: `${canEditOthersStatus && !othersImageHasChange ? "block" : "none"}` }}
+                      onClick={this.hideOthersEditBtn}
+                    >
+                      取消
+                    </Button>
+                  </div>
                 </Col>
-                
+                <Col className="status-content">
+                  <Upload
+                    action='http://api.v2.msparis.com/common/upload'
+                    listType="picture-card"
+                    fileList={othersStatusArray}
+                    // onPreview={this.handlePreview}
+                    onRemove={() => { this.deleteStatusFun(this.baseStatusId) }}
+                    onChange={this.othersImageResultFun}
+                  >
+                    {canEditOthersStatus ? uploadButton : null}
+                  </Upload>
+                </Col>
               </Row>
             </TabPane>
           </Tabs>
         </section>
-        {/* <Modal 
-          title="Title"
-          visible={editStatusVisible}
-          onOk={this.handleOk}
-          confirmLoading={editStatusloading}
-          onCancel={this.handleCancel}
-          footer={null}
-        >
-          <EditStatusForm />
-        </Modal> */}
       </div>
     )
   }
@@ -336,10 +342,10 @@ class StatusControl extends React.Component<any, any> {
 
 const mapStateToProps: any = ({ statusInfos, userInfo, deleteStatusId }: any) => {
   return ({
-  statusInfos,
-  userInfo,
-  deleteStatusId
-})
+    statusInfos,
+    userInfo,
+    deleteStatusId
+  })
 }
 
 const mapDispatchToProps: any = (dispatch: any) => ({

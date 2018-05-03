@@ -3,6 +3,7 @@ const statusInfos = (state: any = [], action: any) => {
     case 'GET_STATUS_SUCCESS':
       // console.log(action.data,"????")
       return action.data
+    case 'GET_STATUS_SUCCESS':
     default:
       return state
   }

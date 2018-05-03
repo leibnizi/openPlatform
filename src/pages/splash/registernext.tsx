@@ -14,11 +14,6 @@ class RegisterNext extends React.Component<any, any> {
     }
   }
 
-  gotoStep = (e: any, tabIndex: number) => {
-    e.preventDefault()
-    this.setState({ tabIndex })
-  }
-
   handleChange = (fileList: any) => this.setState({ fileList: fileList.fileList })
 
   handleChangeList = (fileList: any) => this.setState({ fileListSupplement: fileList.fileList })
@@ -104,13 +99,13 @@ class RegisterNext extends React.Component<any, any> {
       tabIndex, name, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
       mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileListSupplement,
-      fileListSupplement2
+      fileListSupplement2, autoCompleteResult
     } = this.state
+    const { formValue } = this.props
     const FormItem = Form.Item;
     const Option = Select.Option;
     const AutoCompleteOption = AutoComplete.Option;
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -156,6 +151,7 @@ class RegisterNext extends React.Component<any, any> {
           label="企业名称"
         >
           {getFieldDecorator('biz_name', {
+            initialValue: formValue && formValue.biz_name,
             rules: [{
               required: true, message: 'Please input your nickname!', whitespace: true, extra: '输入非法字符'
             }],
@@ -168,6 +164,7 @@ class RegisterNext extends React.Component<any, any> {
           label="上年度营业额量级"
         >
           {getFieldDecorator('profit_level', {
+            initialValue: formValue && formValue.profit_level,
             rules: [{
               message: 'The input is not valid E-mail!',
             }, {
@@ -194,6 +191,7 @@ class RegisterNext extends React.Component<any, any> {
           label="主营品牌"
         >
           {getFieldDecorator('brand', {
+            initialValue: formValue && formValue.brand,
             rules: [{ required: false, message: 'Please input your phone number!' }],
           })(
             <Input style={{ width: '100%' }} />
@@ -204,6 +202,7 @@ class RegisterNext extends React.Component<any, any> {
           label="官网地址"
         >
           {getFieldDecorator('website', {
+            initialValue: formValue && formValue.website,
             rules: [{ required: false, message: 'Please input your phone number!' }],
           })(
             <Input style={{ width: '100%' }} />
@@ -214,6 +213,7 @@ class RegisterNext extends React.Component<any, any> {
           label="主营类目"
         >
           {getFieldDecorator('category_id', {
+            initialValue: formValue && formValue.category_id,
             rules: [{ required: true, message: 'Please input your phone number!' }],
           })(
             <Checkbox.Group
@@ -233,6 +233,7 @@ class RegisterNext extends React.Component<any, any> {
           label="商家类型"
         >
           {getFieldDecorator('biz_type', {
+            initialValue: formValue && formValue.biz_type,
             rules: [{ required: true, message: 'Please input your phone number!' }],
           })(
             <Select
@@ -254,6 +255,7 @@ class RegisterNext extends React.Component<any, any> {
           label="运营人员"
         >
           {getFieldDecorator('biz_operator', {
+            initialValue: formValue && formValue.biz_operator,
             rules: [{ required: true, message: 'Please input your phone number!' }],
           })(
             <Input style={{ width: '100%' }} />
@@ -264,6 +266,7 @@ class RegisterNext extends React.Component<any, any> {
           label="联系电话"
         >
           {getFieldDecorator('biz_mobile', {
+            initialValue: formValue && formValue.biz_mobile,
             rules: [{ required: true, message: 'Please input your phone number!' }],
           })(
             <Input style={{ width: '100%' }} />
@@ -274,6 +277,7 @@ class RegisterNext extends React.Component<any, any> {
           label="邮箱"
         >
           {getFieldDecorator('email', {
+            initialValue: formValue && formValue.email,
             rules: [{ required: false, message: 'Please input your phone number!' }],
           })(
             <Input style={{ width: '100%' }} />
@@ -284,6 +288,7 @@ class RegisterNext extends React.Component<any, any> {
           label="QQ"
         >
           {getFieldDecorator('qq', {
+            initialValue: formValue && formValue.qq,
             rules: [{ required: false, message: 'Please input your phone number!' }],
           })(
             <Input style={{ width: '100%' }} />
@@ -294,6 +299,7 @@ class RegisterNext extends React.Component<any, any> {
           label="传真"
         >
           {getFieldDecorator('faxes', {
+            initialValue: formValue && formValue.faxes,
             rules: [{ required: false, message: 'Please input your phone number!' }],
           })(
             <Input style={{ width: '100%' }} />
@@ -304,6 +310,7 @@ class RegisterNext extends React.Component<any, any> {
           label="公司地址"
         >
           {getFieldDecorator('biz_address', {
+            initialValue: formValue && formValue.biz_address,
             rules: [{ required: true, message: 'Please input your phone number!' }],
           })(
             <Input style={{ width: '100%' }} />
@@ -361,7 +368,17 @@ class RegisterNext extends React.Component<any, any> {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button className='submitButton' type="primary" onClick={e => this.props.gotoStep(e, 0)}>上一步</Button>
+          <Button 
+            className='submitButton' 
+            type="primary" 
+            onClick={e => {
+              this.props.form.validateFieldsAndScroll((err, values) => {
+                this.props.gotoStep(e, 0, values)
+              })
+            }}
+          >
+            上一步
+          </Button>
           <Button className='submitButton' type="primary" htmlType="submit">下一步</Button>
         </FormItem>
       </Form>

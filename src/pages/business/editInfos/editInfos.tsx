@@ -106,7 +106,6 @@ class EditInfos extends React.Component<any, {}> {
         <header>
           <Row className="row-box">
             <Col span={3} className="cotent-title">商家信息：</Col>
-            <Col className="describe" offset={1} span={20} >BUSINESS INFOMATION</Col>
           </Row>
         </header>
 
@@ -187,7 +186,7 @@ class EditInfos extends React.Component<any, {}> {
               <Col span={3} className="cotent-title">商家状态：</Col>
               <Col span={2}>{merchant_state}</Col>
               {/* <Col span={2}><Button>续约</Button></Col> */}
-              <Col className="describe" span={14}>有效期至：{cooperation_term}</Col>
+              <Col className="describe" span={14}>有效期至：{cooperation_term && cooperation_term.substring(0, 11)}</Col>
             </Row>
             <Row className="form-row">
               <Col>

@@ -4,6 +4,7 @@
   .card-line-content{
     display: flex;
     justify-content: space-between;
+    font-weight: 600;
   }
 }
 .card-row{
@@ -69,6 +70,7 @@
 .yesterday-message{
   margin-top: 10px;
   color: #ccc;
+  font-weight: 400;
 }
 .to-yesterday{
   float: left;
@@ -81,20 +83,23 @@ html{
       &>.home-page{
         display: block;
         .index-btn-box{
-          margin-top: 40px;
+          margin-top: 30px;
         }
         .explain-left{
           .ant-card-head-title{
-            font-size: 18px;
             flex: none;
             overflow: auto;
             color: #333;
+            font-weight: 600;
           }
           .ant-card-extra{
             margin-left: 10px;
             margin-top: 6px;
           }
         }
+      }
+      .ant-card-head-title{
+        font-size: 18px;
       }
     }
   }

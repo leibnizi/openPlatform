@@ -75,11 +75,11 @@ export const AccountForm: any = Form.create()((props: any) => {
         })(<Input />)}
       </FormItem>
       <div className="btn-box">
-        <Button onClick={cancelEdit}>
+        {/* <Button onClick={cancelEdit}>
           取消
-        </Button>
-        <Button type="primary" style={{margin: "0 40px 0 40px"}} htmlType="submit">
-          保存
+        </Button> */}
+        <Button style={{width: '150px',marginBottom: '10px'}} type="primary" htmlType="submit">
+          提交
         </Button>
       </div>
     </Form>

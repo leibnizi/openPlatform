@@ -117,7 +117,7 @@ class Account extends React.Component<any, any> {
         <Row className="message-box">
           <Col span={12}>
             <Row className="message-item">
-              <Col span={5}>
+              <Col className="lable-font-weight" span={5}>
                 用户名：
               </Col>
               <Col span={19}>
@@ -125,7 +125,7 @@ class Account extends React.Component<any, any> {
               </Col>
             </Row>
             <Row className="message-item">
-              <Col span={5}>
+              <Col className="lable-font-weight" span={5}>
                 手机号：
               </Col>
               <Col span={19}>
@@ -133,7 +133,7 @@ class Account extends React.Component<any, any> {
               </Col>
             </Row>
             <Row className="message-item">
-              <Col span={5}>
+              <Col className="lable-font-weight" span={5}>
                 邮箱：
               </Col>
               <Col span={19}>
@@ -141,7 +141,7 @@ class Account extends React.Component<any, any> {
               </Col>
             </Row>
             <Row className="message-item">
-              <Col span={5}>
+              <Col className="lable-font-weight" span={5}>
                 地址：
               </Col>
               <Col span={19}>
@@ -152,12 +152,12 @@ class Account extends React.Component<any, any> {
         </Row>
         <Row className="edit_btn">
           <Col span={5}>
-            <Button type="primary" onClick={() => this.showEditFun()}>
+            <Button style={{width: "150px"}}  type="primary" onClick={() => this.showEditFun()}>
               修改账户信息
             </Button>
           </Col>
           <Col span={5}>
-            <Button type="primary" onClick={() => this.showChangePassWord()}>
+            <Button style={{ width: "150px" }}  type="primary" onClick={() => this.showChangePassWord()}>
               修改密码
             </Button>
           </Col>
@@ -234,9 +234,9 @@ class Account extends React.Component<any, any> {
               )}
             </FormItem>
             <div className="account-btn-box">
-              <Button onClick={this.handleCancel} style={{ marginRight: "13px" }}>
+              {/* <Button onClick={this.handleCancel} style={{ marginRight: "13px" }}>
                 取消
-              </Button>
+              </Button> */}
               <Button htmlType="submit">
                 保存
               </Button>

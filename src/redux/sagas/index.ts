@@ -65,17 +65,18 @@ export function* uploadImageBase(action: any = {}) {
 
 //把上传到的图片路径传给后端(补充资质-添加)
 export function* uploadImageAdd(action: any = {}) {
-  const { statusMsg } = action.data
+  // const { file, type_id } = action.data
   try {
     const response = yield call(request.post, "/api/qualification/add", {
-      files: [statusMsg]
+      files: action.data
     })
+    
     if (response.status_code != 0) {
       yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
       return false
     }
-    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
-    yield put({ type: "GET_STATUS_INFO" })
+    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg || "操作成功！！" });
+    yield put({ type: "ADD_STATUS_SUCCESS", data: response.data })
     // yield put({ type: 'UPLOAD_IMAGE_BASE_SUCCESS', data: true });
   } catch (error) {
     // yield put(fetchFailure());
@@ -153,7 +154,6 @@ export function* getBsInfos(action:any) {
 
     response.data.categoryText = categoryText
     response.data.categoryAll = categoryAll.data
-    // debugger
     yield put({ type: 'GET_BUSINESS_SUCCESS', data: response.data });
   } catch (error) {
     // yield put(fetchFailure());
@@ -163,19 +163,20 @@ export function* getBsInfos(action:any) {
 export function* getStatusInfos(action: any) {
   try {
     const response = yield call(request.get, "/api/qualification/index");
-    const newData = response.data.map((item:any, index:any) => {
-      const { id, file, state, type_id, user_id } = item
-      return {
-        id,
-        uid:-id,
-        url: file,
-        name: 'xxx.png',
-        status: 'done',
-        state,
-        type_id,
-        user_id
-      }
-    })
+    const newData = response.data
+    // const newData = response.data.map((item:any, index:any) => {
+    //   // const { id, file, state, type_id, user_id } = item
+    //   // return {
+    //   //   id,
+    //   //   uid:-id,
+    //   //   url: file,
+    //   //   name: 'xxx.png',
+    //   //   status: 'done',
+    //   //   state,
+    //   //   type_id,
+    //   //   user_id
+    //   // }
+    // })
 
     yield put({ type: 'GET_STATUS_SUCCESS', data: newData });
   } catch (error) {
@@ -191,10 +192,9 @@ export function* deleteStatus(action: any) {
         id
       }
     });
-    // yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data[0] });
-    yield put({ type: "GET_STATUS_INFO" })
-    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg });
+    yield put({ type: 'DEIETE_STATUS_SUCCESS', data: response.data });
     // yield put({ type: "GET_STATUS_INFO" })
+    yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg });
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -279,7 +279,7 @@ export function* postBillInfo(action: any = {}) {
   const { token, value } = action.data
   try {
     const response = yield call(request.post, "/api/finance/add", {
-      data: value
+      ...value
     });
     
     if (response.status_code != 0) {

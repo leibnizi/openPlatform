@@ -130,15 +130,22 @@ a:link,a:active,a:visited,a:hover {text-decoration:none;}
 input {
   border-radius: 3px;
   border: 1px solid #c3c3c3;
+  background-color: transparent;
+  
 }
-input:hover {
-  outline-color: #dd748e;
+input:-webkit-autofill, 
+ textarea:-webkit-autofill, 
+ select:-webkit-autofill { 
+  -webkit-box-shadow: 0 0 0 1000px white inset; 
+}
+ input[type=text]:focus, input[type=password]:focus, textarea:focus {
+  -webkit-box-shadow: 0 0 0 1000px white inset; 
 }
 input:active {
-  outline-color: #dd748e;
+  outline:1px solid#dd748e;
 }
 input:focus {
-  outline-color:#dd748e;
+  outline:1px solid#dd748e;
 }
 select:active {
   outline-color: #dd748e;

@@ -82,7 +82,7 @@ function warning(msg) {
 }
 
 const goToLogin = () => {
-  window.location.href = window.location.origin + "/login"
+  window.location.href = window.location.origin + "/splash"
   Cookies.remove('name')
   Cookies.remove('token')
 }

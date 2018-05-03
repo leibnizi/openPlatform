@@ -46,10 +46,12 @@ class Customerservice extends React.Component<any, any> {
                   <div
                     className='helpTitle'
                   >
-                    <p>
-                      {item.question}
+                    <p dangerouslySetInnerHTML={{ __html: item.question }}>
+                      {/* {item.question} */}
                     </p>
-                    <p>{item.answer}</p>
+                    <p dangerouslySetInnerHTML={{ __html: item.answer }}>
+                      {/* {item.answer} */}
+                    </p>
                   </div>
                 </div>
               )

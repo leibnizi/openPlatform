@@ -195,7 +195,7 @@ class Forgetpassword extends React.Component<any, any> {
                     validator: this.validateToNextPassword,
                   }],
                 })(
-                  <Input />
+                  <Input type="password" />
                 )}
               </Col>
               <Col span={8}>

@@ -14,8 +14,8 @@ class Sale extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
-      startTime: moment(),
-      endTime: moment(),
+      startTime: '',
+      endTime: '',
       product_spu: '',
       m_order_no: '',
       pay_status: '',
@@ -298,13 +298,13 @@ class Sale extends React.Component<any, any> {
               <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ startTime: e })}
-                format={monthFormat} placeholder='' defaultValue={startTime} allowClear={false}
+                format={monthFormat} placeholder='' allowClear={true}
               />
               -
               <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
-                format={monthFormat} placeholder='' defaultValue={endTime} allowClear={false}
+                format={monthFormat} placeholder='' defaultValue={moment()} allowClear={true}
               />
             </div>
           </section>
@@ -325,6 +325,7 @@ class Sale extends React.Component<any, any> {
               columns={columns}
               dataSource={listData}
               bordered={true}
+              scroll={{ x: '100%' }}
               pagination={{
                 total: pageTotal,
                 defaultCurrent: currentPage,
@@ -364,6 +365,7 @@ class Sale extends React.Component<any, any> {
               columns={detailColumns}
               dataSource={productDetailData}
               bordered={true}
+              scroll={{ x: '100%' }}
               pagination={{
                 total: pageTotal,
                 defaultCurrent: currentPage,

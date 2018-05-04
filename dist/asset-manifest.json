@@ -1,15 +1,8 @@
 {
-<<<<<<< HEAD
-  "main.css": "static/css/main.775d8417.css",
-  "main.css.map": "static/css/main.775d8417.css.map",
-  "main.js": "static/js/main.f11a43cd.js",
-  "main.js.map": "static/js/main.f11a43cd.js.map",
-=======
   "main.css": "static/css/main.6cc1e511.css",
   "main.css.map": "static/css/main.6cc1e511.css.map",
-  "main.js": "static/js/main.42733052.js",
-  "main.js.map": "static/js/main.42733052.js.map",
->>>>>>> 6d0252b880e51939b2212ddee97d854dca8cf4e5
+  "main.js": "static/js/main.b5335bb8.js",
+  "main.js.map": "static/js/main.b5335bb8.js.map",
   "static/media/exclamation.png": "static/media/exclamation.416d04e8.png",
   "static/media/number2.png": "static/media/number2.6f9f17eb.png",
   "static/media/splash.jpg": "static/media/splash.aa4f91d7.jpg",

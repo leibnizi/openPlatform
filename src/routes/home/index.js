@@ -386,6 +386,10 @@ class Home extends Component {
           </div>
         </Col>
       </Row>
+      <Row style={{height:"50px"}}>
+        {/* ，没按照标准layout布局，内部又使用了Row和Col，
+        使padding异常，临时撑开底部高度，缓兵之计 */}
+      </Row>
 
       </div>)
 

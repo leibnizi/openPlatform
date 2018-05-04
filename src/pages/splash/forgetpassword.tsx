@@ -119,11 +119,11 @@ class Forgetpassword extends React.Component<any, any> {
       wrapperCol: {
         xs: {
           span: 24,
-          offset: 0,
+          offset: 8,
         },
         sm: {
           span: 16,
-          offset: 8,
+          offset: 10,
         },
       },
     }
@@ -153,7 +153,7 @@ class Forgetpassword extends React.Component<any, any> {
             </Row>
           </FormItem>
           <FormItem
-            {...formItemLayout}
+            {...formItemLayout2}
             label="验证码"
           >
             <Row gutter={8}>
@@ -205,7 +205,7 @@ class Forgetpassword extends React.Component<any, any> {
           </FormItem>
           <FormItem
             {...formItemLayout}
-            label="确认密码"
+            label="确认新密码"
           >
             {getFieldDecorator('confirm', {
               rules: [{
@@ -218,7 +218,7 @@ class Forgetpassword extends React.Component<any, any> {
             )}
           </FormItem>
           <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">提交</Button>
+            <Button className='forgetSubmit' type="primary" htmlType="submit">提交</Button>
           </FormItem>
         </Form>
       </div>

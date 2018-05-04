@@ -18,6 +18,8 @@ class Content extends Component {
   }
 
   render() {
+    const body = this.props.location.pathname.split('/')[1] === 'operation' ? 'body' : 'operationBody'
+    console.log('body',body)
     return (
       <div className='app'>
         <header className='header'>
@@ -61,7 +63,7 @@ class Content extends Component {
             </div>
           </div>
         </header>
-        <section className='body'>
+        <section className={body}>
           {
             routes.map((item, index) => {
               return (

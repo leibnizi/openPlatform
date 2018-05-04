@@ -20,7 +20,6 @@ class Content extends Component {
   render() {
     const pathname = this.props.location.pathname.split('/')[1]
     const body = pathname === 'operation' || pathname === 'business' || pathname === 'help' ? 'operationBody' : 'body'
-    console.log('body',body)
     return (
       <div className='app'>
         <header className='header'>

@@ -356,7 +356,7 @@ class Product extends React.Component<any, any> {
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
           <hr />
-          <div>
+          <div className='tableWidth'>
             {/* <Table
               loading={dataLoading}
               // scroll={{ x: 1000 }}
@@ -365,23 +365,23 @@ class Product extends React.Component<any, any> {
               dataSource={listData}
               bordered={true}
             /> */}
-            <Table
-              className='producttab'
-              scroll={{ x: 1000 }}
-              loading={dataLoading}
-              columns={columns}
-              dataSource={listData}
-              bordered={true}
-              pagination={{
-                total: pageTotal,
-                defaultCurrent: currentPage,
-                pageSize: 20
-              }}
-              onChange={(e) => this.pageChange(e)}
-            />
-          </div>
-
+          <Table
+            className='producttab'
+            scroll={{ x: 1000 }}
+            loading={dataLoading}
+            columns={columns}
+            dataSource={listData}
+            bordered={true}
+            pagination={{
+              total: pageTotal,
+              defaultCurrent: currentPage,
+              pageSize: 20
+            }}
+            onChange={(e) => this.pageChange(e)}
+          />
         </div>
+
+        </div >
       )
     } else {
       return (

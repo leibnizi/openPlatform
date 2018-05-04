@@ -5,19 +5,19 @@ import './lease.less'
 import { getFormatDate } from '../../../helper/utils'
 import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
-import { Moment } from 'moment'
+import * as moment from 'moment'
 import 'moment/locale/zh-cn'
 const { getStatusList } = operation
 const { MonthPicker } = DatePicker
-const monthFormat = 'YYYY-MM'
+const monthFormat = 'YYYY-MM-DD'
 
 class Lease extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
       listData: [],
-      startTime: null,
-      endTime: null,
+      startTime: moment(),
+      endTime: moment(),
       product_spu: '',
       m_order_no: '',
       split_order_no: '',
@@ -290,16 +290,16 @@ class Lease extends React.Component<any, any> {
             </div>
             <div className='item'>
               <p>下单时间:</p>
-              <MonthPicker
+              <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ startTime: e })}
-                format={monthFormat} placeholder=''
+                format={monthFormat} placeholder='' defaultValue={startTime} allowClear={false}
               />
               -
-              <MonthPicker
+              <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
-                format={monthFormat} placeholder=''
+                format={monthFormat} placeholder='' defaultValue={endTime} allowClear={false}
               />
             </div>
           </section>

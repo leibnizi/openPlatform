@@ -1,20 +1,21 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table, DatePicker, Button } from 'antd'
+import * as moment from 'moment';
 import './sale.less'
 import { getFormatDate } from '../../../helper/utils'
 import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
 
 const { MonthPicker } = DatePicker
-const monthFormat = 'YYYY-MM'
+const monthFormat = 'YYYY-MM-DD'
 
 class Sale extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
-      startTime: null,
-      endTime: null,
+      startTime: moment(),
+      endTime: moment(),
       product_spu: '',
       m_order_no: '',
       pay_status: '',
@@ -294,16 +295,16 @@ class Sale extends React.Component<any, any> {
             </div>
             <div className='item'>
               <p>下单时间:</p>
-              <MonthPicker
+              <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ startTime: e })}
-                format={monthFormat} placeholder=''
+                format={monthFormat} placeholder='' defaultValue={startTime} allowClear={false}
               />
               -
-              <MonthPicker
+              <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
-                format={monthFormat} placeholder=''
+                format={monthFormat} placeholder='' defaultValue={endTime} allowClear={false}
               />
             </div>
           </section>

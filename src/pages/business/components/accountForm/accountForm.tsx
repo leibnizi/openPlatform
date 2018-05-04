@@ -10,11 +10,11 @@ export const AccountForm: any = Form.create()((props: any) => {
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 5 },
+      sm: { span: 4 },
     },
     wrapperCol: {
       xs: { span: 24 },
-      sm: { span: 17 },
+      sm: { span: 18 },
     },
   };
 

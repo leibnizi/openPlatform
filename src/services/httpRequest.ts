@@ -2,6 +2,8 @@ import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import * as Cookies from 'js-cookie';
 import { message, Modal } from 'antd';
 
+import { baseUrl } from '../helper/commonUrl'
+
 var is_modal_show = true;
 /**
  * heck 请求状态
@@ -104,7 +106,7 @@ function error() {
  * 创建axios
  */
 const instance = axios.create({
-  baseURL: "http://open-erp.test.msparis.com",
+  baseURL: baseUrl,
   headers: {
     // withCredentials: false
   },
@@ -113,7 +115,7 @@ const instance = axios.create({
   timeout: 50000
 });
 const instance2 = axios.create({
-  baseURL: "http://open-erp.test.msparis.com",
+  baseURL: baseUrl,
   headers: {
     // withCredentials: false
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -122,7 +124,6 @@ const instance2 = axios.create({
   data: {},
   timeout: 50000
 });
-
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
   //let token = {}

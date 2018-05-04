@@ -121,7 +121,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('profit_level', {
                     initialValue: profit_level,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: true, message: '请选择上季度盈利量级' }],
                   })(
                     <Select style={{ width: 120 }}>
                       <Option value={1}>万元以下</Option>
@@ -241,7 +241,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('biz_type', {
                     initialValue: biz_type,
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: true, message: '请选择商家类型' }],
                   })(
                     <Select style={{ width: 120 }}>
                       <Option value={1}>品牌方</Option>
@@ -279,7 +279,7 @@ class EditInfos extends React.Component<any, {}> {
                   {getFieldDecorator('biz_email', {
                     initialValue: `${email}`,
                     rules: [
-                      { required: false, message: 'Please input your username!' },
+                      { required: false, message: '' },
                       { 
                         validator: validateMail,
                         message: '邮箱格式有误！'
@@ -314,7 +314,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('faxes', {
                     initialValue: `${faxes}`,
-                    rules: [{ required: false, message: 'Please input your username!' }],
+                    rules: [{ required: false, message: '' }],
                   })(
                     <Input placeholder="请输入传真" />
                     )}

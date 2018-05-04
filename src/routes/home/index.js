@@ -193,13 +193,15 @@ class Home extends Component {
               type="sound" 
               style={{fontSize:"22px", color:"#999",marginRight:"20px"}}
               />
-            {article && article.map((item, index) => {
-              return (
-                <Link className="notice" key={index} to={`help/detail/${item.id}`}>
-                  {item.title}
-                </Link>
-              )
-            })}
+              <div className="marquee">
+              {article && article.map((item, index) => {
+                return (
+                  <Link className="notice" key={index} to={`help/detail/${item.id}`}>
+                    {item.title}
+                  </Link>
+                )
+              })}
+            </div>
           </div>
         </Col>
         <Col>

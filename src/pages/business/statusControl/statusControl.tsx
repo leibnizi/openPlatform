@@ -195,7 +195,6 @@ class StatusControl extends React.Component<any, any> {
   }
 
   render() {
-    console.log(this.baseStatusId, "??>>>>><<")
     const { 
       previewVisible, 
       canEditBaseStatus,

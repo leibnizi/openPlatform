@@ -18,7 +18,8 @@ class Content extends Component {
   }
 
   render() {
-    const body = this.props.location.pathname.split('/')[1] === 'operation' ? 'body' : 'operationBody'
+    const pathname = this.props.location.pathname.split('/')[1]
+    const body = pathname === 'operation' || pathname === 'business' || pathname === 'help' ? 'operationBody' : 'body'
     console.log('body',body)
     return (
       <div className='app'>

@@ -55,7 +55,7 @@ class RegisterNext extends React.Component<any, any> {
   handleSubmit = (e: any) => {
     e.preventDefault()
     const {
-      email, faxes, phone, nickname, password, password_confirmation,
+      email, faxes, phone, nickname, password, confirm,
       captcha
     } = this.props.formNext
     const { imgUrl, imgUrl2 } = this.state
@@ -89,7 +89,7 @@ class RegisterNext extends React.Component<any, any> {
           mobile: phone,
           name: nickname,
           password,
-          password_confirmation,
+          password_confirmation: confirm,
           profit_level: values.profit_level,
           qq: values.qq,
           verification_code: captcha,
@@ -103,7 +103,7 @@ class RegisterNext extends React.Component<any, any> {
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback('两次密码不一样!');
     } else {
       callback();
     }

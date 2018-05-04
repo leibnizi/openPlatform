@@ -13,6 +13,7 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/dist/static/media/number2.6f9f17eb.png" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/dist/static/media/splash.aa4f91d7.jpg" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/dist/static/media/unnumber1.4b32e82b.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -100,7 +101,7 @@
         <entry file="file://$PROJECT_DIR$/src/pages/operation/afterSale/afterSale.tsx">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="315">
-              <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+              <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
                 <marker date="1525404063198" expanded="true" signature="581:610" ph="//..." />
@@ -113,7 +114,7 @@
         <entry file="file://$PROJECT_DIR$/node_modules/moment/moment.d.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="7110">
-              <caret line="474" column="27" lean-forward="true" selection-start-line="474" selection-start-column="27" selection-end-line="474" selection-end-column="27" />
+              <caret line="474" column="27" lean-forward="false" selection-start-line="474" selection-start-column="27" selection-end-line="474" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -304,12 +305,12 @@
       <updated>1524905066015</updated>
       <workItem from="1524905067118" duration="1714000" />
       <workItem from="1525346279145" duration="13169000" />
-      <workItem from="1525401306644" duration="1716000" />
+      <workItem from="1525401306644" duration="1791000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16599000" />
+    <option name="totallyTimeSpent" value="16674000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
@@ -756,7 +757,7 @@
     <entry file="file://$PROJECT_DIR$/node_modules/moment/moment.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7110">
-          <caret line="474" column="27" lean-forward="true" selection-start-line="474" selection-start-column="27" selection-end-line="474" selection-end-column="27" />
+          <caret line="474" column="27" lean-forward="false" selection-start-line="474" selection-start-column="27" selection-end-line="474" selection-end-column="27" />
           <folding />
         </state>
       </provider>
@@ -764,7 +765,7 @@
     <entry file="file://$PROJECT_DIR$/src/pages/operation/afterSale/afterSale.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+          <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
             <marker date="1525404063198" expanded="true" signature="581:610" ph="//..." />

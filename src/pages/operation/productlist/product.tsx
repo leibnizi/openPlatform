@@ -22,7 +22,9 @@ class Product extends React.Component<any, any> {
       currentPage: 0,
       productDetailData: null,
       productDetailDataHead: null,
-      hoverImg: null
+      hoverImg: null,
+      dataLoading: true,
+      detailLoading: true
     }
   }
 
@@ -52,7 +54,8 @@ class Product extends React.Component<any, any> {
           this.setState({
             productDetail: true,
             productDetailData,
-            productDetailDataHead: res.data
+            productDetailDataHead: res.data,
+            detailLoading: false
           })
         }
       })
@@ -90,13 +93,15 @@ class Product extends React.Component<any, any> {
         })
         this.setState({
           listData: data,
-          pageTotal: res.data.total
+          pageTotal: res.data.total,
+          dataLoading: false
         })
       })
       .catch(err => console.log('err', err))
   }
 
   queryData = () => {
+    this.setState({ dataLoading: true })
     this.getTableData(1)
   }
 
@@ -258,7 +263,7 @@ class Product extends React.Component<any, any> {
 
     const {
       headerActive, listData, currentPage, pageTotal, productDetailData,
-      productDetailDataHead
+      productDetailDataHead, dataLoading, detailLoading
     } = this.state
 
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
@@ -342,22 +347,11 @@ class Product extends React.Component<any, any> {
           <hr />
           <div style={{ width: "1000px", marginLeft: "30px" }}>
             <Table
+              loading={dataLoading}
               scroll={{ x: 1000 }}
               columns={columns}
               dataSource={listData}
             />
-            {/* <Table
-              // className='producttab'
-              columns={columns}
-              dataSource={listData}
-              bordered={true}
-              pagination={{
-                total: pageTotal,
-                defaultCurrent: currentPage,
-                pageSize: 20
-              }}
-              onChange={(e) => this.pageChange(e)}
-            /> */}
           </div>
 
         </div>
@@ -403,6 +397,7 @@ class Product extends React.Component<any, any> {
                 <hr />
                 <section>
                   <Table
+                    loading={detailLoading}
                     scroll={{ x: 700 }}
                     className='producttable'
                     columns={detailColumn}

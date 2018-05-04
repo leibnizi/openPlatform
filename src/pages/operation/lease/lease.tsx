@@ -26,7 +26,8 @@ class Lease extends React.Component<any, any> {
       currentPage: 1,
       productDetailData: null,
       productDetailDataHead: null,
-      hoverImg: null
+      hoverImg: null,
+      loading: true
     }
   }
 
@@ -97,13 +98,15 @@ class Lease extends React.Component<any, any> {
           })
           this.setState({
             listData,
-            pageTotal: res.data.total
+            pageTotal: res.data.total,
+            loading: false
           })
         }
       })
   }
 
   queryData = () => {
+    this.setState({ loading: true })
     this.getTableData(1)
   }
 
@@ -247,7 +250,7 @@ class Lease extends React.Component<any, any> {
       listData,
       startTime,
       endTime, pageTotal, currentPage,
-      productDetailData, productDetailDataHead
+      productDetailData, productDetailDataHead, loading
     } = this.state
     const { statusList } = this.props
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
@@ -312,6 +315,7 @@ class Lease extends React.Component<any, any> {
           <hr />
           <section>
             <Table
+              loading={loading}
               className='producttab'
               columns={columns}
               dataSource={listData}

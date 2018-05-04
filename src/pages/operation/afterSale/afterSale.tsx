@@ -19,7 +19,8 @@ class AfterSale extends React.Component<any, any> {
       type: '',
       begin: null,
       end: null,
-      after_sale_type_list: null
+      after_sale_type_list: null,
+      loading: true
     }
   }
 
@@ -64,13 +65,15 @@ class AfterSale extends React.Component<any, any> {
           })
           this.setState({
             listData,
-            pageTotal: res.data.total
+            pageTotal: res.data.total,
+            loading: false
           })
         }
       })
   }
 
   queryData = () => {
+    this.setState({ loading: true })
     this.getTableData(1)
   }
 
@@ -128,7 +131,7 @@ class AfterSale extends React.Component<any, any> {
       },
     ];
 
-    const { listData, end, begin, after_sale_type_list } = this.state
+    const { listData, end, begin, after_sale_type_list, loading } = this.state
 
     return (
       <div className='operationproduct'>
@@ -164,7 +167,7 @@ class AfterSale extends React.Component<any, any> {
               onChange={(e) => this.setState({ type: e.target.value })}
             >
               {
-                after_sale_type_list&&Object.keys(after_sale_type_list).map((item: any, index: number) =>
+                after_sale_type_list && Object.keys(after_sale_type_list).map((item: any, index: number) =>
                   <option key={index} value={item}>{after_sale_type_list[item]}</option>
                 )
               }
@@ -203,6 +206,7 @@ class AfterSale extends React.Component<any, any> {
             columns={columns}
             dataSource={listData}
             bordered={true}
+            loading={loading}
           />
         </section>
       </div>

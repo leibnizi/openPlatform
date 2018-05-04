@@ -25,7 +25,8 @@ class Sale extends React.Component<any, any> {
       listData: [],
       productDetailData: null,
       productDetailDataHead: null,
-      hoverImg: null
+      hoverImg: null,
+      loading: true
     }
   }
 
@@ -95,12 +96,14 @@ class Sale extends React.Component<any, any> {
         })
         this.setState({
           listData,
-          pageTotal: res.data.total
+          pageTotal: res.data.total,
+          loading: false
         })
       })
   }
 
   queryData = () => {
+    this.setState({ loading: true })
     this.getTableData(1)
   }
 
@@ -240,7 +243,8 @@ class Sale extends React.Component<any, any> {
       pageTotal,
       currentPage,
       listData,
-      productDetailData
+      productDetailData,
+      loading
     } = this.state
     const { statusList } = this.props
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
@@ -305,9 +309,7 @@ class Sale extends React.Component<any, any> {
           </section>
           <section className='productmid'>
             <Button
-              onClick={() => {
-                this.getTableData(1)
-              }}
+              onClick={this.queryData}
             >
               查询
             </Button>
@@ -317,6 +319,7 @@ class Sale extends React.Component<any, any> {
           <hr />
           <section>
             <Table
+              loading={loading}
               className='producttab'
               columns={columns}
               dataSource={listData}

@@ -377,23 +377,7 @@ class Register extends React.Component {
               </div>
             )
         }
-
-        {/* <form onSubmit={(e) => this.loginin(e)}>
-          <label
-            className='id'
-          >
-            账户
-            <input type="text" value={this.state.value} onChange={(e) => this.handleChangeId(e.target.value)} />
-          </label>
-          <label
-            className='password'
-          >
-            密码
-            <input type="text" value={this.state.value} onChange={(e) => this.handleChangePass(e.target.value)} />
-          </label>
-          <p>忘记密码？</p>
-          <input className='submit' type="submit" value="登录" />
-        </form> */}
+        
         <Modal
             title="服务协议及隐私权政策"
             width="50%"

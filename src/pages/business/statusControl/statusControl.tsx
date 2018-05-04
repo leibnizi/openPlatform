@@ -207,7 +207,7 @@ class StatusControl extends React.Component<any, any> {
     const uploadButton = (
       <div>
         <Icon type="plus" />
-        <div className="ant-upload-text">修改基础资质</div>
+        <div className="ant-upload-text">修改资质</div>
       </div>
     );
     console.log(canEditBaseStatus,"???",imageHasChange)

@@ -15,7 +15,7 @@ class Sale extends React.Component<any, any> {
     super(props)
     this.state = {
       startTime: '',
-      endTime: '',
+      endTime: moment(),
       product_spu: '',
       m_order_no: '',
       pay_status: '',
@@ -304,7 +304,7 @@ class Sale extends React.Component<any, any> {
               <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
-                format={monthFormat} placeholder='' defaultValue={moment()} allowClear={true}
+                format={monthFormat} placeholder='' defaultValue={endTime} allowClear={true}
               />
             </div>
           </section>

@@ -18,7 +18,7 @@ class AfterSale extends React.Component<any, any> {
       product_name: '',
       type: '',
       begin: '',
-      end: '',
+      end: moment(),
       after_sale_type_list: null
     }
   }
@@ -185,7 +185,7 @@ class AfterSale extends React.Component<any, any> {
             <DatePicker
               className='itemTime'
               onChange={(e: any) => this.setState({ end: e })}
-              format={monthFormat} placeholder='' defaultValue={moment()} allowClear={false}
+              format={monthFormat} placeholder='' defaultValue={end} allowClear={false}
             />
           </div>
         </section>

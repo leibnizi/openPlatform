@@ -2,6 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { DatePicker, Table, Button } from 'antd'
 import * as Cookies from 'js-cookie'
+import * as moment from 'moment';
 import './detail.less'
 import request from '../../../services/httpRequest'
 import { getFormatDate } from '../../../helper/utils'
@@ -15,8 +16,8 @@ class Detail extends React.Component<any, any> {
     super(props)
     this.state = {
       formNum: '',
-      startTime: '',
-      endTime: '',
+      startTime: moment(),
+      endTime: moment(),
       tableData: [],
     }
   }
@@ -72,7 +73,7 @@ class Detail extends React.Component<any, any> {
   }
 
   render() {
-    const { formNum, tableData } = this.state
+    const { formNum, tableData, endTime, startTime } = this.state
 
     const columns: any[] = [
       {
@@ -121,9 +122,9 @@ class Detail extends React.Component<any, any> {
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <label className='formTime'>
             <span className='timeFont'>下单时间：</span>
-            <MonthPicker onChange={this.startTime} format={monthFormat} placeholder='' />
+            <MonthPicker onChange={this.startTime} format={monthFormat} placeholder='' defaultValue={startTime} allowClear={false}/>
             <span className='timeSymbol'> - </span>
-            <MonthPicker onChange={this.endTime} format={monthFormat} placeholder='' />
+            <MonthPicker onChange={this.endTime} format={monthFormat} placeholder='' defaultValue={endTime} allowClear={false}/>
           </label>
           <label className='formsecond'>
             <span>账单编号:</span>

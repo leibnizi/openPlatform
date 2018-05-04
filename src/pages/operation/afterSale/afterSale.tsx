@@ -4,9 +4,9 @@ import { Table, DatePicker, Button } from 'antd'
 import './afterSale.less'
 import { getFormatDate } from '../../../helper/utils'
 import request from '../../../services/httpRequest'
-import { Moment } from 'moment';
+import * as moment from 'moment';
 const { MonthPicker } = DatePicker
-const monthFormat = 'YYYY-MM'
+const monthFormat = 'YYYY-MM-DD'
 
 class AfterSale extends React.Component<any, any> {
   constructor(props: Object) {
@@ -17,8 +17,8 @@ class AfterSale extends React.Component<any, any> {
       supplier_pro_num: '',
       product_name: '',
       type: '',
-      begin: null,
-      end: null,
+      begin: moment(),
+      end: moment(),
       after_sale_type_list: null
     }
   }
@@ -172,18 +172,18 @@ class AfterSale extends React.Component<any, any> {
           </div>
           <div className='item'>
             <p>开始时间:</p>
-            <MonthPicker
+            <DatePicker
               className='itemTime'
               onChange={(e: any) => this.setState({ begin: e })}
-              format={monthFormat} placeholder=''
+              format={monthFormat} placeholder='' defaultValue={begin} allowClear={false}
             />
           </div>
           <div className='item'>
             <p>结束时间:</p>
-            <MonthPicker
+            <DatePicker
               className='itemTime'
               onChange={(e: any) => this.setState({ end: e })}
-              format={monthFormat} placeholder=''
+              format={monthFormat} placeholder='' defaultValue={end} allowClear={false}
             />
           </div>
         </section>

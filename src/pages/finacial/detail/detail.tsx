@@ -7,7 +7,7 @@ import request from '../../../services/httpRequest'
 import { getFormatDate } from '../../../helper/utils'
 
 const { MonthPicker } = DatePicker
-const monthFormat = 'YYYY/MM'
+const monthFormat = 'YYYY-MM'
 
 class Detail extends React.Component<any, any> {
 

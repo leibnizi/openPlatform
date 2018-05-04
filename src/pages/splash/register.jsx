@@ -405,6 +405,7 @@ class Register extends React.Component {
             maskClosable={false}
             mask={true}
             closable={false}
+            keyboard={false}
             wrapClassName = "wrap-agreement"
         >
          <div className="agreement">

@@ -5,10 +5,11 @@ import './lease.less'
 import { getFormatDate } from '../../../helper/utils'
 import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
-
+import { Moment } from 'moment'
+import 'moment/locale/zh-cn'
 const { getStatusList } = operation
 const { MonthPicker } = DatePicker
-const monthFormat = 'YYYY/MM'
+const monthFormat = 'YYYY-MM'
 
 class Lease extends React.Component<any, any> {
   constructor(props: Object) {

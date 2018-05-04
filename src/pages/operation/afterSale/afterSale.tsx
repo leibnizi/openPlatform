@@ -4,9 +4,9 @@ import { Table, DatePicker, Button } from 'antd'
 import './afterSale.less'
 import { getFormatDate } from '../../../helper/utils'
 import request from '../../../services/httpRequest'
-
+import { Moment } from 'moment';
 const { MonthPicker } = DatePicker
-const monthFormat = 'YYYY/MM'
+const monthFormat = 'YYYY-MM'
 
 class AfterSale extends React.Component<any, any> {
   constructor(props: Object) {

@@ -7,7 +7,7 @@ import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
 
 const { MonthPicker } = DatePicker
-const monthFormat = 'YYYY/MM'
+const monthFormat = 'YYYY-MM'
 
 class Sale extends React.Component<any, any> {
   constructor(props: Object) {

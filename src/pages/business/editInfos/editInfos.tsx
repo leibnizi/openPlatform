@@ -105,14 +105,14 @@ class EditInfos extends React.Component<any, {}> {
       <Layout className="bs-info-box">
         <header>
           <Row className="row-box">
-            <Col span={3} className="content-title">商家信息：</Col>
+            <Col className="bsInfos-content-title">商家信息：</Col>
           </Row>
         </header>
 
         <article>
           <Form onSubmit={this.handleSubmit} className="edit-form">
             <Row className="">
-              <Col span={3} className="cotent-title">企业名称：</Col>
+              <Col span={3} className="cotent-title bsInfos-label">企业名称：</Col>
               <Col className="cotent-title-text" span={3}>{biz_name}</Col>
               <Col className="describe" span={13}>
                 <FormItem
@@ -183,7 +183,7 @@ class EditInfos extends React.Component<any, {}> {
               </Col>
             </Row>
             <Row type="flex" align="middle" className="row-box">
-              <Col span={3} className="cotent-title">商家状态：</Col>
+              <Col span={3} className="cotent-title bsInfos-label">商家状态：</Col>
               <Col span={2}>{merchant_state}</Col>
               {/* <Col span={2}><Button>续约</Button></Col> */}
               <Col className="describe" span={14}>有效期至：{cooperation_term && cooperation_term.substring(0, 11)}</Col>

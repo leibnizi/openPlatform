@@ -17,16 +17,9 @@ class AfterSale extends React.Component<any, any> {
       supplier_pro_num: '',
       product_name: '',
       type: '',
-<<<<<<< HEAD
-      begin: null,
-      end: null,
-      after_sale_type_list: null,
-      loading: true
-=======
       begin: moment(),
       end: moment(),
       after_sale_type_list: null
->>>>>>> bufix_hws
     }
   }
 

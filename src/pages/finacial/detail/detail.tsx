@@ -16,8 +16,8 @@ class Detail extends React.Component<any, any> {
     super(props)
     this.state = {
       formNum: '',
-      startTime: moment(),
-      endTime: moment(),
+      startTime: '',
+      endTime: '',
       tableData: [],
     }
   }
@@ -27,10 +27,10 @@ class Detail extends React.Component<any, any> {
     let tableData: any[] = []
 
     request('/api/financial/info_list', {
-      params: { 
-        begin: startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '', 
-        end: endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : '', 
-        id: formNum 
+      params: {
+        begin: startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
+        end: endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
+        id: formNum
       }
     })
       .then((Detail: any) => {
@@ -54,9 +54,9 @@ class Detail extends React.Component<any, any> {
     this.getData()
   }
 
-  download = () => {
+  download = (id) => {
     const { startTime, endTime, formNum } = this.state
-    window.open(`http://open-erp.test.msparis.com/api/financial/list_export?token=${Cookies.getJSON('token')}&begin=${startTime}&end=${endTime}&id=${formNum}`)
+    window.open(`http://open-erp.test.msparis.com/api/financial/list_export?token=${Cookies.getJSON('token')}&begin=${startTime}&end=${endTime}&id=${id}`)
   }
 
   handleSubmit = (e: any) => {
@@ -99,14 +99,14 @@ class Detail extends React.Component<any, any> {
         align: 'center',
       }, {
         title: '操作',
-        dataIndex: 'moshi',
+        dataIndex: '',
         key: 'moshi',
         align: 'center',
         render: (e: any) => {
           return (
             <span
               className='checkDetail'
-              onClick={() => this.download()}
+              onClick={() => this.download(e.id)}
             >
               {'下载对账明细'}
             </span>
@@ -122,9 +122,9 @@ class Detail extends React.Component<any, any> {
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <label className='formTime'>
             <span className='timeFont'>下单时间：</span>
-            <MonthPicker onChange={this.startTime} format={monthFormat} placeholder='' defaultValue={startTime} allowClear={false}/>
+            <MonthPicker onChange={this.startTime} format={monthFormat} placeholder='' allowClear={true} />
             <span className='timeSymbol'> - </span>
-            <MonthPicker onChange={this.endTime} format={monthFormat} placeholder='' defaultValue={endTime} allowClear={false}/>
+            <MonthPicker onChange={this.endTime} format={monthFormat} placeholder='' defaultValue={moment()} allowClear={true} />
           </label>
           <label className='formsecond'>
             <span>账单编号:</span>

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 import request from '../../services/httpRequest'
 import './register.less'
+import index from '../../routes';
 
 class RegisterNext extends React.Component<any, any> {
   constructor(props: any) {
@@ -60,16 +61,14 @@ class RegisterNext extends React.Component<any, any> {
     } = this.props.formNext
     const { imgUrl, imgUrl2 } = this.state
     let files: any = []
-    files.push({
-      fiel: imgUrl,
+    imgUrl.map((item:any,index:number)=> files.push({
+      file: item,
       type_id: 1
-    })
-    files.map((item: any, index: number) => {
-      files.push({
-        fiel: imgUrl2,
-        type_id: 2
-      })
-    })
+    }))
+    imgUrl2.map((item:any,index:number)=> files.push({
+      file: item,
+      type_id: 2
+    }))
 
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {

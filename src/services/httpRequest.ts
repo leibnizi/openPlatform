@@ -2,7 +2,6 @@ import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import * as Cookies from 'js-cookie';
 import { message, Modal } from 'antd';
 
-var is_message_show = true;
 var is_modal_show = true;
 /**
  * heck 请求状态
@@ -15,23 +14,20 @@ function checkStatus(res: any) {
     if (res.data.status_code == 0) {
       return res
     } else {
-      if ((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show) {
+      if (res.data.status_code == 210 || res.data.status_code == 202) {
         goToLogin()
         is_modal_show = true;
         // warning(res.data.msg);
-        is_message_show = false;
         return false;
-      } else if (is_message_show) {
+      } else {
         console.log(res);
-        message.error(res.data.msg || '失败', 1);
-        is_message_show = false;
+        message.error(res.data.msg || '失败');
       }
       return res
     }
   } else {
 
     error();
-    is_message_show = false;
     return false;
   }
 }

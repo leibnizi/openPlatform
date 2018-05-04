@@ -7,6 +7,7 @@ import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
 import * as moment from 'moment'
 import 'moment/locale/zh-cn'
+import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from 'constants';
 const { getStatusList } = operation
 const { MonthPicker } = DatePicker
 const monthFormat = 'YYYY-MM-DD'
@@ -17,7 +18,7 @@ class Lease extends React.Component<any, any> {
     this.state = {
       listData: [],
       startTime: '',
-      endTime: '',
+      endTime: moment(),
       product_spu: '',
       m_order_no: '',
       split_order_no: '',
@@ -299,7 +300,7 @@ class Lease extends React.Component<any, any> {
               <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
-                format={monthFormat} placeholder='' defaultValue={moment()} allowClear={true}
+                format={monthFormat} placeholder='' defaultValue={endTime} allowClear={true}
               />
             </div>
           </section>

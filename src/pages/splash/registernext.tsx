@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 import request from '../../services/httpRequest'
 import './register.less'
+import index from '../../routes';
 
 class RegisterNext extends React.Component<any, any> {
   constructor(props: any) {
@@ -60,16 +61,14 @@ class RegisterNext extends React.Component<any, any> {
     } = this.props.formNext
     const { imgUrl, imgUrl2 } = this.state
     let files: any = []
-    files.push({
-      fiel: imgUrl,
+    imgUrl.map((item:any,index:number)=> files.push({
+      file: item,
       type_id: 1
-    })
-    files.map((item: any, index: number) => {
-      files.push({
-        fiel: imgUrl2,
-        type_id: 2
-      })
-    })
+    }))
+    imgUrl2.map((item:any,index:number)=> files.push({
+      file: item,
+      type_id: 2
+    }))
 
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -200,12 +199,12 @@ class RegisterNext extends React.Component<any, any> {
                 this.props.form.setFieldsValue({ profit_level: e })
               }}
             >
-              <Option value="万元以下">万元以下</Option>
-              <Option value="万元">万元</Option>
-              <Option value="十万">十万</Option>
-              <Option value="百万">百万</Option>
-              <Option value="千万">千万</Option>
-              <Option value="亿元">亿元</Option>
+              <Option value="1">万元以下</Option>
+              <Option value="2">万元</Option>
+              <Option value="3">十万</Option>
+              <Option value="4">百万</Option>
+              <Option value="5">千万</Option>
+              <Option value="6">亿元</Option>
             </Select>
           )}
         </FormItem>

@@ -47,7 +47,20 @@
   margin-bottom: 20px;
   .notice-content-box{
     display: flex;
-    max-width: 80%;
+    .marquee{
+      width: 800px;
+      animation: marquee 6s linear 0s infinite;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(70%)
+      }
+
+      100% {
+        transform: translateX(0px)
+      }
+    }
     .notice{
       margin-right: 20px;
       color: #333;
@@ -114,3 +127,15 @@ html{
 .react_for_echarts{
   background-color: #fff;
 }
+.ant-card-body{
+  padding: 20px 24px;
+}
+// .marquee {
+// 　　white-space:
+// 　　overflow:-webkit-marquee;　　/* 只有设置为marquee才有滚动效果 */
+// 　　width: 170px;　　/* 不是必须的 */
+// 　　-webkit-marquee-direction:left;　　/* 文字滚动方向 可选值为left | right | up | down */
+// 　　-webkit-marquee-speed:normal;　　/* 文字滚动速度 可选值为slow | normal | fast */
+// 　　-webkit-marquee-style:scroll;　　/* 文字滚动方式 可选值为scroll | slide | alternate */
+// 　　-webkit-marquee-repetition:1; 　　/* 文字滚动次数 number | infinite ， infinite即无限次循环滚动 */
+// }

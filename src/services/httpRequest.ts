@@ -2,8 +2,8 @@ import axios, { AxiosInstance, AxiosPromise } from 'axios';
 import * as Cookies from 'js-cookie';
 import { message, Modal } from 'antd';
 
-var is_message_show = true;
 var is_modal_show = true;
+var is_message_show = true;
 /**
  * heck 请求状态
  * @param res
@@ -22,15 +22,14 @@ function checkStatus(res: any) {
         return false;
       } else if (is_message_show && res.config.url.indexOf('/login') == -1 ) {
         console.log(res);
-        message.error(res.data.msg || '失败', 1);
         is_message_show = false;
+        message.error(res.data.msg || '失败');
       }
       return res
     }
   } else {
 
     error();
-    is_message_show = false;
     return false;
   }
 }

@@ -15,13 +15,12 @@ function checkStatus(res: any) {
     if (res.data.status_code == 0) {
       return res
     } else {
-      if ((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show) {
-        goToLogin()
+      if ((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show && res.config.url.indexOf('/login') == -1) {
         is_modal_show = true;
-        // warning(res.data.msg);
         is_message_show = false;
+        warning(res.data.msg);
         return false;
-      } else if (is_message_show) {
+      } else if (is_message_show && res.config.url.indexOf('/login') == -1 ) {
         console.log(res);
         message.error(res.data.msg || '失败', 1);
         is_message_show = false;
@@ -74,7 +73,7 @@ function warning(msg) {
       content: msg,
       okText: '确定',
       onOk() {
-        is_modal_show = true;
+        is_modal_show = false;
         goToLogin()
       },
     });

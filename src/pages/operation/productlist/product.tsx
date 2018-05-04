@@ -73,6 +73,18 @@ class Product extends React.Component<any, any> {
     } = this.state
     request('/api/product/list', {
       params: {
+        perPage: 20,
+        page: nextPage,
+        // _search: [
+        //   { category_id: goodCategory },
+        //   { spu_enabled: SPU },
+        //   { mode_id: goodMode },
+        //   { enabled: goodStatus },
+        //   { code },
+        //   { name },
+        //   { purchaser_product_no },
+        //   { page: nextPage }
+        // ]
         _search: {
           category_id: goodCategory,
           spu_enabled: SPU,
@@ -80,8 +92,7 @@ class Product extends React.Component<any, any> {
           enabled: goodStatus,
           code,
           name,
-          purchaser_product_no,
-          page: nextPage
+          purchaser_product_no
         }
       }
     })
@@ -346,12 +357,28 @@ class Product extends React.Component<any, any> {
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
           <hr />
-          <div style={{marginLeft: "30px" }}>
-            <Table
+          <div>
+            {/* <Table
               loading={dataLoading}
-              scroll={{ x: '100%' }}
+              // scroll={{ x: 1000 }}
+              className='producttab'
               columns={columns}
               dataSource={listData}
+              bordered={true}
+            /> */}
+            <Table
+              className='producttab'
+              scroll={{ x: 1000 }}
+              loading={dataLoading}
+              columns={columns}
+              dataSource={listData}
+              bordered={true}
+              pagination={{
+                total: pageTotal,
+                defaultCurrent: currentPage,
+                pageSize: 20
+              }}
+              onChange={(e) => this.pageChange(e)}
             />
           </div>
 

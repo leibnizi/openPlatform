@@ -200,12 +200,12 @@ class RegisterNext extends React.Component<any, any> {
                 this.props.form.setFieldsValue({ profit_level: e })
               }}
             >
-              <Option value="万元以下">万元以下</Option>
-              <Option value="万元">万元</Option>
-              <Option value="十万">十万</Option>
-              <Option value="百万">百万</Option>
-              <Option value="千万">千万</Option>
-              <Option value="亿元">亿元</Option>
+              <Option value="1">万元以下</Option>
+              <Option value="2">万元</Option>
+              <Option value="3">十万</Option>
+              <Option value="4">百万</Option>
+              <Option value="5">千万</Option>
+              <Option value="6">亿元</Option>
             </Select>
           )}
         </FormItem>

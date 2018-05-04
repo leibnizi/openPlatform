@@ -169,6 +169,7 @@ class Product extends React.Component<any, any> {
         dataIndex: 'enabled_at',
         key: 'enabled_at',
         align: 'center',
+        width:200,
         sorter: (a: any) => console.log(a)
       }, {
         title: '商品状态',
@@ -345,10 +346,10 @@ class Product extends React.Component<any, any> {
             <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
           <hr />
-          <div style={{ width: "1000px", marginLeft: "30px" }}>
+          <div style={{marginLeft: "30px" }}>
             <Table
               loading={dataLoading}
-              scroll={{ x: 1000 }}
+              scroll={{ x: '100%' }}
               columns={columns}
               dataSource={listData}
             />
@@ -398,7 +399,7 @@ class Product extends React.Component<any, any> {
                 <section>
                   <Table
                     loading={detailLoading}
-                    scroll={{ x: 700 }}
+                    scroll={{ x: '100%' }}
                     className='producttable'
                     columns={detailColumn}
                     dataSource={productDetailData}

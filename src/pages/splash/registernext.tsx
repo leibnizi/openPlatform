@@ -10,15 +10,38 @@ class RegisterNext extends React.Component<any, any> {
     this.state = {
       fileListSupplement: [],
       fileListSupplement2: [],
-      autoCompleteResult: []
+      autoCompleteResult: [],
+      imgUrl: null
     }
   }
 
   handleChange = (fileList: any) => this.setState({ fileList: fileList.fileList })
 
-  handleChangeList = (fileList: any) => this.setState({ fileListSupplement: fileList.fileList })
+  handleChangeList = (fileList: any) => {
+    let imgUrl: string[] = []
+    if (fileList.file.response) {
+      fileList.file.response.data.map((item: any, index: number) => {
+        imgUrl.push(item.url)
+      })
+    }
+    this.setState({
+      fileListSupplement: fileList.fileList,
+      imgUrl
+    })
+  }
 
-  handleChangeList2 = (fileList: any) => this.setState({ fileListSupplement2: fileList.fileList })
+  handleChangeList2 = (fileList: any) => {
+    let imgUrl2: string[] = this.state.imgUrl2 ? this.state.imgUrl2 : []
+    if (fileList.file.response) {
+      fileList.file.response.data.map((item: any, index: number) => {
+        imgUrl2.push(item.url)
+      })
+    }
+    this.setState({
+      fileListSupplement2: fileList.fileList,
+      imgUrl2
+    })
+  }
 
   handleCancel = () => this.setState({ previewVisible: false })
 
@@ -31,19 +54,19 @@ class RegisterNext extends React.Component<any, any> {
 
   handleSubmit = (e: any) => {
     e.preventDefault()
-    const { 
+    const {
       email, faxes, phone, nickname, password, password_confirmation,
       captcha
     } = this.props.formNext
-    const { fileListSupplement, fileListSupplement2 } = this.state
+    const { imgUrl, imgUrl2 } = this.state
     let files: any = []
     files.push({
-      fiel: fileListSupplement[0].thumbUrl,
+      fiel: imgUrl,
       type_id: 1
     })
-    fileListSupplement2.map((item: any, index: number) => {
+    files.map((item: any, index: number) => {
       files.push({
-        fiel: item.thumbUrl,
+        fiel: imgUrl2,
         type_id: 2
       })
     })
@@ -368,9 +391,9 @@ class RegisterNext extends React.Component<any, any> {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button 
-            className='submitButton' 
-            type="primary" 
+          <Button
+            className='submitButton'
+            type="primary"
             onClick={e => {
               this.props.form.validateFieldsAndScroll((err, values) => {
                 this.props.gotoStep(e, 0, values)

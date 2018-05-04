@@ -1,20 +1,21 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Table, DatePicker, Button } from 'antd'
+import * as moment from 'moment';
 import './sale.less'
 import { getFormatDate } from '../../../helper/utils'
 import { operation } from '../../../redux/actions'
 import request from '../../../services/httpRequest'
 
 const { MonthPicker } = DatePicker
-const monthFormat = 'YYYY/MM'
+const monthFormat = 'YYYY-MM-DD'
 
 class Sale extends React.Component<any, any> {
   constructor(props: Object) {
     super(props)
     this.state = {
-      startTime: null,
-      endTime: null,
+      startTime: moment(),
+      endTime: moment(),
       product_spu: '',
       m_order_no: '',
       pay_status: '',
@@ -24,7 +25,9 @@ class Sale extends React.Component<any, any> {
       currentPage: 1,
       listData: [],
       productDetailData: null,
-      productDetailDataHead: null
+      productDetailDataHead: null,
+      hoverImg: null,
+      loading: true
     }
   }
 
@@ -73,30 +76,35 @@ class Sale extends React.Component<any, any> {
     } = this.state
     request('/api/order/list/2', {
       params: {
-        product_spu,
-        pay_status,
-        m_order_no,
-        split_order_no,
-        status,
-        order_time: [
-          startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
-          endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''
-        ]
+        _search: {
+          product_spu,
+          pay_status,
+          m_order_no,
+          split_order_no,
+          status,
+          order_time: [
+            startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
+            endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''
+          ]
+        }
       }
     })
       .then((res) => {
         const listData = res.data.data
         listData.map((item: any, index: number) => {
-          Object.assign(item, { key: index })
+          item.key = index
+          item.code = item.codes[0]
         })
         this.setState({
           listData,
-          pageTotal: res.data.total
+          pageTotal: res.data.total,
+          loading: false
         })
       })
   }
 
   queryData = () => {
+    this.setState({ loading: true })
     this.getTableData(1)
   }
 
@@ -106,11 +114,12 @@ class Sale extends React.Component<any, any> {
   }
 
   render() {
+    const { hoverImg } = this.state
     const columns: any[] = [
       {
         title: '订单编号',
-        dataIndex: 'order_no',
-        key: 'order_no',
+        dataIndex: 'm_order_no',
+        key: 'm_order_no',
         align: 'center',
       }, {
         title: '子订单编号',
@@ -125,27 +134,46 @@ class Sale extends React.Component<any, any> {
         align: 'center',
       }, {
         title: '商品主图',
-        dataIndex: 'image_url',
+        dataIndex: '',
         key: 'image_url',
         align: 'center',
         className: 'tableItem',
         render: (e: any) => {
           return (
-            <img
-              src={`${e}`}
-              alt="mainImage"
-            />
+            <div>
+              <img
+                onMouseOver={() => {
+                  this.setState({ hoverImg: e.id })
+                }}
+                onMouseOut={() => this.setState({ hoverImg: false })}
+                src={`${e.images[0]}`}
+                alt="mainImage"
+              />
+              {
+                e.id === hoverImg && <div className='hoverImg'>
+                  {
+                    e.images.map((item: any, index: number) =>
+                      <img
+                        src={item}
+                        key={index}
+                        alt="mainImage"
+                      />
+                    )
+                  }
+                </div>
+              }
+            </div>
           )
         }
       }, {
         title: '订单状态',
-        dataIndex: 'status',
-        key: 'status',
+        dataIndex: 'order_status',
+        key: 'order_status',
         align: 'center',
       }, {
         title: '支付状态',
-        dataIndex: 'is_pay',
-        key: 'is_pay',
+        dataIndex: 'pay_status',
+        key: 'pay_status',
         align: 'center',
       }, {
         title: '下单时间',
@@ -216,7 +244,8 @@ class Sale extends React.Component<any, any> {
       pageTotal,
       currentPage,
       listData,
-      productDetailData
+      productDetailData,
+      loading
     } = this.state
     const { statusList } = this.props
     if (isNaN(Number(this.props.location.pathname.split('/').slice(-1)[0]))) {
@@ -266,24 +295,22 @@ class Sale extends React.Component<any, any> {
             </div>
             <div className='item'>
               <p>下单时间:</p>
-              <MonthPicker
+              <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ startTime: e })}
-                format={monthFormat} placeholder=''
+                format={monthFormat} placeholder='' defaultValue={startTime} allowClear={false}
               />
               -
-              <MonthPicker
+              <DatePicker
                 className='itemTime'
                 onChange={(e: any) => this.setState({ endTime: e })}
-                format={monthFormat} placeholder=''
+                format={monthFormat} placeholder='' defaultValue={endTime} allowClear={false}
               />
             </div>
           </section>
           <section className='productmid'>
             <Button
-              onClick={() => {
-                this.getTableData(1)
-              }}
+              onClick={this.queryData}
             >
               查询
             </Button>
@@ -293,6 +320,7 @@ class Sale extends React.Component<any, any> {
           <hr />
           <section>
             <Table
+              loading={loading}
               className='producttab'
               columns={columns}
               dataSource={listData}

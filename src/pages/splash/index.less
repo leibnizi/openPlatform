@@ -3,18 +3,48 @@
 .splash {
   width: 100%;
   height: 100%;
+  min-width: 1200px;
+  min-height: 800px;
   background-image: url('../../styles/img/splash.jpg');
   background-size: 100% 100%;
   background-repeat:no-repeat;
   .splashchild {
     position: relative;
-    left: 10%;
+    left: 19%;
     top: 32%;
     width: 300px;
+    margin: 0;
+  }
+  .splashmid {
+    position: relative;
+    left: 13%;
+    top: 32%;
+    margin: 0;
+    width: 400px;
+    .login {
+      display: inline-block;
+      background-color: #dd748e;
+      color: #fff;
+      width: 160px;
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-align: center;
+      margin: 100px  60px 60px 0;
+    }
+    .register {
+      display: inline-block;
+      background-color: #fff;
+      padding: 10px 0;
+      color: #dd748e;
+      width: 160px;
+      text-align: center;
+      border-radius: 4px;
+      border: 1px solid #dd748e;
+    }
   }
   .loginError {
     position: relative;
-    left: 13%;
+    left: 18%;
     top: 33%;
     width: 300px;
     color: #dd748e;
@@ -23,39 +53,44 @@
     margin: 0;
   }
   .name {
-    font-size: 25px;
-  }
-  .login {
-    display: block;
-    background-color: #dd748e;
-    color: #fff;
-    width: 160px;
-    padding: 10px 20px;
-    border-radius: 4px;
-    text-align: center;
-    margin: 30px  0 30px 0;
-  }
-  .register {
-    display: block;
-    background-color: #fff;
-    padding: 10px 0;
-    color: #dd748e;
-    width: 160px;
-    text-align: center;
-    border-radius: 4px;
-    border: 1px solid #dd748e;
+    font-size: 30px;
   }
   form {
     position: relative;
-    left: 10%;
-    top: 32%;
+    left: 18%;
+    top: 28%;
     height: 200px;
     width: 300px;
     label {
       display: block;
     }
+    .loginname {
+      margin: 70px 0 0 15px;
+      span {
+        margin-right: 25px;
+      }
+      input {
+        width: 180px;
+      }
+    }
+    .loginpass {
+      margin: 0 0 0 15px;
+      span {
+        margin-right: 25px;
+      }
+      input {
+        width: 180px;
+      }
+    }
     p {
-      margin-left: 150px;
+      margin: -15px 0 10px 150px;
+      cursor: pointer;
+      text-align: center;
+      padding-right: 14px;
+      color: #cacaca;
+    }
+    .logininput {
+      width: 230px;
     }
     .submit {
       font-size: 16px;
@@ -71,26 +106,36 @@
       font-size: 16px;
       margin: 60px 0 30px 0;
       input {
+        width: 230px;
         margin-left: 20px;
-        border: 1px solid #f0f0f0;
         border-radius: 5px;
-      }
-      input:focus {
-        outline-color: #dd748e;
       }
     }
     .password {
       font-size: 16px;
       margin: 30px 0 10px 0;
       input {
+        width: 230px;
         margin-left: 20px;
-        border: 1px solid #f0f0f0;
         border-radius: 5px;
       }
-      input:focus {
-        outline-color: #dd748e;
+      input:active {
+        outline: #dd748e;
       }
-      
+    }
+    .loginsubmit {
+      text-align: center;
+      button {
+        width: 130px;
+        height: 36px;
+        margin-top: 40px;
+        margin-right: 30px;
+      }
+    }
+    .ant-form-explain {
+      position: relative;
+      top: -30px;
+      left: 270px;
     }
   }
 }

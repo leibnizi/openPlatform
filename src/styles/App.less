@@ -14,7 +14,7 @@
 .app {
   background-color: #f2f2f2;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   overflow: overlay;
   position: relative;
   .header {
@@ -68,6 +68,7 @@
         a {
           font-weight: 600;
           color: #f03a80;
+          font-weight: bold;
         }
         border-bottom: 1.5px solid #f03a80;
       }
@@ -75,8 +76,8 @@
     // height: 40px;
     // background-color: black;
   }
-  .body{
-    // height: 100%;
+  .body {
+    height: 100%;
     display: flex;
     flex-grow: 1;
     padding: 20px @window_padding 60px;
@@ -124,22 +125,78 @@
         background-color: #fff;
       }
     }
-    
+  }
+  .operationBody {
+    min-height: 100%;
+    display: flex;
+    flex-grow: 1;
+    padding: 20px @window_padding 60px;
+    background: #f2f2f2;
+    overflow: auto;
+    &>div{
+      display: flex;
+      min-height: 600px;
+      width: 100%;
+      // height: 100%;
+      .aside{
+        width: 180px;
+        border-radius: 5px;
+        flex-shrink: 0;
+        background: #fff;
+        text-align: center;
+        padding: 20px 0;
+        font-size: 16px;
+        &>p{
+          margin-top: 10px;
+          color: #ccc;
+        }
+        &>div{
+          a{
+            display: block;
+            padding: 20px 0;
+            color: #000;
+          }
+        }
+        .active{
+          border-left: 2px solid #f03a80;
+          a{
+            font-weight: 600;
+            color: #f03a80;
+            background-color: #f6f6f6;
+          }
+        }
+      }
+      .content{
+        padding: 20px 40px 40px 33px;
+        border-radius: 5px;
+        flex-grow: 1;
+        margin-left: 15px;
+        // min-height: 800px;
+        background-color: #fff;
+      }
+    }
   }
 }
 a:link,a:active,a:visited,a:hover {text-decoration:none;}  
 input {
   border-radius: 3px;
   border: 1px solid #c3c3c3;
+  background-color: transparent;
+  
 }
-input:hover {
-  outline-color: #dd748e;
-}
+// input:-webkit-autofill, 
+//  textarea:-webkit-autofill, 
+//  select:-webkit-autofill { 
+//   -webkit-box-shadow: 0 0 0 1000px white inset; 
+// }
+//  input[type=text]:focus, input[type=password]:focus, textarea:focus {
+//   -webkit-box-shadow: 0 0 0 1000px white inset; 
+// }
 input:active {
-  outline-color: #dd748e;
+  outline:1px solid#dd748e;
 }
 input:focus {
-  outline-color:#dd748e;
+  outline:1px solid#dd748e;
 }
 select:active {
   outline-color: #dd748e;

@@ -82,7 +82,7 @@ function warning(msg) {
 }
 
 const goToLogin = () => {
-  window.location.href = window.location.origin + "/login"
+  window.location.href = window.location.origin + "/splash"
   Cookies.remove('name')
   Cookies.remove('token')
 }
@@ -130,12 +130,17 @@ const instance2 = axios.create({
 
 const enhanceAxiosInstance = (instance: AxiosInstance) => {
   //let token = {}
-
+  var CancelToken = axios.CancelToken;
+  var cancel: any
 
   instance.interceptors.request.use(function (config: any) {
     let token = Cookies.getJSON('token');
     config.params['token'] = token;
     config.data['token'] = token;
+    config.cancelToken = new CancelToken(function executor(c) {
+      // executor 函数接收一个 cancel 函数作为参数
+      cancel = c;
+    })
     return config;
   });
 

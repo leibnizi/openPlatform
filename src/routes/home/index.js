@@ -246,7 +246,7 @@ class Home extends Component {
                 至昨天24点数据
               </div>}  
             bordered={false}>
-            <Row className="card-content-margin" gutter={30} type="flex" justify="space-between">
+            <Row className="card-content-margin card-content" gutter={30} type="flex" justify="space-between">
               <Col span={12}>
                   <NumBlock title="累计收益" value={income_total}>
                   </NumBlock>
@@ -260,7 +260,7 @@ class Home extends Component {
         </Col>
           <Col span={9}>
             <Card title="在架商品数据" className="card-row" bordered={false}>
-              <Row className="card-content-margin" gutter={10}>
+              <Row className="card-content-margin card-content" gutter={10}>
                 <Col span={12}>
                   <NumBlock title="租赁商品数" value={rent_total}>
                     <div className="yesterday-message">
@@ -293,7 +293,7 @@ class Home extends Component {
                 至昨天24点数据
             </div>} 
           >
-            <div className="card-line-content">
+            <div className="card-content">
               <div>
                   <NumBlock title="近30天订单数" value={rental_sale && rental_sale.rental && rental_sale.rental.orders_30 || '0'}>
                   </NumBlock>
@@ -317,7 +317,7 @@ class Home extends Component {
                 至昨天24点数据
             </div>} 
           >
-            <div className="card-line-content">
+            <div className="card-content">
               <div>
                 <NumBlock title="近30天订单数" value={rental_sale && rental_sale.sale.orders_30 || '0'}>
                 </NumBlock>

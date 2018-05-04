@@ -68,6 +68,7 @@ class EditInfos extends React.Component<any, {}> {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -88,6 +89,17 @@ class EditInfos extends React.Component<any, {}> {
         sm: { span: 16 },
       },
     };
+    const formItemLayoutTooLong = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 5 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 15 },
+      },
+    };
+    
     const {
       businessInfos: {
         biz_name, profit_level, brand, website, biz_intro, merchant_state,
@@ -114,9 +126,9 @@ class EditInfos extends React.Component<any, {}> {
             <Row className="">
               <Col span={3} className="cotent-title bsInfos-label">企业名称：</Col>
               <Col className="cotent-title-text" span={3}>{biz_name}</Col>
-              <Col className="describe" span={13}>
+              <Col className="describe profit-level" span={13}>
                 <FormItem
-                  {...formItemLayout}
+                  {...formItemLayoutTooLong}
                   label="上季度盈利量级"
                 >
                   {getFieldDecorator('profit_level', {
@@ -337,7 +349,7 @@ class EditInfos extends React.Component<any, {}> {
               </Col>
             </Row>
             <Row>
-              <Col span={3} className="text-right">
+              <Col span={3} className="edit-infos-btn text-right">
                 <Button type="primary" htmlType="submit">确认修改</Button>
               </Col>
             </Row>

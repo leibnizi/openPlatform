@@ -117,7 +117,7 @@ class Account extends React.Component<any, any> {
         <Row className="message-box">
           <Col span={12}>
             <Row className="message-item">
-              <Col className="lable-font-weight" span={5}>
+              <Col className="acount-lable lable-font-weight" span={5}>
                 用户名：
               </Col>
               <Col span={19}>
@@ -125,7 +125,7 @@ class Account extends React.Component<any, any> {
               </Col>
             </Row>
             <Row className="message-item">
-              <Col className="lable-font-weight" span={5}>
+              <Col className="acount-lable lable-font-weight" span={5}>
                 手机号：
               </Col>
               <Col span={19}>
@@ -133,7 +133,7 @@ class Account extends React.Component<any, any> {
               </Col>
             </Row>
             <Row className="message-item">
-              <Col className="lable-font-weight" span={5}>
+              <Col className="acount-lable lable-font-weight" span={5}>
                 邮箱：
               </Col>
               <Col span={19}>
@@ -141,7 +141,7 @@ class Account extends React.Component<any, any> {
               </Col>
             </Row>
             <Row className="message-item">
-              <Col className="lable-font-weight" span={5}>
+              <Col className="acount-lable lable-font-weight" span={5}>
                 地址：
               </Col>
               <Col span={19}>

@@ -105,7 +105,7 @@ class EditInfos extends React.Component<any, {}> {
       <Layout className="bs-info-box">
         <header>
           <Row className="row-box">
-            <Col span={3} className="cotent-title">商家信息：</Col>
+            <Col span={3} className="content-title">商家信息：</Col>
           </Row>
         </header>
 

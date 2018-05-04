@@ -17,6 +17,7 @@ export const AccountForm: any = Form.create()((props: any) => {
       sm: { span: 17 },
     },
   };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     props.form.validateFields((err: any, values: any) => {
@@ -31,7 +32,7 @@ export const AccountForm: any = Form.create()((props: any) => {
   }
 
   return (
-    <Form layout="vertical" onSubmit={handleSubmit}>
+    <Form className="account-form-box" onSubmit={handleSubmit}>
       <FormItem {...formItemLayout} label="用户名">
         {getFieldDecorator('name', {
           initialValue: `${name}`,

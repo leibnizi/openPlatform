@@ -31,31 +31,6 @@ class Home extends Component {
       saleOrder:{},
       saleIncome:{}
     };
-
-
-    this._options = {
-      id: 'chart',
-      viewport:  [120, 200, 150, 80, 70, 110, 130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130],
-      datas: [{
-        data: [120, 200, 150, 80, 70, 110, 130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130,130],
-        name: '租赁订单数趋势图'
-      }],
-      legend: false,
-      tooltip: true,
-      color: ['#006699']
-    };
-
-    this._lineOp = {
-      id: 'line',
-      viewport: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      datas: [{
-        data: [120, 200, 150, 80, 70, 110, 130],
-        name: 'test'
-      }],
-      legend: false,
-      tooltip:true,
-      smooth:true
-    };
   }
 
   componentDidMount() {
@@ -107,16 +82,40 @@ class Home extends Component {
       xAxis: [
         {
           type: 'category',
-          boundaryGap: false,
           data: [1,2,3,4,5,6],
+          boundaryGap: true,
           nameTextStyle:{
             color: '#DD748E'
           },
+          axisLine: {
+            lineStyle: {
+              color: "#ccc"
+            }
+          },
+          axisLabel:{
+            formatter: function (value, index) {
+              return value.substring(5)
+              // var date = new Date(value);
+              // var texts = [(date.getMonth() + 1), date.getDate()];
+              // if (index === 0) {
+              //   texts.unshift(date.getYear());
+              // }
+              // return texts.join('/');
+            }
+          }
         }
       ],
       yAxis: [
         {
-          type: 'value'
+          type: 'value',
+          axisLine:{
+            lineStyle:{
+              color:"#fff",
+            }
+          },
+          axisLabel: {
+            color: "#ccc"
+          }
         }
       ],
       series: [
@@ -125,7 +124,7 @@ class Home extends Component {
           type,
           smooth: true,
           stack: '总量',
-          areaStyle: { normal: {} },
+          // areaStyle: { normal: {} },
           data: [120, 132, 101, 134, 90, 230, 210],
           barMaxWidth: 10,
           itemStyle: {

@@ -42,7 +42,7 @@ class Customerservice extends React.Component<any, any> {
             dataList.faq.map((item: any, index: number) => {
               return (
                 <div className='helpContent' key={index}>
-                  <p className='helpIndex'>{`${index + 1}、`}</p>
+                  <p className='helpIndex'>{`${index+1}、`}</p>
                   <div
                     className='helpTitle'
                   >

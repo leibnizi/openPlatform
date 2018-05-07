@@ -45,14 +45,19 @@ export default class Business extends Component {
   }
 }
 
-const OldMenuLink = ({ label, to, activeOnlyWhenExact }) => (
-  <Route
-    path={to}
-    exact={activeOnlyWhenExact}
-    children={({ match }) => (
-      <div className={match ? "active" : "normal"}>
-        <Link to={to}>{label}</Link>
-      </div>
-    )}
-  />
-)
+const OldMenuLink = ({ label, to, activeOnlyWhenExact }) => {
+
+  // console.log(label, "sss", to, "sss", activeOnlyWhenExact)
+  return (
+    <Route
+      path={to}
+      exact={activeOnlyWhenExact}
+      children={({ match }) => (
+        <div className={match ? "active" : "normal"}>
+          {console.log(match,"?????")}
+          <Link to={to}>{label}</Link>
+        </div>
+      )}
+    />
+  )
+}

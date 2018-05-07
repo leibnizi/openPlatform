@@ -169,8 +169,8 @@
     color: #fff;
   }
   &:active, &.active, &:focus{
-    background-color:dd748e;
-    border-color: #dd748e;
+    background-color: rgba(211, 89, 120, 1);
+    background-color: rgba(211, 89, 120, 1);
     color: #fff;
   }
 }
@@ -183,12 +183,22 @@
 .ant-modal-body {
   height: 150px;
 }
+.ant-card-head{
+  border: none;
+  .ant-card-head-wrapper{
+    border-bottom: 1px solid #f2f2f2;
+  }
+}
 .loginButton {
   width: 100px;
 }
 .ant-input, .ant-select-selection{
   &:hover{
     border-color: #dd748e;
+  }
+  &:focus{
+    border-color: #dd748e;
+    box-shadow: 0 0 0 2px rgba(211, 89, 120, 0.2);
   }
 }
 .ant-checkbox-checked .ant-checkbox-inner, .ant-checkbox-indeterminate .ant-checkbox-inner{

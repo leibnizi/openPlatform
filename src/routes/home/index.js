@@ -213,7 +213,7 @@ class Home extends Component {
         </Col>
         <Col>
           <Link style={{color: "#f03a80"}} to="help/announcement">
-            更多
+            更多 
           </Link>
         </Col>
       </Row>
@@ -224,7 +224,7 @@ class Home extends Component {
         align="top"
       >
         <Col span={6}>
-          <Card title={`欢迎您：${name}`}  className="card-row" bordered={false}>
+          <Card title={`欢迎您：${name}`}  className="card-row first-card" bordered={false}>
             <p style={{marginTop:'15px'}}>上次登录：{updated_at}</p>
             <p>到期登录：{expire_at}</p>
             <Row className="index-btn-box" type="flex" justify="space-between">

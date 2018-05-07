@@ -18,17 +18,20 @@ interface OldMenuLinkType {
   activeOnlyWhenExact: boolean
 }
 
-export const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuLinkType) => (
-  <Route
-    path={to}
-    exact={activeOnlyWhenExact}
-    children={({ match }) => (
-      <div className={match ? "active" : "normal"}>
-        <Link to={to}>{label}</Link>
-      </div>
-    )}
-  />
-)
+export const OldMenuLink = ({ label, to, activeOnlyWhenExact }: OldMenuLinkType) => {
+  
+  return (
+    <Route
+      path={to}
+      exact={activeOnlyWhenExact}
+      children={({ match }) => (
+        <div className={match ? "active" : "normal"}>
+          <Link to={to}>{label}</Link>
+        </div>
+      )}
+    />
+  )
+}
 
 class RegisterRoute extends React.Component {
   render() {

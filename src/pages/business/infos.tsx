@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from 'react-redux'
 import { Layout, Row, Col, Button } from 'antd';
+import { Link } from "react-router-dom"
 
 import './index.less';
 import '../../styles/common.less';
@@ -35,8 +36,9 @@ class Infos extends React.Component<any, {}> {
     dispatch(getBusinessInfos())
   }
 
-  editMsg = () => {
-    this.props.history.push('edit_infos')
+  stopDefault = (e) => {
+    // this.props.history.push('edit_infos')
+    e.preventDefault()
   }
 
   render() {
@@ -92,7 +94,11 @@ class Infos extends React.Component<any, {}> {
           <Row className="line" />
           {this.renderContentItems()}
           <Row className="edit-msg">
-            <Button type="primary" onClick={() => this.editMsg()}>修改商家信息</Button>
+            <Button type="primary" onClick={(e) => this.stopDefault(e)}>
+              <Link to="/business/edit_infos">
+                修改商家信息
+              </Link>
+            </Button>
           </Row>
         </article>
       </Layout>

@@ -341,7 +341,7 @@ class Product extends React.Component<any, any> {
               <select
                 onChange={(e) => this.setState({ SPU: e.target.value })}
               >
-                <option value="0">全部</option>
+                <option value="">全部</option>
                 <option value="1">启用</option>
                 <option value="0">不启用</option>
               </select>

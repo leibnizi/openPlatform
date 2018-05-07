@@ -162,6 +162,7 @@ class Forgetpassword extends React.Component<any, any> {
           <FormItem
             {...formItemLayout2}
             label="验证码"
+            className="captcha"
           >
             <Row gutter={8}>
               <Col span={15}>
@@ -178,12 +179,12 @@ class Forgetpassword extends React.Component<any, any> {
                   <Input />
                 )}
               </Col>
-              <Col span={8}>
+              <Col span={9}>
                 {
                   second !== 60 ? <Button disabled>{second}s之后重新获取</Button> :
                     (
-                      verificationShow ? <Button onClick={this.getCaptcha} type="primary">获取验证码</Button> :
-                        <Button disabled type="primary">获取验证码</Button>
+                      verificationShow ? <Button className="captchaButton" onClick={this.getCaptcha} type="primary">获取验证码</Button> :
+                        <Button disabled className="captchaButton" type="primary">获取验证码</Button>
                     )
                 }
               </Col>

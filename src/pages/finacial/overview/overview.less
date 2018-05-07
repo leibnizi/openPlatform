@@ -42,12 +42,20 @@
     margin-top: 10px;
   }
 }
-.overview-modal{
-  .ant-modal-body {
-    text-align: center;
-    p {
-      height: 40px;
-      line-height: 85px;
+.ant-modal-body {
+  text-align: center;
+  height: auto;
+  p {
+    height: 40px;
+    line-height: 85px;
+  }
+  .ant-modal-content {
+    width: 500px;
+    .ant-modal-footer button + button {
+      margin-left: 30px;
     }
+  }
+  .ant-modal-footer {
+    padding-bottom: 30px;
   }
 }

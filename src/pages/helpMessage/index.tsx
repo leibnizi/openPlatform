@@ -24,16 +24,17 @@ class Customerservice extends React.Component<any, any> {
 
   render() {
     const { dataList } = this.state
+    console.log('dataList', dataList, !dataList)
     return (
       <div className='customer'>
         <p className='customerHead'>联系客服</p>
         <p className='customerContent'>
           客服电话：
-            <span>{dataList && dataList.customerService.tel}</span>
+            <span>{dataList && Object.keys(dataList).indexOf('customerService') >= 0 && dataList.customerService.tel}</span>
         </p>
         <p className='customerContent'>
           客服邮箱：
-            <span>{dataList && dataList.customerService.email}</span>
+            <span>{dataList && Object.keys(dataList).indexOf('customerService') >= 0 && dataList.customerService.email}</span>
         </p>
         <hr className='minhr' />
         <p className='customerHead'>常见问题</p>

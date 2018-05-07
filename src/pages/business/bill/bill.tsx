@@ -47,7 +47,6 @@ class Bill extends React.Component<any, any> {
 
   toggleEditFun = () =>  {
     const { is_edit } = this.state;
-    console.log(is_edit,"Ee")
     this.setState({
       is_edit: !is_edit
     })

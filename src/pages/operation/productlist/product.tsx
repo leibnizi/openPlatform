@@ -358,17 +358,9 @@ class Product extends React.Component<any, any> {
           </section>
           <hr />
           <div className='tableWidth'>
-            {/* <Table
-              loading={dataLoading}
-              // scroll={{ x: 1000 }}
-              className='producttab'
-              columns={columns}
-              dataSource={listData}
-              bordered={true}
-            /> */}
           <Table
             className='producttab'
-            scroll={{ x: 1000 }}
+            scroll={{ x: '100%' }}
             loading={dataLoading}
             columns={columns}
             dataSource={listData}

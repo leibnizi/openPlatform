@@ -17,7 +17,7 @@ class AfterSale extends React.Component<any, any> {
       supplier_pro_num: '',
       product_name: '',
       type: '',
-      begin: moment(),
+      begin: '',
       end: moment(),
       after_sale_type_list: null
     }
@@ -177,7 +177,7 @@ class AfterSale extends React.Component<any, any> {
             <DatePicker
               className='itemTime'
               onChange={(e: any) => this.setState({ begin: e })}
-              format={monthFormat} placeholder='' defaultValue={begin} allowClear={false}
+              format={monthFormat} placeholder='' allowClear={false}
             />
           </div>
           <div className='item'>
@@ -205,6 +205,7 @@ class AfterSale extends React.Component<any, any> {
             columns={columns}
             dataSource={listData}
             bordered={true}
+            scroll={{ x: '100%' }}
             loading={loading}
           />
         </section>

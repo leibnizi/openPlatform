@@ -93,6 +93,7 @@ class Overview extends React.Component<any, any> {
             onCancel={this.handleWidthdraw}
             okText='查看对账明细'
             cancelText='确认申请提现'
+            wrapClassName="overview-modal"
           >
             <p>提现前请确认查看对账单</p>
           </Modal>

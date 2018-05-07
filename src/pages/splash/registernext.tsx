@@ -96,7 +96,7 @@ class RegisterNext extends React.Component<any, any> {
         })
           .then((res: any) => {
             if (res.status_code === 0) {
-              this.props.history.push('/')
+              this.props.gotoStep(e, 2)
             }
           })
       }

@@ -14,7 +14,8 @@ class Forgetpassword extends React.Component<any, any> {
       passwordconfirm: '',
       formValue: null,
       second: 60,
-      verificationShow: false
+      verificationShow: false,
+      passwordShow: true
     }
   }
 
@@ -36,7 +37,6 @@ class Forgetpassword extends React.Component<any, any> {
         clearInterval(siv)
       }
     }, 1000)
-
   }
 
   compareToFirstPassword = (rule, value, callback) => {
@@ -53,15 +53,21 @@ class Forgetpassword extends React.Component<any, any> {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
 
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-      if (!value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
-        callback('6-16位大小写字母或数字');
-      }
+  captchalen = (rule, value, callback) => {
+    if (value.length !== 4) {
+      callback('验证码长度4位')
+    } else {
+      callback()
     }
-    callback()
+  }
+
+  validateToNextPassword = (rule, value, callback) => {
+    if (!value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
+      callback('6-16位大小写字母或数字')
+      this.setState({ passwordShow: false })
+    } else {
+      callback()
+    }
   }
 
   onSubmit = (e: any) => {
@@ -91,7 +97,7 @@ class Forgetpassword extends React.Component<any, any> {
   }
 
   render() {
-    const { phone, verificationCode, newpassword, passwordconfirm, second, verificationShow } = this.state
+    const { phone, verificationCode, newpassword, passwordconfirm, second, verificationShow, passwordShow } = this.state
     const FormItem = Form.Item;
     const Option = Select.Option;
     const AutoCompleteOption = AutoComplete.Option;
@@ -140,7 +146,7 @@ class Forgetpassword extends React.Component<any, any> {
                 {getFieldDecorator('phone', {
                   rules: [
                     {
-                      required: true, message: 'Please input the captcha you got!'
+                      required: true, message: '请输入手机号码!'
                     },
                     {
                       validator: this.validateMobile,
@@ -155,6 +161,7 @@ class Forgetpassword extends React.Component<any, any> {
           <FormItem
             {...formItemLayout2}
             label="验证码"
+            className="captcha"
           >
             <Row gutter={8}>
               <Col span={15}>
@@ -164,19 +171,19 @@ class Forgetpassword extends React.Component<any, any> {
                       required: true, message: '验证码4位数'
                     },
                     {
-                      len: 4
+                      validator: this.captchalen,
                     }
                   ],
                 })(
                   <Input />
                 )}
               </Col>
-              <Col span={8}>
+              <Col span={9}>
                 {
                   second !== 60 ? <Button disabled>{second}s之后重新获取</Button> :
                     (
-                      verificationShow ? <Button onClick={this.getCaptcha} type="primary">获取验证码</Button> :
-                        <Button disabled type="primary">获取验证码</Button>
+                      verificationShow ? <Button className="captchaButton" onClick={this.getCaptcha} type="primary">获取验证码</Button> :
+                        <Button disabled className="captchaButton" type="primary">获取验证码</Button>
                     )
                 }
               </Col>
@@ -190,7 +197,7 @@ class Forgetpassword extends React.Component<any, any> {
               <Col span={15}>
                 {getFieldDecorator('password', {
                   rules: [{
-                    required: true, message: 'Please input the captcha you got!'
+                    required: true, message: '请输入新密码!'
                   }, {
                     validator: this.validateToNextPassword,
                   }],
@@ -199,7 +206,9 @@ class Forgetpassword extends React.Component<any, any> {
                 )}
               </Col>
               <Col span={8}>
-                <span className='nickname'>(密码为6-16个字符，由大小写字母或数字组成)</span>
+                {
+                  passwordShow && <span className='nickname'>(密码为6-16个字符，由大小写字母或数字组成)</span>
+                }
               </Col>
             </Row>
           </FormItem>
@@ -209,7 +218,7 @@ class Forgetpassword extends React.Component<any, any> {
           >
             {getFieldDecorator('confirm', {
               rules: [{
-                required: true, message: 'Please confirm your password!',
+                required: true, message: '请确认密码!',
               }, {
                 validator: this.compareToFirstPassword,
               }],

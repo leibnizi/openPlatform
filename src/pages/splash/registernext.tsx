@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
 import request from '../../services/httpRequest'
 import './register.less'
 import index from '../../routes';
@@ -94,6 +94,13 @@ class RegisterNext extends React.Component<any, any> {
           verification_code: captcha,
           website: values.website
         })
+          .then((res: any) => {
+            if (res.status_code === 0) {
+              this.props.gotoStep(e, 2)
+            } else {
+              message.error(res.msg)
+            }
+          })
       }
     });
   }
@@ -175,7 +182,7 @@ class RegisterNext extends React.Component<any, any> {
           {getFieldDecorator('biz_name', {
             initialValue: formValue && formValue.biz_name,
             rules: [{
-              required: true, message: 'Please input your nickname!', whitespace: true, extra: '输入非法字符'
+              required: true, message: '请输入企业名称!', whitespace: true, extra: '输入非法字符'
             }],
           })(
             <Input />
@@ -214,7 +221,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('brand', {
             initialValue: formValue && formValue.brand,
-            rules: [{ required: false, message: 'Please input your phone number!' }],
+            rules: [{ required: false, message: '请输入主营品牌!' }],
           })(
             <Input style={{ width: '100%' }} />
           )}
@@ -225,7 +232,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('website', {
             initialValue: formValue && formValue.website,
-            rules: [{ required: false, message: 'Please input your phone number!' }],
+            rules: [{ required: false, message: '请输入官网地址!' }],
           })(
             <Input style={{ width: '100%' }} />
           )}
@@ -236,7 +243,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('category_id', {
             initialValue: formValue && formValue.category_id,
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: '请输入主营类目!' }],
           })(
             <Checkbox.Group
               style={{ width: '100%' }}
@@ -256,7 +263,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('biz_type', {
             initialValue: formValue && formValue.biz_type,
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: '请输入商家类型!' }],
           })(
             <Select
               style={{ width: '100%' }}
@@ -278,7 +285,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('biz_operator', {
             initialValue: formValue && formValue.biz_operator,
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: '请输入运营人员!' }],
           })(
             <Input style={{ width: '100%' }} />
           )}
@@ -289,7 +296,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('biz_mobile', {
             initialValue: formValue && formValue.biz_mobile,
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: '请输入联系电话!' }],
           })(
             <Input style={{ width: '100%' }} />
           )}
@@ -300,7 +307,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('email', {
             initialValue: formValue && formValue.email,
-            rules: [{ required: false, message: 'Please input your phone number!' }],
+            rules: [{ required: false, message: '请输入邮箱!' }],
           })(
             <Input style={{ width: '100%' }} />
           )}
@@ -311,7 +318,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('qq', {
             initialValue: formValue && formValue.qq,
-            rules: [{ required: false, message: 'Please input your phone number!' }],
+            rules: [{ required: false, message: '请输入qq!' }],
           })(
             <Input style={{ width: '100%' }} />
           )}
@@ -322,7 +329,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('faxes', {
             initialValue: formValue && formValue.faxes,
-            rules: [{ required: false, message: 'Please input your phone number!' }],
+            rules: [{ required: false, message: '请输入传真!' }],
           })(
             <Input style={{ width: '100%' }} />
           )}
@@ -333,7 +340,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('biz_address', {
             initialValue: formValue && formValue.biz_address,
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: '请输入公司地址!' }],
           })(
             <Input style={{ width: '100%' }} />
           )}
@@ -344,7 +351,7 @@ class RegisterNext extends React.Component<any, any> {
           label="营业执照"
         >
           {getFieldDecorator('files', {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: '请输入营业执照!' }],
           })(
             <div>
               <Upload
@@ -369,7 +376,7 @@ class RegisterNext extends React.Component<any, any> {
           label="补充资质"
         >
           {getFieldDecorator('files', {
-            rules: [{ required: false, message: 'Please input your phone number!' }],
+            rules: [{ required: false, message: '请输入补充资质!' }],
           })(
             <div>
               <Upload

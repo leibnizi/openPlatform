@@ -46,14 +46,14 @@ class Sale extends React.Component<any, any> {
     })
       .then((res: any) => {
         if (res.status_code === 0) {
-          const productDetailData = res.data.specification_option_inner
+          const productDetailData = res.data.items
           productDetailData.map((item: any, index: number) => {
             item.supply_price = res.data.supply_price
-            item.name = res.data.product_master.name
-            item.code = res.data.product_master.code
+            item.name = res.data.product_name
+            item.code = res.data.product_spu
             item.order_no = res.data.order_no
             item.image_url = res.data.image_url
-            item.specification_name = `${item.specification_name}/${item.option_name.value}`
+            item.specification_name = item.specification
             item.key = index
           })
           this.setState({

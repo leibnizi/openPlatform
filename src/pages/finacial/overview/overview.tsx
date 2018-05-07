@@ -29,12 +29,14 @@ class Overview extends React.Component<any, any> {
       visible: true,
     });
   }
+
   handleOk = (e) => {
     this.setState({
       visible: false,
     })
     this.props.history.push('/fincial/detail')
   }
+
   handleWidthdraw = (e) => {
     const { overviewdata } = this.state
     this.setState({
@@ -43,6 +45,7 @@ class Overview extends React.Component<any, any> {
     request.post(`/api/financial/apply`, { balance_available: overviewdata.data.balance_available })
       .then((res: any) => {
         if (res.status_code === 0) {
+          this.setState({ overviewdata: res })
           const modal = Modal.success({
             // title: 'This is a notification message',
             content: '申请成功，如有疑问请联系对接人',
@@ -60,24 +63,18 @@ class Overview extends React.Component<any, any> {
         <p className='overtop'>财务总览</p>
         <div>
           <div className='overviewlist'>
-            {
-              overviewdata ? (
-                Object.keys(overviewdata.data).map((item, index) =>
-                  <p className='overviewitem' key={index}>
-                    可提现金额:
-                    <span>￥{overviewdata.data[item]}</span>
-                  </p>
-                )
-              ) : (
-                  Array.from({ length: 3 }).map((item, index) =>
-                    <p className='overviewitem' key={index}>
-                      可提现金额:
-                    <span>￥</span>
-                    </p>
-                  )
-                )
-            }
-
+            <p className='overviewitem'>
+              <span className='overviewitemfont'>可提现金额:</span>
+              <span>￥{overviewdata && overviewdata.data.balance_available}</span>
+            </p>
+            <p className='overviewitem'>
+              <span className='overviewitemfont'>累计提现:</span>
+              <span>￥{overviewdata && overviewdata.data.balance_total}</span>
+            </p>
+            <p className='overviewitem'>
+              <span className='overviewitemfont'>累计收益:</span>
+              <span>￥{overviewdata && overviewdata.data.income_total}</span>
+            </p>
           </div>
           <button
             type="primary"
@@ -93,6 +90,7 @@ class Overview extends React.Component<any, any> {
             onCancel={this.handleWidthdraw}
             okText='查看对账明细'
             cancelText='确认申请提现'
+            wrapClassName="overview-modal"
           >
             <p>提现前请确认查看对账单</p>
           </Modal>

@@ -94,6 +94,11 @@ class RegisterNext extends React.Component<any, any> {
           verification_code: captcha,
           website: values.website
         })
+          .then((res: any) => {
+            if (res.status_code === 0) {
+              this.props.history.push('/')
+            }
+          })
       }
     });
   }

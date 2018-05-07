@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
 import request from '../../services/httpRequest'
 import './register.less'
 import index from '../../routes';
@@ -97,6 +97,8 @@ class RegisterNext extends React.Component<any, any> {
           .then((res: any) => {
             if (res.status_code === 0) {
               this.props.gotoStep(e, 2)
+            } else {
+              message.error(res.msg)
             }
           })
       }

@@ -132,7 +132,6 @@ class Register extends React.Component {
     window.location.href = window.location.origin + '/splash';
   }
 
-
   //注册协议浮层确认回调
   handleOk = () => {
     this.setState({ isAgreement: false });

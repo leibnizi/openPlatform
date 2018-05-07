@@ -36,7 +36,6 @@ class Forgetpassword extends React.Component<any, any> {
         clearInterval(siv)
       }
     }, 1000)
-
   }
 
   compareToFirstPassword = (rule, value, callback) => {
@@ -51,6 +50,14 @@ class Forgetpassword extends React.Component<any, any> {
   handleConfirmBlur = (e) => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  }
+
+  captchalen = (rule, value, callback) => {
+    if (value.length !== 4) {
+      callback('验证码长度4位')
+    } else {
+      callback()
+    }
   }
 
   validateToNextPassword = (rule, value, callback) => {
@@ -140,7 +147,7 @@ class Forgetpassword extends React.Component<any, any> {
                 {getFieldDecorator('phone', {
                   rules: [
                     {
-                      required: true, message: 'Please input the captcha you got!'
+                      required: true, message: '请输入手机号码!'
                     },
                     {
                       validator: this.validateMobile,
@@ -164,7 +171,7 @@ class Forgetpassword extends React.Component<any, any> {
                       required: true, message: '验证码4位数'
                     },
                     {
-                      len: 4
+                      validator: this.captchalen,
                     }
                   ],
                 })(
@@ -190,7 +197,7 @@ class Forgetpassword extends React.Component<any, any> {
               <Col span={15}>
                 {getFieldDecorator('password', {
                   rules: [{
-                    required: true, message: 'Please input the captcha you got!'
+                    required: true, message: '请输入新密码!'
                   }, {
                     validator: this.validateToNextPassword,
                   }],
@@ -209,7 +216,7 @@ class Forgetpassword extends React.Component<any, any> {
           >
             {getFieldDecorator('confirm', {
               rules: [{
-                required: true, message: 'Please confirm your password!',
+                required: true, message: '请确认密码!',
               }, {
                 validator: this.compareToFirstPassword,
               }],

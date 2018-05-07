@@ -74,7 +74,7 @@ class Register extends React.Component {
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!')
+      callback('两次密码不一样!')
     } else {
       callback()
     }
@@ -135,6 +135,14 @@ class Register extends React.Component {
   //注册协议浮层确认回调
   handleOk = () => {
      this.setState({isAgreement: false});
+  }
+
+  captchalen = (rule, value, callback) => {
+    if (value.length !== 4) {
+      callback('验证码长度4位')
+    } else {
+      callback()
+    }
   }
 
   render() {
@@ -305,7 +313,7 @@ class Register extends React.Component {
                                   required: true, message: '验证码4位数'
                                 },
                                 {
-                                  len: 4
+                                  validator: this.captchalen
                                 }
                               ],
                             })(

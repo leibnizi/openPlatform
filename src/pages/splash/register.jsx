@@ -36,7 +36,9 @@ class Register extends React.Component {
       autoCompleteResult: [],
       second: 60,
       verificationShow: false,
-      formValue: null
+      formValue: null,
+      nicknameShow: true,
+      passwordShow: true
     }
   }
 
@@ -81,21 +83,20 @@ class Register extends React.Component {
   }
 
   validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-      if (!value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
-        callback('6-16位大小写字母或数字');
-      }
+    if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
+      callback('6-16位大小写字母或数字')
+      this.setState({passwordShow: false})
+    } else {
+      callback()
     }
-    callback()
   }
 
   //昵称
   validateNickName = (rule, value, callback) => {
     const form = this.props.form;
     if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9_]{6,16}$')) {
-      callback('6-16位不包含非法字符串');
+      callback('6-16位不包含非法字符串')
+      this.setState({nicknameShow:false})
     } else {
       callback()
     }
@@ -138,7 +139,7 @@ class Register extends React.Component {
   }
 
   captchalen = (rule, value, callback) => {
-    if (value.length !== 4) {
+    if (value && value.length !== 4) {
       callback('验证码长度4位')
     } else {
       callback()
@@ -150,7 +151,7 @@ class Register extends React.Component {
       tabIndex, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
       mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileList, fileListSupplement,
-      autoCompleteResult, second, verificationShow, formNext
+      autoCompleteResult, second, verificationShow, formNext, nicknameShow, passwordShow
     } = this.state
     const { getFieldDecorator } = this.props.form;
     const uploadButton = (
@@ -263,7 +264,9 @@ class Register extends React.Component {
                             )}
                           </Col>
                           <Col span={8}>
-                            <span className='nickname'>(用户名为6-16个字符，不可使用非法字符串)</span>
+                            {
+                              nicknameShow && <span className='nickname'>(用户名为6-16个字符，不可使用非法字符串)</span>
+                            }
                           </Col>
                         </Row>
                       </FormItem>
@@ -361,7 +364,9 @@ class Register extends React.Component {
                             )}
                           </Col>
                           <Col span={8}>
-                            <span className='nickname'>(密码为6-16个字符，由大小写字母或数字组成)</span>
+                            {
+                              passwordShow && <span className='nickname'>(密码为6-16个字符，由大小写字母或数字组成)</span>
+                            }
                           </Col>
                         </Row>
                       </FormItem>

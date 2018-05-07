@@ -14,7 +14,8 @@ class Forgetpassword extends React.Component<any, any> {
       passwordconfirm: '',
       formValue: null,
       second: 60,
-      verificationShow: false
+      verificationShow: false,
+      passwordShow: true
     }
   }
 
@@ -61,14 +62,12 @@ class Forgetpassword extends React.Component<any, any> {
   }
 
   validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-      if (!value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
-        callback('6-16位大小写字母或数字');
-      }
+    if (!value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
+      callback('6-16位大小写字母或数字')
+      this.setState({ passwordShow: false })
+    } else {
+      callback()
     }
-    callback()
   }
 
   onSubmit = (e: any) => {
@@ -98,7 +97,7 @@ class Forgetpassword extends React.Component<any, any> {
   }
 
   render() {
-    const { phone, verificationCode, newpassword, passwordconfirm, second, verificationShow } = this.state
+    const { phone, verificationCode, newpassword, passwordconfirm, second, verificationShow, passwordShow } = this.state
     const FormItem = Form.Item;
     const Option = Select.Option;
     const AutoCompleteOption = AutoComplete.Option;
@@ -207,7 +206,9 @@ class Forgetpassword extends React.Component<any, any> {
                 )}
               </Col>
               <Col span={8}>
-                <span className='nickname'>(密码为6-16个字符，由大小写字母或数字组成)</span>
+                {
+                  passwordShow && <span className='nickname'>(密码为6-16个字符，由大小写字母或数字组成)</span>
+                }
               </Col>
             </Row>
           </FormItem>

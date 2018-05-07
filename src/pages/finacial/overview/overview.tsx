@@ -60,24 +60,18 @@ class Overview extends React.Component<any, any> {
         <p className='overtop'>财务总览</p>
         <div>
           <div className='overviewlist'>
-            {
-              overviewdata ? (
-                Object.keys(overviewdata.data).map((item, index) =>
-                  <p className='overviewitem' key={index}>
-                    可提现金额:
-                    <span>￥{overviewdata.data[item]}</span>
-                  </p>
-                )
-              ) : (
-                  Array.from({ length: 3 }).map((item, index) =>
-                    <p className='overviewitem' key={index}>
-                      可提现金额:
-                    <span>￥</span>
-                    </p>
-                  )
-                )
-            }
-
+            <p className='overviewitem'>
+              <span className='overviewitemfont'>可提现金额:</span>
+              <span>￥{overviewdata && overviewdata.data.balance_available}</span>
+            </p>
+            <p className='overviewitem'>
+              <span className='overviewitemfont'>累计提现:</span>
+              <span>￥{overviewdata && overviewdata.data.balance_total}</span>
+            </p>
+            <p className='overviewitem'>
+              <span className='overviewitemfont'>累计收益:</span>
+              <span>￥{overviewdata && overviewdata.data.income_total}</span>
+            </p>
           </div>
           <button
             type="primary"

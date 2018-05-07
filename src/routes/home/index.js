@@ -64,9 +64,18 @@ class Home extends Component {
       title: {
         text: ''
       },
-      tooltip: {
-        trigger: 'axis'
+      toolbox: {
+        feature: {
+          dataZoom: {
+            yAxisIndex: 'none'
+          },
+          restore: {},
+          saveAsImage: {}
+        }
       },
+      // tooltip: {
+      //   trigger: 'axis'
+      // },
       // toolbox: {
       //   feature: {
       //     saveAsImage: {}

@@ -58,6 +58,7 @@ class Account extends React.Component<any, any> {
   }
 
   changePassWord = () => {
+    
   }
   handleConfirmPassword = (rule: any, value: any, callback: any) => {
     const form = this.props.form;
@@ -188,7 +189,7 @@ class Account extends React.Component<any, any> {
                 ],
                 validateTrigger: 'onSubmit'
               })(
-                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入密码" />
+                <Input type="password" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入密码" />
               )}
             </FormItem>
             <FormItem

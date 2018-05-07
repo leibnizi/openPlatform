@@ -61,11 +61,11 @@ class RegisterNext extends React.Component<any, any> {
     } = this.props.formNext
     const { imgUrl, imgUrl2 } = this.state
     let files: any = []
-    imgUrl.map((item:any,index:number)=> files.push({
+    imgUrl.map((item: any, index: number) => files.push({
       file: item,
       type_id: 1
     }))
-    imgUrl2.map((item:any,index:number)=> files.push({
+    imgUrl2 && imgUrl2.map((item: any, index: number) => files.push({
       file: item,
       type_id: 2
     }))

@@ -65,7 +65,7 @@
   "scripts": {
     "devRap": "NODE_ENV=develop node scripts/start.js",
     "devTest": "NODE_ENV=test node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "NODE_ENV=production node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "devDependencies": {

@@ -182,7 +182,7 @@ class Register extends React.Component {
         },
         sm: {
           span: 16,
-          offset: 8,
+          offset: 11,
         },
       },
     }
@@ -360,7 +360,7 @@ class Register extends React.Component {
                         )}
                       </FormItem>
                       <FormItem {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">下一步</Button>
+                        <Button className="submitNext" type="primary" htmlType="submit">下一步</Button>
                       </FormItem>
                     </Form>
                   ) : tabIndex === 1 ? (

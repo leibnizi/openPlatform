@@ -47,18 +47,25 @@ class Lease extends React.Component<any, any> {
     })
       .then((res: any) => {
         if (res.status_code === 0) {
-          const productDetailData = res.data.specification_option_inner
+          const productDetailData = res.data.items
+          let result: any = []
           productDetailData.map((item: any, index: number) => {
-            item.split_order_no = res.data.split_order_no
-            item.rental_cycle = res.data.rental_cycle
-            item.image_url = res.data.image_url
-            item.code = res.data.product_master.code
-            item.name = res.data.product_master.name
-            item.rental_price = res.data.product_master.rental_price
-            item.key = index
+            item.specification_option_inner.map((subItem: any, subIndex: number) => {
+              result.push({
+                supply_price: item.supply_price,
+                name: item.product_name,
+                code: item.product_spu,
+                order_no: res.data.order_no,
+                image_url: item.image_url,
+                specification_name: `${item.specification}/${subItem.option_name.name}`,
+                key: `${subIndex}+${index}`,
+                rental_cycle: res.data.rental_cycle,
+                rental_price: item.rental_price
+              })
+            })
           })
           this.setState({
-            productDetailData,
+            productDetailData: result,
             productDetailDataHead: res.data
           })
         }

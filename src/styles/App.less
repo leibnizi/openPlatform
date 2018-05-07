@@ -186,25 +186,39 @@ input {
   background-color: transparent;
   
 }
-// input:-webkit-autofill, 
-//  textarea:-webkit-autofill, 
-//  select:-webkit-autofill { 
-//   -webkit-box-shadow: 0 0 0 1000px white inset; 
-// }
-//  input[type=text]:focus, input[type=password]:focus, textarea:focus {
-//   -webkit-box-shadow: 0 0 0 1000px white inset; 
-// }
+input:-webkit-autofill, 
+ textarea:-webkit-autofill, 
+ select:-webkit-autofill { 
+  -webkit-box-shadow: 0 0 0 1000px white inset; 
+}
+ input[type=text]:focus, input[type=password]:focus, textarea:focus {
+  -webkit-box-shadow: 0 0 0 1000px white inset; 
+}
+input:hover {
+  border: 1px solid#dd748e !important;
+}
 input:active {
-  outline:1px solid#dd748e;
-  border: 1px solid#dd748e;
+  border: 1px solid#dd748e !important;
+  outline: none;
 }
 input:focus {
-  outline:1px solid#dd748e;
+  border: 1px solid#dd748e !important;
+  outline: none;
+}
+.ant-input:active {
+  border: 1px solid#dd748e;
+}
+.ant-input:focus {
   border: 1px solid#dd748e;
 }
 select:active {
-  outline-color: #dd748e;
+  border: 1px solid#dd748e !important;
+  outline: none;
 }
 select:focus {
-  outline-color:#dd748e;
+  border: 1px solid#dd748e !important;
+  outline: none;
+}
+select:hover {
+  border: 1px solid#dd748e !important;
 }

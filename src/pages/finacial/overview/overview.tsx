@@ -29,12 +29,14 @@ class Overview extends React.Component<any, any> {
       visible: true,
     });
   }
+
   handleOk = (e) => {
     this.setState({
       visible: false,
     })
     this.props.history.push('/fincial/detail')
   }
+
   handleWidthdraw = (e) => {
     const { overviewdata } = this.state
     this.setState({
@@ -43,6 +45,7 @@ class Overview extends React.Component<any, any> {
     request.post(`/api/financial/apply`, { balance_available: overviewdata.data.balance_available })
       .then((res: any) => {
         if (res.status_code === 0) {
+          this.setState({ overviewdata: res })
           const modal = Modal.success({
             // title: 'This is a notification message',
             content: '申请成功，如有疑问请联系对接人',

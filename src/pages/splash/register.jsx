@@ -14,17 +14,7 @@ class Register extends React.Component {
       formNext: null,
       mail: '',
       phone: '',
-      verificationCode: '',
       password: '',
-      confirmPassword: '',
-      biz_name: '',
-      website: '',
-      brand: '',
-      category_id: '',
-      biz_type: '',
-      biz_operator: '',
-      mobile: '',
-      email: '',
       qq: '',
       faxes: '',
       biz_address: '',
@@ -38,11 +28,12 @@ class Register extends React.Component {
       verificationShow: false,
       formValue: null,
       nicknameShow: true,
-      passwordShow: true
+      passwordShow: true,
+      image: null
     }
   }
 
-  gotoStep = (e, tabIndex, formValue) => {
+  gotoStep = (e, tabIndex, formValue, image) => {
     e.preventDefault()
     if (tabIndex === 0) {
       this.setState({ tabIndex, formValue })
@@ -50,7 +41,7 @@ class Register extends React.Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
         this.setState({ nicknameShow: false, passwordShow: false })
         if (!err) {
-          this.setState({ tabIndex, formNext: values })
+          this.setState({ tabIndex, formNext: values, image })
         }
       })
     }
@@ -150,9 +141,9 @@ class Register extends React.Component {
 
   render() {
     const {
-      tabIndex, mail, phone, verificationCode, password, confirmPassword,
-      biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
-      mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileList, fileListSupplement,
+      tabIndex, mail, phone, password,
+      profit_level,
+      mobile, qq, faxes, biz_address, previewVisible, previewImage, fileList, fileListSupplement,
       autoCompleteResult, second, verificationShow, formNext, nicknameShow, passwordShow
     } = this.state
     const { getFieldDecorator } = this.props.form;
@@ -401,6 +392,7 @@ class Register extends React.Component {
                     <RegisterNext
                       formNext={this.state.formNext}
                       formValue={this.state.formValue}
+                      img={this.state.img}
                       gotoStep={(e, num, values) => this.gotoStep(e, num, values)}
                     />
                   ) : (

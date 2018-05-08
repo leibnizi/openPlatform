@@ -10,10 +10,11 @@ class RegisterNext extends React.Component<any, any> {
     super(props)
 
     this.state = {
-      fileListSupplement: [],
-      fileListSupplement2: [],
+      fileListSupplement: props.img && props.img.fileListSupplement || [],
+      fileListSupplement2: props.img && props.img.fileListSupplement2 || [],
       autoCompleteResult: [],
-      imgUrl: null,
+      imgUrl: props.img && props.img.imgUrl || null,
+      imgUrl2: props.img && props.img.imgUrl2 || null,
       checkUpload: false
     }
   }
@@ -54,15 +55,6 @@ class RegisterNext extends React.Component<any, any> {
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
     })
-  }
-
-  photoCheck = (rule, value, callback) => {
-    console.log('value', value)
-    if (!value) {
-      callback('请输入营业执照')
-    } else {
-      callback()
-    }
   }
 
   handleSubmit = (e: any) => {
@@ -132,7 +124,7 @@ class RegisterNext extends React.Component<any, any> {
       tabIndex, name, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
       mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileListSupplement,
-      fileListSupplement2, autoCompleteResult, checkUpload
+      fileListSupplement2, autoCompleteResult, checkUpload, imgUrl2, imgUrl
     } = this.state
     const { formValue } = this.props
     const FormItem = Form.Item;
@@ -358,9 +350,6 @@ class RegisterNext extends React.Component<any, any> {
             rules: [
               {
                 required: true, message: '请输入营业执照!'
-              },
-              {
-                validator: this.photoCheck,
               }],
           })(
             <div>
@@ -415,7 +404,12 @@ class RegisterNext extends React.Component<any, any> {
             type="primary"
             onClick={e => {
               this.props.form.validateFieldsAndScroll((err, values) => {
-                this.props.gotoStep(e, 0, values)
+                this.props.gotoStep(e, 0, values, {
+                  fileListSupplement,
+                  fileListSupplement2,
+                  imgUrl,
+                  imgUrl2
+                })
               })
             }}
           >

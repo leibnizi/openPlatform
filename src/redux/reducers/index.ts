@@ -6,6 +6,7 @@ import businessInfos from './business/infos'
 import business from './business/statusControl'
 import billInfos from './business/bill'
 import accountInfos from './business/account'
+import setpic from './register'
 import { message } from 'antd';
 
 
@@ -122,7 +123,8 @@ const rootReducer = combineReducers({
   ...operation,
   ...business,
   ...billInfos,
-  ...accountInfos
+  ...accountInfos,
+  ...setpic
 })
 
 export default rootReducer

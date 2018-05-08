@@ -48,6 +48,7 @@ class Register extends React.Component {
       this.setState({ tabIndex, formValue })
     } else {
       this.props.form.validateFieldsAndScroll((err, values) => {
+        this.setState({ nicknameShow: false, passwordShow: false })
         if (!err) {
           this.setState({ tabIndex, formNext: values })
         }
@@ -76,7 +77,7 @@ class Register extends React.Component {
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
-      callback('两次密码不一样!')
+      callback('两次密码不一致!')
     } else {
       callback()
     }
@@ -85,7 +86,7 @@ class Register extends React.Component {
   validateToNextPassword = (rule, value, callback) => {
     if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
       callback('6-16位大小写字母或数字')
-      this.setState({passwordShow: false})
+      this.setState({ passwordShow: false })
     } else {
       callback()
     }
@@ -94,16 +95,16 @@ class Register extends React.Component {
   //昵称
   validateNickName = (rule, value, callback) => {
     const form = this.props.form;
-    if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9_]{6,16}$')) {
+    if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9_]{6,16}$') && !value.match('[\u4e00-\u9fa5]{3,8}')) {
       callback('6-16位不包含非法字符串')
-      this.setState({nicknameShow:false})
+      this.setState({ nicknameShow: false })
     } else {
       callback()
     }
   }
 
   validateMobile = (rule, value, callback) => {
-    if (value && !(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
+    if (value && !(/^1(3|4|5|7|8)\d{9}$/.test(value)) || !value) {
       callback('请输入正确格式手机号码，之后才能获取验证码！')
       this.setState({ verificationShow: false })
     } else {
@@ -140,6 +141,8 @@ class Register extends React.Component {
   captchalen = (rule, value, callback) => {
     if (value && value.length !== 4) {
       callback('验证码长度4位')
+    } else if (!value.match('^[0-9]*$')) {
+      callback('验证码只能为数字')
     } else {
       callback()
     }
@@ -241,7 +244,7 @@ class Register extends React.Component {
                 <hr />
                 {
                   tabIndex === 0 ? (
-                    <Form onSubmit={(e) => this.gotoStep(e, 1)}>
+                    <Form onSubmit={(e) => this.gotoStep(e, 1)} className='registerForm'>
                       <FormItem
                         {...formItemLayout2}
                         label="用户名"
@@ -264,7 +267,7 @@ class Register extends React.Component {
                           </Col>
                           <Col span={8}>
                             {
-                              nicknameShow && <span className='nickname'>(用户名为6-16个字符，不可使用非法字符串)</span>
+                              nicknameShow && <span className='nickname'>(用户名为6-16个字符，不可使用非法字符)</span>
                             }
                           </Col>
                         </Row>
@@ -436,13 +439,13 @@ class Register extends React.Component {
            <p>（一）您对自己在本网站中的行为和操作承担全部责任。</p>
            <p>（二）您需承担责任的形式包括但不仅限于：对受到侵害者进行赔偿、在女神派承担了因您的行为导致的行政处罚或侵权损害赔偿责任后，您应给予女神派等额或更高的赔偿。</p>
            <p>（三）如果女神派发现您有违反中国的相关法律法规的行为，女神派有权在不通知您的情况下采取包括但不仅限于向国家有关机关报告、保存有关记录、关闭您的账号操作权限、停止向您提供服务等措施。</p>
-             
+              
            <p><b>第三条 注册用户的权利和义务</b></p>
-            <p>（一） 注册用户有权使用本网站的相关服务功能。</p>
-            <p>（二） 注册会员同意遵守包括但不仅限于《中华人民共和国保守国家秘密法》、《中华人民共和国计算机信息系统安全保护条例》、《计算机软件保护条例》、《互联网电子公告服务管理规定》、《互联网信息服务管理办法》等在内的法律、法规。</p>
-            <p>（三）您注册时有义务提供完整、真实的个人与公司信息，合作期内信息如有变更，应及时更新。</p>
-            <p>（四）您成为注册用户后须妥善保管用户名和密码，用户登录后进行的一切活动均视为是账户所有方本人的行为和意愿，您负全部责任。</p>
-            <p>（五）您在使用女神派提供的服务时，同意且接受女神派提供的各类信息服务。</p>
+             <p>（一） 注册用户有权使用本网站的相关服务功能。</p>
+             <p>（二） 注册会员同意遵守包括但不仅限于《中华人民共和国保守国家秘密法》、《中华人民共和国计算机信息系统安全保护条例》、《计算机软件保护条例》、《互联网电子公告服务管理规定》、《互联网信息服务管理办法》等在内的法律、法规。</p>
+             <p>（三）您注册时有义务提供完整、真实的个人与公司信息，合作期内信息如有变更，应及时更新。</p>
+             <p>（四）您成为注册用户后须妥善保管用户名和密码，用户登录后进行的一切活动均视为是账户所有方本人的行为和意愿，您负全部责任。</p>
+             <p>（五）您在使用女神派提供的服务时，同意且接受女神派提供的各类信息服务。</p>
             <p>（六）您同意女神派对您提供的相关资质文件及各类信息资料进行审核。女神派的审核为形式审核，审核通过并不代表女神派对审核内容的真实性、合法性、准确性、及时性的确认，用户仍须对其提交的相关资料的真实性、合法性、准确性、及时性等承担相应的法律责任。</p>
           <p><b>第四条 用户隐私</b></p>
             
@@ -450,8 +453,8 @@ class Register extends React.Component {
             <p>（一）政府单位按照中华人民共和国的法律、行政法规、部门规章、司法解释等规范性法律文件，要求本网站提供的。 　（二）由于您将用户和密码告知或泄露给他人，由此导致的个人资料泄露。</p>
             <p>（三）包括但不仅限于黑客攻击、计算机病毒侵入或发作、政府管制等不可抗力而造成的用户资料泄露、丢失、被盗用或被篡改等。 　　（四）此外，您若发现有任何非法使用您的用户账号或安全漏洞的情况，应立即通告女神派。</p>
             <p>（五）您在本网站的关记录有可能成为您违反法律法规和本协议的证据。</p>
-            <p><b>第五条 知识产权 </b></p>             
-            <p>本网站所有的域名、商号、商标、文字、视像及声音内容、图形及图像均受有关所有权和知识产权法律的保护，未经女神派事先书面明确允许，任何个人或单位，均不得进行复制和使用。</p>
+          <p><b>第五条 知识产权 </b></p>             
+             <p>本网站所有的域名、商号、商标、文字、视像及声音内容、图形及图像均受有关所有权和知识产权法律的保护，未经女神派事先书面明确允许，任何个人或单位，均不得进行复制和使用。</p>
             <p><b>第六条 法律适用</b></p>
             <p>（一）协议由上海千颂网络科技有限公司负责修订，并通过本网站公布，您的注册行为即被视为您自愿接受协议的全部条款，受其约束。</p>
             <p>（二）协议的生效、履行、解释及争议的解决均适用中华人民共和国法律。</p>

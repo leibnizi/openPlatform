@@ -96,9 +96,11 @@
         text-align: center;
         padding: 20px 0;
         font-size: 16px;
+        .title {
+          border-top: 1px solid #eeefef;
+        }
         &>p{
           color: #ccc;
-          border-bottom: 1px solid #eeefef;
           font-size: 16px;
           padding: 10px 0;
           margin-bottom: 0;
@@ -150,9 +152,11 @@
         text-align: center;
         padding: 20px 0;
         font-size: 16px;
+        .title {
+          border-top: 1px solid #eeefef;
+        }
         &>p{
           color: #ccc;
-          border-bottom: 1px solid #eeefef;
           font-size: 16px;
           padding: 10px 0;
           margin-bottom: 0;
@@ -170,7 +174,7 @@
           a{
             font-weight: 600;
             color: #f03a80;
-            background-color: #f6f6f6;
+            background-color: #fcf6f8;
           }
         }
       }
@@ -228,3 +232,18 @@ select:focus {
 select:hover {
   border: 1px solid#dd748e !important;
 }
+
+.ant-confirm-title {
+  margin-right: 30px;
+}
+.ant-confirm-body-wrapper {
+  .ant-confirm-body {
+    .ant-confirm-content {
+      position: relative;
+      top: 15px;
+      margin-left: 0;
+    }
+  }
+}
+
+

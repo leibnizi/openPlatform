@@ -18,10 +18,10 @@ export default class Operation extends Component {
           <div className='aside'>
             <p>商品管理</p>
             <OldMenuLink activeOnlyWhenExact={true} to="/operation" label="商品列表" />
-            <p>订单管理</p>
+            <p className='title'>订单管理</p>
             <OldMenuLink to="/operation/lease" label="租赁订单" />
             <OldMenuLink to="/operation/sale" label="销售订单" />
-            <p>售后管理</p>
+            <p className='title'>售后管理</p>
             <OldMenuLink to="/operation/afterSale" label="售后订单" />
           </div>
           <div className='content'>

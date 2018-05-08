@@ -17,7 +17,6 @@ class Register extends React.Component {
       password: '',
       qq: '',
       faxes: '',
-      biz_address: '',
       previewVisible: false,
       previewImage: '',
       fileList: [],
@@ -29,11 +28,11 @@ class Register extends React.Component {
       formValue: null,
       nicknameShow: true,
       passwordShow: true,
-      image: null
+      imageData: null
     }
   }
 
-  gotoStep = (e, tabIndex, formValue, image) => {
+  gotoStep = (e, tabIndex, formValue, imageData) => {
     e.preventDefault()
     if (tabIndex === 0) {
       this.setState({ tabIndex, formValue })
@@ -41,7 +40,7 @@ class Register extends React.Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
         this.setState({ nicknameShow: false, passwordShow: false })
         if (!err) {
-          this.setState({ tabIndex, formNext: values, image })
+          this.setState({ tabIndex, formNext: values, imageData })
         }
       })
     }
@@ -143,7 +142,7 @@ class Register extends React.Component {
     const {
       tabIndex, mail, phone, password,
       profit_level,
-      mobile, qq, faxes, biz_address, previewVisible, previewImage, fileList, fileListSupplement,
+      mobile, qq, faxes, previewVisible, previewImage, fileList, fileListSupplement,
       autoCompleteResult, second, verificationShow, formNext, nicknameShow, passwordShow
     } = this.state
     const { getFieldDecorator } = this.props.form;

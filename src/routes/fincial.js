@@ -17,7 +17,7 @@ export default class Fincial extends Component {
             <p>财务管理</p>
             <OldMenuLink activeOnlyWhenExact={true} to="/fincial" label="财务总览" />
             <OldMenuLink to="/fincial/withdraw" label="提现明细" />
-            <p>对账管理</p>
+            <p className='title'>对账管理</p>
             <OldMenuLink to="/fincial/detail" label="对账明细" />
           </div>
           <div className='content'>

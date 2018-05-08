@@ -42,7 +42,7 @@ class Forgetpassword extends React.Component<any, any> {
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
-      callback('两次密码不一样!')
+      callback('两次密码不一致!')
     } else {
       callback()
     }
@@ -54,15 +54,17 @@ class Forgetpassword extends React.Component<any, any> {
   }
 
   captchalen = (rule, value, callback) => {
-    if (value.length !== 4) {
+    if (value && value.length !== 4) {
       callback('验证码长度4位')
+    } else if (!value.match('^[0-9]*$')) {
+      callback('验证码只能为数字')
     } else {
       callback()
     }
   }
 
   validateToNextPassword = (rule, value, callback) => {
-    if (!value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
+    if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$') && !value.match('[\u4e00-\u9fa5]{3,8}')) {
       callback('6-16位大小写字母或数字')
       this.setState({ passwordShow: false })
     } else {
@@ -73,7 +75,8 @@ class Forgetpassword extends React.Component<any, any> {
   onSubmit = (e: any) => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log('Received values of form1: ', values);
+      // console.log('Received values of form1: ', values)
+      this.setState({ passwordShow: false })
       if (!err) {
         this.setState({ formValue: values })
         request.post('/api/forget/pwd', {
@@ -87,7 +90,7 @@ class Forgetpassword extends React.Component<any, any> {
   }
 
   validateMobile = (rule, value, callback) => {
-    if (value && !(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
+    if (value && !(/^1(3|4|5|7|8)\d{9}$/.test(value)) || !value) {
       callback('请输入正确格式手机号码，之后才能获取验证码！')
       this.setState({ verificationShow: false })
     } else {

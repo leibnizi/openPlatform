@@ -42,7 +42,7 @@ class Forgetpassword extends React.Component<any, any> {
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
-      callback('两次密码不一样!')
+      callback('两次密码不一致!')
     } else {
       callback()
     }
@@ -56,6 +56,8 @@ class Forgetpassword extends React.Component<any, any> {
   captchalen = (rule, value, callback) => {
     if (value && value.length !== 4) {
       callback('验证码长度4位')
+    } else if (!value.match('^[0-9]*$')) {
+      callback('验证码只能为数字')
     } else {
       callback()
     }

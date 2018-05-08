@@ -1,8 +1,10 @@
 import * as React from 'react'
 import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
+import { connect } from 'react-redux' 
 import request from '../../services/httpRequest'
+import { register } from '.././../redux/actions'
 import './register.less'
-import index from '../../routes';
+import index from '../../routes'
 
 class RegisterNext extends React.Component<any, any> {
   constructor(props: any) {
@@ -29,6 +31,7 @@ class RegisterNext extends React.Component<any, any> {
       fileListSupplement: fileList.fileList,
       imgUrl
     })
+    this.props.setpic({...{fileListSupplement: fileList.fileList}, ...{imgUrl}})
   }
 
   handleChangeList2 = (fileList: any) => {
@@ -174,7 +177,7 @@ class RegisterNext extends React.Component<any, any> {
 
     return (
 
-      <Form onSubmit={(e) => this.handleSubmit(e)}>
+      <Form onSubmit={(e) => this.handleSubmit(e)} className='registerForm'>
         <FormItem
           {...formItemLayout}
           label="企业名称"
@@ -197,7 +200,7 @@ class RegisterNext extends React.Component<any, any> {
             rules: [{
               message: 'The input is not valid E-mail!',
             }, {
-              required: true, message: 'Please input your E-mail!',
+              required: true, message: '请选择上年度营业额量级',
             }],
           })(
             <Select
@@ -413,6 +416,16 @@ class RegisterNext extends React.Component<any, any> {
       </Form>
     )
   }
-};
+}
 
-export default Form.create()(RegisterNext)
+const mapStateToProps: any = (state: object) => ({
+  state: state
+})
+
+const mapDispatchToProps: any = (dispatch: any) => ({
+  dispatch,
+  setPic: register.setPic
+})
+
+const RegisterPage = Form.create()(RegisterNext)
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage)

@@ -1,8 +1,7 @@
 import * as React from 'react'
-import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
+import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd'
 import { connect } from 'react-redux'
 import request from '../../services/httpRequest'
-import setPic from '.././../redux/actions/register'
 import './register.less'
 import index from '../../routes'
 
@@ -33,7 +32,6 @@ class RegisterNext extends React.Component<any, any> {
       imgUrl,
       checkUpload: false
     })
-    // this.props.dispatch(setPic({ imgUrl }))
   }
 
   handleChangeList2 = (fileList: any) => {
@@ -435,8 +433,7 @@ const mapStateToProps: any = (state: object) => ({
 })
 
 const mapDispatchToProps: any = (dispatch: any) => ({
-  dispatch,
-  setPic
+  dispatch
 })
 
 const RegisterPage = Form.create()(RegisterNext)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Row, Col, Card, Icon } from 'antd'
+import { Button, Row, Col, Card, Icon, Radio } from 'antd'
 import { Link } from "react-router-dom";
 import { indexChartsAct, getOnlineProduct, getUserInfos, getMerchantMessage, getThirtyMessage, getFinancialView } from '../../redux/actions'
 // onIncrement, onDecrement, onIncrementIfOdd, onIncrementAsync, 
@@ -9,11 +9,11 @@ import NumBlock from './components/NumBlock'
 import './index.less';
 import '../../styles/common.less';
 import { height } from 'window-size';
-// import { barChart,lineChart } from '../../components/chartBuilder/index'
-// import { get } from 'http';
 import ReactEcharts from 'echarts-for-react';
 
 const { Meta } = Card;
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
 
 class Home extends Component {
   constructor(props) {
@@ -29,7 +29,11 @@ class Home extends Component {
       rentalOrder: {},
       rentalIncome: {},
       saleOrder:{},
-      saleIncome:{}
+      saleIncome:{},
+      changedRentalOrder: {},
+      changedRentalIncome: {},
+      changedSaleOrder: {},
+      changedSaleIncome: {},
     };
   }
 
@@ -44,8 +48,8 @@ class Home extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { thirtyMessageData, thirtyMessageData: { dynamic_rate }, getIndexCharts } = nextProps
-    
-    if (getIndexCharts.rental && dynamic_rate ) {
+
+    if (typeof getIndexCharts === 'object' && JSON.stringify(getIndexCharts) !== "{}" && getIndexCharts.rental && dynamic_rate ) {
       const { rental, sale } = getIndexCharts
       this.setState({
         dongZuLv: this.dataToCharts("动租率", dynamic_rate.rental),
@@ -55,6 +59,12 @@ class Home extends Component {
         rentalIncome: this.dataToCharts("租赁收益趋势图", rental.income, 'bar'),
         saleOrder: this.dataToCharts("销售订单趋势图", sale.order, 'bar'),
         saleIncome: this.dataToCharts("销售收益趋势图", sale.income, 'bar'),
+      }, () => {
+        const { saleIncome, saleOrder, rentalIncome, rentalOrder } = this.state
+        this.changeDays(rentalOrder, 30, 'changedRentalOrder')
+        this.changeDays(rentalIncome, 30, 'changedRentalIncome')
+        this.changeDays(saleOrder, 30, 'changedSaleOrder')
+        this.changeDays(saleIncome, 30, 'changedSaleIncome')
       })
     }
   }
@@ -64,18 +74,18 @@ class Home extends Component {
       title: {
         text: ''
       },
-      toolbox: {
-        feature: {
-          dataZoom: {
-            yAxisIndex: 'none'
-          },
-          restore: {},
-          saveAsImage: {}
-        }
-      },
-      // tooltip: {
-      //   trigger: 'axis'
+      // toolbox: {
+      //   feature: {
+      //     dataZoom: {
+      //       yAxisIndex: 'none'
+      //     },
+      //     restore: {},
+      //     saveAsImage: {}
+      //   }
       // },
+      tooltip: {
+        trigger: 'axis'
+      },
       // toolbox: {
       //   feature: {
       //     saveAsImage: {}
@@ -104,12 +114,6 @@ class Home extends Component {
           axisLabel:{
             formatter: function (value, index) {
               return value.substring(5)
-              // var date = new Date(value);
-              // var texts = [(date.getMonth() + 1), date.getDate()];
-              // if (index === 0) {
-              //   texts.unshift(date.getYear());
-              // }
-              // return texts.join('/');
             }
           }
         }
@@ -144,7 +148,7 @@ class Home extends Component {
         }
       ]
     };
-    if (data) {
+    if (data && JSON.stringify(data) !== "{}" ) {
       baseData.title.text = title;
       baseData.xAxis[0].data =  Object.keys(data);
       baseData.series[0].data = Object.values(data);
@@ -167,12 +171,69 @@ class Home extends Component {
   toBillPage = () => {
     this.props.history.push('business/bill')
   }
-  goTo = (toPage) => {
-    this.props.history.push(toPage)
+
+  deepCopy = (p, c) => {
+  　　　　var c = c || {};
+  　　　　for (var i in p) {
+    　　　　　　if (typeof p[i] === 'object') {
+      if (p[i] === null) {
+        c[i] = null;
+      } else {
+        c[i] = (p[i].constructor === Array) ? [] : {};
+        this.deepCopy(p[i], c[i]);
+      }
+    　　　　　　} else {
+      c[i] = p[i];
+    　　　　　　}
+  　　　　}
+  　　　　return c;
+　　}
+
+  changeDays = (options ,e, key) => {
+    let value = 0
+    if (typeof e === 'object') {
+      value = e.target.value
+    }
+    else if (typeof e === 'number') {
+      value = e
+    }
+    const deepData = this.deepCopy(options)
+
+    const data = deepData.series[0].data.filter((item, index) => {
+      return index < value
+    })
+    const xData = deepData.xAxis[0].data.filter((item, index) => index < value)
+    deepData.series[0].data = data
+    deepData.xAxis[0].data = xData
+    console.log(deepData.series[0].data.length,"deepDatadeepDatadeepData")
+    this.setState({
+      [key]: deepData
+    })
+
+    // const newData = data.slice(0, e.target.value - 1)
+    // options.series[0].data = newData
+    // this.setState({
+    //   [key]: options
+    // })
+    // this.props.history.push(toPage)
   }
-// /help/announcement
   render() {
-    const { moduleGap, dongZuLv, dongXiaoLv, saleOrder, saleIncome } = this.state
+    const { 
+      moduleGap, dongZuLv, dongXiaoLv,
+      rentalOrder, rentalIncome, saleOrder, saleIncome, 
+      changedRentalOrder, changedRentalIncome, changedSaleOrder,
+      changedSaleIncome, 
+      // dongZuLv: { },
+      // dongXiaoLv: { },
+      // rentalOrder: { },
+      // rentalIncome: { },
+      // saleOrder: { },
+      // saleIncome: { },
+      // changedRentalOrder: { },
+      // changedRentalIncome: { },
+      // changedSaleOrder: { },
+      // changedSaleIncome: { },
+    } = this.state
     const { 
         userInfo: { name, created_at, updated_at, expire_at }, 
         merchantMessage: { article },
@@ -203,11 +264,10 @@ class Home extends Component {
               style={{fontSize:"22px", color:"#999",marginRight:"20px"}}
               />
               <div style={{display:"line-block", fontWeight:"600"}}>
-                {article && article[0].title} ：  
+                {`${article.length && article[article.length - 1].title} ：`}
               </div>
-              {/* {console.log(,"SSSSS")} */}
-              <Link className="notice" to={`help/detail/${article[0].id}`}>
-                {article[0].content}
+              <Link className="notice" to={`help/detail/${article.length && article[article.length -1].id}`}>
+                {article.length && article[article.length -1].content}
               </Link>
               {/* <div className="marquee">
               {article && article.map((item, index) => {
@@ -233,9 +293,9 @@ class Home extends Component {
         align="top"
       >
         <Col span={6}>
-          <Card title={`欢迎您：${name}`}  className="card-row" bordered={false}>
+          <Card title={`欢迎您：${name || '加载中...'}`} className="card-row first-card" bordered={false}>
             <p style={{marginTop:'15px'}}>上次登录：{updated_at}</p>
-            <p>到期登录：{expire_at}</p>
+            <p>到期时间：{expire_at}</p>
             <Row className="index-btn-box" type="flex" justify="space-between">
               <Col span={8}>
                 <Button onClick={()=>{this.toBusinessPage()}}>商家信息</Button>
@@ -304,14 +364,14 @@ class Home extends Component {
           >
             <div className="card-content">
               <div>
-                  <NumBlock title="近30天订单数" value={rental_sale && rental_sale.rental && rental_sale.rental.orders_30 || '0'}>
-                  </NumBlock>
+                <NumBlock title="近30天订单数" value={rental_sale && (rental_sale.rental && (rental_sale.rental.orders_30 || '0'))}>
+                </NumBlock>
               </div>
               <div>
-                  <NumBlock title="近30天收益金额" value={rental_sale && rental_sale.rental && rental_sale.rental.income_30 || '0'}></NumBlock>
+                <NumBlock title="近30天收益金额" value={rental_sale && (rental_sale.rental && (rental_sale.rental.income_30 || '0'))}></NumBlock>
               </div>
               <div>
-                  <NumBlock title="累计收益金额" value={rental_sale && rental_sale.rental && rental_sale.rental.inconme_total || '0'}></NumBlock>
+                <NumBlock title="累计收益金额" value={rental_sale && (rental_sale.rental && (rental_sale.rental.inconme_total || '0'))}></NumBlock>
               </div>
             </div>
           </Card>
@@ -328,14 +388,14 @@ class Home extends Component {
           >
             <div className="card-content">
               <div>
-                <NumBlock title="近30天订单数" value={rental_sale && rental_sale.sale.orders_30 || '0'}>
+                  <NumBlock title="近30天订单数" value={rental_sale && (rental_sale.sale && (rental_sale.sale.orders_30 || '0'))}>
                 </NumBlock>
               </div>
               <div>
-                <NumBlock title="近30天收益金额" value={rental_sale && rental_sale.sale.income_30 || '0'}></NumBlock>
+                  <NumBlock title="近30天收益金额" value={rental_sale && (rental_sale.sale && (rental_sale.sale.income_30 || '0'))}></NumBlock>
               </div>
               <div>
-                <NumBlock title="累计收益金额" value={rental_sale && rental_sale.sale.inconme_total || '0'}></NumBlock>
+                  <NumBlock title="累计收益金额" value={rental_sale && (rental_sale.sale && (rental_sale.sale.inconme_total || '0'))}></NumBlock>
               </div>
             </div>
           </Card>
@@ -345,7 +405,7 @@ class Home extends Component {
         <Col span={12}>
           <div className="charts-items">
             <ReactEcharts
-              option={this.state.dongZuLv}
+              option={dongZuLv}
               style={{ height: '350px', width: '100%' }}
               className='react_for_echarts' />
           </div>
@@ -353,25 +413,7 @@ class Home extends Component {
         <Col span={12}>
           <div className="charts-items">
             <ReactEcharts
-              option={this.state.dongXiaoLv}
-              style={{ height: '350px', width: '100%' }}
-              className='react_for_echarts' />
-          </div>
-        </Col>
-      </Row>
-      <Row gutter={moduleGap} className="row-gutter">
-        <Col span={12}>
-          <div className="charts-items">
-            <ReactEcharts
-              option={this.state.rentalOrder}
-              style={{ height: '350px', width: '100%' }}
-              className='react_for_echarts' />
-          </div>
-        </Col>
-        <Col span={12}>
-          <div className="charts-items">
-            <ReactEcharts
-              option={this.state.saleOrder}
+              option={dongXiaoLv}
               style={{ height: '350px', width: '100%' }}
               className='react_for_echarts' />
           </div>
@@ -380,16 +422,70 @@ class Home extends Component {
       <Row gutter={moduleGap} className="row-gutter">
         <Col span={12}>
           <div className="charts-items">
+            <RadioGroup
+              className="tab-days"
+              defaultValue={30}
+              size="small"
+              onChange={(e) => { this.changeDays(rentalOrder, e, 'changedRentalOrder') }}
+            >
+              <RadioButton value={30}>30天</RadioButton>
+              <RadioButton value={90}>90天</RadioButton>
+            </RadioGroup>
             <ReactEcharts
-              option={this.state.rentalIncome}
+              option={changedRentalOrder}
               style={{ height: '350px', width: '100%' }}
               className='react_for_echarts' />
           </div>
         </Col>
         <Col span={12}>
           <div className="charts-items">
+            <RadioGroup
+                className="tab-days"
+                defaultValue={30}
+                size="small"
+                onChange={(e) => { this.changeDays(saleOrder, e, 'changedSaleOrder') }}
+              >
+              <RadioButton value={30}>30天</RadioButton>
+              <RadioButton value={90}>90天</RadioButton>
+            </RadioGroup>
             <ReactEcharts
-              option={this.state.saleIncome}
+              option={changedSaleOrder}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+      </Row>
+      <Row gutter={moduleGap} className="row-gutter">
+        <Col span={12}>
+          <div className="charts-items">
+            <RadioGroup
+              className="tab-days"
+              defaultValue={30}
+              size="small"
+              onChange={(e) => { this.changeDays(rentalIncome, e, 'changedRentalIncome') }}
+            >
+              <RadioButton value={30}>30天</RadioButton>
+              <RadioButton value={90}>90天</RadioButton>
+            </RadioGroup>
+            <ReactEcharts
+              option={changedRentalIncome}
+              style={{ height: '350px', width: '100%' }}
+              className='react_for_echarts' />
+          </div>
+        </Col>
+        <Col span={12}>
+          <div className="charts-items">
+            <RadioGroup 
+              className="tab-days" 
+              defaultValue={30} 
+              size="small"
+              onChange={(e) => { this.changeDays(saleIncome, e, 'changedSaleIncome') }}
+              >
+              <RadioButton value={30}>30天</RadioButton>
+              <RadioButton value={90}>90天</RadioButton>
+            </RadioGroup>
+            <ReactEcharts
+              option={changedSaleIncome}
               style={{ height: '350px', width: '100%' }}
               className='react_for_echarts' />
           </div>

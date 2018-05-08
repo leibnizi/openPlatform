@@ -61,7 +61,7 @@ function thirtyMessageData(state: any = {}, action: any) {
   }
 }
 
-function getIndexCharts (state: any = 0, action: any) {
+function getIndexCharts (state: any = {}, action: any) {
   switch (action.type) {
     case 'GET_INDEX_CHARTS_SUCCESS':
       const newState = Object.assign({}, state, action.data);

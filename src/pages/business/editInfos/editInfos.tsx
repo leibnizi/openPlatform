@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from 'react-redux'
 import { Layout, Row, Col, Form, Input, Button, Checkbox, Select } from 'antd';
-import './editInfos.less'
+// import './editInfos.less'
 import { business as businessAction } from '../../../redux/actions/index'
 import { validateMail } from '../../../utils'
 
@@ -122,7 +122,10 @@ class EditInfos extends React.Component<any, {}> {
         </header>
 
         <article>
-          <Form onSubmit={this.handleSubmit} className="edit-form">
+          <Form 
+            onSubmit={this.handleSubmit} 
+            layout="vertical"
+            className="edit-form">
             <Row className="">
               <Col span={3} className="cotent-title bsInfos-label">企业名称：</Col>
               <Col className="cotent-title-text" span={3}>{biz_name}</Col>
@@ -208,7 +211,7 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('category_id', {
                     initialValue: category_id,
-                    rules: [{ required: true, message: '请选择了类目！' }],
+                    rules: [{ required: true, message: '请输入主营类目' }],
                   })(
                     <Checkbox.Group style={{ width: '100%', marginTop: '10px' }}>
                       <Row>

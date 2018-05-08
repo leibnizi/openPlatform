@@ -54,7 +54,7 @@ class Forgetpassword extends React.Component<any, any> {
   }
 
   captchalen = (rule, value, callback) => {
-    if (value.length !== 4) {
+    if (value && value.length !== 4) {
       callback('验证码长度4位')
     } else {
       callback()
@@ -62,7 +62,7 @@ class Forgetpassword extends React.Component<any, any> {
   }
 
   validateToNextPassword = (rule, value, callback) => {
-    if (!value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
+    if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9]{6,16}$')) {
       callback('6-16位大小写字母或数字')
       this.setState({ passwordShow: false })
     } else {
@@ -73,7 +73,8 @@ class Forgetpassword extends React.Component<any, any> {
   onSubmit = (e: any) => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log('Received values of form1: ', values);
+      // console.log('Received values of form1: ', values)
+      this.setState({ passwordShow: false })
       if (!err) {
         this.setState({ formValue: values })
         request.post('/api/forget/pwd', {

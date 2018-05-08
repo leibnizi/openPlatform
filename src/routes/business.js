@@ -26,7 +26,7 @@ export default class Business extends Component {
             <p>商家信息</p>
             <OldMenuLink activeOnlyWhenExact={true} to="/business/bsInfo" label="商家信息" />
             <OldMenuLink to="/business/statusControl" label="资质管理" />
-            <p>账户管理</p>
+            <p className='title'>账户管理</p>
             <OldMenuLink to="/business/bill" label="财务信息" />
             <OldMenuLink to="/business/account" label="账户信息" />
             {/* <OldMenuLink to="/business/renewal" label="续约管理" /> */}

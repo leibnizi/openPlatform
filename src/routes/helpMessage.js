@@ -17,7 +17,7 @@ export default class HelpMessage extends Component {
           <div className='aside'>
             <p>帮助中心</p>
             <OldMenuLink activeOnlyWhenExact={true} to="/help" label="帮助&客服" />
-            <p>信息中心</p>
+            <p className='title'>信息中心</p>
             <OldMenuLink to="/help/message" label="系统信息" />
             <OldMenuLink to="/help/announcement" label="商家公告" />
           </div>

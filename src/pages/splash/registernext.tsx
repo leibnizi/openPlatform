@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
-import { connect } from 'react-redux' 
+import { connect } from 'react-redux'
 import request from '../../services/httpRequest'
-import { register } from '.././../redux/actions'
+import setPic from '.././../redux/actions/register'
 import './register.less'
 import index from '../../routes'
 
@@ -14,7 +14,8 @@ class RegisterNext extends React.Component<any, any> {
       fileListSupplement: [],
       fileListSupplement2: [],
       autoCompleteResult: [],
-      imgUrl: null
+      imgUrl: null,
+      checkUpload: false
     }
   }
 
@@ -29,9 +30,10 @@ class RegisterNext extends React.Component<any, any> {
     }
     this.setState({
       fileListSupplement: fileList.fileList,
-      imgUrl
+      imgUrl,
+      checkUpload: false
     })
-    this.props.setpic({...{fileListSupplement: fileList.fileList}, ...{imgUrl}})
+    // this.props.dispatch(setPic({ imgUrl }))
   }
 
   handleChangeList2 = (fileList: any) => {
@@ -56,6 +58,15 @@ class RegisterNext extends React.Component<any, any> {
     })
   }
 
+  photoCheck = (rule, value, callback) => {
+    console.log('value', value)
+    if (!value) {
+      callback('请输入营业执照')
+    } else {
+      callback()
+    }
+  }
+
   handleSubmit = (e: any) => {
     e.preventDefault()
     const {
@@ -64,7 +75,7 @@ class RegisterNext extends React.Component<any, any> {
     } = this.props.formNext
     const { imgUrl, imgUrl2 } = this.state
     let files: any = []
-    imgUrl.map((item: any, index: number) => files.push({
+    imgUrl && imgUrl.map((item: any, index: number) => files.push({
       file: item,
       type_id: 1
     }))
@@ -72,7 +83,9 @@ class RegisterNext extends React.Component<any, any> {
       file: item,
       type_id: 2
     }))
-
+    if (!imgUrl) {
+      this.setState({ checkUpload: true })
+    }
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
@@ -108,16 +121,6 @@ class RegisterNext extends React.Component<any, any> {
     });
   }
 
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('两次密码不一样!');
-    } else {
-      callback();
-    }
-  }
-
   getCaptcha = () => {
     const form = this.props.form
     const mobile = form.getFieldValue('phone')
@@ -131,7 +134,7 @@ class RegisterNext extends React.Component<any, any> {
       tabIndex, name, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
       mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileListSupplement,
-      fileListSupplement2, autoCompleteResult
+      fileListSupplement2, autoCompleteResult, checkUpload
     } = this.state
     const { formValue } = this.props
     const FormItem = Form.Item;
@@ -354,7 +357,13 @@ class RegisterNext extends React.Component<any, any> {
           label="营业执照"
         >
           {getFieldDecorator('files', {
-            rules: [{ required: true, message: '请输入营业执照!' }],
+            rules: [
+              {
+                required: true, message: '请输入营业执照!'
+              },
+              {
+                validator: this.photoCheck,
+              }],
           })(
             <div>
               <Upload
@@ -373,6 +382,9 @@ class RegisterNext extends React.Component<any, any> {
               </Modal>
             </div>
           )}
+          {
+            checkUpload && <span className="checkUpload">请先上传图片</span>
+          }
         </FormItem>
         <FormItem
           {...formItemLayout2}
@@ -424,7 +436,7 @@ const mapStateToProps: any = (state: object) => ({
 
 const mapDispatchToProps: any = (dispatch: any) => ({
   dispatch,
-  setPic: register.setPic
+  setPic
 })
 
 const RegisterPage = Form.create()(RegisterNext)

@@ -1,5 +1,5 @@
 export default {
-  setPic: (params) => ({ 
+  setPic: (params:any) => ({ 
     type: 'SET_PIC',
     data: params
   })

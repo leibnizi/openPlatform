@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Table, DatePicker, Button } from 'antd'
+import { Table, DatePicker, Button, Select } from 'antd'
 import './lease.less'
 import { getFormatDate } from '../../../helper/utils'
 import { operation } from '../../../redux/actions'
@@ -301,9 +301,10 @@ class Lease extends React.Component<any, any> {
               <select
                 onChange={(e) => this.setState({ status: e.target.value })}
               >
+                <option value=''>全部</option>
                 {
                   statusList && Object.keys(statusList).map((item: any, index: number) =>
-                    <option key={index} value={item}>{statusList[item]}</option>
+                      <option key={index} value={item}>{statusList[item]}</option>
                   )
                 }
               </select>

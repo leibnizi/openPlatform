@@ -294,6 +294,7 @@ render() {
             <select
               onChange={(e) => this.setState({ status: e.target.value })}
             >
+              <option value=''>全部</option>
               {
                 statusList && Object.keys(statusList).map((item: any, index: number) =>
                   <option key={index} value={item}>{statusList[item]}</option>

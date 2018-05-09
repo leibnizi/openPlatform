@@ -130,7 +130,7 @@ class Register extends React.Component {
   captchalen = (rule, value, callback) => {
     if (value && value.length !== 4) {
       callback('验证码长度4位')
-    } else if (!value.match('^[0-9]*$')) {
+    } else if (value && !value.match('^[0-9]*$')) {
       callback('验证码只能为数字')
     } else {
       callback()

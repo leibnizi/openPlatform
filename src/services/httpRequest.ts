@@ -4,7 +4,7 @@ import { message, Modal } from 'antd';
 
 import { baseUrl } from '../helper/commonUrl'
 
-var is_modal_show = true;
+var is_modal_show = false;
 /**
  * heck 请求状态
  * @param res
@@ -17,7 +17,6 @@ function checkStatus(res: any) {
       return res
     } else {
       if ((res.data.status_code == 210 || res.data.status_code == 202) && (res.config.url.indexOf('/login') == -1 || res.config.url.indexOf('/register') == -1)) {
-        // is_modal_show = true;
         warning(res.data.msg);
         return false;
       } else if (res.config.url.indexOf('/login') == -1 && res.config.url.indexOf('/register') == -1) {
@@ -65,8 +64,8 @@ function handleError(error: any) {
  * 警告弹窗
  */
 function warning(msg) {
-  if (is_modal_show) {
-    is_modal_show = false
+  if (!is_modal_show) {
+    is_modal_show = true
     Modal.warning({
       title: '警告',
       content: msg,
@@ -89,14 +88,15 @@ const goToLogin = () => {
  * 网络错误
  */
 function error() {
-  if (is_modal_show) {
+  if (!is_modal_show) {
+    is_modal_show = true
     Modal.error({
       title: '错误',
       content: '网络错误返回登录，请联系系统人员',
       okText: '确定',
       onOk() {
         window.location.href = window.location.origin + "/login";
-        is_modal_show = true;
+        is_modal_show = false;
       },
     });
   }

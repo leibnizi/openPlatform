@@ -250,6 +250,7 @@ render() {
     currentPage,
     listData,
     productDetailData,
+    productDetailDataHead,
     loading
   } = this.state
   const { statusList } = this.props
@@ -347,14 +348,12 @@ render() {
         <header className='productheader'>销售订单详情页</header>
         <section className='productmid'>
           {
-            [
-              ['商品编号:', 'DD071A'],
-              ['商品名称:', '简约休闲针织外套'],
-              ['类目:', '女装'],
-              ['品牌:', 'MIRROR FUN'],
-              ['上架状态:', 'DD071A'],
-              ['创建时间：', 'YYYY-MM-DD hh:mm:ss'],
-              ['上架时间：', 'YYYY-MM-DD hh:mm:ss']
+            productDetailDataHead && [
+              ['订单编号:', productDetailDataHead.m_order_no],
+              ['子订单编号:', productDetailDataHead.split_order_no],
+              ['下单时间:', productDetailDataHead.created_at],
+              ['支付状态：', productDetailDataHead.status],
+              ['订单状态：', productDetailDataHead.status]
             ].map((item, index) =>
               <div className='productmiditem' key={index}>
                 <span>{item[0]}</span>

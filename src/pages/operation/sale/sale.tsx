@@ -123,9 +123,21 @@ render() {
   const columns: any[] = [
     {
       title: '订单编号',
-      dataIndex: 'm_order_no',
+      dataIndex: '',
       key: 'm_order_no',
       align: 'center',
+      render: (e: any) => {
+        return (
+          <span
+            className='checkDetail'
+            onClick={() => {
+              this.props.history.push(`/operation/sale/detail/${e.id}`)
+            }}
+          >
+            {e.m_order_no}
+          </span>
+        )
+      }
     }, {
       title: '子订单编号',
       className: 'column-money',
@@ -353,7 +365,7 @@ render() {
               ['子订单编号:', productDetailDataHead.split_order_no],
               ['下单时间:', productDetailDataHead.created_at],
               ['支付状态：', productDetailDataHead.pay_status],
-              ['订单状态：', productDetailDataHead.status]
+              ['订单状态：', statusList[productDetailDataHead.status]]
             ].map((item, index) =>
               <div className='productmiditem' key={index}>
                 <span>{item[0]}</span>

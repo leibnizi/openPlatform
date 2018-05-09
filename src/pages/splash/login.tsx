@@ -66,7 +66,7 @@ class Login extends React.Component<any, any> {
       <div className='splash'>
         <p className='name splashchild'>商家后台管理系统</p>
         <p className='loginError'>{loginError ? loginError : '   '}</p>
-        <Form onSubmit={this.loginin} className="login-form">
+        <Form onSubmit={this.loginin} className="login-form registerForm">
           <FormItem>
             {getFieldDecorator('userName', {
               rules: [{ required: true, message: '请输入用户名' }],

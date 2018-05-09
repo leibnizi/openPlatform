@@ -17,7 +17,7 @@ function checkStatus(res: any) {
       return res
     } else {
       if ((res.data.status_code == 210 || res.data.status_code == 202) && (res.config.url.indexOf('/login') == -1 || res.config.url.indexOf('/register') == -1)) {
-        is_modal_show = true;
+        // is_modal_show = true;
         warning(res.data.msg);
         return false;
       } else if (res.config.url.indexOf('/login') == -1 && res.config.url.indexOf('/register') == -1) {
@@ -66,6 +66,7 @@ function handleError(error: any) {
  */
 function warning(msg) {
   if (is_modal_show) {
+    is_modal_show = false
     Modal.warning({
       title: '警告',
       content: msg,

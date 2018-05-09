@@ -27,12 +27,11 @@ class Register extends React.Component {
       verificationShow: false,
       formValue: null,
       nicknameShow: true,
-      passwordShow: true,
-      imageData: null
+      passwordShow: true
     }
   }
 
-  gotoStep = (e, tabIndex, formValue, imageData) => {
+  gotoStep = (e, tabIndex, formValue) => {
     e.preventDefault()
     if (tabIndex === 0) {
       this.setState({ tabIndex, formValue })
@@ -40,7 +39,7 @@ class Register extends React.Component {
       this.props.form.validateFieldsAndScroll((err, values) => {
         this.setState({ nicknameShow: false, passwordShow: false })
         if (!err) {
-          this.setState({ tabIndex, formNext: values, imageData })
+          this.setState({ tabIndex, formNext: values })
         }
       })
     }
@@ -398,11 +397,9 @@ class Register extends React.Component {
                         null
                       )
                 }
-
               </div>
             )
         }
-
         <Modal
           title="服务协议及隐私权政策"
           width="50%"

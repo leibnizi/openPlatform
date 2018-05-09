@@ -10,11 +10,11 @@ class RegisterNext extends React.Component<any, any> {
     super(props)
 
     this.state = {
-      fileListSupplement: props.img && props.img.fileListSupplement || [],
-      fileListSupplement2: props.img && props.img.fileListSupplement2 || [],
+      fileListSupplement: [],
+      fileListSupplement2: [],
       autoCompleteResult: [],
-      imgUrl: props.img && props.img.imgUrl || null,
-      imgUrl2: props.img && props.img.imgUrl2 || null,
+      imgUrl: null,
+      imgUrl2: null,
       checkUpload: false
     }
   }
@@ -23,29 +23,78 @@ class RegisterNext extends React.Component<any, any> {
 
   handleChangeList = (fileList: any) => {
     let imgUrl: string[] = []
-    if (fileList.file.response) {
+    if (fileList.file.size > 3000000) {
+      Modal.warning({
+        title: '警告',
+        content: '图片不能大于3M',
+        okText: '确定',
+        onOk() {
+         
+        },
+      })
+    } else if (["image/png", "image/jpeg"].indexOf(fileList.file.type) === -1) {
+      Modal.warning({
+        title: '警告',
+        content: '图片格式为JPG、PNG或BMP',
+        okText: '确定',
+        onOk() {
+          
+        },
+      })
+    } else if (fileList.file.response) {
       fileList.file.response.data.map((item: any, index: number) => {
         imgUrl.push(item.url)
       })
+      this.setState({
+        fileListSupplement: fileList.fileList,
+        imgUrl,
+        checkUpload: false
+      })
+    } else {
+      this.setState({
+        fileListSupplement: fileList.fileList,
+        imgUrl,
+        checkUpload: false
+      })
     }
-    this.setState({
-      fileListSupplement: fileList.fileList,
-      imgUrl,
-      checkUpload: false
-    })
   }
 
   handleChangeList2 = (fileList: any) => {
     let imgUrl2: string[] = this.state.imgUrl2 ? this.state.imgUrl2 : []
-    if (fileList.file.response) {
+    if (fileList.file.size > 3000000) {
+      Modal.warning({
+        title: '警告',
+        content: '图片不能大于3M',
+        okText: '确定',
+        onOk() {
+         
+        },
+      })
+    } else if (["image/png", "image/jpeg"].indexOf(fileList.file.type) === -1) {
+      Modal.warning({
+        title: '警告',
+        content: '图片格式为JPG、PNG或BMP',
+        okText: '确定',
+        onOk() {
+          
+        },
+      })
+    } else if (fileList.file.response) {
       fileList.file.response.data.map((item: any, index: number) => {
         imgUrl2.push(item.url)
       })
+      this.setState({
+        fileListSupplement2: fileList.fileList,
+        imgUrl2,
+        checkUpload: false
+      })
+    } else {
+      this.setState({
+        fileListSupplement2: fileList.fileList,
+        imgUrl2,
+        checkUpload: false
+      })
     }
-    this.setState({
-      fileListSupplement2: fileList.fileList,
-      imgUrl2
-    })
   }
 
   handleCancel = () => this.setState({ previewVisible: false })
@@ -165,7 +214,7 @@ class RegisterNext extends React.Component<any, any> {
     }
     const upLoadButton = <div>
       <span className='upload'>上传</span>
-      <p className='uploadfont'>限制XXX像素</p>
+      <p className='uploadfont'>图片大小不超过3M，格式为JPG、PNG或BMP</p>
     </div>
 
     return (

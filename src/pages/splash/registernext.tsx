@@ -288,7 +288,7 @@ class RegisterNext extends React.Component<any, any> {
         >
           {getFieldDecorator('category_id', {
             initialValue: formValue && formValue.category_id,
-            rules: [{ required: true, message: '请输入主营类目!' }],
+            rules: [{ required: true, message: '请选择主营类目!' }],
           })(
             <Checkbox.Group
               style={{ width: '100%' }}

@@ -253,9 +253,9 @@ class RegisterNext extends React.Component<any, any> {
             >
               <Option value="1">万元以下</Option>
               <Option value="2">万元</Option>
-              <Option value="3">十万</Option>
-              <Option value="4">百万</Option>
-              <Option value="5">千万</Option>
+              <Option value="3">十万元</Option>
+              <Option value="4">百万元</Option>
+              <Option value="5">千万元</Option>
               <Option value="6">亿元</Option>
             </Select>
           )}
@@ -311,6 +311,7 @@ class RegisterNext extends React.Component<any, any> {
             rules: [{ required: true, message: '请输入商家类型!' }],
           })(
             <Select
+              showSearch
               style={{ width: '100%' }}
               onChange={(value: any) => {
                 this.props.form.setFieldsValue({ biz_type: value })

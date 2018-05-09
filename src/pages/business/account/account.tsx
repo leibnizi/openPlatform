@@ -22,9 +22,6 @@ class Account extends React.Component<any, any> {
         e_mail: {
           value: '',
         },
-        address: {
-          value: '',
-        },
       },
       confirmLoading: false
     };
@@ -96,7 +93,7 @@ class Account extends React.Component<any, any> {
 
   render() {
     const { confirmLoading } = this.state
-    const { accountInfos, showPasswordModal, showAccountModal, accountInfos: { address, email, mobile, name } } = this.props
+    const { accountInfos, showPasswordModal, showAccountModal, accountInfos: { email, mobile, name } } = this.props
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -114,7 +111,7 @@ class Account extends React.Component<any, any> {
 
     return (
       <div className="bill-page">
-        <header className="content-title">账务信息</header>
+        <header className="content-title">账户信息</header>
         <Row className="message-box">
           <Col span={12}>
             <Row className="message-item">
@@ -139,14 +136,6 @@ class Account extends React.Component<any, any> {
               </Col>
               <Col span={19}>
                 {email}
-              </Col>
-            </Row>
-            <Row className="message-item">
-              <Col className="acount-lable lable-font-weight" span={5}>
-                地址：
-              </Col>
-              <Col span={19}>
-                {address}
               </Col>
             </Row>
           </Col>
@@ -189,7 +178,7 @@ class Account extends React.Component<any, any> {
                 ],
                 validateTrigger: 'onSubmit'
               })(
-                <Input type="password" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入密码" />
+                <Input type="password"  placeholder="请输入密码" />
               )}
             </FormItem>
             <FormItem
@@ -206,7 +195,7 @@ class Account extends React.Component<any, any> {
               })(
                 <Input
                   type="password"
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  
                   placeholder="请输入新密码"
                 />
               )}
@@ -229,7 +218,7 @@ class Account extends React.Component<any, any> {
               })(
                 <Input 
                   type="password" 
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} 
+                   
                   placeholder="请确认密码" 
                 />
               )}

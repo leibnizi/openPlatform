@@ -57,7 +57,7 @@ class Bill extends React.Component<any, any> {
     const { is_edit } = this.state
     return (
       <div className="bill-page">
-        <header className="content-title">账务信息</header>
+        <header className="content-title">财务信息</header>
         <Row style={{ display: `${is_edit ? 'block' : 'none'}` }}>
           <Col span={12}>
             <BillForm

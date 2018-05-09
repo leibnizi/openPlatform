@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Tabs, Row, Col, Button, Modal, Upload, Icon } from 'antd';
+import { Tabs, Row, Col, Button, Modal, Upload, Icon, message } from 'antd';
 import { StatusCard } from '../components/statusCard/StatusCard'
 import { connect } from 'react-redux'
 // import { EditStatusForm } from './components/EditStatusForm'
@@ -21,6 +21,7 @@ class StatusControl extends React.Component<any, any> {
       canEditOthersStatus: false,
       imageHasChange: false,
       othersImageHasChange: false,
+      checking: false
     }
   }
 
@@ -36,7 +37,6 @@ class StatusControl extends React.Component<any, any> {
       imageHasChange: false,
       othersImageHasChange: false,
     })
-    console.log("initStateFun")
   }
 
   componentDidMount() {
@@ -44,7 +44,6 @@ class StatusControl extends React.Component<any, any> {
     dispatch(getStatusInfos())
   }
   statusDataToUploadNeed = (obj) => {
-    // return { uid: - parseInt(obj.id), ...obj  }
     const { id, file, type_id } = obj
     return {
       uid: - id,
@@ -56,11 +55,18 @@ class StatusControl extends React.Component<any, any> {
 
   componentWillReceiveProps(nextProps) {
     const { statusInfos } = nextProps
+    console.log(statusInfos,"hhh")
 
     let baseStatus: any[] = []
     let othersStatus: any[] = []
 
-    statusInfos.forEach(item => {
+    if (statusInfos.state == 1 ) {
+      this.setState({
+        checking: true
+      })
+    }
+
+    statusInfos.data.forEach(item => {
       const newItem = this.statusDataToUploadNeed(item)
       if (newItem.type_id === "基础资质") {
         baseStatus.push(newItem)
@@ -103,7 +109,6 @@ class StatusControl extends React.Component<any, any> {
           imageHasChange: true,
         })
         // setTimeout(() => {
-        //   console.log(this.state.imageHasChange)
         // }, 1);
       }
       else{
@@ -117,7 +122,6 @@ class StatusControl extends React.Component<any, any> {
 
   editOrAddBaseStatus = () => {
     const { dispatch } = this.props
-    console.log(this.state.baseStatusArray,"??>>>>>")
     if (this.baseStatusId) {
       dispatch(handleUploadBase({
         statusUrl: this.hasUploadImagesUrls[0].file,
@@ -194,6 +198,14 @@ class StatusControl extends React.Component<any, any> {
     })
   }
 
+  checkBeforeUpload = (file) => {
+    const isLt3M = file.size / 1024 / 1024 < 3;
+    if (!isLt3M) {
+      message.error('图片不能大于3M!');
+    }
+    return isLt3M
+  }
+
   render() {
     const { 
       previewVisible, 
@@ -202,7 +214,8 @@ class StatusControl extends React.Component<any, any> {
       baseStatusArray,
       othersStatusArray,
       imageHasChange,
-      othersImageHasChange 
+      othersImageHasChange,
+      checking 
     } = this.state;
     const uploadButton = (
       <div>
@@ -210,7 +223,6 @@ class StatusControl extends React.Component<any, any> {
         <div className="ant-upload-text">修改资质</div>
       </div>
     );
-    console.log(canEditBaseStatus,"???",imageHasChange)
     
     return (
       <div className="status-container">
@@ -240,6 +252,7 @@ class StatusControl extends React.Component<any, any> {
                       className="status-btn-base"
                       type="primary"
                       onClick={this.showEditBtn}
+                      disabled={checking}
                       // disabled={this.state.fileList.length === 0}
                     >
                       修改基本资质
@@ -255,13 +268,14 @@ class StatusControl extends React.Component<any, any> {
                 </Col>
                 <Col className="status-content">
                   <div className="no-status" style={{ display: `${!canEditBaseStatus && !imageHasChange && !baseStatusArray.length ? "flex" : "none"}`}}>
-                    暂无营业执照
+                    {checking ? '有资质正在审核中' : '暂无营业执照'}  
                   </div>
                   <Upload
                     action='http://api.v2.msparis.com/common/upload'
                     listType="picture-card"
                     fileList={baseStatusArray}
                     // onPreview={this.handlePreview}
+                    beforeUpload={this.checkBeforeUpload}
                     onRemove={(file) => { this.deleteStatusFun(file) }}
                     onChange={this.baseImageResultFun}
                   >
@@ -269,6 +283,7 @@ class StatusControl extends React.Component<any, any> {
                   </Upload>
                 </Col>
               </Row>
+              {/* {console.log(baseStatusArray,"kkkkj")} */}
             </TabPane>
             <TabPane className="tab-content tab2" tab="补充资质" key="2">
               <Row type="flex" className="status-content-box">
@@ -288,6 +303,7 @@ class StatusControl extends React.Component<any, any> {
                       className="status-btn-base"
                       type="primary"
                       onClick={this.showOthersEditBtn}
+                      disabled={checking}
                     // disabled={this.state.fileList.length === 0}
                     >
                       修改补充资质
@@ -302,17 +318,23 @@ class StatusControl extends React.Component<any, any> {
                   </div>
                 </Col>
                 <Col className="status-content">
-                  <div 
+                  {checking ? <div
                     className="no-status"
-                    style={{ display: `${!canEditOthersStatus && !othersImageHasChange && !othersStatusArray.length ? "flex" : "none"}` }}
+                    style={{ display: "flex" }}
                   >
-                    暂无补充资质
-                  </div>
+                    有资质正在审核中
+                  </div> : <div
+                      className="no-status"
+                      style={{ display: `${!canEditOthersStatus && !othersImageHasChange && !othersStatusArray.length ? "flex" : "none"}` }}
+                    >
+                      暂无补充资质
+                  </div> }
                   <Upload
                     action='http://api.v2.msparis.com/common/upload'
                     listType="picture-card"
                     fileList={othersStatusArray}
                     // onPreview={this.handlePreview}
+                    beforeUpload={this.checkBeforeUpload}
                     onRemove={(file) => { this.deleteStatusFun(file) }}
                     onChange={this.othersImageResultFun}
                   >

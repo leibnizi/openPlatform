@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from 'react-redux'
 import { Layout, Row, Col, Form, Input, Button, Checkbox, Select } from 'antd';
-// import './editInfos.less'
+import './editInfos.less'
 import { business as businessAction } from '../../../redux/actions/index'
 import { validateMail } from '../../../utils'
 
@@ -124,7 +124,7 @@ class EditInfos extends React.Component<any, {}> {
         <article>
           <Form 
             onSubmit={this.handleSubmit} 
-            layout="vertical"
+            // layout="vertical"
             className="edit-form">
             <Row className="">
               <Col span={3} className="cotent-title bsInfos-label">企业名称：</Col>
@@ -141,7 +141,7 @@ class EditInfos extends React.Component<any, {}> {
                     <Select style={{ width: 120 }}>
                       <Option value={1}>万元以下</Option>
                       <Option value={2}>万元</Option>
-                      <Option value={3}>10万元</Option>
+                      <Option value={3}>十万元</Option>
                       <Option value={4}>百万元</Option>
                       <Option value={5}>千万</Option>
                       <Option value={6}>亿元以上</Option>
@@ -159,7 +159,7 @@ class EditInfos extends React.Component<any, {}> {
                   label="主营品牌"
                 >
                   {getFieldDecorator('brand', {
-                    initialValue: `${brand}`,
+                    initialValue: `${brand || ''}`,
                     rules: [{ required: false}],
                   })(
                     <Input placeholder="主营品牌" />
@@ -174,7 +174,7 @@ class EditInfos extends React.Component<any, {}> {
                   label="供应商简介"
                 >
                   {getFieldDecorator('biz_intro', {
-                    initialValue: `${biz_intro}`,
+                    initialValue: `${biz_intro || ''}`,
                     rules: [{ required: false, message: '' }],
                   })(
                     <TextArea rows={4} placeholder="供应商简介" />
@@ -189,7 +189,7 @@ class EditInfos extends React.Component<any, {}> {
                   label="官网地址"
                 >
                   {getFieldDecorator('website', {
-                    initialValue: `${website}`,
+                    initialValue: `${website || ''}`,
                     rules: [{ required: false, message: '' }],
                   })(
                     <Input placeholder="请输入官网地址" />
@@ -213,10 +213,10 @@ class EditInfos extends React.Component<any, {}> {
                     initialValue: category_id,
                     rules: [{ required: true, message: '请输入主营类目' }],
                   })(
-                    <Checkbox.Group style={{ width: '100%', marginTop: '10px' }}>
+                    <Checkbox.Group style={{ width: '100%', marginTop: '10px'}}>
                       <Row>
                       {categoryAllArr.map((item, index) => 
-                        <Col span={3} key={index}>
+                        <Col style={{width: "110px"}} span={4} key={index}>
                           <Checkbox value={index + 1}>{item}</Checkbox>
                         </Col>
                         )}
@@ -233,7 +233,7 @@ class EditInfos extends React.Component<any, {}> {
                   label="运营人员"
                 >
                   {getFieldDecorator('biz_operator', {
-                    initialValue: biz_operator,
+                    initialValue: biz_operator || '',
                     rules: [{ required: true, message: '请输入运营人员!' }],
                   })(
                     // <Select style={{ width: 120 }}>

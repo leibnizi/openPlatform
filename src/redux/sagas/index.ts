@@ -50,7 +50,6 @@ export function* uploadImageBase(action: any = {}) {
       file: statusUrl
     })
     if (response.status_code != 0) {
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
       return false
     }
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.data.msg || "操作成功！！" });
@@ -72,7 +71,6 @@ export function* uploadImageAdd(action: any = {}) {
     })
     
     if (response.status_code != 0) {
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
       return false
     }
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: response.msg || "操作成功！！" });
@@ -87,7 +85,6 @@ export function* getMerchantMessage(action: any = {}) {
   try {
     const response = yield call(request.get, "/api/message/merchant")
     if (response.status_code != 0) {
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.msg || "有异常" });
       return false
     }
     yield put({ type: 'GET_MERCHANT_MESSAGE_SUCCESS', data: response.data });
@@ -227,7 +224,6 @@ export function* postBsInfos(action: any = {}) {
   
     const { data, msg, status_code } = response
     if (data instanceof Array  && data.length === 0 && status_code != 0) {
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: msg || '有异常' });
       return false
     }
 
@@ -243,7 +239,6 @@ export function* postAccountInfos(action: any = {}) {
   try {
     const response = yield call(request.post, "/api/account/edit", value);
     if (response.status_code != 0) {
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
     }
     yield put({ type: 'POST_ACCOUNT_SUCCESS', data: response.data });
@@ -262,7 +257,6 @@ export function* saveAccountPassword(action: any = {}) {
     const response = yield call(request.post, "/api/reset", value);
 
     if (response.status_code != 0) {
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
     }
     yield put({ type: 'SAVE_ACCOUNT_PASSWORD_SUCCESS', data: response.data });
@@ -270,7 +264,6 @@ export function* saveAccountPassword(action: any = {}) {
     yield put({ type: 'HIDE_ACCOUNT_MOBLE' });
 
   } catch (error) {
-    yield put({ type: 'SHOW_GLOBLE_ERR', data: "出现未知异常" });
     
   }
 }
@@ -283,14 +276,12 @@ export function* postBillInfo(action: any = {}) {
     });
     
     if (response.status_code != 0) {
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
     }
     yield put({ type: 'POST_BILL_INFO_SUCCESS', data: response.data });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
 
   } catch (error) {
-    yield put({ type: 'SHOW_GLOBLE_ERR', data: "出现未知异常" });
   }
 }
 
@@ -298,13 +289,11 @@ function* getStatusList(action:any) {
   try {
     const response = yield call(request, "/api/config/order-status")
     if (response.status_code != 0) {
-      yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
       return false
     } else {
       yield put({ type: 'SET_STATUS_LIST', data: response.data });
     }
     
   } catch {
-    // yield put({ type: 'SHOW_GLOBLE_ERR', data: response.data.msg });
   }
 }

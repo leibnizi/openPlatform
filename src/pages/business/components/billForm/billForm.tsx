@@ -32,29 +32,33 @@ export const BillForm:any = Form.create()((props:any) => {
       <FormItem {...formItemLayout} label="开户行">
         {getFieldDecorator('bank', {
           initialValue: `${bank}`,
-          rules: [{ required: false, message: 'Username is required!' }],
+          rules: [{ required: true, message: '请填写开户行!' }],
         })(<Input />)}
       </FormItem>
       <FormItem {...formItemLayout} label="收款账号">
         {getFieldDecorator('account', {
           initialValue: `${account}`,
-          rules: [{ required: false, message: 'Username is required!' }],
+          rules: [
+            { required: true, message: '请填写收款账户!' },
+            {
+              validator: (rule, value, callback) => {
+                if (value && (/[^0-9]+/.test(value))) {
+                  callback('收款账号只能输入数字！');
+                } else {
+                  callback()
+                }
+              },
+              message: '收款账号只能输入数字！'
+            } 
+          ],
         })(<Input />)}
       </FormItem>
       <FormItem {...formItemLayout} label="收款人">
         {getFieldDecorator('payee', {
           initialValue: `${payee}`,
-          rules: [{ required: false, message: 'Username is required!' }],
+          rules: [{ required: true, message: '请填写收款人!' }],
         })(<Input />)}
       </FormItem>
-      {/* <div>{finance_state}</div> */}
-      {/* <FormItem {...formItemLayout} label="信息状态">
-        {getFieldDecorator('status', {
-          initialValue: `${finance_state}`,
-          rules: [{ required: false, message: 'Username is required!' }],
-        })(<div></div>)}
-      </FormItem> */}
-      
       <Button style={{width: '130px', marginTop:"60px"}} type="primary" htmlType="submit">
         提交
       </Button>

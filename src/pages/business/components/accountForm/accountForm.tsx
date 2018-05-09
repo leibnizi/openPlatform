@@ -6,7 +6,7 @@ import { validateUsername, validateMobile, validateMail } from '../../../../util
 
 export const AccountForm: any = Form.create()((props: any) => {
 
-  const { form, form: { getFieldDecorator }, mobile, email, name, address, } = props
+  const { form, form: { getFieldDecorator }, mobile, email, name, } = props
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -55,24 +55,18 @@ export const AccountForm: any = Form.create()((props: any) => {
               message: '手机号码格式有误！'
             }
           ],
-        })(<Input disabled={true}/>)}
+        })(<Input type="number" disabled={true}/>)}
       </FormItem>
       <FormItem {...formItemLayout} label="邮箱">
         {getFieldDecorator('email', {
           initialValue: `${email}`,
           rules: [
-            { required: false, message: '请输入邮箱！' },
+            { required: true, message: '请输入邮箱！' },
             {
               validator: validateMail,
               message: '邮箱格式有误！'
             }
           ],
-        })(<Input />)}
-      </FormItem>
-      <FormItem {...formItemLayout} label="地址">
-        {getFieldDecorator('address', {
-          initialValue: `${address}`,
-          rules: [{ required: true, message: '请输入地址！' }],
         })(<Input />)}
       </FormItem>
       <div className="btn-box">

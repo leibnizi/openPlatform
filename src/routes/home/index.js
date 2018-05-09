@@ -15,6 +15,66 @@ const { Meta } = Card;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
+const baseData = {
+  title: {
+    text: ''
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  grid: {
+  },
+  xAxis: [
+    {
+      type: 'category',
+      data: [0],
+      boundaryGap: true,
+      nameTextStyle: {
+        color: '#DD748E'
+      },
+      axisLine: {
+        lineStyle: {
+          color: "#ccc"
+        }
+      },
+      axisLabel: {
+        formatter: function (value, index) {
+          return value.substring(5)
+        }
+      }
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      axisLine: {
+        lineStyle: {
+          color: "#fff",
+        }
+      },
+      axisLabel: {
+        color: "#ccc"
+      }
+    }
+  ],
+  series: [
+    {
+      name: '动租率',
+      type: 'line',
+      smooth: true,
+      stack: '总量',
+      // areaStyle: { normal: {} },
+      data: [0],
+      barMaxWidth: 10,
+      itemStyle: {
+        normal: {
+          color: '#dd748e',
+        }
+      },
+    }
+  ]
+};
+
 class Home extends Component {
   constructor(props) {
     super(props)
@@ -24,16 +84,16 @@ class Home extends Component {
         sm: 12,
         md: 16
       },
-      dongZuLv:{},
-      dongXiaoLv: {},
-      rentalOrder: {},
-      rentalIncome: {},
-      saleOrder:{},
-      saleIncome:{},
-      changedRentalOrder: {},
-      changedRentalIncome: {},
-      changedSaleOrder: {},
-      changedSaleIncome: {},
+      dongZuLv:baseData,
+      dongXiaoLv: baseData,
+      rentalOrder: baseData,
+      rentalIncome: baseData,
+      saleOrder:baseData,
+      saleIncome:baseData,
+      changedRentalOrder: baseData,
+      changedRentalIncome: baseData,
+      changedSaleOrder: baseData,
+      changedSaleIncome: baseData,
     };
   }
 
@@ -74,34 +134,15 @@ class Home extends Component {
       title: {
         text: ''
       },
-      // toolbox: {
-      //   feature: {
-      //     dataZoom: {
-      //       yAxisIndex: 'none'
-      //     },
-      //     restore: {},
-      //     saveAsImage: {}
-      //   }
-      // },
       tooltip: {
         trigger: 'axis'
       },
-      // toolbox: {
-      //   feature: {
-      //     saveAsImage: {}
-      //   }
-      // },
       grid: {
-        // top:"5%",
-        // left: '5%',
-        // right: '5%',
-        // bottom: '5%',
-        // containLabel: true
       },
       xAxis: [
         {
           type: 'category',
-          data: [1,2,3,4,5,6],
+          data: [0],
           boundaryGap: true,
           nameTextStyle:{
             color: '#DD748E'
@@ -291,7 +332,7 @@ class Home extends Component {
               {updated_at ? (<div>
                 <p style={{ marginTop: '15px' }}>上次登录：{updated_at}</p>
                 <p>到期时间：{expire_at}</p>
-              </div>) : <div className="no-updated_at">数据加载中...</div>}
+              </div>) : <div className="no-updated_at">暂无数据</div>}
             
             <Row className="index-btn-box" type="flex" justify="space-between">
               <Col span={8}>
@@ -321,7 +362,7 @@ class Home extends Component {
                 <NumBlock title="可提现现金" value={balance_available}>
                 </NumBlock>
               </Col>
-              </Row>) : <div className="no-updated_at">数据加载中...</div>}
+              </Row>) : <div className="no-updated_at">暂无数据</div>}
           </Card>
         </Col>
           <Col span={9}>
@@ -344,10 +385,10 @@ class Home extends Component {
                       </NumBlock>
                     </Col>
                   </Row>
-                ) : <div className="no-updated_at">数据加载中...</div>
+                ) : <div className="no-updated_at">暂无数据</div>
               }
               {/* <Row className="no-data">
-                <Col>数据加载中...</Col>
+                <Col>暂无数据</Col>
               </Row> */}
             </Card>
           </Col>

@@ -2,7 +2,7 @@
 
 
   const validateMail = (rule, value, callback) => {
-    if (value && !/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value)) {
+    if (value && !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value)) {
       callback('邮箱格式有误！');
     } else {
       callback()

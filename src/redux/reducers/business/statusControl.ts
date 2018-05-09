@@ -1,17 +1,19 @@
 const statusInfos = (state: any = [], action: any) => {
   switch (action.type) {
     case 'GET_STATUS_SUCCESS':
-      
-      return [...action.data]
+      return {
+        data: [...action.data.list],
+        state: action.data.state
+      }
     case 'DEIETE_STATUS_SUCCESS':
-      const id  = action.data[0];
+      const id = action.data.list[0];
       const filterArr = state.filter((item) => {
         return item.id != id
       })
       return filterArr
 
     case 'ADD_STATUS_SUCCESS':
-      return [...state, ...action.data]
+      return [...state, ...action.data.state]
     default:
       return state
   }

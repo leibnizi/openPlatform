@@ -41,6 +41,12 @@ class Infos extends React.Component<any, {}> {
     e.preventDefault()
   }
 
+  getBizType = (biz_type) => {
+    const typeArr = ['品牌方', '经销商', '大牌工厂', '独立设计师', '其他类型']
+    console.log(biz_type,"@@@")
+    return typeArr[biz_type - 1] || ''
+  }
+
   render() {
     const {
       businessInfos: {
@@ -72,7 +78,7 @@ class Infos extends React.Component<any, {}> {
           </Row>
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">供应商简介：</Col>
-            <Col className="content-title-text">{biz_intro}</Col>
+            <Col className="content-title-text">{biz_intro || '暂无简介'}</Col>
           </Row>
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">官网地址：</Col>
@@ -89,7 +95,7 @@ class Infos extends React.Component<any, {}> {
           </Row>
           <Row className="row-box" type="flex">
             <Col span={3} className="content-title-label">商家类型：</Col>
-            <Col className="content-title-text">{biz_type}</Col>
+            <Col className="content-title-text">{this.getBizType(biz_type)}</Col>
           </Row>
           <Row className="line" />
           {this.renderContentItems()}

@@ -14,20 +14,9 @@ class Register extends React.Component {
       formNext: null,
       mail: '',
       phone: '',
-      verificationCode: '',
       password: '',
-      confirmPassword: '',
-      biz_name: '',
-      website: '',
-      brand: '',
-      category_id: '',
-      biz_type: '',
-      biz_operator: '',
-      mobile: '',
-      email: '',
       qq: '',
       faxes: '',
-      biz_address: '',
       previewVisible: false,
       previewImage: '',
       fileList: [],
@@ -141,7 +130,7 @@ class Register extends React.Component {
   captchalen = (rule, value, callback) => {
     if (value && value.length !== 4) {
       callback('验证码长度4位')
-    } else if (!value.match('^[0-9]*$')) {
+    } else if (value && !value.match('^[0-9]*$')) {
       callback('验证码只能为数字')
     } else {
       callback()
@@ -150,9 +139,9 @@ class Register extends React.Component {
 
   render() {
     const {
-      tabIndex, mail, phone, verificationCode, password, confirmPassword,
-      biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
-      mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileList, fileListSupplement,
+      tabIndex, mail, phone, password,
+      profit_level,
+      mobile, qq, faxes, previewVisible, previewImage, fileList, fileListSupplement,
       autoCompleteResult, second, verificationShow, formNext, nicknameShow, passwordShow
     } = this.state
     const { getFieldDecorator } = this.props.form;
@@ -401,17 +390,16 @@ class Register extends React.Component {
                     <RegisterNext
                       formNext={this.state.formNext}
                       formValue={this.state.formValue}
+                      img={this.state.img}
                       gotoStep={(e, num, values) => this.gotoStep(e, num, values)}
                     />
                   ) : (
                         null
                       )
                 }
-
               </div>
             )
         }
-
         <Modal
           title="服务协议及隐私权政策"
           width="50%"

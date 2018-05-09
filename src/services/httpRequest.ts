@@ -5,7 +5,6 @@ import { message, Modal } from 'antd';
 import { baseUrl } from '../helper/commonUrl'
 
 var is_modal_show = true;
-var is_message_show = true;
 /**
  * heck 请求状态
  * @param res
@@ -17,14 +16,12 @@ function checkStatus(res: any) {
     if (res.data.status_code == 0) {
       return res
     } else {
-      if ((res.data.status_code == 210 || res.data.status_code == 202) && is_message_show && (res.config.url.indexOf('/login') == -1 || res.config.url.indexOf('/register') == -1)) {
+      if ((res.data.status_code == 210 || res.data.status_code == 202) && (res.config.url.indexOf('/login') == -1 || res.config.url.indexOf('/register') == -1)) {
         is_modal_show = true;
-        is_message_show = false;
         warning(res.data.msg);
         return false;
-      } else if (is_message_show && res.config.url.indexOf('/login') == -1 && res.config.url.indexOf('/register') == -1) {
+      } else if (res.config.url.indexOf('/login') == -1 && res.config.url.indexOf('/register') == -1) {
         console.log(res);
-        is_message_show = false;
         message.error(res.data.msg || '失败');
       }
       return res

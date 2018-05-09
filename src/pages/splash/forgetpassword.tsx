@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
 import request from '../../services/httpRequest'
 import './forgetpassword.less'
 
@@ -54,7 +54,7 @@ class Forgetpassword extends React.Component<any, any> {
   }
 
   captchalen = (rule, value, callback) => {
-    if (value && value.length !== 4) {
+    if ((value && value.length !== 4)|| !value) {
       callback('验证码长度4位')
     } else if (!value.match('^[0-9]*$')) {
       callback('验证码只能为数字')
@@ -85,6 +85,11 @@ class Forgetpassword extends React.Component<any, any> {
           password_confirmation: values.confirm,
           verification_code: values.captcha
         })
+          .then((res:any) => {
+            if (res.status_code === 0) {
+              message.success(res.msg)
+            }
+          })
       }
     })
   }
@@ -139,7 +144,7 @@ class Forgetpassword extends React.Component<any, any> {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className='forgetpassword'>
-        <Form onSubmit={(e) => this.onSubmit(e)}>
+        <Form onSubmit={(e) => this.onSubmit(e)} className='registerForm'>
           <FormItem
             {...formItemLayout2}
             label="手机号"

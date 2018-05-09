@@ -1,8 +1,7 @@
 import * as React from 'react'
-import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd';
+import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, message } from 'antd'
 import { connect } from 'react-redux'
 import request from '../../services/httpRequest'
-import setPic from '.././../redux/actions/register'
 import './register.less'
 import index from '../../routes'
 
@@ -15,6 +14,7 @@ class RegisterNext extends React.Component<any, any> {
       fileListSupplement2: [],
       autoCompleteResult: [],
       imgUrl: null,
+      imgUrl2: null,
       checkUpload: false
     }
   }
@@ -23,30 +23,78 @@ class RegisterNext extends React.Component<any, any> {
 
   handleChangeList = (fileList: any) => {
     let imgUrl: string[] = []
-    if (fileList.file.response) {
+    if (fileList.file.size > 3000000) {
+      Modal.warning({
+        title: '警告',
+        content: '图片不能大于3M',
+        okText: '确定',
+        onOk() {
+         
+        },
+      })
+    } else if (["image/png", "image/jpeg"].indexOf(fileList.file.type) === -1) {
+      Modal.warning({
+        title: '警告',
+        content: '图片格式为JPG、PNG或BMP',
+        okText: '确定',
+        onOk() {
+          
+        },
+      })
+    } else if (fileList.file.response) {
       fileList.file.response.data.map((item: any, index: number) => {
         imgUrl.push(item.url)
       })
+      this.setState({
+        fileListSupplement: fileList.fileList,
+        imgUrl,
+        checkUpload: false
+      })
+    } else {
+      this.setState({
+        fileListSupplement: fileList.fileList,
+        imgUrl,
+        checkUpload: false
+      })
     }
-    this.setState({
-      fileListSupplement: fileList.fileList,
-      imgUrl,
-      checkUpload: false
-    })
-    // this.props.dispatch(setPic({ imgUrl }))
   }
 
   handleChangeList2 = (fileList: any) => {
     let imgUrl2: string[] = this.state.imgUrl2 ? this.state.imgUrl2 : []
-    if (fileList.file.response) {
+    if (fileList.file.size > 3000000) {
+      Modal.warning({
+        title: '警告',
+        content: '图片不能大于3M',
+        okText: '确定',
+        onOk() {
+         
+        },
+      })
+    } else if (["image/png", "image/jpeg"].indexOf(fileList.file.type) === -1) {
+      Modal.warning({
+        title: '警告',
+        content: '图片格式为JPG、PNG或BMP',
+        okText: '确定',
+        onOk() {
+          
+        },
+      })
+    } else if (fileList.file.response) {
       fileList.file.response.data.map((item: any, index: number) => {
         imgUrl2.push(item.url)
       })
+      this.setState({
+        fileListSupplement2: fileList.fileList,
+        imgUrl2,
+        checkUpload: false
+      })
+    } else {
+      this.setState({
+        fileListSupplement2: fileList.fileList,
+        imgUrl2,
+        checkUpload: false
+      })
     }
-    this.setState({
-      fileListSupplement2: fileList.fileList,
-      imgUrl2
-    })
   }
 
   handleCancel = () => this.setState({ previewVisible: false })
@@ -56,15 +104,6 @@ class RegisterNext extends React.Component<any, any> {
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
     })
-  }
-
-  photoCheck = (rule, value, callback) => {
-    console.log('value', value)
-    if (!value) {
-      callback('请输入营业执照')
-    } else {
-      callback()
-    }
   }
 
   handleSubmit = (e: any) => {
@@ -134,7 +173,7 @@ class RegisterNext extends React.Component<any, any> {
       tabIndex, name, mail, phone, verificationCode, password, confirmPassword,
       biz_name, profit_level, brand, website, category_id, biz_type, biz_operator,
       mobile, email, qq, faxes, biz_address, previewVisible, previewImage, fileListSupplement,
-      fileListSupplement2, autoCompleteResult, checkUpload
+      fileListSupplement2, autoCompleteResult, checkUpload, imgUrl2, imgUrl
     } = this.state
     const { formValue } = this.props
     const FormItem = Form.Item;
@@ -175,7 +214,7 @@ class RegisterNext extends React.Component<any, any> {
     }
     const upLoadButton = <div>
       <span className='upload'>上传</span>
-      <p className='uploadfont'>限制XXX像素</p>
+      <p className='uploadfont'>图片大小不超过3M，格式为JPG、PNG或BMP</p>
     </div>
 
     return (
@@ -360,9 +399,6 @@ class RegisterNext extends React.Component<any, any> {
             rules: [
               {
                 required: true, message: '请输入营业执照!'
-              },
-              {
-                validator: this.photoCheck,
               }],
           })(
             <div>
@@ -417,7 +453,12 @@ class RegisterNext extends React.Component<any, any> {
             type="primary"
             onClick={e => {
               this.props.form.validateFieldsAndScroll((err, values) => {
-                this.props.gotoStep(e, 0, values)
+                this.props.gotoStep(e, 0, values, {
+                  fileListSupplement,
+                  fileListSupplement2,
+                  imgUrl,
+                  imgUrl2
+                })
               })
             }}
           >
@@ -435,8 +476,7 @@ const mapStateToProps: any = (state: object) => ({
 })
 
 const mapDispatchToProps: any = (dispatch: any) => ({
-  dispatch,
-  setPic
+  dispatch
 })
 
 const RegisterPage = Form.create()(RegisterNext)

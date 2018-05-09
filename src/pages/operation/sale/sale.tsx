@@ -352,7 +352,7 @@ render() {
               ['订单编号:', productDetailDataHead.m_order_no],
               ['子订单编号:', productDetailDataHead.split_order_no],
               ['下单时间:', productDetailDataHead.created_at],
-              ['支付状态：', productDetailDataHead.status],
+              ['支付状态：', productDetailDataHead.pay_status],
               ['订单状态：', productDetailDataHead.status]
             ].map((item, index) =>
               <div className='productmiditem' key={index}>

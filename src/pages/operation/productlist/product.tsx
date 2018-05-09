@@ -127,9 +127,21 @@ class Product extends React.Component<any, any> {
       {
         title: '商品编号',
         className: 'tableItem',
-        dataIndex: 'code',
+        dataIndex: '',
         key: 'code',
         align: 'center',
+        render: (e: any) => {
+          return (
+            <span
+              className='checkDetail'
+              onClick={() => {
+                this.props.history.push(`/operation/detail/${e.id}`)
+              }}
+            >
+              {e.code}
+            </span>
+          )
+        }
       }, {
         title: '商品名称',
         className: 'tableItem',

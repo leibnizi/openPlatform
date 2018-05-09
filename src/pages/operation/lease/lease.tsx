@@ -128,9 +128,21 @@ class Lease extends React.Component<any, any> {
     const columns: any[] = [
       {
         title: '订单编号',
-        dataIndex: 'm_order_no',
+        dataIndex: '',
         key: 'm_order_no',
         align: 'center',
+        render: (e: any) => {
+          return (
+            <span
+              className='checkDetail'
+              onClick={() => {
+                this.props.history.push(`/operation/lease/detail/${e.id}`)
+              }}
+            >
+              {e.m_order_no}
+            </span>
+          )
+        }
       }, {
         title: '子订单编号',
         dataIndex: 'split_order_no',
@@ -350,7 +362,7 @@ class Lease extends React.Component<any, any> {
                 ['子订单编号:', productDetailDataHead.split_order_no],
                 ['下单时间:', productDetailDataHead.return_date],
                 ['租赁周期:', productDetailDataHead.rental_cycle],
-                ['订单状态:', productDetailDataHead.status]
+                ['订单状态:', statusList[productDetailDataHead.status]]
               ].map((item, index) =>
                 <div className='productmiditem' key={index}>
                   <span>{item[0]}</span>

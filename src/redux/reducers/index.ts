@@ -32,7 +32,7 @@ function getFinancialView(state: any = {}, action: any) {
   }
 }
 
-function merchantMessage(state: any = { article: [{ title: "" }, { title: "" }, { title: "" }] }, action: any) {
+function merchantMessage(state: any = { article: [] }, action: any) {
   switch (action.type) {
     case 'GET_MERCHANT_MESSAGE_SUCCESS':
       const newState = Object.assign({}, state, action.data);

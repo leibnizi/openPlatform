@@ -223,16 +223,6 @@ class Home extends Component {
       rentalOrder, rentalIncome, saleOrder, saleIncome, 
       changedRentalOrder, changedRentalIncome, changedSaleOrder,
       changedSaleIncome, 
-      // dongZuLv: { },
-      // dongXiaoLv: { },
-      // rentalOrder: { },
-      // rentalIncome: { },
-      // saleOrder: { },
-      // saleIncome: { },
-      // changedRentalOrder: { },
-      // changedRentalIncome: { },
-      // changedSaleOrder: { },
-      // changedSaleIncome: { },
     } = this.state
     const { 
         userInfo: { name, created_at, updated_at, expire_at }, 
@@ -263,12 +253,16 @@ class Home extends Component {
               type="sound" 
               style={{fontSize:"22px", color:"#999",marginRight:"20px"}}
               />
-              <div style={{display:"line-block", fontWeight:"600"}}>
-                {`${article.length && article[article.length - 1].title} ：`}
-              </div>
-              <Link className="notice" to={`help/detail/${article.length && article[article.length -1].id}`}>
-                {article.length && article[article.length -1].content}
-              </Link>
+              {console.log(article,"kkj")}
+              {article.length ? (<div>
+                <div style={{ display: "line-block", fontWeight: "600" }}>
+                  {`${article.length && article[article.length - 1].title} ：`}
+                </div>
+                <Link className="notice" to={`help/detail/${article.length && article[article.length - 1].id}`}>
+                  {article.length && article[article.length - 1].content}
+                </Link>
+              </div>) : '暂无公告'}
+              
               {/* <div className="marquee">
               {article && article.map((item, index) => {
                 return (
@@ -294,8 +288,11 @@ class Home extends Component {
       >
         <Col span={6}>
           <Card title={`欢迎您：${name || '加载中...'}`} className="card-row first-card" bordered={false}>
-            <p style={{marginTop:'15px'}}>上次登录：{updated_at}</p>
-            <p>到期时间：{expire_at}</p>
+              {updated_at ? (<div>
+                <p style={{ marginTop: '15px' }}>上次登录：{updated_at}</p>
+                <p>到期时间：{expire_at}</p>
+              </div>) : <div className="no-updated_at">数据加载中...</div>}
+            
             <Row className="index-btn-box" type="flex" justify="space-between">
               <Col span={8}>
                 <Button onClick={()=>{this.toBusinessPage()}}>商家信息</Button>
@@ -315,38 +312,42 @@ class Home extends Component {
                 至昨天24点数据
               </div>}  
             bordered={false}>
-            <Row className="card-content-margin card-content" gutter={30} type="flex" justify="space-between">
+            {income_total ? (<Row className="card-content-margin card-content" gutter={30} type="flex" justify="space-between">
               <Col span={12}>
-                  <NumBlock title="累计收益" value={income_total}>
-                  </NumBlock>
-              </Col>
-              <Col span={12}>
-                  <NumBlock title="可提现现金" value={balance_available}>
+                <NumBlock title="累计收益" value={income_total}>
                 </NumBlock>
               </Col>
-            </Row>
+              <Col span={12}>
+                <NumBlock title="可提现现金" value={balance_available}>
+                </NumBlock>
+              </Col>
+              </Row>) : <div className="no-updated_at">数据加载中...</div>}
           </Card>
         </Col>
           <Col span={9}>
             <Card title="在架商品数据" className="card-row" bordered={false}>
-              <Row className="card-content-margin card-content" gutter={10}>
-                <Col span={12}>
-                  <NumBlock title="租赁商品数" value={rent_total}>
-                    <div className="yesterday-message">
-                      昨日：{yesterday_rent_total}
-                    </div>
-                  </NumBlock>
-                </Col>
-                <Col span={12}>
-                  <NumBlock title="销售商品数" value={sale_total}>
-                    <div className="yesterday-message">
-                      昨日：{yesterday_sale_total}
-                    </div>
-                  </NumBlock>
-                </Col>
-              </Row>
+              {
+                yesterday_rent_total ? (
+                  <Row className="card-content-margin card-content" gutter={10}>
+                    <Col span={12}>
+                      <NumBlock title="租赁商品数" value={rent_total}>
+                        <div className="yesterday-message">
+                          昨日：{yesterday_rent_total}
+                        </div>
+                      </NumBlock>
+                    </Col>
+                    <Col span={12}>
+                      <NumBlock title="销售商品数" value={sale_total}>
+                        <div className="yesterday-message">
+                          昨日：{yesterday_sale_total}
+                        </div>
+                      </NumBlock>
+                    </Col>
+                  </Row>
+                ) : <div className="no-updated_at">数据加载中...</div>
+              }
               {/* <Row className="no-data">
-                <Col>暂无数据</Col>
+                <Col>数据加载中...</Col>
               </Row> */}
             </Card>
           </Col>

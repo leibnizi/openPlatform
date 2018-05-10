@@ -32,15 +32,16 @@ class RegisterNext extends React.Component<any, any> {
          
         },
       })
-    } else if (["image/png", "image/jpeg", "image/bmp"].indexOf(fileList.file.type) === -1) {
+    } else if (["image/png", "image/jpeg"].indexOf(fileList.file.type) === -1) {
       Modal.warning({
         title: '警告',
-        content: '图片格式为JPG、PNG或BMP',
+        content: '图片格式为JPG、PNG',
         okText: '确定',
         onOk() {
           
         },
       })
+      return
     } else if (fileList.file.response) {
       fileList.file.response.data.map((item: any, index: number) => {
         imgUrl.push(item.url)
@@ -212,7 +213,7 @@ class RegisterNext extends React.Component<any, any> {
     }
     const upLoadButton = <div>
       <span className='upload'>上传</span>
-      <p className='uploadfont'>图片大小不超过3M，格式为JPG、PNG或BMP</p>
+      <p className='uploadfont'>图片大小不超过3M，格式为JPG、PNG</p>
     </div>
 
     return (

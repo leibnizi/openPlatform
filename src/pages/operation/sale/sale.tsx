@@ -36,7 +36,7 @@ class Sale extends React.Component<any, any> {
       this.productDetail(Number(this.props.location.pathname.split('/').slice(-1)[0]))
     } else {
       this.getTableData(1)
-      this.props.dispatch(operation.getStatusList())
+      this.props.dispatch(operation.getStatusList(2))
     }
   }
 

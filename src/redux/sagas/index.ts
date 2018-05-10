@@ -26,11 +26,11 @@ export default function* rootSaga() {
 
   // yield takeEvery('SAGA_POSTS', sagaPost)
   //资质管理
-  yield takeEvery("UPLOAD_IMAGE_BASE", uploadImageBase) 
-  yield takeEvery("UPLOAD_IMAGE_ADD", uploadImageAdd) 
-  
+  yield takeEvery("UPLOAD_IMAGE_BASE", uploadImageBase)
+  yield takeEvery("UPLOAD_IMAGE_ADD", uploadImageAdd)
+
   //提交商家信息
-  yield takeEvery("POST_BUSINESS_INFO", postBsInfos) 
+  yield takeEvery("POST_BUSINESS_INFO", postBsInfos)
   //提交账户
   yield takeEvery("POST_ACCOUNT_INFO", postAccountInfos)
   //修改账户密码
@@ -69,7 +69,7 @@ export function* uploadImageAdd(action: any = {}) {
     const response = yield call(request.post, "/api/qualification/add", {
       files: action.data
     })
-    
+
     if (response.status_code != 0) {
       return false
     }
@@ -140,7 +140,7 @@ export function* getIndexCharts(action: any) {
   }
 }
 
-export function* getBsInfos(action:any) {
+export function* getBsInfos(action: any) {
   try {
     const response = yield call(request.get, "/api/merchant/index");
     // 类目的所有 是个数组
@@ -184,8 +184,8 @@ export function* getStatusInfos(action: any) {
 export function* deleteStatus(action: any) {
   try {
     const { id } = action.data
-    const response = yield call(request.get, "/api/qualification/delete/",{
-      params:{
+    const response = yield call(request.get, "/api/qualification/delete/", {
+      params: {
         id
       }
     });
@@ -209,7 +209,7 @@ export function* getBillInfos(action: any) {
 export function* getAccountInfos(action: any) {
   try {
     const response = yield call(request.get, "/api/account/index");
-    
+
     yield put({ type: 'GET_ACCOUNT_SUCCESS', data: response.data });
   } catch (error) {
     // yield put(fetchFailure());
@@ -218,12 +218,12 @@ export function* getAccountInfos(action: any) {
 
 export function* postBsInfos(action: any = {}) {
   const value = action.data
-  
+
   try {
     const response = yield call(request.post, "/api/merchant/edit", value);
-  
+
     const { data, msg, status_code } = response
-    if (data instanceof Array  && data.length === 0 && status_code != 0) {
+    if (data instanceof Array && data.length === 0 && status_code != 0) {
       return false
     }
 
@@ -235,7 +235,7 @@ export function* postBsInfos(action: any = {}) {
 }
 
 export function* postAccountInfos(action: any = {}) {
-  const value  = action.data
+  const value = action.data
   try {
     const response = yield call(request.post, "/api/account/edit", value);
     if (response.status_code != 0) {
@@ -244,7 +244,7 @@ export function* postAccountInfos(action: any = {}) {
     yield put({ type: 'POST_ACCOUNT_SUCCESS', data: response.data });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
     yield put({ type: 'HIDE_ACCOUNT_MOBLE' });
-    
+
   } catch (error) {
     // yield put(fetchFailure());
   }
@@ -264,7 +264,7 @@ export function* saveAccountPassword(action: any = {}) {
     yield put({ type: 'HIDE_ACCOUNT_MOBLE' });
 
   } catch (error) {
-    
+
   }
 }
 
@@ -274,7 +274,7 @@ export function* postBillInfo(action: any = {}) {
     const response = yield call(request.post, "/api/finance/add", {
       ...value
     });
-    
+
     if (response.status_code != 0) {
       return false
     }
@@ -285,15 +285,15 @@ export function* postBillInfo(action: any = {}) {
   }
 }
 
-function* getStatusList(action:any) {
+function* getStatusList(action: any) {
   try {
-    const response = yield call(request, "/api/config/order-status")
+    const response = yield call(request.get, "/api/config/order-status", { params: { type: action.data } })
     if (response.status_code != 0) {
       return false
     } else {
       yield put({ type: 'SET_STATUS_LIST', data: response.data });
     }
-    
-  } catch {
+  } catch (err) {
+    console.log('err', err)
   }
 }

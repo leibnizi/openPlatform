@@ -1,5 +1,6 @@
 export default {
-  getStatusList: () => ({ 
+  getStatusList: (type) => ({ 
     type: 'GET_STATUS_LIST',
+    data: type
   })
 }

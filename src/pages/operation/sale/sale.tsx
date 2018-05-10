@@ -54,7 +54,7 @@ class Sale extends React.Component<any, any> {
                 supply_price: item.supply_price,
                 name: item.product_name,
                 code: item.product_spu,
-                id: item.id,
+                id: item.product_id,
                 order_no: res.data.order_no,
                 image_url: item.image_url,
                 specification_name: `${item.specification}/${subItem.option_name.name}`,
@@ -225,7 +225,6 @@ render() {
       key: 'code',
       align: 'center',
       render: (e: any) => {
-        console.log('e',e)
         return (
           <span
             className='checkDetail'

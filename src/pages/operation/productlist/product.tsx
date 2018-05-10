@@ -47,7 +47,7 @@ class Product extends React.Component<any, any> {
           const productDetailData = res.data.specification_option_inner
           productDetailData && productDetailData.map((item: any, index: number) => {
             item.purchaser_product_no = res.data.purchaser_product_no
-            item.value = res.data.specification_option_inner[index].specification_size.value
+            item.name = res.data.specification_option_inner[index].specification_size.name
             item.key = index
             item.shelfStatus = Number(item.enabled) === 0 ? '未上架' : Number(item.enabled) === 1 ? '已上架' : '未上架'
           })
@@ -249,8 +249,8 @@ class Product extends React.Component<any, any> {
       }, {
         title: '规格项',
         className: 'tableItem',
-        dataIndex: 'value',
-        key: 'value',
+        dataIndex: 'name',
+        key: 'name',
         align: 'center',
       }, {
         title: '商品货号',
@@ -319,9 +319,9 @@ class Product extends React.Component<any, any> {
                 onChange={(e) => this.setState({ goodStatus: e.target.value })}
               >
                 <option value="">全部</option>
-                <option value="0">未上架</option>
+                <option value="0">待上架</option>
                 <option value="1">已上架</option>
-                <option value="2">待上架</option>
+                <option value="2">已下架</option>
               </select>
             </div>
             <div className='item'>

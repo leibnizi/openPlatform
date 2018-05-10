@@ -45,7 +45,7 @@ class Product extends React.Component<any, any> {
       .then((res: any) => {
         if (res.status_code === 0) {
           const productDetailData = res.data.specification_option_inner
-          productDetailData.map((item: any, index: number) => {
+          productDetailData && productDetailData.map((item: any, index: number) => {
             item.purchaser_product_no = res.data.purchaser_product_no
             item.value = res.data.specification_option_inner[index].specification_size.value
             item.key = index

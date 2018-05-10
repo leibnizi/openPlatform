@@ -54,6 +54,7 @@ class Sale extends React.Component<any, any> {
                 supply_price: item.supply_price,
                 name: item.product_name,
                 code: item.product_spu,
+                id: item.id,
                 order_no: res.data.order_no,
                 image_url: item.image_url,
                 specification_name: `${item.specification}/${subItem.option_name.name}`,
@@ -220,9 +221,22 @@ render() {
   const detailColumns: any[] = [
     {
       title: '商品编号',
-      dataIndex: 'code',
+      dataIndex: '',
       key: 'code',
       align: 'center',
+      render: (e: any) => {
+        console.log('e',e)
+        return (
+          <span
+            className='checkDetail'
+            onClick={() => {
+              this.props.history.push(`/operation/detail/${e.id}`)
+            }}
+          >
+            {e.code}
+          </span>
+        )
+      }
     }, {
       title: '商品名称',
       dataIndex: 'name',

@@ -32,7 +32,7 @@ class RegisterNext extends React.Component<any, any> {
          
         },
       })
-    } else if (["image/png", "image/jpeg"].indexOf(fileList.file.type) === -1) {
+    } else if (["image/png", "image/jpeg", "image/bmp"].indexOf(fileList.file.type) === -1) {
       Modal.warning({
         title: '警告',
         content: '图片格式为JPG、PNG或BMP',

@@ -340,6 +340,7 @@ class Lease extends React.Component<any, any> {
           <section className='productmid'>
             <Button
               onClick={() => this.queryData()}
+              type="primary"
             >
               查询
             </Button>

@@ -4,7 +4,8 @@ import { Table, DatePicker, Button, Input } from 'antd'
 import './afterSale.less'
 import { getFormatDate } from '../../../helper/utils'
 import request from '../../../services/httpRequest'
-import * as moment from 'moment';
+import * as Cookies from 'js-cookie'
+import * as moment from 'moment'
 const { MonthPicker } = DatePicker
 const monthFormat = 'YYYY-MM-DD'
 
@@ -79,6 +80,10 @@ class AfterSale extends React.Component<any, any> {
   pageChange = (e: any) => {
     this.setState({ currentPage: e.current })
     this.getTableData(e.current)
+  }
+
+  excel = () => {
+    window.open(`http://open-erp.test.msparis.com/financial/after_sale_list_export?token=${Cookies.getJSON('token')}`)
   }
 
   render() {
@@ -191,9 +196,15 @@ class AfterSale extends React.Component<any, any> {
         </section>
         <section className='productmid'>
           <Button
+            type="primary"
             onClick={() => this.queryData()}
           >
             查询
+          </Button>
+          <Button
+            onClick={this.excel}
+          >
+            导出Excel
           </Button>
           {/* <img src={require('../../../styles/img/exclamation.png')} />
           <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p> */}

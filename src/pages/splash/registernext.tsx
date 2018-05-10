@@ -152,8 +152,6 @@ class RegisterNext extends React.Component<any, any> {
           .then((res: any) => {
             if (res.status_code === 0) {
               this.props.gotoStep(e, 2)
-            } else {
-              message.error(res.msg)
             }
           })
       }

@@ -323,7 +323,7 @@ class Register extends React.Component {
                       <FormItem
                         {...formItemLayout2}
                         label="验证码"
-                        className='captcha'
+                        className={second !== 60 ? 'captchaout' : 'captcha'}
                       >
                         <Row gutter={8}>
                           <Col span={15}>

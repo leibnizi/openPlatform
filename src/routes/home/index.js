@@ -329,11 +329,10 @@ class Home extends Component {
       >
         <Col span={6}>
           <Card title={`欢迎您：${name || '加载中...'}`} className="card-row first-card" bordered={false}>
-              {updated_at ? (<div>
-                <p style={{ marginTop: '15px' }}>上次登录：{updated_at}</p>
-                <p>到期时间：{expire_at}</p>
-              </div>) : <div className="no-updated_at">暂无数据</div>}
-            
+              <div>
+                <p style={{ marginTop: '15px' }}>上次登录：{updated_at||'加载中...'}</p>
+                <p>到期时间：{expire_at||'加载中...'}</p>
+              </div>
             <Row className="index-btn-box" type="flex" justify="space-between">
               <Col span={8}>
                 <Button onClick={()=>{this.toBusinessPage()}}>商家信息</Button>
@@ -353,43 +352,36 @@ class Home extends Component {
                 至昨天24点数据
               </div>}  
             bordered={false}>
-            {income_total ? (<Row className="card-content-margin card-content" gutter={30} type="flex" justify="space-between">
+            {(<Row className="card-content-margin card-content" gutter={30} type="flex" justify="space-between">
               <Col span={12}>
-                <NumBlock title="累计收益" value={income_total}>
+                <NumBlock title="累计收益" value={income_total||'0'}>
                 </NumBlock>
               </Col>
               <Col span={12}>
-                <NumBlock title="可提现现金" value={balance_available}>
+                <NumBlock title="可提现现金" value={balance_available||'0'}>
                 </NumBlock>
               </Col>
-              </Row>) : <div className="no-updated_at">暂无数据</div>}
+              </Row>)}
           </Card>
         </Col>
           <Col span={9}>
             <Card title="在架商品数据" className="card-row" bordered={false}>
-              {
-                yesterday_rent_total ? (
-                  <Row className="card-content-margin card-content" gutter={10}>
-                    <Col span={12}>
-                      <NumBlock title="租赁商品数" value={rent_total}>
-                        <div className="yesterday-message">
-                          昨日：{yesterday_rent_total}
-                        </div>
-                      </NumBlock>
-                    </Col>
-                    <Col span={12}>
-                      <NumBlock title="销售商品数" value={sale_total}>
-                        <div className="yesterday-message">
-                          昨日：{yesterday_sale_total}
-                        </div>
-                      </NumBlock>
-                    </Col>
-                  </Row>
-                ) : <div className="no-updated_at">暂无数据</div>
-              }
-              {/* <Row className="no-data">
-                <Col>暂无数据</Col>
-              </Row> */}
+              <Row className="card-content-margin card-content" gutter={10}>
+                <Col span={12}>
+                  <NumBlock title="租赁商品数" value={rent_total||'0'}>
+                    <div className="yesterday-message">
+                      昨日：{yesterday_rent_total||'0'}
+                    </div>
+                  </NumBlock>
+                </Col>
+                <Col span={12}>
+                  <NumBlock title="销售商品数" value={sale_total||'0'}>
+                    <div className="yesterday-message">
+                      昨日：{yesterday_sale_total||'0'}
+                    </div>
+                  </NumBlock>
+                </Col>
+              </Row>
             </Card>
           </Col>
       </Row>

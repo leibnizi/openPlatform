@@ -89,7 +89,7 @@ class Product extends React.Component<any, any> {
           category_id: goodCategory,
           spu_enabled: SPU,
           mode_id: goodMode,
-          status: goodStatus,
+          enabled: goodStatus,
           code,
           name,
           purchaser_product_no

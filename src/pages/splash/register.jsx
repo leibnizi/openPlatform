@@ -85,7 +85,7 @@ class Register extends React.Component {
   validateNickName = (rule, value, callback) => {
     const form = this.props.form;
     if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9_]{6,16}$') && !value.match('[\u4e00-\u9fa5]{3,8}')) {
-      callback('6-16位不包含非法字符串')
+      callback('6-16位不包含非法字符')
       this.setState({ nicknameShow: false })
     } else {
       callback()
@@ -93,8 +93,11 @@ class Register extends React.Component {
   }
 
   validateMobile = (rule, value, callback) => {
-    if (value && !(/^1(3|4|5|7|8)\d{9}$/.test(value)) || !value) {
+    if (value && !(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
       callback('请输入正确格式手机号码，之后才能获取验证码！')
+      this.setState({ verificationShow: false })
+    } else if (!value) {
+      callback()
       this.setState({ verificationShow: false })
     } else {
       callback()

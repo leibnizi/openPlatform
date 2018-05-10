@@ -380,7 +380,7 @@ render() {
               ['子订单编号:', productDetailDataHead.split_order_no],
               ['下单时间:', productDetailDataHead.created_at],
               ['支付状态：', productDetailDataHead.pay_status],
-              ['订单状态：', statusList[productDetailDataHead.status]]
+              ['订单状态：', productDetailDataHead.items[0].status]
             ].map((item, index) =>
               <div className='productmiditem' key={index}>
                 <span>{item[0]}</span>

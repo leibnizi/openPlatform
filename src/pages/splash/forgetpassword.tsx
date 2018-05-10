@@ -54,10 +54,10 @@ class Forgetpassword extends React.Component<any, any> {
   }
 
   captchalen = (rule, value, callback) => {
-    if ((value && value.length !== 4)|| !value) {
-      callback('验证码长度4位')
-    } else if (!value.match('^[0-9]*$')) {
-      callback('验证码只能为数字')
+    if (value && (!value.match('^[0-9]*$') || value.length !== 4)) {
+      callback('验证码长度4位,且只能为数字')
+    } else if (!value) {
+      callback()
     } else {
       callback()
     }
@@ -179,7 +179,7 @@ class Forgetpassword extends React.Component<any, any> {
                 {getFieldDecorator('captcha', {
                   rules: [
                     {
-                      required: true, message: '验证码4位数'
+                      required: true, message: '验证码长度4位,且只能为数字'
                     },
                     {
                       validator: this.captchalen,

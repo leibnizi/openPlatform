@@ -15,7 +15,7 @@ class StatusControl extends React.Component<any, any> {
     super(props)
     this.state = {
       previewVisible: false,
-      baseStatusArray:[],
+      baseStatusArray: [],
       othersStatusArray: [],
       canEditBaseStatus: false,
       canEditOthersStatus: false,
@@ -28,7 +28,7 @@ class StatusControl extends React.Component<any, any> {
   baseStatusId = ''
   deleteStatusId = ''
 
-  initStateFun =()=> {
+  initStateFun = () => {
     this.setState({
       // baseStatusArray: [],
       // othersStatusArray: [],
@@ -55,12 +55,12 @@ class StatusControl extends React.Component<any, any> {
 
   componentWillReceiveProps(nextProps) {
     const { statusInfos } = nextProps
-    console.log(statusInfos,"hhh")
+    console.log(statusInfos, "hhh")
 
     let baseStatus: any[] = []
     let othersStatus: any[] = []
 
-    if (statusInfos.state == 1 ) {
+    if (statusInfos.state == 1) {
       this.setState({
         checking: true
       })
@@ -72,7 +72,7 @@ class StatusControl extends React.Component<any, any> {
         baseStatus.push(newItem)
         this.baseStatusId = item.id
       }
-      else if (newItem.type_id){
+      else if (newItem.type_id) {
         othersStatus.push(newItem)
       }
     });
@@ -87,36 +87,55 @@ class StatusControl extends React.Component<any, any> {
   hasUploadOrdersImagesUrls: any = []
 
   baseImageResultFun = ({ file, fileList, file: { status, response } }: any) => {
-      if (status === 'done') {
-        const url:any = response.data[0].url;
-        this.hasUploadImagesUrls.push({
-          file: url,
-          type_id: 1
-        })
-        // debugger
-        // this.statusDataToUploadNeed({
+    if (file.size > 3000000) {
+      Modal.warning({
+        title: '警告',
+        content: '图片不能大于3M',
+        okText: '确定',
+        onOk() {
 
-        // })
-        const that = this
-        const newBaseStatusArray = {
-          uid: - that.baseStatusId,
-          id: that.baseStatusId,
-          url,
-          type_id:'基础资质'
-        }
-        this.setState({
-          baseStatusArray: [newBaseStatusArray],
-          imageHasChange: true,
-        })
-        // setTimeout(() => {
-        // }, 1);
+        },
+      })
+    } else if (["image/png", "image/jpeg"].indexOf(file.type) === -1) {
+      Modal.warning({
+        title: '警告',
+        content: '图片格式为JPG、PNG',
+        okText: '确定',
+        onOk() {
+
+        },
+      })
+      return
+    } else if (status === 'done') {
+      const url: any = response.data[0].url;
+      this.hasUploadImagesUrls.push({
+        file: url,
+        type_id: 1
+      })
+      // debugger
+      // this.statusDataToUploadNeed({
+
+      // })
+      const that = this
+      const newBaseStatusArray = {
+        uid: - that.baseStatusId,
+        id: that.baseStatusId,
+        url,
+        type_id: '基础资质'
       }
-      else{
-        this.setState({
-          baseStatusArray: fileList,
-          // imageHasChange: true,
-        });
-      }
+      this.setState({
+        baseStatusArray: [newBaseStatusArray],
+        imageHasChange: true,
+      })
+      // setTimeout(() => {
+      // }, 1);
+    }
+    else {
+      this.setState({
+        baseStatusArray: fileList,
+        // imageHasChange: true,
+      });
+    }
   }
 
 
@@ -141,7 +160,26 @@ class StatusControl extends React.Component<any, any> {
 
   othersImageResultFun = ({ file, fileList, file: { status, response } }: any) => {
     const { dispatch } = this.props
-    if (status === 'done') {
+    if (fileList.file.size > 3000000) {
+      Modal.warning({
+        title: '警告',
+        content: '图片不能大于3M',
+        okText: '确定',
+        onOk() {
+         
+        },
+      })
+    } else if (["image/png", "image/jpeg"].indexOf(fileList.file.type) === -1) {
+      Modal.warning({
+        title: '警告',
+        content: '图片格式为JPG、PNG',
+        okText: '确定',
+        onOk() {
+          
+        },
+      })
+      return
+    } else if (status === 'done') {
       const url: any = response.data[0].url;
       this.hasUploadOrdersImagesUrls.push({
         file: url,
@@ -207,15 +245,15 @@ class StatusControl extends React.Component<any, any> {
   }
 
   render() {
-    const { 
-      previewVisible, 
+    const {
+      previewVisible,
       canEditBaseStatus,
       canEditOthersStatus,
       baseStatusArray,
       othersStatusArray,
       imageHasChange,
       othersImageHasChange,
-      checking 
+      checking
     } = this.state;
     const uploadButton = (
       <div>
@@ -223,7 +261,7 @@ class StatusControl extends React.Component<any, any> {
         <div className="ant-upload-text">修改资质</div>
       </div>
     );
-    
+
     return (
       <div className="status-container">
         {/* content-title 这个样式是公用的 在common里 */}
@@ -237,7 +275,7 @@ class StatusControl extends React.Component<any, any> {
             <TabPane className="tab-content tab1" tab="基本资质" key="1">
               <Row type="flex" className="status-content-box">
                 <Col className="content-title-sider">
-                  <div style={{marginLeft:'16px'}}>营业执照：</div>
+                  <div style={{ marginLeft: '16px' }}>营业执照：</div>
                   <div>
                     <Button
                       style={{ display: `${canEditBaseStatus && imageHasChange ? "block" : "none"}` }}
@@ -253,7 +291,7 @@ class StatusControl extends React.Component<any, any> {
                       type="primary"
                       onClick={this.showEditBtn}
                       disabled={checking}
-                      // disabled={this.state.fileList.length === 0}
+                    // disabled={this.state.fileList.length === 0}
                     >
                       修改基本资质
                     </Button>
@@ -267,8 +305,8 @@ class StatusControl extends React.Component<any, any> {
                   </div>
                 </Col>
                 <Col className="status-content">
-                  <div className="no-status" style={{ display: `${!canEditBaseStatus && !imageHasChange && !baseStatusArray.length ? "flex" : "none"}`}}>
-                    {checking ? '有资质正在审核中' : '暂无营业执照'}  
+                  <div className="no-status" style={{ display: `${!canEditBaseStatus && !imageHasChange && !baseStatusArray.length ? "flex" : "none"}` }}>
+                    {checking ? '有资质正在审核中' : '暂无营业执照'}
                   </div>
                   <Upload
                     action='http://api.v2.msparis.com/common/upload'
@@ -288,7 +326,7 @@ class StatusControl extends React.Component<any, any> {
             <TabPane className="tab-content tab2" tab="补充资质" key="2">
               <Row type="flex" className="status-content-box">
                 <Col className="content-title-sider">
-                  <div style={{marginLeft:'16px'}}>补充资质：</div>
+                  <div style={{ marginLeft: '16px' }}>补充资质：</div>
                   <div>
                     <Button
                       style={{ display: `${canEditOthersStatus && othersImageHasChange ? "block" : "none"}` }}
@@ -328,7 +366,7 @@ class StatusControl extends React.Component<any, any> {
                       style={{ display: `${!canEditOthersStatus && !othersImageHasChange && !othersStatusArray.length ? "flex" : "none"}` }}
                     >
                       暂无补充资质
-                  </div> }
+                  </div>}
                   <Upload
                     action='http://api.v2.msparis.com/common/upload'
                     listType="picture-card"

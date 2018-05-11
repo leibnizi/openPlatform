@@ -303,16 +303,6 @@ class Home extends Component {
                   {article.length && article[0].content}
                 </Link>
               </div>) : '暂无公告'}
-              
-              {/* <div className="marquee">
-              {article && article.map((item, index) => {
-                return (
-                  <Link className="notice" key={index} to={`help/detail/${item.id}`}>
-                    {item.title}
-                  </Link>
-                )
-              })}
-            </div> */}
           </div>
         </Col>
         <Col>
@@ -330,8 +320,8 @@ class Home extends Component {
         <Col span={6}>
           <Card title={`欢迎您：${name || '加载中...'}`} className="card-row first-card" bordered={false}>
               <div>
-                <p style={{ marginTop: '15px' }}>上次登录：{updated_at||''}</p>
-                <p>到期时间：{expire_at||'加载中...'}</p>
+                <p style={{ marginTop: '15px', textAlign: 'start' }}>上次登录：</p>
+                <p style={{ textAlign: 'start' }}>到期时间：{expire_at||'加载中...'}</p>
               </div>
             <Row className="index-btn-box" type="flex" justify="space-between">
               <Col span={10}>

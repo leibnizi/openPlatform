@@ -6,6 +6,10 @@ const businessInfos = (state: any = {}, action: any) => {
       return newState;
     case 'POST_BUSINESS_SUCCESS':
       return Object.assign({}, state, action.data);
+    case 'PUSH_BSINFO':
+      return Object.assign({}, state, action.data);
+    case 'PUSH_BSINFOF':
+      return Object.assign({}, state, action.data);
     default:
       return state
   }

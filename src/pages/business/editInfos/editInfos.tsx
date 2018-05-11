@@ -33,11 +33,18 @@ class EditInfos extends React.Component<any, {}> {
     ))
 
   }
+
   componentDidMount() {
     const { dispatch, businessInfos } = this.props
     // 如果刷新页面或者不是从前面页面跳转过来的，将不会有businessInfos，所以要手动获取
     if (JSON.stringify(businessInfos) === "{}"){
       dispatch(getBusinessInfos())
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.businessInfos.pushBsinfo) {
+      this.props.history.push('/business/bsInfo')
     }
   }
 

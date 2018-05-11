@@ -41,4 +41,8 @@ export default {
     data: param
   }),
 
+  pushBsInfo: () => ({
+    type: 'PUSH_BSINFOF',
+    data: { pushBsinfo: false }
+  }),
 }

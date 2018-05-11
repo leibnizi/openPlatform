@@ -209,8 +209,8 @@ class Home extends Component {
   toBusinessPage = () => {
     this.props.history.push('business/bsInfo')
   }
-  toBillPage = () => {
-    this.props.history.push('business/bill')
+  toFincialPage = () => {
+    this.props.history.push('/fincial')
   }
 
   deepCopy = (p, c) => {
@@ -334,11 +334,11 @@ class Home extends Component {
                 <p>到期时间：{expire_at||'加载中...'}</p>
               </div>
             <Row className="index-btn-box" type="flex" justify="space-between">
-              <Col span={8}>
+              <Col span={10}>
                 <Button onClick={()=>{this.toBusinessPage()}}>商家信息</Button>
               </Col>
-              <Col span={8}>
-                <Button type="primary" onClick={() => { this.toBillPage() }}>财务总览</Button>
+              <Col span={10}>
+                <Button type="primary" onClick={() => { this.toFincialPage() }}>财务总览</Button>
               </Col>
             </Row>
           </Card>

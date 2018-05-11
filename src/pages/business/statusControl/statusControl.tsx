@@ -87,6 +87,7 @@ class StatusControl extends React.Component<any, any> {
   hasUploadOrdersImagesUrls: any = []
 
   baseImageResultFun = ({ file, fileList, file: { status, response } }: any) => {
+    console.log('file', file, fileList, ["image/png", "image/jpeg"].indexOf(file.type))
     if (file.size > 3000000) {
       Modal.warning({
         title: '警告',
@@ -96,7 +97,7 @@ class StatusControl extends React.Component<any, any> {
 
         },
       })
-    } else if (["image/png", "image/jpeg"].indexOf(file.type) === -1) {
+    } else if (file.type && ["image/png", "image/jpeg"].indexOf(file.type) === -1) {
       Modal.warning({
         title: '警告',
         content: '图片格式为JPG、PNG',
@@ -112,10 +113,6 @@ class StatusControl extends React.Component<any, any> {
         file: url,
         type_id: 1
       })
-      // debugger
-      // this.statusDataToUploadNeed({
-
-      // })
       const that = this
       const newBaseStatusArray = {
         uid: - that.baseStatusId,
@@ -160,7 +157,7 @@ class StatusControl extends React.Component<any, any> {
 
   othersImageResultFun = ({ file, fileList, file: { status, response } }: any) => {
     const { dispatch } = this.props
-    if (fileList.file.size > 3000000) {
+    if (file.size > 3000000) {
       Modal.warning({
         title: '警告',
         content: '图片不能大于3M',
@@ -169,7 +166,7 @@ class StatusControl extends React.Component<any, any> {
          
         },
       })
-    } else if (["image/png", "image/jpeg"].indexOf(fileList.file.type) === -1) {
+    } else if (["image/png", "image/jpeg"].indexOf(file.type) === -1) {
       Modal.warning({
         title: '警告',
         content: '图片格式为JPG、PNG',
@@ -313,15 +310,13 @@ class StatusControl extends React.Component<any, any> {
                     listType="picture-card"
                     fileList={baseStatusArray}
                     // onPreview={this.handlePreview}
-                    beforeUpload={this.checkBeforeUpload}
-                    onRemove={(file) => { this.deleteStatusFun(file) }}
+                    // onRemove={(file) => { this.deleteStatusFun(file) }}
                     onChange={this.baseImageResultFun}
                   >
-                    {canEditBaseStatus ? uploadButton : null}
+                    {baseStatusArray >= 1 ? null : uploadButton }
                   </Upload>
                 </Col>
               </Row>
-              {/* {console.log(baseStatusArray,"kkkkj")} */}
             </TabPane>
             <TabPane className="tab-content tab2" tab="补充资质" key="2">
               <Row type="flex" className="status-content-box">
@@ -373,10 +368,10 @@ class StatusControl extends React.Component<any, any> {
                     fileList={othersStatusArray}
                     // onPreview={this.handlePreview}
                     beforeUpload={this.checkBeforeUpload}
-                    onRemove={(file) => { this.deleteStatusFun(file) }}
+                    // onRemove={(file) => { this.deleteStatusFun(file) }}
                     onChange={this.othersImageResultFun}
                   >
-                    {canEditOthersStatus ? uploadButton : null}
+                    {othersStatusArray >= 20 ? null : uploadButton}
                   </Upload>
                 </Col>
               </Row>

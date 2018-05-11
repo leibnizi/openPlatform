@@ -136,7 +136,7 @@ class EditInfos extends React.Component<any, {}> {
             <Row className="">
               <Col span={3} className="cotent-title bsInfos-label">企业名称：</Col>
               <Col className="cotent-title-text" span={3}>{biz_name}</Col>
-              <Col className="describe profit-level" span={13}>
+              <Col className="describe profit-level" span={12}>
                 <FormItem
                   {...formItemLayoutTooLong}
                   label="上季度盈利量级"

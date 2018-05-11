@@ -303,16 +303,6 @@ class Home extends Component {
                   {article.length && article[0].content}
                 </Link>
               </div>) : '暂无公告'}
-              
-              {/* <div className="marquee">
-              {article && article.map((item, index) => {
-                return (
-                  <Link className="notice" key={index} to={`help/detail/${item.id}`}>
-                    {item.title}
-                  </Link>
-                )
-              })}
-            </div> */}
           </div>
         </Col>
         <Col>
@@ -330,8 +320,8 @@ class Home extends Component {
         <Col span={6}>
           <Card title={`欢迎您：${name || '加载中...'}`} className="card-row first-card" bordered={false}>
               <div>
-                <p style={{ marginTop: '15px' }}>上次登录：{updated_at||''}</p>
-                <p>到期时间：{expire_at||'加载中...'}</p>
+                <p style={{ marginTop: '15px', textAlign: 'start' }}>上次登录：</p>
+                <p style={{ textAlign: 'start' }}>到期时间：{expire_at||'加载中...'}</p>
               </div>
             <Row className="index-btn-box" type="flex" justify="space-between">
               <Col span={10}>
@@ -398,11 +388,11 @@ class Home extends Component {
           >
             <div className="card-content">
               <div>
-                <NumBlock title="近30天订单数" value={rental_sale && (rental_sale.rental && (rental_sale.rental.orders_30 || '0'))}>
+                <NumBlock title="当月订单数" value={rental_sale && (rental_sale.rental && (rental_sale.rental.orders_30 || '0'))}>
                 </NumBlock>
               </div>
               <div>
-                <NumBlock title="近30天收益金额" value={rental_sale && (rental_sale.rental && (rental_sale.rental.income_30 || '0'))}></NumBlock>
+                <NumBlock title="当月收益金额" value={rental_sale && (rental_sale.rental && (rental_sale.rental.income_30 || '0'))}></NumBlock>
               </div>
               <div>
                 <NumBlock title="累计收益金额" value={rental_sale && (rental_sale.rental && (rental_sale.rental.inconme_total || '0'))}></NumBlock>
@@ -422,11 +412,13 @@ class Home extends Component {
           >
             <div className="card-content">
               <div>
-                  <NumBlock title="近30天订单数" value={rental_sale && (rental_sale.sale && (rental_sale.sale.orders_30 || '0'))}>
-                </NumBlock>
+                  <NumBlock title="当月订单数" value={rental_sale && (rental_sale.sale && (rental_sale.sale.orders_30 || '0'))}></NumBlock>
               </div>
               <div>
-                  <NumBlock title="近30天收益金额" value={rental_sale && (rental_sale.sale && (rental_sale.sale.income_30 || '0'))}></NumBlock>
+                  <NumBlock title="当月售后单数" value={rental_sale && (rental_sale.sale && (rental_sale.sale.after_sale_30 || '0'))}></NumBlock>
+              </div>
+              <div>
+                  <NumBlock title="当月收益金额" value={rental_sale && (rental_sale.sale && (rental_sale.sale.income_30 || '0'))}></NumBlock>
               </div>
               <div>
                   <NumBlock title="累计收益金额" value={rental_sale && (rental_sale.sale && (rental_sale.sale.inconme_total || '0'))}></NumBlock>

@@ -223,10 +223,11 @@ export function* postBsInfos(action: any = {}) {
     const response = yield call(request.post, "/api/merchant/edit", value);
 
     const { data, msg, status_code } = response
-    if (data instanceof Array && data.length === 0 && status_code != 0) {
+    if (data instanceof Array && data.length === 0 && status_code != 0) { 
       return false
     }
 
+    yield put({ type: 'PUSH_BSINFO', data: { pushBsinfo: true } });
     yield put({ type: 'POST_BUSINESS_SUCCESS', data: data });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
   } catch (error) {

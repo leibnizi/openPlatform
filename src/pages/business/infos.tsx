@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import './index.less';
 import '../../styles/common.less';
 import { business as businessAction } from '../../redux/actions/index'
-const { getBusinessInfos } = businessAction
+const { getBusinessInfos, pushBsInfo } = businessAction
 
 class Infos extends React.Component<any, {}> {
   constructor(props: any) {
@@ -39,6 +39,7 @@ class Infos extends React.Component<any, {}> {
   stopDefault = (e) => {
     // this.props.history.push('edit_infos')
     e.preventDefault()
+    this.props.dispatch(pushBsInfo())
   }
 
   render() {

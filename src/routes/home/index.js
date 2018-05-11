@@ -297,10 +297,10 @@ class Home extends Component {
               {console.log(article,"kkj")}
               {article.length ? (<div>
                 <div style={{ display: "inline-block", fontWeight: "600" }}>
-                  {`${article.length && article[article.length - 1].title} ：`}
+                  {`${article.length && article[0].title} ：`}
                 </div>
                 <Link className="notice" to={`help/detail/${article.length && article[article.length - 1].id}`}>
-                  {article.length && article[article.length - 1].content}
+                  {article.length && article[0].content}
                 </Link>
               </div>) : '暂无公告'}
               

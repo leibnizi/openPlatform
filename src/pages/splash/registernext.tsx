@@ -312,8 +312,7 @@ class RegisterNext extends React.Component<any, any> {
             rules: [{ required: true, message: '请输入商家类型!' }],
           })(
             <Select
-              showSearch
-              style={{ width: '100%' }}
+              // style={{ width: '100%' }}
               onChange={(value: any) => {
                 this.props.form.setFieldsValue({ biz_type: value })
               }}

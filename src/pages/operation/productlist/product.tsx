@@ -271,7 +271,7 @@ class Product extends React.Component<any, any> {
         key: 'sale_market_price',
         align: 'center',
       }, {
-        title: '租赁价(3天)',
+        title: '租赁价(天)',
         className: 'tableItem',
         dataIndex: 'rental_price',
         key: 'rental_price',

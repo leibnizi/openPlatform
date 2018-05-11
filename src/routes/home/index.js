@@ -296,7 +296,7 @@ class Home extends Component {
               />
               {console.log(article,"kkj")}
               {article.length ? (<div>
-                <div style={{ display: "line-block", fontWeight: "600" }}>
+                <div style={{ display: "inline-block", fontWeight: "600" }}>
                   {`${article.length && article[article.length - 1].title} ：`}
                 </div>
                 <Link className="notice" to={`help/detail/${article.length && article[article.length - 1].id}`}>
@@ -330,7 +330,7 @@ class Home extends Component {
         <Col span={6}>
           <Card title={`欢迎您：${name || '加载中...'}`} className="card-row first-card" bordered={false}>
               <div>
-                <p style={{ marginTop: '15px' }}>上次登录：{updated_at||'加载中...'}</p>
+                <p style={{ marginTop: '15px' }}>上次登录：{updated_at||''}</p>
                 <p>到期时间：{expire_at||'加载中...'}</p>
               </div>
             <Row className="index-btn-box" type="flex" justify="space-between">

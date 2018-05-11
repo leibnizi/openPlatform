@@ -255,10 +255,15 @@ class EditInfos extends React.Component<any, {}> {
                   label="商家类型"
                 >
                   {getFieldDecorator('biz_type', {
-                    initialValue: biz_type,
+                    initialValue: 1,
                     rules: [{ required: true, message: '请选择商家类型' }],
                   })(
-                    <Select style={{ width: 120 }}>
+                    <Select 
+                      style={{ width: 120 }}
+                      onChange={(e: any) => {
+                        this.props.form.setFieldsValue({ biz_type: e })
+                      }}
+                    >
                       <Option value={1}>品牌方</Option>
                       <Option value={2}>经销商</Option>
                       <Option value={3}>大牌工厂</Option>

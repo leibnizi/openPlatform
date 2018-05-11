@@ -28,8 +28,7 @@ class Account extends React.Component<any, any> {
   }
   
   saveAccountAccountFun = (value: any) => {
-    const { dispatch} = this.props
-    console.log(value,"twtwtet")
+    const { dispatch } = this.props
     dispatch(postAccountInfos(value))
   }
 

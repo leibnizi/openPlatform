@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import request from '../../../services/httpRequest'
 import './overview.less'
 
@@ -27,6 +27,12 @@ class Overview extends React.Component<any, any> {
   showModal = () => {
     this.setState({
       visible: true,
+    });
+  }
+
+  offModal = () => {
+    this.setState({
+      visible: false,
     });
   }
 
@@ -76,21 +82,26 @@ class Overview extends React.Component<any, any> {
               <span>￥{overviewdata && overviewdata.data.income_total}</span>
             </p>
           </div>
-          <button
+          <Button
             type="primary"
             onClick={() => {
               this.setState({ visible: true })
             }}
           >
             申请提现
-          </button>
+          </Button>
           <Modal
             visible={this.state.visible}
-            onOk={this.handleOk}
-            onCancel={this.handleWidthdraw}
-            okText='查看对账明细'
-            cancelText='确认申请提现'
+            onCancel={this.offModal}
             wrapClassName="overview-modal"
+            footer={[
+              <Button key="back" onClick={this.handleWidthdraw}>
+                确认申请提现
+              </Button>,
+              <Button key="submit" type="primary" onClick={this.handleOk}>
+                查看对账明细
+              </Button>,
+            ]}
           >
             <p>提现前请确认查看对账单</p>
           </Modal>

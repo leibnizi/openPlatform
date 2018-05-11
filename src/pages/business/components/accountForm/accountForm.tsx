@@ -61,11 +61,12 @@ export const AccountForm: any = Form.create()((props: any) => {
         {getFieldDecorator('email', {
           initialValue: `${email}`,
           rules: [
-            { required: true, message: '请输入邮箱！' },
             {
-              validator: validateMail,
-              message: '邮箱格式有误！'
-            }
+              type: 'email', message: '无效的E-mail地址!',
+            },
+            { 
+              required: true, message: '请输入邮箱！' 
+            },
           ],
         })(<Input />)}
       </FormItem>

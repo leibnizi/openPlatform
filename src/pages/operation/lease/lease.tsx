@@ -375,9 +375,9 @@ class Lease extends React.Component<any, any> {
               productDetailDataHead && [
                 ['订单编号:', productDetailDataHead.m_order_no],
                 ['子订单编号:', productDetailDataHead.split_order_no],
-                ['下单时间:', productDetailDataHead.return_date],
+                ['下单时间:', productDetailDataHead.created_at],
                 ['租赁周期:', productDetailDataHead.rental_cycle],
-                ['订单状态:', productDetailDataHead.items[0].status]
+                ['订单状态:', productDetailDataHead.order_status]
               ].map((item, index) =>
                 <div className='productmiditem' key={index}>
                   <span>{item[0]}</span>

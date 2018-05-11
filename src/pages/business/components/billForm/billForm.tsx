@@ -21,8 +21,8 @@ export const BillForm:any = Form.create()((props:any) => {
     e.preventDefault();
     props.form.validateFields((err: any, values: any) => {
       if (!err) {
-        
         props.onChange(values)
+        props.toggleEditFun()
       }
     });
   }

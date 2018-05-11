@@ -62,6 +62,7 @@ class Bill extends React.Component<any, any> {
           <Col span={12}>
             <BillForm
               {...billInfos}
+              toggleEditFun={this.toggleEditFun}
               onChange={this.handleFormChange}
             />
           </Col>

@@ -85,9 +85,17 @@ class Forgetpassword extends React.Component<any, any> {
           password_confirmation: values.confirm,
           verification_code: values.captcha
         })
-          .then((res:any) => {
+          .then((res: any) => {
             if (res.status_code === 0) {
-              message.success(res.msg)
+              Modal.confirm({
+                title: '修改成功',
+                content: '跳转到登录页！',
+                onOk() {
+                  window.location.href = window.location.origin + "/login"
+                },
+                onCancel() { },
+              });
+
             }
           })
       }

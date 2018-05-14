@@ -21,22 +21,12 @@ class Bill extends React.Component<any, any> {
       status: {
         value: '',
       },
-    },
-    is_edit: false
+    }
   };
 
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(getBillInfos())
-  }
-
-  componentWillReceiveProps(nextProps:any) {
-    const {billInfos} = nextProps
-    if (!billInfos.bank ) {
-      this.setState({
-        is_edit: true
-      });
-    }
   }
 
   handleFormChange = (value: any) => {
@@ -45,29 +35,20 @@ class Bill extends React.Component<any, any> {
     // api / finance / index
   }
 
-  toggleEditFun = () =>  {
-    const { is_edit } = this.state;
-    this.setState({
-      is_edit: !is_edit
-    })
-  }
-
   render() {
-    const { billInfos } = this.props
-    const { is_edit } = this.state
+    const { billInfos, billInfos:{ isEdit } } = this.props
     return (
       <div className="bill-page">
         <header className="content-title">财务信息</header>
-        <Row style={{ display: `${is_edit ? 'block' : 'none'}` }}>
+        <Row style={{ display: `${isEdit ? 'block' : 'none'}` }}>
           <Col span={12}>
             <BillForm
               {...billInfos}
-              toggleEditFun={this.toggleEditFun}
               onChange={this.handleFormChange}
             />
           </Col>
         </Row>
-        <Row style={{ display: `${!is_edit ? 'block' : 'none'}` }} className="message-box">
+        <Row style={{ display: `${!isEdit ? 'block' : 'none'}` }} className="message-box">
           <Col span={12}>
             <Row className="message-item">
               <Col className="lable-font-weight bill-label" span={5}>
@@ -103,13 +84,6 @@ class Bill extends React.Component<any, any> {
               </Row>
           </Col>
         </Row>
-        {/* <Row className="edit_btn">
-          <Col >
-            <Button onClick={()=>this.toggleEditFun()}>
-              {is_edit ? '保2存' : '编辑财务信息'}
-            </Button>
-          </Col>
-        </Row> */}
       </div>
     );
   }

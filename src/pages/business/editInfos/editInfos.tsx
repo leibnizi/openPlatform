@@ -37,7 +37,7 @@ class EditInfos extends React.Component<any, {}> {
   componentDidMount() {
     const { dispatch, businessInfos } = this.props
     // 如果刷新页面或者不是从前面页面跳转过来的，将不会有businessInfos，所以要手动获取
-    if (JSON.stringify(businessInfos) === "{}"){
+    if (JSON.stringify(businessInfos) === "{}") {
       dispatch(getBusinessInfos())
     }
   }
@@ -62,11 +62,11 @@ class EditInfos extends React.Component<any, {}> {
   //   }
   // }
 
-  handleSubmit = (e:any) => {
+  handleSubmit = (e: any) => {
     const { dispatch } = this.props
-    
+
     e.preventDefault();
-    this.props.form.validateFields((err:any, value:any) => {
+    this.props.form.validateFields((err: any, value: any) => {
       if (!err) {
         dispatch(editBusinessInfos(value))
       }
@@ -75,7 +75,7 @@ class EditInfos extends React.Component<any, {}> {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    
+
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -106,7 +106,7 @@ class EditInfos extends React.Component<any, {}> {
         sm: { span: 15 },
       },
     };
-    
+
     const {
       businessInfos: {
         biz_name, profit_level, brand, website, biz_intro, merchant_state,
@@ -114,9 +114,9 @@ class EditInfos extends React.Component<any, {}> {
         cooperation_term, categoryAll//对象
       }
     } = this.props
-    let categoryAllArr:any = []
+    let categoryAllArr: any = []
     if (categoryAll) {
-      categoryAllArr = Object.keys(categoryAll).map((item:any, index:number)=> {
+      categoryAllArr = Object.keys(categoryAll).map((item: any, index: number) => {
         return categoryAll[`${item}`]
       })
     }
@@ -129,8 +129,8 @@ class EditInfos extends React.Component<any, {}> {
         </header>
 
         <article>
-          <Form 
-            onSubmit={this.handleSubmit} 
+          <Form
+            onSubmit={this.handleSubmit}
             // layout="vertical"
             className="edit-form">
             <Row className="">
@@ -167,10 +167,10 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('brand', {
                     initialValue: `${brand || ''}`,
-                    rules: [{ required: false}],
+                    rules: [{ required: false }],
                   })(
                     <Input placeholder="主营品牌" />
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -185,7 +185,7 @@ class EditInfos extends React.Component<any, {}> {
                     rules: [{ required: false, message: '' }],
                   })(
                     <TextArea rows={4} placeholder="供应商简介" />
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -200,7 +200,7 @@ class EditInfos extends React.Component<any, {}> {
                     rules: [{ required: false, message: '' }],
                   })(
                     <Input placeholder="请输入官网地址" />
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -220,16 +220,16 @@ class EditInfos extends React.Component<any, {}> {
                     initialValue: category_id,
                     rules: [{ required: true, message: '请输入主营类目' }],
                   })(
-                    <Checkbox.Group style={{ width: '100%', marginTop: '10px'}}>
+                    <Checkbox.Group style={{ width: '100%', marginTop: '10px' }}>
                       <Row>
-                      {categoryAllArr.map((item, index) => 
-                        <Col style={{width: "110px"}} span={4} key={index}>
-                          <Checkbox value={index + 1}>{item}</Checkbox>
-                        </Col>
+                        {categoryAllArr.map((item, index) =>
+                          <Col style={{ width: "110px" }} span={4} key={index}>
+                            <Checkbox value={index + 1}>{item}</Checkbox>
+                          </Col>
                         )}
                       </Row>
                     </Checkbox.Group>
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -249,8 +249,8 @@ class EditInfos extends React.Component<any, {}> {
                     //   {/* <Option value="disabled" disabled>Disabled</Option>
                     //   <Option value="Yiminghe">yiminghe</Option> */}
                     // </Select>
-                      <Input />
-                    )}
+                    <Input />
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -265,7 +265,7 @@ class EditInfos extends React.Component<any, {}> {
                     initialValue: 1,
                     rules: [{ required: true, message: '请选择商家类型' }],
                   })(
-                    <Select 
+                    <Select
                       style={{ width: 120 }}
                       onChange={(e: any) => {
                         this.props.form.setFieldsValue({ biz_type: e })
@@ -277,11 +277,11 @@ class EditInfos extends React.Component<any, {}> {
                       <Option value={4}>独立设计师</Option>
                       <Option value={5}>其他类型</Option>
                     </Select>
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>
-            
+
             <Row className="form-row">
               <Col>
                 <FormItem
@@ -293,7 +293,7 @@ class EditInfos extends React.Component<any, {}> {
                     rules: [{ required: true, message: '请输入联系电话！' }],
                   })(
                     <Input placeholder="请输入联系电话" />
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -305,16 +305,21 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('biz_email', {
                     initialValue: `${email}`,
-                    rules: [
-                      { required: false, message: '' },
-                      { 
-                        validator: validateMail,
-                        message: '邮箱格式有误！'
-                      }
-                    ],
+                    // rules: [
+                    //   { required: false, message: '' },
+                    //   { 
+                    //     validator: validateMail,
+                    //     message: '邮箱格式有误！'
+                    //   }
+                    // ],
+                    rules: [{
+                      type: 'email', message: '无效的E-mail地址!',
+                    }, {
+                      required: true, message: '请输入你的E-mail!',
+                    }],
                   })(
                     <Input placeholder="请输入邮箱" />
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -329,7 +334,7 @@ class EditInfos extends React.Component<any, {}> {
                     rules: [{ required: false, message: '请输入QQ！' }],
                   })(
                     <Input placeholder="请输入QQ" />
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -344,7 +349,7 @@ class EditInfos extends React.Component<any, {}> {
                     rules: [{ required: false, message: '' }],
                   })(
                     <Input placeholder="请输入传真" />
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -359,7 +364,7 @@ class EditInfos extends React.Component<any, {}> {
                     rules: [{ required: true, message: '请输入收获地址' }],
                   })(
                     <Input placeholder="请输入收货地址" />
-                    )}
+                  )}
                 </FormItem>
               </Col>
             </Row>

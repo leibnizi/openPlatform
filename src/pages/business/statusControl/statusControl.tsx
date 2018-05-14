@@ -309,11 +309,11 @@ class StatusControl extends React.Component<any, any> {
                     action='http://api.v2.msparis.com/common/upload'
                     listType="picture-card"
                     fileList={baseStatusArray}
-                    // onPreview={this.handlePreview}
-                    // onRemove={(file) => { this.deleteStatusFun(file) }}
+                    showUploadList={{ showRemoveIcon:false }}
                     onChange={this.baseImageResultFun}
                   >
-                    {baseStatusArray.length >= 1 ? null : uploadButton }
+                    {!canEditBaseStatus ? null : uploadButton }
+
                   </Upload>
                 </Col>
               </Row>

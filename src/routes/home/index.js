@@ -320,7 +320,7 @@ class Home extends Component {
         <Col span={6}>
           <Card title={`欢迎您：${name || '加载中...'}`} className="card-row first-card" bordered={false}>
               <div>
-                <p style={{ marginTop: '15px', textAlign: 'start' }}>上次登录：</p>
+                <p style={{ marginTop: '15px', textAlign: 'start' }}>上次登录：{updated_at||''}</p>
                 <p style={{ textAlign: 'start' }}>到期时间：{expire_at||'加载中...'}</p>
               </div>
             <Row className="index-btn-box" type="flex" justify="space-between">

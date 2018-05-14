@@ -197,15 +197,6 @@ export function* deleteStatus(action: any) {
   }
 }
 
-export function* getBillInfos(action: any) {
-  try {
-    const response = yield call(request.get, "/api/finance/index");
-    yield put({ type: 'GET_BILL_SUCCESS', data: response.data });
-  } catch (error) {
-    // yield put(fetchFailure());
-  }
-}
-
 export function* getAccountInfos(action: any) {
   try {
     const response = yield call(request.get, "/api/account/index");
@@ -223,7 +214,7 @@ export function* postBsInfos(action: any = {}) {
     const response = yield call(request.post, "/api/merchant/edit", value);
 
     const { data, msg, status_code } = response
-    if (data instanceof Array && data.length === 0 && status_code != 0) { 
+    if (data instanceof Array && data.length === 0 && status_code != 0) {
       return false
     }
 
@@ -269,6 +260,17 @@ export function* saveAccountPassword(action: any = {}) {
   }
 }
 
+export function* getBillInfos(action: any) {
+  try {
+    const response = yield call(request.get, "/api/finance/index");
+    if (response.data) {
+      yield put({ type: 'GET_BILL_SUCCESS', data: response.data });
+    }
+  } catch (error) {
+    // yield put(fetchFailure());
+  }
+}
+
 export function* postBillInfo(action: any = {}) {
   const { token, value } = action.data
   try {
@@ -279,7 +281,7 @@ export function* postBillInfo(action: any = {}) {
     if (response.status_code != 0) {
       return false
     }
-    yield put({ type: 'POST_BILL_INFO_SUCCESS', data: response.data });
+    yield put({ type: 'POST_BILL_INFO_SUCCESS', data: Object.assign(response.data, { idEdit: false }) });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
 
   } catch (error) {

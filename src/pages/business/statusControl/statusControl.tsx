@@ -313,7 +313,7 @@ class StatusControl extends React.Component<any, any> {
                     // onRemove={(file) => { this.deleteStatusFun(file) }}
                     onChange={this.baseImageResultFun}
                   >
-                    {baseStatusArray >= 1 ? null : uploadButton }
+                    {baseStatusArray.length >= 1 ? null : uploadButton }
                   </Upload>
                 </Col>
               </Row>

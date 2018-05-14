@@ -59,7 +59,7 @@ class RegisterRoute extends React.Component {
 
           </div>
         </header>
-        <section className='body'>
+        <section className='operationBody'>
           <Register />
         </section>
       </div>

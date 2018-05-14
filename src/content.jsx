@@ -19,7 +19,7 @@ class Content extends Component {
 
   render() {
     const pathname = this.props.location.pathname.split('/')[1]
-    const body = pathname === 'operation' || pathname === 'business' || pathname === 'help' ? 'operationBody' : 'body'
+    const body = ['operation', 'business', 'help'].includes(pathname) ? 'operationBody' : 'body'
     return (
       <div className='app'>
         <header className='header'>

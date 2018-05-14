@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Upload, Modal, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
 import './register.less'
 import request from '../../services/httpRequest'
 import RegisterNext from './registernext'
@@ -167,7 +167,6 @@ class Register extends React.Component {
     )
     const FormItem = Form.Item;
     const Option = Select.Option;
-    const AutoCompleteOption = AutoComplete.Option;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -247,7 +246,7 @@ class Register extends React.Component {
                 <hr />
                 {
                   tabIndex === 0 ? (
-                    <Form onSubmit={(e) => this.gotoStep(e, 1)} className='registerForm'>
+                    <Form autoComplete="off" onSubmit={(e) => this.gotoStep(e, 1)} className='registerForm'>
                       <FormItem
                         {...formItemLayout2}
                         label="用户名"
@@ -265,7 +264,7 @@ class Register extends React.Component {
                                 }
                               ],
                             })(
-                              <Input />
+                              <Input onClick={(e)=>e.preventDefault()} />
                             )}
                           </Col>
                           <Col span={8}>

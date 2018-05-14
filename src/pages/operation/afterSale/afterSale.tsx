@@ -83,7 +83,7 @@ class AfterSale extends React.Component<any, any> {
   }
 
   excel = () => {
-    window.open(`http://open-erp.test.msparis.com/financial/after_sale_list_export?token=${Cookies.getJSON('token')}`)
+    window.open(`http://open-erp.test.msparis.com/api/financial/after_sale_list_export?token=${Cookies.getJSON('token')}`)
   }
 
   render() {

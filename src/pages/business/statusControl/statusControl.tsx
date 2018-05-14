@@ -166,7 +166,7 @@ class StatusControl extends React.Component<any, any> {
          
         },
       })
-    } else if (["image/png", "image/jpeg"].indexOf(file.type) === -1) {
+    } else if (file.type && ["image/png", "image/jpeg"].indexOf(file.type) === -1) {
       Modal.warning({
         title: '警告',
         content: '图片格式为JPG、PNG',
@@ -366,12 +366,11 @@ class StatusControl extends React.Component<any, any> {
                     action='http://api.v2.msparis.com/common/upload'
                     listType="picture-card"
                     fileList={othersStatusArray}
-                    // onPreview={this.handlePreview}
+                    showUploadList={canEditOthersStatus ? { showRemoveIcon:true } : { showRemoveIcon:false }}
                     beforeUpload={this.checkBeforeUpload}
-                    // onRemove={(file) => { this.deleteStatusFun(file) }}
                     onChange={this.othersImageResultFun}
                   >
-                    {othersStatusArray >= 20 ? null : uploadButton}
+                    {canEditOthersStatus && othersStatusArray.length <=20 ? uploadButton : null}
                   </Upload>
                 </Col>
               </Row>

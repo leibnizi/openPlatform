@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from 'react-redux'
-import { Layout, Row, Col, Button } from 'antd';
+import { Layout, Row, Col, Button, message } from 'antd';
 import { Link } from "react-router-dom"
 
 import './index.less';
@@ -37,9 +37,13 @@ class Infos extends React.Component<any, {}> {
   }
 
   stopDefault = (e) => {
-    // this.props.history.push('edit_infos')
     e.preventDefault()
-    this.props.dispatch(pushBsInfo())
+    const { businessInfos: { is_exist_audit_data } } = this.props
+    if (is_exist_audit_data === 1) {
+      message.error('资质正在审核中');
+    } else {
+      this.props.dispatch(pushBsInfo())
+    }
   }
 
   render() {

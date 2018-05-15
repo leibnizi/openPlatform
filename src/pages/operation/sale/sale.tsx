@@ -398,11 +398,8 @@ render() {
             bordered={true}
             scroll={{ x: '100%' }}
             pagination={{
-              total: pageTotal,
-              defaultCurrent: currentPage,
               pageSize: 20
             }}
-            onChange={(e) => this.pageChange(e)}
           />
         </section>
       </div>

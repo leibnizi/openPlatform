@@ -40,8 +40,9 @@ class Infos extends React.Component<any, {}> {
     e.preventDefault()
     const { businessInfos: { is_exist_audit_data } } = this.props
     if (is_exist_audit_data === 1) {
-      message.error('资质正在审核中');
+      message.error('有信息正在审核中');
     } else {
+      this.props.history.push('/business/edit_infos')
       this.props.dispatch(pushBsInfo())
     }
   }
@@ -100,9 +101,7 @@ class Infos extends React.Component<any, {}> {
           {this.renderContentItems()}
           <Row className="edit-msg">
             <Button type="primary" onClick={(e) => this.stopDefault(e)}>
-              <Link to="/business/edit_infos">
-                修改商家信息
-              </Link>
+              修改商家信息
             </Button>
           </Row>
         </article>

@@ -36,11 +36,11 @@ class Bill extends React.Component<any, any> {
   }
 
   render() {
-    const { billInfos, billInfos:{ isEdit } } = this.props
+    const { billInfos, billInfos:{ is_exist_audit_data } } = this.props
     return (
       <div className="bill-page">
         <header className="content-title">财务信息</header>
-        <Row style={{ display: `${isEdit ? 'block' : 'none'}` }}>
+        <Row style={{ display: `${is_exist_audit_data === 0 ? 'block' : 'none'}` }}>
           <Col span={12}>
             <BillForm
               {...billInfos}
@@ -48,7 +48,7 @@ class Bill extends React.Component<any, any> {
             />
           </Col>
         </Row>
-        <Row style={{ display: `${!isEdit ? 'block' : 'none'}` }} className="message-box">
+        <Row style={{ display: `${is_exist_audit_data === 1 ? 'block' : 'none'}` }} className="message-box">
           <Col span={12}>
             <Row className="message-item">
               <Col className="lable-font-weight bill-label" span={5}>

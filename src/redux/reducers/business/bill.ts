@@ -17,10 +17,10 @@ const initBillState: BillInfoState = {
 const billInfos = (state: BillInfoState = initBillState, action: any) => {
   switch (action.type) {
     case 'GET_BILL_SUCCESS':
-      const newState = Object.assign({}, state, action.data, { isEdit: false });
+      const newState = Object.assign({}, state, action.data);
       return newState;
     case 'POST_BILL_INFO_SUCCESS':
-      return Object.assign({}, state, action.data)
+      return Object.assign({}, state, action.data, { is_exist_audit_data: 1 })
     default:
       return state
   }

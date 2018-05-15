@@ -190,9 +190,14 @@ class Home extends Component {
       ]
     };
     if (data && JSON.stringify(data) !== "{}" ) {
-      baseData.title.text = title;
-      baseData.xAxis[0].data =  Object.keys(data);
-      baseData.series[0].data = Object.values(data);
+      let seriesData = [], xAxisData = []
+      baseData.title.text = title
+      Object.keys(data).map((item,index) => {
+        xAxisData.unshift(item)
+        seriesData.unshift(data[item])
+      })
+      baseData.xAxis[0].data =  xAxisData
+      baseData.series[0].data = seriesData
     }
 
     return baseData
@@ -338,10 +343,6 @@ class Home extends Component {
           <Card 
             title="汇总" 
             className="card-row explain-left" 
-            extra={
-              <div className="to-yesterday" >
-                至昨天24点数据
-              </div>}  
             bordered={false}>
             {(<Row className="card-content-margin card-content" gutter={30} type="flex" justify="space-between">
               <Col span={12}>

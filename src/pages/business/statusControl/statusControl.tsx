@@ -210,7 +210,7 @@ class StatusControl extends React.Component<any, any> {
   showEditBtn = () => {
     const { statusInfos: { state } } = this.props
     if (state === 1) {
-      message.error('资质正在审核中')
+      message.error('有信息正在审核中')
     } else {
       this.setState({
         canEditBaseStatus: true
@@ -221,7 +221,7 @@ class StatusControl extends React.Component<any, any> {
   showOthersEditBtn = () => {
     const { statusInfos: { state } } = this.props
     if (state === 1) {
-      message.error('资质正在审核中')
+      message.error('有信息正在审核中')
     } else {
       this.setState({
         canEditOthersStatus: true

@@ -218,6 +218,9 @@ class AfterSale extends React.Component<any, any> {
             bordered={true}
             scroll={{ x: '100%' }}
             loading={loading}
+            pagination={{
+              pageSize: 20
+            }}
           />
         </section>
       </div>

@@ -96,7 +96,10 @@ class Register extends React.Component {
       return
     } 
     if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9_]{6,16}$')) {
-      callback('6-16位不包含非法字符')
+      callback('6-16位不包含非法字符,不能为纯数字')
+      this.setState({ nicknameShow: false })
+    } else if (value && value.match('^[0-9]{6,16}$')) {
+      callback('6-16位不包含非法字符,不能为纯数字')
       this.setState({ nicknameShow: false })
     } else {
       callback()

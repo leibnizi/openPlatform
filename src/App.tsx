@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import Splash from './pages/splash'
 import Login from './pages/splash/login'
 import Register from './pages/splash/register'
+import RegisterSuccess from './pages/splash/registerSuccess'
 import Forgetpassword from './pages/splash/forgetpassword'
 import store from './redux/store/store';
 import Content from './content'
@@ -61,6 +62,40 @@ class RegisterRoute extends React.Component {
         </header>
         <section className='operationBody'>
           <Register />
+        </section>
+      </div>
+    )
+  }
+}
+
+class RegisterSucc extends React.Component {
+  render() {
+    return (
+      <div className='app'>
+        <header className='header'>
+          <div className="top">
+
+          </div>
+          <div className='header-box'>
+            <div className='logo'>
+              <img
+                src={require('./styles/img/msheader.png')}
+                alt='头部logo'
+              />
+              <div>商家后台管理系统</div>
+            </div>
+            <section className='navigation'>
+              <OldMenuLink
+                activeOnlyWhenExact={true}
+                to={'/register'}
+                label='申请加入女神派'
+              />
+            </section>
+
+          </div>
+        </header>
+        <section className='body'>
+          <RegisterSuccess />
         </section>
       </div>
     )
@@ -125,6 +160,10 @@ class App extends React.Component {
             <Route
               path="/register"
               component={RegisterRoute}
+            />
+            <Route
+              path="/registersuccess"
+              component={RegisterSucc}
             />
             <Route
               path="/"

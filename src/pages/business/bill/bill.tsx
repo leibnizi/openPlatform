@@ -32,11 +32,10 @@ class Bill extends React.Component<any, any> {
   handleFormChange = (value: any) => {
     const { dispatch } = this.props
     dispatch(postBillInfos({value}))
-    // api / finance / index
   }
 
   render() {
-    const { billInfos, billInfos:{ is_exist_audit_data } } = this.props
+    const { billInfos, billInfos:{ is_exist_audit_data, bank } } = this.props
     return (
       <div className="bill-page">
         <header className="content-title">财务信息</header>

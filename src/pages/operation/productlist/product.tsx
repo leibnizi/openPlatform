@@ -436,6 +436,11 @@ class Product extends React.Component<any, any> {
                     columns={detailColumn}
                     dataSource={productDetailData}
                     bordered={true}
+                    pagination={{
+                      total: pageTotal,
+                      defaultCurrent: currentPage,
+                      pageSize: 20
+                    }}
                   />
                 </section>
               </div>

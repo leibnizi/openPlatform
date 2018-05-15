@@ -237,28 +237,6 @@ class EditInfos extends React.Component<any, {}> {
               <Col>
                 <FormItem
                   {...formItemLayout2}
-                  label="运营人员"
-                >
-                  {getFieldDecorator('biz_operator', {
-                    initialValue: biz_operator || '',
-                    rules: [{ required: true, message: '请输入运营人员!' }],
-                  })(
-                    // <Select style={{ width: 120 }}>
-                    //   <Option value={1}>品牌方</Option>
-                    //   <Option value={2}>经销商</Option>
-                    //   {/* <Option value="disabled" disabled>Disabled</Option>
-                    //   <Option value="Yiminghe">yiminghe</Option> */}
-                    // </Select>
-                    <Input />
-                  )}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row className="line" />
-            <Row className="form-row">
-              <Col>
-                <FormItem
-                  {...formItemLayout2}
                   label="商家类型"
                 >
                   {getFieldDecorator('biz_type', {
@@ -281,7 +259,28 @@ class EditInfos extends React.Component<any, {}> {
                 </FormItem>
               </Col>
             </Row>
-
+            <Row className="line" />
+            <Row className="form-row">
+              <Col>
+                <FormItem
+                  {...formItemLayout2}
+                  label="运营人员"
+                >
+                  {getFieldDecorator('biz_operator', {
+                    initialValue: biz_operator || '',
+                    rules: [{ required: true, message: '请输入运营人员!' }],
+                  })(
+                    // <Select style={{ width: 120 }}>
+                    //   <Option value={1}>品牌方</Option>
+                    //   <Option value={2}>经销商</Option>
+                    //   {/* <Option value="disabled" disabled>Disabled</Option>
+                    //   <Option value="Yiminghe">yiminghe</Option> */}
+                    // </Select>
+                    <Input />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
             <Row className="form-row">
               <Col>
                 <FormItem
@@ -305,17 +304,10 @@ class EditInfos extends React.Component<any, {}> {
                 >
                   {getFieldDecorator('biz_email', {
                     initialValue: `${email}`,
-                    // rules: [
-                    //   { required: false, message: '' },
-                    //   { 
-                    //     validator: validateMail,
-                    //     message: '邮箱格式有误！'
-                    //   }
-                    // ],
                     rules: [{
                       type: 'email', message: '无效的E-mail地址!',
                     }, {
-                      required: true, message: '请输入你的E-mail!',
+                      required: false, message: '请输入你的E-mail!',
                     }],
                   })(
                     <Input placeholder="请输入邮箱" />

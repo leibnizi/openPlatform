@@ -188,6 +188,12 @@ class StatusControl extends React.Component<any, any> {
     }
   }
 
+  removeImg = () => {
+    this.setState({
+      othersImageHasChange: true
+    })
+  }
+
   addOthersStatus = () => {
     const { dispatch } = this.props
     dispatch(handleUploadAdd(this.hasUploadOrdersImagesUrls))
@@ -202,15 +208,25 @@ class StatusControl extends React.Component<any, any> {
   }
 
   showEditBtn = () => {
-    this.setState({
-      canEditBaseStatus: true
-    })
+    const { statusInfos: { state } } = this.props
+    if (state === 1) {
+      message.error('资质正在审核中')
+    } else {
+      this.setState({
+        canEditBaseStatus: true
+      })
+    }
   }
 
   showOthersEditBtn = () => {
-    this.setState({
-      canEditOthersStatus: true
-    })
+    const { statusInfos: { state } } = this.props
+    if (state === 1) {
+      message.error('资质正在审核中')
+    } else {
+      this.setState({
+        canEditOthersStatus: true
+      })
+    }
   }
 
   hideOthersEditBtn = () => {
@@ -345,6 +361,7 @@ class StatusControl extends React.Component<any, any> {
                     showUploadList={canEditOthersStatus ? { showRemoveIcon:true } : { showRemoveIcon:false }}
                     beforeUpload={this.checkBeforeUpload}
                     onChange={this.othersImageResultFun}
+                    onRemove={this.removeImg}
                   >
                     {canEditOthersStatus && othersStatusArray.length <=20 ? uploadButton : null}
                   </Upload>

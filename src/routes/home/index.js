@@ -174,7 +174,7 @@ class Home extends Component {
       ],
       series: [
         {
-          name: '动租率',
+          name: title,
           type,
           smooth: true,
           stack: '总量',
@@ -214,9 +214,9 @@ class Home extends Component {
   }
 
   deepCopy = (p, c) => {
-  　　　　var c = c || {};
-  　　　　for (var i in p) {
-    　　　　　　if (typeof p[i] === 'object') {
+    var c = c || {};
+    for (var i in p) {
+    　if (typeof p[i] === 'object') {
       if (p[i] === null) {
         c[i] = null;
       } else {
@@ -228,7 +228,7 @@ class Home extends Component {
     　　　　　　}
   　　　　}
   　　　　return c;
-　　}
+　}
 
   changeDays = (options ,e, key) => {
     let value = 0
@@ -258,6 +258,7 @@ class Home extends Component {
     // })
     // this.props.history.push(toPage)
   }
+  
   render() {
     const { 
       moduleGap, dongZuLv, dongXiaoLv,

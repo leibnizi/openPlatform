@@ -27,12 +27,6 @@ class AfterSale extends React.Component<any, any> {
   componentDidMount() {
     const { after_sale_type_list } = this.state
     this.getTableData(1)
-    request('/api/financial/after_sale_type_list')
-      .then((res: any) => {
-        if (res) {
-          this.setState({ after_sale_type_list: res.data })
-        }
-      })
   }
 
   getTableData = (nextPage: number) => {
@@ -48,6 +42,7 @@ class AfterSale extends React.Component<any, any> {
     request('/api/financial/after_sale_list', {
       params: {
         perPage: 20,
+        page: nextPage,
         id,
         product_code,
         supplier_pro_num,
@@ -135,7 +130,7 @@ class AfterSale extends React.Component<any, any> {
       },
     ];
 
-    const { listData, end, begin, after_sale_type_list, loading } = this.state
+    const { listData, end, begin, after_sale_type_list, loading, pageTotal, currentPage } = this.state
 
     return (
       <div className='operationproduct'>
@@ -219,8 +214,11 @@ class AfterSale extends React.Component<any, any> {
             scroll={{ x: '100%' }}
             loading={loading}
             pagination={{
+              total: pageTotal,
+              defaultCurrent: currentPage,
               pageSize: 20
             }}
+            onChange={(e) => this.pageChange(e)}
           />
         </section>
       </div>

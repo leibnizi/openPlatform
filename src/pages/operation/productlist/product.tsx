@@ -75,16 +75,6 @@ class Product extends React.Component<any, any> {
       params: {
         perPage: 20,
         page: nextPage,
-        // _search: [
-        //   { category_id: goodCategory },
-        //   { spu_enabled: SPU },
-        //   { mode_id: goodMode },
-        //   { enabled: goodStatus },
-        //   { code },
-        //   { name },
-        //   { purchaser_product_no },
-        //   { page: nextPage }
-        // ]
         _search: {
           category_id: goodCategory,
           spu_enabled: SPU,
@@ -436,6 +426,9 @@ class Product extends React.Component<any, any> {
                     columns={detailColumn}
                     dataSource={productDetailData}
                     bordered={true}
+                    pagination={{
+                      pageSize: 20
+                    }}
                   />
                 </section>
               </div>

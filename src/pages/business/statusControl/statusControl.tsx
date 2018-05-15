@@ -20,8 +20,7 @@ class StatusControl extends React.Component<any, any> {
       canEditBaseStatus: false,
       canEditOthersStatus: false,
       imageHasChange: false,
-      othersImageHasChange: false,
-      checking: false
+      othersImageHasChange: false
     }
   }
 
@@ -59,12 +58,6 @@ class StatusControl extends React.Component<any, any> {
 
     let baseStatus: any[] = []
     let othersStatus: any[] = []
-
-    if (statusInfos.state == 1) {
-      this.setState({
-        checking: true
-      })
-    }
 
     statusInfos.data.forEach(item => {
       const newItem = this.statusDataToUploadNeed(item)
@@ -195,6 +188,12 @@ class StatusControl extends React.Component<any, any> {
     }
   }
 
+  removeImg = () => {
+    this.setState({
+      othersImageHasChange: true
+    })
+  }
+
   addOthersStatus = () => {
     const { dispatch } = this.props
     dispatch(handleUploadAdd(this.hasUploadOrdersImagesUrls))
@@ -209,15 +208,25 @@ class StatusControl extends React.Component<any, any> {
   }
 
   showEditBtn = () => {
-    this.setState({
-      canEditBaseStatus: true
-    })
+    const { statusInfos: { state } } = this.props
+    if (state === 1) {
+      message.error('资质正在审核中')
+    } else {
+      this.setState({
+        canEditBaseStatus: true
+      })
+    }
   }
 
   showOthersEditBtn = () => {
-    this.setState({
-      canEditOthersStatus: true
-    })
+    const { statusInfos: { state } } = this.props
+    if (state === 1) {
+      message.error('资质正在审核中')
+    } else {
+      this.setState({
+        canEditOthersStatus: true
+      })
+    }
   }
 
   hideOthersEditBtn = () => {
@@ -250,7 +259,6 @@ class StatusControl extends React.Component<any, any> {
       othersStatusArray,
       imageHasChange,
       othersImageHasChange,
-      checking
     } = this.state;
     const uploadButton = (
       <div>
@@ -287,7 +295,6 @@ class StatusControl extends React.Component<any, any> {
                       className="status-btn-base"
                       type="primary"
                       onClick={this.showEditBtn}
-                      disabled={checking}
                     // disabled={this.state.fileList.length === 0}
                     >
                       修改基本资质
@@ -302,9 +309,6 @@ class StatusControl extends React.Component<any, any> {
                   </div>
                 </Col>
                 <Col className="status-content">
-                  <div className="no-status" style={{ display: `${!canEditBaseStatus && !imageHasChange && !baseStatusArray.length ? "flex" : "none"}` }}>
-                    {checking ? '有资质正在审核中' : '暂无营业执照'}
-                  </div>
                   <Upload
                     action='http://api.v2.msparis.com/common/upload'
                     listType="picture-card"
@@ -336,7 +340,6 @@ class StatusControl extends React.Component<any, any> {
                       className="status-btn-base"
                       type="primary"
                       onClick={this.showOthersEditBtn}
-                      disabled={checking}
                     // disabled={this.state.fileList.length === 0}
                     >
                       修改补充资质
@@ -351,17 +354,6 @@ class StatusControl extends React.Component<any, any> {
                   </div>
                 </Col>
                 <Col className="status-content">
-                  {checking ? <div
-                    className="no-status"
-                    style={{ display: "flex" }}
-                  >
-                    有资质正在审核中
-                  </div> : <div
-                      className="no-status"
-                      style={{ display: `${!canEditOthersStatus && !othersImageHasChange && !othersStatusArray.length ? "flex" : "none"}` }}
-                    >
-                      暂无补充资质
-                  </div>}
                   <Upload
                     action='http://api.v2.msparis.com/common/upload'
                     listType="picture-card"
@@ -369,6 +361,7 @@ class StatusControl extends React.Component<any, any> {
                     showUploadList={canEditOthersStatus ? { showRemoveIcon:true } : { showRemoveIcon:false }}
                     beforeUpload={this.checkBeforeUpload}
                     onChange={this.othersImageResultFun}
+                    onRemove={this.removeImg}
                   >
                     {canEditOthersStatus && othersStatusArray.length <=20 ? uploadButton : null}
                   </Upload>

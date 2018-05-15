@@ -281,10 +281,11 @@ export function* postBillInfo(action: any = {}) {
     if (response.status_code != 0) {
       return false
     }
-    yield put({ type: 'POST_BILL_INFO_SUCCESS', data: Object.assign(response.data, { idEdit: false }) });
+    yield put({ type: 'POST_BILL_INFO_SUCCESS', data: response.data });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
 
   } catch (error) {
+
   }
 }
 

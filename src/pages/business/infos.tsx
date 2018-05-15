@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from 'react-redux'
-import { Layout, Row, Col, Button } from 'antd';
+import { Layout, Row, Col, Button, message } from 'antd';
 import { Link } from "react-router-dom"
 
 import './index.less';
@@ -37,9 +37,14 @@ class Infos extends React.Component<any, {}> {
   }
 
   stopDefault = (e) => {
-    // this.props.history.push('edit_infos')
     e.preventDefault()
-    this.props.dispatch(pushBsInfo())
+    const { businessInfos: { is_exist_audit_data } } = this.props
+    if (is_exist_audit_data === 1) {
+      message.error('有信息正在审核中');
+    } else {
+      this.props.history.push('/business/edit_infos')
+      this.props.dispatch(pushBsInfo())
+    }
   }
 
   render() {
@@ -96,9 +101,7 @@ class Infos extends React.Component<any, {}> {
           {this.renderContentItems()}
           <Row className="edit-msg">
             <Button type="primary" onClick={(e) => this.stopDefault(e)}>
-              <Link to="/business/edit_infos">
-                修改商家信息
-              </Link>
+              修改商家信息
             </Button>
           </Row>
         </article>

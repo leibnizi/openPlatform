@@ -13,7 +13,7 @@ const statusInfos = (state: any = [], action: any) => {
       return filterArr
 
     case 'ADD_STATUS_SUCCESS':
-      return [...state, ...action.data.state]
+      return {...state, ...action.data.state, ...{ state:1 } }
     default:
       return state
   }

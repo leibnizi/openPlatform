@@ -31,9 +31,15 @@ class RegisterNext extends React.Component<any, any> {
   componentDidMount () {
     const { formValue } = this.props
     if (formValue) {
-      console.log('props', this.props.formValue.imgUrl[0])
-      if (Object.keys(formValue).indexOf('imgUrl') > 0) {
-        this.setState({ fileListSupplement: [{ url: formValue.imgUrl[0] }] })
+      if (Object.keys(formValue).indexOf('fileListSupplement') > 0) {
+        this.setState({
+          fileListSupplement: formValue.fileListSupplement
+        })
+      } 
+      if (Object.keys(formValue).indexOf('fileListSupplement2') > 0) {
+        this.setState({
+          fileListSupplement2: formValue.fileListSupplement2
+        })
       }
     }
   }
@@ -472,7 +478,7 @@ class RegisterNext extends React.Component<any, any> {
             type="primary"
             onClick={e => {
               const { form: { validateFieldsAndScroll }, gotoStep } = this.props
-              validateFieldsAndScroll((err, values) => gotoStep(e, 0, { ...values, imgUrl, imgUrl2 }))
+              validateFieldsAndScroll((err, values) => gotoStep(e, 0, { ...values, fileListSupplement, fileListSupplement2 }))
             }}
           >
             上一步

@@ -53,8 +53,7 @@ class StatusControl extends React.Component<any, any> {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { statusInfos } = nextProps
-    console.log(statusInfos, "hhh")
+    const { statusInfos, statusInfos: { state } } = nextProps
 
     let baseStatus: any[] = []
     let othersStatus: any[] = []
@@ -68,7 +67,14 @@ class StatusControl extends React.Component<any, any> {
       else if (newItem.type_id) {
         othersStatus.push(newItem)
       }
-    });
+    })
+    if (state === 1) {
+      this.setState({ 
+        canEditOthersStatus: false, 
+        canEditBaseStatus: false,
+        othersImageHasChange: false
+      })
+    }
     this.setState({
       baseStatusArray: baseStatus,
       othersStatusArray: othersStatus,
@@ -77,7 +83,6 @@ class StatusControl extends React.Component<any, any> {
 
   //已经上传cdn的图片数组
   hasUploadImagesUrls: any = []
-  hasUploadOrdersImagesUrls: any = []
 
   baseImageResultFun = ({ file, fileList, file: { status, response } }: any) => {
     console.log('file', file, fileList, ["image/png", "image/jpeg"].indexOf(file.type))
@@ -128,7 +133,6 @@ class StatusControl extends React.Component<any, any> {
     }
   }
 
-
   editOrAddBaseStatus = () => {
     const { dispatch } = this.props
     if (this.baseStatusId) {
@@ -170,12 +174,6 @@ class StatusControl extends React.Component<any, any> {
       })
       return
     } else if (status === 'done') {
-      const url: any = response.data[0].url;
-      this.hasUploadOrdersImagesUrls.push({
-        file: url,
-        type_id: 2
-      })
-
       this.setState({
         othersImageHasChange: true
       })
@@ -202,8 +200,17 @@ class StatusControl extends React.Component<any, any> {
 
   addOthersStatus = () => {
     const { dispatch } = this.props
-    dispatch(handleUploadAdd(this.hasUploadOrdersImagesUrls))
-    this.hasUploadOrdersImagesUrls = []
+    const { othersStatusArray } = this.state
+    const data: any = []
+    othersStatusArray.map((item: any, index: number) => {
+      if (item.thumbUrl) {
+        data.push({
+          file: item.response.data[0].url,
+          type_id: 2
+        })
+      }
+    })
+    dispatch(handleUploadAdd(data))
   }
 
   deleteStatusFun = (file) => {

@@ -33,12 +33,19 @@ class RegisterNext extends React.Component<any, any> {
     if (formValue) {
       if (Object.keys(formValue).indexOf('fileListSupplement') > 0) {
         this.setState({
-          fileListSupplement: formValue.fileListSupplement
+          fileListSupplement: formValue.fileListSupplement,
+          imgUrl: [formValue.fileListSupplement[0].response.data[0].url],
+          checkUpload: false
         })
       } 
       if (Object.keys(formValue).indexOf('fileListSupplement2') > 0) {
+        let imgUrl2:string[] = []
+        formValue.fileListSupplement2.map((item: any, index: number) => {
+          imgUrl2.push(item.response.data[0].url)
+        })
         this.setState({
-          fileListSupplement2: formValue.fileListSupplement2
+          fileListSupplement2: formValue.fileListSupplement2,
+          imgUrl2
         })
       }
     }

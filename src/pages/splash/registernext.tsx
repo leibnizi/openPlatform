@@ -19,15 +19,6 @@ class RegisterNext extends React.Component<any, any> {
     }
   }
 
-  // componentWillUpdate (nextProps) {
-  //   if (nextProps.formValue) {
-  //     console.log('nextProps', nextProps)
-  //     if (Object.keys(nextProps.formValue).indexOf('formValue') > 0) {
-  //       this.setState({ fileListSupplement: nextProps.formValue.imgUrl })
-  //     }
-  //   }
-  // }
-
   componentDidMount () {
     const { formValue } = this.props
     if (formValue) {
@@ -184,7 +175,7 @@ class RegisterNext extends React.Component<any, any> {
         })
           .then((res: any) => {
             if (res.status_code === 0) {
-              this.props.history.push('/registersuccess')
+              window.location.href = window.location.origin + "/registersuccess"
             } else {
               message.error(res.msg)
             }

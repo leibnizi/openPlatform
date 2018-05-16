@@ -39,7 +39,7 @@ class Bill extends React.Component<any, any> {
     return (
       <div className="bill-page">
         <header className="content-title">财务信息</header>
-        <Row style={{ display: `${is_exist_audit_data === 0 ? 'block' : 'none'}` }}>
+        <Row style={{ display: `${!bank ? 'block' : 'none'}` }}>
           <Col span={12}>
             <BillForm
               {...billInfos}
@@ -47,7 +47,7 @@ class Bill extends React.Component<any, any> {
             />
           </Col>
         </Row>
-        <Row style={{ display: `${is_exist_audit_data === 1 ? 'block' : 'none'}` }} className="message-box">
+        <Row style={{ display: `${bank ? 'block' : 'none'}` }} className="message-box">
           <Col span={12}>
             <Row className="message-item">
               <Col className="lable-font-weight bill-label" span={5}>

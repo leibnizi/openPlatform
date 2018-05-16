@@ -106,6 +106,7 @@ class Home extends Component {
     dispatch(getThirtyMessage())
     dispatch(getFinancialView())
   }
+  
   componentWillReceiveProps(nextProps) {
     const { thirtyMessageData, thirtyMessageData: { dynamic_rate }, getIndexCharts } = nextProps
 

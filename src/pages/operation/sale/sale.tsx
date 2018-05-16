@@ -82,6 +82,8 @@ getTableData = (nextPage: number) => {
   } = this.state
   request('/api/order/list/2', {
     params: {
+      perPage: 20,
+      page: nextPage,
       _search: {
         product_spu,
         pay_status,

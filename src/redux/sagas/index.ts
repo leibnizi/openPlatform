@@ -277,11 +277,11 @@ export function* postBillInfo(action: any = {}) {
     const response = yield call(request.post, "/api/finance/add", {
       ...value
     });
-
+    const response2 = yield call(request.get, "/api/finance/index");
     if (response.status_code != 0) {
       return false
     }
-    yield put({ type: 'POST_BILL_INFO_SUCCESS', data: response.data });
+    yield put({ type: 'POST_BILL_INFO_SUCCESS', data: Object.assign(response.data, {finance_state: response2.data.finance_state}) });
     yield put({ type: 'SHOW_GLOBLE_SUCCESS', data: "修改成功" });
 
   } catch (error) {

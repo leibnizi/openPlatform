@@ -20,7 +20,7 @@ const billInfos = (state: BillInfoState = initBillState, action: any) => {
       const newState = Object.assign({}, state, action.data);
       return newState;
     case 'POST_BILL_INFO_SUCCESS':
-      return Object.assign({}, state, action.data, { is_exist_audit_data: 1 })
+      return Object.assign({}, state, action.data)
     default:
       return state
   }

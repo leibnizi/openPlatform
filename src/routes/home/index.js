@@ -211,9 +211,11 @@ class Home extends Component {
     .then(rsp=>{
     })
   }
+
   toBusinessPage = () => {
     this.props.history.push('business/bsInfo')
   }
+
   toFincialPage = () => {
     this.props.history.push('/fincial')
   }
@@ -245,36 +247,27 @@ class Home extends Component {
     }
     const deepData = this.deepCopy(options)
 
-    const data = deepData.series[0].data.filter((item, index) => {
-      return index < value
-    })
-    const xData = deepData.xAxis[0].data.filter((item, index) => index < value)
+    const data = deepData.series[0].data.filter((item, index) => index >= deepData.series[0].data.length - value)
+    const xData = deepData.xAxis[0].data.filter((item, index) => index >= deepData.series[0].data.length - value)
     deepData.series[0].data = data
     deepData.xAxis[0].data = xData
     console.log(deepData.series[0].data.length,"deepDatadeepDatadeepData")
     this.setState({
       [key]: deepData
     })
-
-    // const newData = data.slice(0, e.target.value - 1)
-    // options.series[0].data = newData
-    // this.setState({
-    //   [key]: options
-    // })
-    // this.props.history.push(toPage)
   }
   
   render() {
-    const { 
+    const {
       moduleGap, dongZuLv, dongXiaoLv,
       rentalOrder, rentalIncome, saleOrder, saleIncome, 
       changedRentalOrder, changedRentalIncome, changedSaleOrder,
       changedSaleIncome, 
     } = this.state
-    const { 
+    const {
         userInfo: { name, created_at, updated_at, expire_at }, 
         merchantMessage: { article },
-        getOnlineProduct: { 
+        getOnlineProduct: {
           rent_total, 
           sale_total, 
           yesterday_rent_total, 
@@ -285,7 +278,7 @@ class Home extends Component {
           rental_sale,
           dynamic_rate,
         },
-        getFinancialView:{
+        getFinancialView: {
           balance_available,
           balance_total,
           income_total

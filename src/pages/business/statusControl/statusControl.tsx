@@ -188,10 +188,16 @@ class StatusControl extends React.Component<any, any> {
     }
   }
 
-  removeImg = () => {
-    this.setState({
-      othersImageHasChange: true
-    })
+  removeImg = (e:any) => {
+    if (e.id) {
+      message.error('原来审核通过的图片不能删除，只能删除新增加的图片')
+      return false
+    } else {
+      this.setState({
+        othersImageHasChange: true
+      })
+      return true
+    }
   }
 
   addOthersStatus = () => {

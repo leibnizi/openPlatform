@@ -384,14 +384,17 @@ class Home extends Component {
           >
             <div className="card-content">
               <div>
-                <NumBlock title="当月订单数" value={rental_sale && (rental_sale.rental && (rental_sale.rental.orders_30 || '0'))}>
+                {
+                  rental_sale && rental_sale.rental ? <NumBlock title="当月订单数" value={ rental_sale.rental.orders_30 || '0' }>
+                  </NumBlock> : <NumBlock title="当月订单数" value={ 0 }>
                 </NumBlock>
+                }
               </div>
               <div>
                 <NumBlock title="当月收益金额" value={rental_sale && (rental_sale.rental && (rental_sale.rental.income_30 || '0'))}></NumBlock>
               </div>
               <div>
-                <NumBlock title="累计收益金额" value={rental_sale && (rental_sale.rental && (rental_sale.rental.inconme_total || '0'))}></NumBlock>
+                <NumBlock title="累计收益金额" value={rental_sale && (rental_sale.rental && (rental_sale.rental.income_total || '0' ))}></NumBlock>
               </div>
             </div>
           </Card>
@@ -417,7 +420,7 @@ class Home extends Component {
                   <NumBlock title="当月收益金额" value={rental_sale && (rental_sale.sale && (rental_sale.sale.income_30 || '0'))}></NumBlock>
               </div>
               <div>
-                  <NumBlock title="累计收益金额" value={rental_sale && (rental_sale.sale && (rental_sale.sale.inconme_total || '0'))}></NumBlock>
+                  <NumBlock title="累计收益金额" value={rental_sale && (rental_sale.sale && (rental_sale.sale.income_total || '0'))}></NumBlock>
               </div>
             </div>
           </Card>

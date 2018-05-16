@@ -85,6 +85,7 @@ class Lease extends React.Component<any, any> {
     request('/api/order/list/1', {
       params: {
         perPage: 20,
+        page: nextPage,
         _search: {
           product_spu,
           m_order_no,

@@ -19,6 +19,25 @@ class RegisterNext extends React.Component<any, any> {
     }
   }
 
+  // componentWillUpdate (nextProps) {
+  //   if (nextProps.formValue) {
+  //     console.log('nextProps', nextProps)
+  //     if (Object.keys(nextProps.formValue).indexOf('formValue') > 0) {
+  //       this.setState({ fileListSupplement: nextProps.formValue.imgUrl })
+  //     }
+  //   }
+  // }
+
+  componentDidMount () {
+    const { formValue } = this.props
+    if (formValue) {
+      console.log('props', this.props.formValue.imgUrl[0])
+      if (Object.keys(formValue).indexOf('imgUrl') > 0) {
+        this.setState({ fileListSupplement: [{ url: formValue.imgUrl[0] }] })
+      }
+    }
+  }
+
   handleChange = (fileList: any) => this.setState({ fileList: fileList.fileList })
 
   handleChangeList = (fileList: any) => {
@@ -452,14 +471,8 @@ class RegisterNext extends React.Component<any, any> {
             className='submitButton'
             type="primary"
             onClick={e => {
-              this.props.form.validateFieldsAndScroll((err, values) => {
-                this.props.gotoStep(e, 0, values, {
-                  fileListSupplement,
-                  fileListSupplement2,
-                  imgUrl,
-                  imgUrl2
-                })
-              })
+              const { form: { validateFieldsAndScroll }, gotoStep } = this.props
+              validateFieldsAndScroll((err, values) => gotoStep(e, 0, { ...values, imgUrl, imgUrl2 }))
             }}
           >
             上一步

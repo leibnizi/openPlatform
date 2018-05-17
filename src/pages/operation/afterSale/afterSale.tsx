@@ -182,7 +182,7 @@ class AfterSale extends React.Component<any, any> {
             <DatePicker
               className='itemTime'
               onChange={(e: any) => this.setState({ begin: e })}
-              format={monthFormat} placeholder='' allowClear={false}
+              format={monthFormat} placeholder='' allowClear={true}
             />
           </div>
           <div className='item'>
@@ -190,7 +190,7 @@ class AfterSale extends React.Component<any, any> {
             <DatePicker
               className='itemTime'
               onChange={(e: any) => this.setState({ end: e })}
-              format={monthFormat} placeholder='' defaultValue={end} allowClear={false}
+              format={monthFormat} placeholder='' defaultValue={end} allowClear={true}
             />
           </div>
         </section>

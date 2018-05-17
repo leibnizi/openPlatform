@@ -84,7 +84,7 @@ class Register extends React.Component {
   //昵称
   validateNickName = (rule, value, callback) => {
     const form = this.props.form
-    const reg = value.match(new RegExp('[\u4e00-\u9fa5]', "gi"))
+    const reg = value && value.match(new RegExp('[\u4e00-\u9fa5]', "gi"))
     if (reg && reg.length === 1 && value.length > 4) {
       callback()
       return
@@ -94,7 +94,10 @@ class Register extends React.Component {
     } else if (reg && reg.length === 3) {
       callback()
       return
-    } 
+    } else if (!reg) {
+      callback()
+      return
+    }
     if (value && !value.match('^[\u4E00-\u9FA5A-Za-z0-9_]{6,16}$')) {
       callback('6-16位不包含非法字符,不能为纯数字')
       this.setState({ nicknameShow: false })

@@ -11,7 +11,8 @@ class Overview extends React.Component<any, any> {
 
     this.state = {
       overviewdata: null,
-      visible: false
+      visible: false,
+      modify: true
     }
   }
 
@@ -20,6 +21,14 @@ class Overview extends React.Component<any, any> {
       .then(res => {
         if (res) {
           this.setState({ overviewdata: res })
+        }
+      })
+    request('/api/finance/index')
+      .then(res => {
+        if (res.data.bank) {
+          this.setState({ modify: false })
+        } else if (!res.data.bank) {
+          this.setState({ modify: true })
         }
       })
   }
@@ -62,7 +71,7 @@ class Overview extends React.Component<any, any> {
   }
 
   render() {
-    const { overviewdata }: any = this.state
+    const { overviewdata, modify }: any = this.state
     // const antIcon = <Icon className='loading' type="loading" style={{ fontSize: 60 }} spin={true} />;
     return (
       <div className='overview'>
@@ -105,12 +114,14 @@ class Overview extends React.Component<any, any> {
           >
             <p>提现前请确认查看对账单</p>
           </Modal>
-          <p
-            className='modifyText'
-            onClick={() => window.location.href = window.location.origin + '/business/bill'}
-          >
-            修改财务信息
-          </p>
+          {
+            modify && <p
+                className='modifyText'
+                onClick={() => window.location.href = window.location.origin + '/business/bill'}
+              >
+                修改财务信息
+            </p>
+          }
         </div>
       </div>
     )

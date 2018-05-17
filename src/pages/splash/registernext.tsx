@@ -194,7 +194,7 @@ class RegisterNext extends React.Component<any, any> {
 
   validateMobile = (rule, value, callback) => {
     if (value && !(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
-      callback('请输入正确格式联系电话，之后才能获取验证码！')
+      callback('请输入正确格式联系电话！')
       this.setState({ verificationShow: false })
     } else if (!value) {
       callback()

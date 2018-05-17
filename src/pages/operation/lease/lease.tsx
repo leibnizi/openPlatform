@@ -345,8 +345,6 @@ class Lease extends React.Component<any, any> {
             >
               查询
             </Button>
-            <img src={require('../../../styles/img/exclamation.png')} />
-            <p>有效库存:可被租赁或者售卖的所属权为该供应商的商品库存</p>
           </section>
           <hr />
           <section>

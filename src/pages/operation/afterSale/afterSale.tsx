@@ -53,8 +53,8 @@ class AfterSale extends React.Component<any, any> {
         supplier_pro_num,
         product_name,
         type,
-        begin: begin ? getFormatDate(begin._d, 'yyyy-MM-dd hh:mm:ss') : '',
-        end: end ? getFormatDate(end._d, 'yyyy-MM-dd hh:mm:ss') : ''
+        begin: begin ? `${getFormatDate(begin._d, 'yyyy-MM-dd hh:mm:ss').slice(0,10)} 00:00:00` : '',
+        end: end ? `${getFormatDate(end._d, 'yyyy-MM-dd hh:mm:ss').slice(0,10)} 24:00:00` : ''
       }
     })
       .then((res) => {

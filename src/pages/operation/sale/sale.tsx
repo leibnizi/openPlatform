@@ -91,8 +91,8 @@ getTableData = (nextPage: number) => {
         split_order_no,
         status,
         order_time: [
-          startTime ? getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss') : '',
-          endTime ? getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss') : ''
+          startTime ? `${getFormatDate(startTime._d, 'yyyy-MM-dd hh:mm:ss').slice(0,10)} 00:00:00` : '',
+          endTime ? `${getFormatDate(endTime._d, 'yyyy-MM-dd hh:mm:ss').slice(0,10)} 24:00:00` : ''
         ]
       }
     }

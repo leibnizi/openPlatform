@@ -38,6 +38,7 @@ class Detail extends React.Component<any, any> {
           Detail.data.map((item: any, index: number) =>
             tableData.push({
               id: item.id,
+              receipt: item.receipt,
               amount: item.amount,
               status: item.status,
               time: `${item.year}/${item.month}`,
@@ -104,12 +105,27 @@ class Detail extends React.Component<any, any> {
         align: 'center',
         render: (e: any) => {
           return (
-            <span
-              className='checkDetail'
-              onClick={() => this.download(e.id)}
-            >
-              {'下载对账明细'}
-            </span>
+            <div className='checkDiv'>
+              <span
+                className={e.receipt ? 'checkDetail' : 'check1'}
+                onClick={() => this.download(e.id)}
+              >
+                {'下载对账明细'}
+              </span>
+              {
+                e.receipt && <span
+                  className='checkDetail'
+                  onClick={() => {
+                    if (e.receipt) {
+                      window.open(e.receipt)
+                    }
+                  }}
+                >
+                  {'查看打款回执'}
+                </span>
+              }
+            </div>
+
           )
         }
       }
